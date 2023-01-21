@@ -1,3 +1,9 @@
 data/
 data.*
 .ipynb_checkpoints
+*.lof
+*.toc
+*.log
+*.gz
+*.aux
+*.out
