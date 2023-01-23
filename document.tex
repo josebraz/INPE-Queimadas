@@ -5,7 +5,7 @@
 % This is an example file and is hereby explicitly put in the
 % public domain.
 %
-\documentclass[ppgc,mestrado]{iiufrgs}
+\documentclass[cic,tc]{iiufrgs}
 % um tipo específico de monografia pode ser informado como parâmetro opcional:
 %\documentclass[tese]{iiufrgs}
 % monografias em inglês devem receber o parâmetro `english':
@@ -15,10 +15,9 @@
 % \documentclass[openright]{iiufrgs}
 % para gerar uma versão somente-frente, basta utilizar a opção `oneside':
 % \documentclass[oneside]{iiufrgs}
-\usepackage[T1]{fontenc}        % pacote para conj. de caracteres correto
 \usepackage[utf8]{inputenc}   % pacote para acentuação
-\usepackage{graphicx}           % pacote para importar figuras
 \usepackage{times}              % pacote para usar fonte Adobe Times
+\usepackage[alf,abnt-emphasize=bf]{abntex2cite}	% pacote para usar citações abnt
 %\usepackage{mathptmx}          % p/ usar fonte Adobe Times nas fórmulas
 
 \title{Uma análise dos dados de queimada do INPE no Brasil (preliminar)}
@@ -38,40 +37,6 @@
 % com o comando \location:
 \location{Porto Alegre}{RS}
 
-% itens individuais da nominata podem ser redefinidos com os comandos
-% abaixo:
-% \renewcommand{\nominataReit}{Prof\textsuperscript{a}.~Wrana Maria Panizzi}
-% \renewcommand{\nominataReitname}{Reitora}
-% \renewcommand{\nominataPRE}{Prof.~Jos{\'e} Carlos Ferraz Hennemann}
-% \renewcommand{\nominataPREname}{Pr{\'o}-Reitor de Ensino}
-% \renewcommand{\nominataPRAPG}{Prof\textsuperscript{a}.~Joc{\'e}lia Grazia}
-% \renewcommand{\nominataPRAPGname}{Pr{\'o}-Reitora Adjunta de P{\'o}s-Gradua{\c{c}}{\~a}o}
-% \renewcommand{\nominataDir}{Prof.~Philippe Olivier Alexandre Navaux}
-% \renewcommand{\nominataDirname}{Diretor do Instituto de Inform{\'a}tica}
-% \renewcommand{\nominataCoord}{Prof.~Carlos Alberto Heuser}
-% \renewcommand{\nominataCoordname}{Coordenador do PPGC}
-% \renewcommand{\nominataBibchefe}{Beatriz Regina Bastos Haro}
-% \renewcommand{\nominataBibchefename}{Bibliotec{\'a}ria-chefe do Instituto de Inform{\'a}tica}
-% \renewcommand{\nominataChefeINA}{Prof.~Jos{\'e} Valdeni de Lima}
-% \renewcommand{\nominataChefeINAname}{Chefe do \deptINA}
-% \renewcommand{\nominataChefeINT}{Prof.~Leila Ribeiro}
-% \renewcommand{\nominataChefeINTname}{Chefe do \deptINT}
-
-
-% Trabalho de Conclusão [tc]:
-% além de definir explicitamente o nome do curso (\course) e o local
-% de realização (\location), é necessário redefinir a nominata,
-% pois as informações necessárias dependem do curso. Ex.:
-\renewcommand{\nominata}{
-        UNIVERSIDADE FEDERAL DO RIO GRANDE DO SUL\\
-        Reitora: \nominataReit\\
-        Pró-Reitor de Ensino: \\
-        Diretor do Instituto de Informática: \nominataDir\\
-        Coordenador do curso: \\
-        Bibliotecária-chefe do Instituto de Informática: 
-}
-
-%
 % palavras-chave
 % iniciar todas com letras maiúsculas
 %
@@ -122,11 +87,8 @@ Agradeço ao \LaTeX\ por não ter vírus de macro\ldots
 % A NBR 14724:2011 estipula que a ordem das abreviações
 % na lista deve ser alfabética (como no exemplo abaixo).
 \begin{listofabbrv}{SPMD}
-        \item[ABNT] Associação Brasileira de Normas Técnicas
-        \item[NUMA] Non-Uniform Memory Access
-        \item[SIMD] Single Instruction Multiple Data
-        \item[SPMD] Single Program Multiple Data
-        \item[SMP] Symmetric Multi-Processor
+        \item[INPE] Instituto Nacional de Pesquisas Espaciais
+        \item[IBGE] Instituto Brasileiro de Geografia e Estatística
 \end{listofabbrv}
 
 % idem para a lista de símbolos
@@ -160,121 +122,79 @@ the abstract should not contain more than 500~words.}
 
 % aqui comeca o texto propriamente dito
 
-% introducao
 \chapter{Introdução}
-No início dos tempos, Donald E. Knuth criou o \TeX. Algum tempo depois, Leslie Lamport criou o \LaTeX. Graças a eles, não somos obrigados a usar o Word nem o StarOffice.
-
-\section{Figuras e tabelas}
-Esta seção faz referência às Figuras~\ref{fig:ex1} e~\ref{fig:ex2}, a título de exemplo. A primeira representa o caso mais comum, onde a figura propriamente dita é importada de um arquivo \texttt{eps} ou \texttt{pdf} (aplicativos como \emph{xfig} e \emph{dia} estão entre os mais usados para gerar figuras no formato \texttt{eps}). A segunda exemplifica o uso do environment \texttt{picture}, para desenhar usando o próprio~\LaTeX.
+P1. Introducao aos dados \par
+P2. 
 
 
-% o `[h]' abaixo é um parâmetro opcional que sugere que o LaTeX coloque a
-% figura exatamente neste ponto do texto. Somente preocupe-se com esse tipo
-% de formatação quando o texto estiver completamente pronto (uma frase a mais
-% pode fazer o LaTeX mudar completamente de idéia sobre onde colocar as
-% figuras e tabelas)
-%\begin{figure}[h]
-\begin{figure}
-        \begin{center}
-        \setlength{\unitlength}{.1em}
-        \begin{picture}(100,100)
-                \put(20,20){\circle{20}}
-                \put(20,20){\small\makebox(0,0){a}}
-                \put(80,80){\circle{20}}
-                \put(80,80){\small\makebox(0,0){b}}
-                \put(28,28){\vector(1,1){44}}
-        \end{picture}
-        \end{center}
-        \caption{Exemplo de figura desenhada com o environment \texttt{picture}.}
-        \label{fig:ex2}
-\end{figure}
+\chapter{Visão geral dos dados}
 
-Tabelas são construídas com praticamente os mesmos comandos. Lembre-se, porém, que o caption das tabelas deve ir em cima.
+Neste capítulo constam algumas informações importantes sobre os 
+dados disponibilizados pelo INPE, que serão cruciais para compreensão 
+dos próximos capítulos. 
 
-\subsection{Classificação dos etc.}
+\section{O programa DBQueimada}
 
-O formato adotado pela ABNT prevê apenas três níveis (capítulo, seção e subseção). Assim, \texttt{\char'134subsubsection} não é aconselhado.
+P1. Falamos sobre o programa \citep{setzer2019banco} \par
+P2. Ressaltamos a importancia dos dados abertos para a sociedade \par
 
-\section{Sobre as referências bibliográficas}
-Recomenda-se seriamente fazer uso do pacote \emph{bibabnt}, também disponibilizado na página do UTUG~\citeyearpar{UTUG:Homepage-01}. Esse pacote provê um estilo \textsc{BibTeX} para formatação de referências bibliográficas combinando normas da ABNT e do Instituto de Informática da UFRGS\@.
+\section{Garimpando os dados}
 
-As seguintes referências são colocadas aqui a título de exemplo:
-\cite{Andrews:CP-91, Silberschatz:OSC-3-91, Wilson:MME-01}.
+P1. Falar sobre os scripts de coleta dos dados \par
+P2. Processo de baixar os dados para o computador \par
 
-A classe \emph{iiufrgs} faz uso do pacote \emph{natbib}. Esse pacote
-disponibiliza diversos comandos alternativos para
-citações. Os mais úteis para nós são o \texttt{\char'134citeyearpar},
-que produz somente o ano (ex.~``[\ldots] são apresentados por Baker e
-Smith~\citeyearpar{Baker:PP-96}.'') e o
-\texttt{\char'134citep*}, que produz a citação com a lista
-completa de autores (ex.~``[\ldots] na linguagem Panda~\citep*{Assenmacher:Panda-ECOOP93}.'')
+\section{Estrutura dos dados}
 
-% e aqui vai a parte principal
-%
-% \chapter{Estado da arte}
-% \chapter{Mais estado da arte}
-% \chapter{A minha contribuição}
-% \chapter{Prova de que a minha contribuição é válida}
-% \chapter{Conclusão}
+P1. Aqui da pra usar as perguntas frequentes 
+do INPE \citep{PerguntasFrequentesINPE} \par
+P2. Falar sobre a flag risco de fogo e uma ideia de como é calculada \par
 
-% referencias
-% aqui será usado o environment padrao `thebibliography'; porém, sugere-se
-% seriamente o uso de BibTeX e do estilo abnt.bst (veja na página do
-% UTUG)
-%
-% observe também o estilo meio estranho de alguns labels; isso é
-% devido ao uso do pacote `natbib', que permite fazer citações de
-% autores, ano, e diversas combinações desses
-\begin{thebibliography}{este-parametro-nao-eh-usado-pelo-estilo-ABNT}
+\subsection{Carregando os dados para o Python} 
 
-\bibitem[ANDREWS, 1991]{Andrews:CP-91} ANDREWS,
-  G.~R\@. \textbf{Concurrent programming}: principles and
-  practice. Redwood~City, USA: Benjamin/Cummings, 1991. 637p.
+P1. Aqui pode deve ter código em python \par
+P2. Dar uma noção da quantidade de dados \par
 
-\bibitem[ASSENMACHER et~al.(1993)ASSENMACHER; BREITBACH; BUHLER;
-  H{\"U}BSCH; SCHWARZ]{Assenmacher:Panda-ECOOP93} ASSENMACHER, H.;
-  BREITBACH, T.; BUHLER, P.; H{\"U}BSCH, V.; SCHWARZ, R\@.
-  Panda---supporting distributed programming in {C}++. In: EUROPEAN
-  CONFERENCE ON OBJECT-ORIENTED PROGRAMMING, 7., 1993, Kaiserslautern,
-  Germany. \textbf{Proceedings{\ldots}} Berlin: Springer-Verlag, 1993.
-  p.361--383. (Lecture Notes in Computer Science, v.707).
+\section{Os Satélites}
 
-\bibitem[BAKER; SMITH, 1996]{Baker:PP-96} BAKER, L.; SMITH,
-  B.~J\@. \textbf{Parallel programming}. New~York: McGraw-Hill,
-  1996. 381p.
+P1. Satelite de referencia é o AQUA\_M-T \citep{PerguntasFrequentesINPE} \par
+P2. Falar sobre os outros principais \par
+P3. visão geral dos sensores e porque geram dados diferentes \par
+P4. Mostrar gráficos que indicam as horas das coletas
 
-\bibitem[CAROMEL; KLAUSER; VAYSSIERE, 1998]{Caromel:TSC-CPE-10-11-98}
-  CAROMEL, D.; KLAUSER, W.; VAYSSIERE, J\@. Towards seamless computing
-  and metacomputing in {J}ava.  \textbf{Concurrency: Practice and
-  Experience}, West~Sussex, v.10, n.11--13, p.1043--1061,
-  Sept./Nov.~1998.
+\section{O que os dados gritam}
 
-\bibitem[FURMENTO; ROUDIER; SIEGEL, 1995]{Furmento:PDC-95} FURMENTO,
-  N.; ROUDIER, Y.; SIEGEL, G\@. \textbf{Parall{\'e}lisme et
-  distribution en {C}++}: une revue des langages existants. Valbonne,
-  FR: I3S, Universit\'{e} de Nice Sophia-Antipolis, 1995. (RR~95-02).
+P1. Fazer análise preliminar dos dados gerando alguns gráficos \par
+P2. Gráficos geral do brasil com os focos de queimadas totais \cite{geographicDataSciencePython} \par
 
-\bibitem[INSTITUTE OF ELECTRICAL AND ELECTRONIC ENGINEERS,
-  1995]{IEEE:Pthreads-95} INSTITUTE OF ELECTRICAL AND ELECTRONIC
-  ENGINEERS\@. \textbf{Information Technology---Portable Operating
-  System Interface (POSIX), Threads Extension [C Language]},
-  \mbox{IEEE}~1003.1c-1995.  New~York, 1995.
 
-\bibitem[SILBERSCHATZ; PETERSON; GALVIN, 1991]{Silberschatz:OSC-3-91}
-  SILBERSCHATZ, A.; PETERSON, J.~L.; GALVIN, P.~B\@. \textbf{Operating
-  system concepts}. 3.ed.  Reading, USA: Addison-Wesley, 1991. 696p.
+\chapter{Aprofundando a análise dos dados}
 
-\bibitem[UTUG(2001)UTUG]{UTUG:Homepage-01} UTUG\@. \textbf{Página do grupo
-  de usuários {\TeX} da {UFRGS}}. Disponível em:
-  $<$http://www.inf.ufrgs.br/utug$>$. Acesso em: maio 2001.
+aqui a gente mostra que é válido usar esses dados para analises aprofundadas
 
-\bibitem[WILSON, 2001]{Wilson:MME-01} WILSON, P.~C\@. \textbf{Um
-  método ótimo para o preparo de café em laboratório baseado na
-  reciclagem de filtros}. 2001. 123p.  Disserta{\c{c}}{\~a}o (Mestrado
-  em Ci{\^e}ncia da Computa{\c{c}}{\~a}o) --- Instituto de
-  Inform{\'a}tica, Universidade Federal do Rio Grande do Sul,
-  Porto~Alegre.
+\section{Densidade e Centrografia}
 
-\end{thebibliography}
+P1. Verificar densidade e centrografia: tendências, dispersão, extensão \par
+
+\section{Validade dos dados}
+
+Precisamos verificar que os dados seguem algum padrão para ser possível
+user eles para tomadas de decisões (garantir que não é aleatório) 
+\cite[Point Pattern Analysis]{geographicDataSciencePython} \par
+
+\section{Padronizando os dados por satélite}
+
+P1. Verificar relação entre dados dos diferentes satélites (se possível) e talvez restringir a análise apenas ao satélite de referencia se for identificado que são basicamente equivalentes \par
+
+\chapter{Correlaç˜˜˜ões}
+
+P1. Levantar variáveis que podem influenciar nas queimadas \par
+P2. Variáveis humanas: influencia da agricultura, pecuária, 
+urbanização, áreas de preservação, reservas indígenas \par
+P3. Variáveis naturais: Clima, ondas solares, períodos de chuvas/secas \par
+
+
+
+\bibliographystyle{abntex2-alf}
+\bibliography{biblio}
 
 \end{document}

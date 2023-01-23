@@ -7,3 +7,6 @@ data.*
 *.gz
 *.aux
 *.out
+*.bbl
+*.blg
+.DS_Store
