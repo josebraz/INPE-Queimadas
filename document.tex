@@ -90,9 +90,12 @@ Agradeço ao \LaTeX\ por não ter vírus de macro\ldots
 % A NBR 14724:2011 estipula que a ordem das abreviações
 % na lista deve ser alfabética (como no exemplo abaixo).
 \begin{listofabbrv}{SPMD}
-        \item[INPE] Instituto Nacional de Pesquisas Espaciais
-        \item[IBGE] Instituto Brasileiro de Geografia e Estatística
-        \item[CSV] Comma Separated Values (valores separados por vírgulas).
+	\item[API] Application Programming Interface (Interface de Programação de Aplicação)
+	\item[CSV] Comma Separated Values (valores separados por vírgulas).
+    \item[GMT] Greenwich Mean Time
+    \item[INPE] Instituto Nacional de Pesquisas Espaciais
+    \item[IBGE] Instituto Brasileiro de Geografia e Estatística
+    \item[URL] Uniform Resource Locator (Localizador Uniforme de Recursos)
 \end{listofabbrv}
 
 % idem para a lista de símbolos
@@ -142,7 +145,7 @@ dos próximos capítulos.
 O DBQueimadas, Banco de Dados de Queimadas (www.inpe.br/queimadas/bdqueimadas),
 é um sistema desenvolvido pelo INPE e acessível de forma aberta por meio da web. 
 Conta com mais de 300 milhões de pontos coletados desde o ano de 1998, 
-proviniente de 32 satélites. Dentro do site é possível gerar mapas,
+proviniente de vários satélites. Dentro do site é possível gerar mapas,
 tabelas, gráficos e exportar os dados aplicando diferentes filtros. Todo o 
 programa foi desenvolvido com ferramentas abertas, muitas delas 
 criadas pelo próprio time de tecnologia da informação do INPE 
@@ -161,13 +164,24 @@ detalhados como: continente, país, estado, município, satélite, bioma e
 unidades de conservação/terras indígenas. Após clicar em "Exportar", 
 uma mensagem é enviada para o e-mail informado com o link de download 
 dos dados requisitados. O arquivo disponibilizado é um CSV compactado 
-em um zip.\par
+como um zip. [P1. Contextualizar como é a exportação de dados]\par
 
 Apesar de ser um site fácil de usar e intuitivo, seria praticamente 
 inviável baixar todos os dados do Brasil de forma manual. Nesse sentido, 
-foi necessário entender quais eventos são disparados quando é feito o 
-pedido dos dados a partir da aba "Exportar dados" a fim de automatizar 
-o processo de download dos documentos. \par
+foi necessário entender quais eventos são disparados quando solicitamos 
+os dados pelo site a fim de automatizar o processo de download. 
+[P2. Motivar a abordagem automatizada] \par
+
+Foi identificado que na verdade o site faz uma requisição GET para a API do 
+DBQueimada, localizada em https://queimadas.dgi.inpe.br/queimadas/exportacaobdq/
+exportar, passando no parâmetro da URL os filtros aplicados, codificados em JSON.
+Além dos filtros, também é necessário informar o e-mail e o formato de arquivo
+desejado. Um exemplo de uso dessa API, por meio de uma invocação CURL, pode 
+ser encontrado no \ref{anexo:usoApiInpe} [P3. Explicar como a api funciona]
+
+A fim de automatizar o processo, ainda seria necessário conseguir finalmente
+fazer o download do arquivo por meio do link enviado por e-mail. Para isso,
+
 
 para isso foi usado um script em Python dividido em 3 etapas:
 1. Gerar um arquivo em que cada linha representa uma data de início e de fim
@@ -189,22 +203,40 @@ O dados estão estruturados da seguinte forma: \par
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{ | l l l | }
+\begin{tabular}{ | l l p{10cm} | }
 \hline
  Coluna & Tipo & Descrição \\
 \hline
- Id & string & aaa\\
- Latitude & double & \\ 
- Longitude & double & \\  
- DataHora & string & \\   
- Municipio & string & \\
- Estado & string & \\
- Pais & string & \\  
- Bioma & string & \\
- Precipitação & string & \\
- DiasSCh & integer & \\
- RiscoFog & double & \\
- FRP & double & \\
+ Id & string & Identificador único registrado no banco \\
+  \hline
+ Latitude & double & Graus decimais da latitude do centro do pixel de 
+                     fogo ativo (valores de 90.0000 até -90.0000) \\ 
+  \hline
+ Longitude & double & Graus decimais da longitude do centro do pixel de 
+                      fogo ativo (valores de 180.0000 até -180.0000) \\  
+  \hline
+ DataHora & string & Data a hora da passagem do satélite no fuso 
+                     horário de Greenwich (GMT) \\   
+  \hline
+ Municipio & string & Nome do município, de acordo com os dados do IBGE 2000 \\
+  \hline
+ Estado & string & Nome do estado \\
+  \hline
+ Pais & string & Nome do país \\  
+  \hline
+ Bioma & string & Nome do bioma brasileiro, de acordo com dados do IBGE 2004 
+                  (para outros países o campo fica vazio) \\
+  \hline
+ Precipitação & double & Valor a precipitação do dia até o horário da medida
+                         (-999 para valores inválidos) \\
+  \hline
+ DiasSCh & integer & Dias sem chuva até a data da medida 
+                     (-999 para valores inválidos) \\
+  \hline
+  RiscoFog & double & Valor do risco de fogo previsto naquele dia 
+                      (-999 para valores inválidos) \\
+  \hline
+  FRP & double & Fire Radiative Power, MW (megawatts) \\
  \hline
 \end{tabular}
 \caption{Significado de cada coluna dos dados de queimada do INPE}
