@@ -18,7 +18,10 @@
 \usepackage[utf8]{inputenc}   % pacote para acentuação
 \usepackage{times}              % pacote para usar fonte Adobe Times
 \usepackage[alf,abnt-emphasize=bf]{abntex2cite}	% pacote para usar citações abnt
+\usepackage{graphicx}          % para inserir imagens
 %\usepackage{mathptmx}          % p/ usar fonte Adobe Times nas fórmulas
+
+\graphicspath{ {images/} }
 
 \title{Uma análise dos dados de queimada do INPE no Brasil (preliminar)}
 \translatedtitle{Using \LaTeX\ to Prepare Documents at II/UFRGS}
@@ -89,6 +92,7 @@ Agradeço ao \LaTeX\ por não ter vírus de macro\ldots
 \begin{listofabbrv}{SPMD}
         \item[INPE] Instituto Nacional de Pesquisas Espaciais
         \item[IBGE] Instituto Brasileiro de Geografia e Estatística
+        \item[CSV] Comma Separated Values (valores separados por vírgulas).
 \end{listofabbrv}
 
 % idem para a lista de símbolos
@@ -101,7 +105,7 @@ Agradeço ao \LaTeX\ por não ter vírus de macro\ldots
 \listoffigures
 
 % lista de tabelas
-%\listoftables
+\listoftables
 
 % resumo na língua do documento
 \begin{abstract}
@@ -135,19 +139,77 @@ dos próximos capítulos.
 
 \section{O programa DBQueimada}
 
-P1. Falamos sobre o programa \citep{setzer2019banco} \par
+O DBQueimadas, Banco de Dados de Queimadas (www.inpe.br/queimadas/bdqueimadas),
+é um sistema desenvolvido pelo INPE e acessível de forma aberta por meio da web. 
+Conta com mais de 300 milhões de pontos coletados desde o ano de 1998, 
+proviniente de 32 satélites. Dentro do site é possível gerar mapas,
+tabelas, gráficos e exportar os dados aplicando diferentes filtros. Todo o 
+programa foi desenvolvido com ferramentas abertas, muitas delas 
+criadas pelo próprio time de tecnologia da informação do INPE 
+\citep{setzer2019banco}. [P1. Falamos sobre o programa] \par
+
 P2. Ressaltamos a importancia dos dados abertos para a sociedade \par
 
+
 \section{Garimpando os dados}
+
+Uma parte importante do processo foi coletar os dados do DBQueimadas. 
+Para exportar os dados, é necessário preencher os campos de data inicial,
+data final e um endereço de e-mail, o intervalo de tempo não 
+pode exceder 366 dias. Também é possível aplicar filtros ainda mais 
+detalhados como: continente, país, estado, município, satélite, bioma e 
+unidades de conservação/terras indígenas. Após clicar em "Exportar", 
+uma mensagem é enviada para o e-mail informado com o link de download 
+dos dados requisitados. O arquivo disponibilizado é um CSV compactado 
+em um zip.\par
+
+Apesar de ser um site fácil de usar e intuitivo, seria praticamente 
+inviável baixar todos os dados do Brasil de forma manual. Nesse sentido, 
+foi necessário entender quais eventos são disparados quando é feito o 
+pedido dos dados a partir da aba "Exportar dados" a fim de automatizar 
+o processo de download dos documentos. \par
+
+para isso foi usado um script em Python dividido em 3 etapas:
+1. Gerar um arquivo em que cada linha representa uma data de início e de fim
+para ser usada no filtro de data para o pedido.
+
+
 
 P1. Falar sobre os scripts de coleta dos dados \par
 P2. Processo de baixar os dados para o computador \par
 
 \section{Estrutura dos dados}
 
+
 P1. Aqui da pra usar as perguntas frequentes 
 do INPE \citep{PerguntasFrequentesINPE} \par
 P2. Falar sobre a flag risco de fogo e uma ideia de como é calculada \par
+
+O dados estão estruturados da seguinte forma: \par
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ | l l l | }
+\hline
+ Coluna & Tipo & Descrição \\
+\hline
+ Id & string & aaa\\
+ Latitude & double & \\ 
+ Longitude & double & \\  
+ DataHora & string & \\   
+ Municipio & string & \\
+ Estado & string & \\
+ Pais & string & \\  
+ Bioma & string & \\
+ Precipitação & string & \\
+ DiasSCh & integer & \\
+ RiscoFog & double & \\
+ FRP & double & \\
+ \hline
+\end{tabular}
+\caption{Significado de cada coluna dos dados de queimada do INPE}
+\label{table:inpeColumns}
+\end{table}
 
 \subsection{Carregando os dados para o Python} 
 
@@ -160,6 +222,15 @@ P1. Satelite de referencia é o AQUA\_M-T \citep{PerguntasFrequentesINPE} \par
 P2. Falar sobre os outros principais \par
 P3. visão geral dos sensores e porque geram dados diferentes \par
 P4. Mostrar gráficos que indicam as horas das coletas
+
+\begin{figure}
+    \caption{Relação do montante dos dados por satélite}
+    \begin{center}
+        \includegraphics[width=25em]{porcentagem_satelites}
+    \end{center}
+    \legend{Fonte: Os Autores}
+    \label{fig:porcentagem_satelites}
+\end{figure}
 
 \section{O que os dados gritam}
 

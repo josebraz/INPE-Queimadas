@@ -9,4 +9,5 @@ data.*
 *.out
 *.bbl
 *.blg
+*.lot
 .DS_Store
