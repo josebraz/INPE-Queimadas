@@ -96,6 +96,10 @@ Agradeço ao \LaTeX\ por não ter vírus de macro\ldots
     \item[INPE] Instituto Nacional de Pesquisas Espaciais
     \item[IBGE] Instituto Brasileiro de Geografia e Estatística
     \item[URL] Uniform Resource Locator (Localizador Uniforme de Recursos)
+    \item[NOAA] National Oceanic and Atmosphere Administration
+    \item[MODIS] Moderate Resolution Imaging Spectroradiometer
+    \item[GOES] Geostationary Operational Environmental Satellite
+    \item[AVHRR] Advanced Very High Resolution Radiometer
 \end{listofabbrv}
 
 % idem para a lista de símbolos
@@ -179,33 +183,31 @@ Além dos filtros, também é necessário informar o e-mail e o formato de arqui
 desejado. Um exemplo de uso dessa API, por meio de uma invocação CURL, pode 
 ser encontrado no \ref{anexo:usoApiInpe} [P3. Explicar como a api funciona]
 
-A fim de automatizar o processo, ainda seria necessário conseguir finalmente
-fazer o download do arquivo por meio do link enviado por e-mail. Para isso,
+A fim de automatizar o processo, foi desenvolvido um script em Python que 
+solicita os dados referentes a 30 dias, totalizando 300 requisições de 1998 
+até 2022. Com 
+o intuito de não sobrecarregar o servidor do INPE, adicionamos uma espera de 
+um minuto a cada requisição. [P4. Falar sobre os scripts de coleta dos dados] \par
 
+Para o processo ser completado, ainda seria 
+necessário fazer o download do arquivo por meio do link enviado por e-mail.
+Lançou-se mão do Google Scripts, um ferramenta que possibilita escrever 
+programas simples, em uma liguagem parecida com JavaScript, e tem uma ótima
+integração com os serviços do Google (como o Gmail). A partir dessa ferramenta
+foi possível extrair o link de cada mensagem e finalmente salvar o dado
+de forma automatizada. [P5. Processo de baixar os dados para o computador] \par
 
-para isso foi usado um script em Python dividido em 3 etapas:
-1. Gerar um arquivo em que cada linha representa uma data de início e de fim
-para ser usada no filtro de data para o pedido.
-
-
-
-P1. Falar sobre os scripts de coleta dos dados \par
-P2. Processo de baixar os dados para o computador \par
 
 \section{Estrutura dos dados}
 
-
-P1. Aqui da pra usar as perguntas frequentes 
-do INPE \citep{PerguntasFrequentesINPE} \par
-P2. Falar sobre a flag risco de fogo e uma ideia de como é calculada \par
-
-O dados estão estruturados da seguinte forma: \par
+De acordo com o \citep{PerguntasFrequentesINPE}, as colunas estão definidas
+na Tabela \ref{table:inpeColumns}. [P1. Significado geral de cada coluna]
 
 \begin{table}[h!]
 \centering
 \begin{tabular}{ | l l p{10cm} | }
 \hline
- Coluna & Tipo & Descrição \\
+ Atributo & Tipo & Descrição \\
 \hline
  Id & string & Identificador único registrado no banco \\
   \hline
@@ -243,6 +245,8 @@ O dados estão estruturados da seguinte forma: \par
 \label{table:inpeColumns}
 \end{table}
 
+P2. Falar sobre a flag risco de fogo e uma ideia de como é calculada \par
+
 \subsection{Carregando os dados para o Python} 
 
 P1. Aqui pode deve ter código em python \par
@@ -254,6 +258,31 @@ P1. Satelite de referencia é o AQUA\_M-T \citep{PerguntasFrequentesINPE} \par
 P2. Falar sobre os outros principais \par
 P3. visão geral dos sensores e porque geram dados diferentes \par
 P4. Mostrar gráficos que indicam as horas das coletas
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ | l l l l l l | }
+\hline
+  Nome & Sensor & Resolução esp. & Órbita & Lançamento & Passagem \\
+\hline
+  NPP-375 & VIIRS    & 375m        & Polar   & 2017 & 5h / 17h \\
+  NOAA-20 & VIIRS    & 375m        & Polar   & 2017 & 5h / 17h \\
+  NOAA-19 & AVHRR-3  & 1100m       & Polar   & 2009 & 5h / 17h \\
+  NOAA-18 & AVHRR-3  & 1100m       & Polar   & 2005 &  \\
+  NOAA-16 & AVHRR-3  & 1100m       & Polar   & 2000 &  \\
+  NOAA-15 & AVHRR-3  & 1100m       & Polar   & 1998 & 8h / 20h \\
+  NOAA-12 & AVHRR    & 1100m       & Polar   & 1991 & 5h / 17h \\
+  TERRA   & MODIS    & 250 a 1000m & Polar   & 1999 & 2h / 14h \\
+  AQUA    & MODIS    & 250 a 1000m & Polar   & 2002 & 5h / 17h \\
+  GOES-16 & ABI      & 2000m       & Geoest. & 2016 & a cada 3 horas \\
+  GOES-13 & GOES I-M & 4000m       & Geoest. & 2006 & a cada 3 horas \\
+  GOES-12 & GOES I-M & 4000m       & Geoest. & 2001 & a cada 3 horas \\
+ \hline
+\end{tabular}
+\caption{Características dos satélites usados pelo INPE (ainda em operação}
+\label{table:satelites}
+\end{table}
 
 \begin{figure}
     \caption{Relação do montante dos dados por satélite}
