@@ -141,16 +141,18 @@ P2.
 \chapter{Visão geral dos dados}
 
 Neste capítulo constam algumas informações importantes sobre os 
-dados disponibilizados pelo INPE, que serão cruciais para compreensão 
-dos próximos capítulos. 
+dados disponibilizados pelo Instituto Nacional de Pesquisas Espaciais (INPE), 
+que serão cruciais para compreensão dos próximos capítulos. 
 
-\section{O programa DBQueimada}
+\section{O programa DBQueimadas}
 
-O DBQueimadas, Banco de Dados de Queimadas (www.inpe.br/queimadas/bdqueimadas),
+O DBQueimadas, Banco de Dados de Queimadas \url{www.inpe.br/queimadas/
+bdqueimadas},
 é um sistema desenvolvido pelo INPE e acessível de forma aberta por meio da web. 
 Conta com mais de 300 milhões de pontos coletados desde o ano de 1998, 
 proviniente de vários satélites. Dentro do site é possível gerar mapas,
-tabelas, gráficos e exportar os dados aplicando diferentes filtros. Todo o 
+tabelas, gráficos e exportar os dados sobre as queimadas no Brasil 
+aplicando diferentes filtros. Todo o 
 programa foi desenvolvido com ferramentas abertas, muitas delas 
 criadas pelo próprio time de tecnologia da informação do INPE 
 \citep{setzer2019banco}. [P1. Falamos sobre o programa] \par
@@ -170,14 +172,14 @@ uma mensagem é enviada para o e-mail informado com o link de download
 dos dados requisitados. O arquivo disponibilizado é um CSV compactado 
 como um zip. [P1. Contextualizar como é a exportação de dados]\par
 
-Apesar de ser um site fácil de usar e intuitivo, seria praticamente 
+Apesar de ser um site com boas métrica e usabilidades, seria praticamente 
 inviável baixar todos os dados do Brasil de forma manual. Nesse sentido, 
 foi necessário entender quais eventos são disparados quando solicitamos 
 os dados pelo site a fim de automatizar o processo de download. 
 [P2. Motivar a abordagem automatizada] \par
 
 Foi identificado que na verdade o site faz uma requisição GET para a API do 
-DBQueimada, localizada em https://queimadas.dgi.inpe.br/queimadas/exportacaobdq/
+DBQueimadas, localizada em https://queimadas.dgi.inpe.br/queimadas/exportacaobdq/
 exportar, passando no parâmetro da URL os filtros aplicados, codificados em JSON.
 Além dos filtros, também é necessário informar o e-mail e o formato de arquivo
 desejado. Um exemplo de uso dessa API, por meio de uma invocação CURL, pode 
@@ -186,12 +188,12 @@ ser encontrado no \ref{anexo:usoApiInpe} [P3. Explicar como a api funciona]
 A fim de automatizar o processo, foi desenvolvido um script em Python que 
 solicita os dados referentes a 30 dias, totalizando 300 requisições de 1998 
 até 2022. Com 
-o intuito de não sobrecarregar o servidor do INPE, adicionamos uma espera de 
+o intuito de não sobrecarregar o servidor do INPE, foi adicionada uma espera de 
 um minuto a cada requisição. [P4. Falar sobre os scripts de coleta dos dados] \par
 
-Para o processo ser completado, ainda seria 
+Para o processo ser concluído, ainda seria 
 necessário fazer o download do arquivo por meio do link enviado por e-mail.
-Lançou-se mão do Google Scripts, um ferramenta que possibilita escrever 
+Lançou-se mão do Google Scripts, uma ferramenta que possibilita escrever 
 programas simples, em uma liguagem parecida com JavaScript, e tem uma ótima
 integração com os serviços do Google (como o Gmail). A partir dessa ferramenta
 foi possível extrair o link de cada mensagem e finalmente salvar o dado
@@ -205,6 +207,7 @@ na Tabela \ref{table:inpeColumns}. [P1. Significado geral de cada coluna]
 
 \begin{table}[h!]
 \centering
+\caption{Significado de cada coluna dos dados de queimada do INPE}
 \begin{tabular}{ | l l p{10cm} | }
 \hline
  Atributo & Tipo & Descrição \\
@@ -241,7 +244,7 @@ na Tabela \ref{table:inpeColumns}. [P1. Significado geral de cada coluna]
   FRP & double & Fire Radiative Power, MW (megawatts) \\
  \hline
 \end{tabular}
-\caption{Significado de cada coluna dos dados de queimada do INPE}
+\legend{Fonte: O Autor com base em \citet{PerguntasFrequentesINPE}}
 \label{table:inpeColumns}
 \end{table}
 
@@ -254,21 +257,21 @@ P2. Dar uma noção da quantidade de dados \par
 
 \section{Os Satélites}
 
+O INPE atualmente processa dados de vários satélites com características
+distintas entre sí. Estão presentes nos dados desde satélites geoestacionários, 
+como o GOES-12, que está a 29.400 km de distância da superfície 
+\citep{GOES12Algo}, até satélites com óbitas polares, entre 700 a 900 km de altura.
+[P0. Visao geral dos satelites] \par
 
-
-P1. Satelite de referencia é o AQUA\_M-T \citep{PerguntasFrequentesINPE} \par
-P2. Falar sobre os outros principais \par
-P3. visão geral dos sensores e porque geram dados diferentes \par
-P4. Mostrar gráficos que indicam as horas das coletas \par
-
-Abaixo segue um resumo dos satélites usados pelos INPE desde e o início da 
+Abaixo segue um resumo dos satélites usados pelos INPE desde  o início da 
 série histórica até final de 2022 \cite{EmbrapaSatelites}. 
 Os que estão em funcionamento pleno atualmente são:
 NOAA-20, NOAA-19, NOAA-18, GOES-16, NPP-375, AQUA\_M, TERRA\_M, MSG-03, 
-METOP-B e METOP-C. \par
+METOP-B e METOP-C. [P1. Falar sobre os principais]\par
 
 \begin{table}[h!]
 \centering
+\caption{Características dos satélites usados pelo INPE}
 \begin{tabular}{ | l l l l l l | }
 \hline
   Nome    & Sensor & Resolução esp. & Órbita & Lançamento & Passagem \\
@@ -277,28 +280,96 @@ METOP-B e METOP-C. \par
   NOAA-20 & VIIRS    & 375m        & Polar   & 2017 & 5h / 17h \\
   NOAA-19 & AVHRR-3  & 1100m       & Polar   & 2009 & 5h / 17h \\
   NOAA-18 & AVHRR-3  & 1100m       & Polar   & 2005 &  \\
+  NOAA-17 & AVHRR-3  & 1100m       & Polar   & 2002 &  \\
   NOAA-16 & AVHRR-3  & 1100m       & Polar   & 2000 &  \\
   NOAA-15 & AVHRR-3  & 1100m       & Polar   & 1998 & 8h / 20h \\
+  NOAA-14 & AVHRR    & 1100m       & Polar   & 1994 & \\
   NOAA-12 & AVHRR    & 1100m       & Polar   & 1991 & 5h / 17h \\
   TERRA   & MODIS    & 250 a 1000m & Polar   & 1999 & 2h / 14h \\
   AQUA    & MODIS    & 250 a 1000m & Polar   & 2002 & 5h / 17h \\
+  METOP-C & AVHRR-3  & 1100m       & Polar   & 2018 &  \\
+  METOP-B & AVHRR-3  & 1100m       & Polar   & 2012 &  \\
+  TRMM    & VIRS     & 2000m       & Polar   & 1997 &  \\
   GOES-16 & ABI      & 2000m       & Geoest. & 2016 & a cada 3 horas \\
   GOES-13 & GOES I-M & 4000m       & Geoest. & 2006 & a cada 3 horas \\
   GOES-12 & GOES I-M & 4000m       & Geoest. & 2001 & a cada 3 horas \\
-  MSG-03  & \\
+  GOES-10 & GOES I-M & 4000m       & Geoest. & 1997 & a cada 3 horas \\
+  GOES-08 & GOES I-M & 4000m       & Geoest. & 1994 & a cada 3 horas \\
+  MSG-03  & SEVIRI   & 3000m       & Geoest. & 2012 &  \\
+  MSG-02  & SEVIRI   & 3000m       & Geoest. & 2005 &  \\
  \hline
 \end{tabular}
-\caption{Características dos satélites usados pelo INPE (ainda em operação}
+\legend{Fonte: O Autor com base em \citet{EmbrapaSatelites}}
 \label{table:satelites}
 \end{table}
+
+Cada satélite pode ter um sensor imageador, que gera imagens, com características
+distintas. Neles são captados imagens não só no comprimento de onda da luz
+visível (de 400nm a 700nm), mas também no infravermelho (de 780nm a 1mm). 
+Suas medições são divididas em canais, que
+variam em resolução espacial e espectral (intervalo de comprimento de onda). 
+Geralmente o primeiro canal é dedicado à luz visível, entre o laranja e o 
+vermelho, e com a maior resolução espacial possível para o sensor. Os outros 
+canais utilizam diferentes intervalos do infravermelho e luz visível.
+[P2. visão geral dos sensores e porque geram dados diferentes] \par
+
+Com todas essas diferenças entre os satélites foi necessário estabelecer um 
+satélite base, que ficou conhecido como Satélite de Referência. Ele é usado 
+para estabelecer uma série temporal e permitir análise de tendência durante 
+vários anos dos focos detectados para diferentes regiões. 
+Este balizador precisa cobrir a área do país de forma
+satisfatória, ou seja, sua órbita não deve distorcer os dados no geral. 
+Além disso, resoluções dos sensores muito baixas, maiores de 1 km, tornam a 
+análise dos focos pouca precisa. [P3. Satelite de referencia] \par
+
+De 01/junho/1998 a 03/julho/2002 o satélite de referência utilizado foi o NOAA-12
+com passagem no final da tarde. Depois desse período passou-se a utilizar o 
+AQUA com passagem à tarde (chamado nos dados de AQUA\_M-T). O satélite AQUA 
+já ultrapassou a data prevista de encerrar o funcionamento em muitos anos e 
+será descontinuado em breve, quando isso acontecer o satélite NPP-375 será o novo
+balizador \citep{PerguntasFrequentesINPE}. [P3. Satelite de referencia] \par
+
+Nos dados disponibilizados pelo INPE são usadas nomenclaturas especiais para 
+alguns satélites. Para os satélites AQUA (AQUA\_M-T e AQUA\_M-M) e TERRA 
+(TERRA\_M-T e TERRA\_M-M), a primeira letra M representa o sensor MODIS e a última
+letra indica em que período do dia foi a passagem do satélite, sendo M para Manhã 
+e T para Tarde. Outros satélites como NPP-375, NOAA-19, NOAA-18, NOAA-16, NOAA-15 
+e NOAA-12 também podem apresentar a última letra do nome sendo D para Diurno. 
+A partir do entendimento dessa regra de nomenclatura é possível
+simplificar os dados relacionados aos satélites de forma a facilitar a análise,
+caindo de 32 para 22 valores possíveis de satélites.
+[P4. Explicar equivalencias entre os satelites] \par
+
+Voltando para os dados, é possível perceber a partir da figura
+\ref{fig:porcentagem_satelites} cinco satélites que mais identificaram possíveis 
+focos, são eles: NPP-375, GOES-16, AQUA, NOAA-16 e TERRA. Todos eles se mantém
+ativos atualmente e com quantidades de coleta significativas em 2022. AQUA e TERRA 
+são os mais antigos, mas possuem um sensor obsoleto. O GOES-16 é um satélite
+geoestacionário, conhecido por gerar dados mais frequentes, mas sua
+posição distante da terra inviabiliza a detecção de queimadas pequenas. NPP-375 e
+NOAA-20 possuem um sensor que detecta 10 vezes mais focos que sensor MODIS, 
+NPP-375 tem mais dados que o NOAA-20 por estar em atividade a mais tempo.
+[P5. Mostrar gráficos da quantidade de coletas por satélites] \par
 
 \begin{figure}
     \caption{Relação do montante dos dados por satélite}
     \begin{center}
-        \includegraphics[width=25em]{porcentagem_satelites}
+        \includegraphics[width=35em]{porcentagem_satelites}
     \end{center}
-    \legend{Fonte: Os Autores}
+    \legend{Fonte: O Autor}
     \label{fig:porcentagem_satelites}
+\end{figure}
+
+Os satélites polares passam duas vezes por dia no Brasil, 
+[P6. Mostrar gráficos que indicam as horas das coletas] \par
+
+\begin{figure}
+    \caption{Amostragem por tempo de cada satélite}
+    \begin{center}
+        \includegraphics[width=35em]{tempo_medidas_satelites}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:tempo_medidas_satelites}
 \end{figure}
 
 \section{O que os dados gritam}
