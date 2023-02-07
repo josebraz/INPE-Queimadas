@@ -250,7 +250,17 @@ na Tabela \ref{table:inpeColumns}. [P1. Significado geral de cada coluna]
 
 P2. Falar sobre a flag risco de fogo e uma ideia de como é calculada \par
 
-\subsection{Carregando os dados para o Python} 
+\subsection{Carregando os dados} 
+
+Para toda a análise dos dados foi utilizado algumas das ferramentas que integram o 
+ecossistema Python para Data Sciente: NumPy, Pandas, Matplotlib. Além disso, 
+algumas bibliotecas específicas para análise de dados geográficos: GeoPandas, 
+Pysal, Xarray. Para a construção das visualizações e organização do código se 
+optou pelo uso do Jupyter Notebook devido a reprodutibilidade das execuções. 
+Todos os artefatos gerados podem ser obtidos em \url{https://github.com/josebraz/INPE-Queimadas} sobre a licença MIT.
+\par
+
+
 
 P1. Aqui pode deve ter código em python \par
 P2. Dar uma noção da quantidade de dados \par
@@ -342,13 +352,14 @@ caindo de 32 para 22 valores possíveis de satélites.
 
 Voltando para os dados, é possível perceber a partir da figura
 \ref{fig:porcentagem_satelites} cinco satélites que mais identificaram possíveis 
-focos, são eles: NPP-375, GOES-16, AQUA, NOAA-16 e TERRA. Todos eles se mantém
+focos de queimada, são eles: NPP-375, GOES-16, AQUA, NOAA-16 e TERRA. 
+Todos eles estão 
 ativos atualmente e com quantidades de coleta significativas em 2022. AQUA e TERRA 
-são os mais antigos, mas possuem um sensor obsoleto. O GOES-16 é um satélite
-geoestacionário, conhecido por gerar dados mais frequentes, mas sua
-posição distante da terra inviabiliza a detecção de queimadas pequenas. NPP-375 e
-NOAA-20 possuem um sensor que detecta 10 vezes mais focos que sensor MODIS, 
-NPP-375 tem mais dados que o NOAA-20 por estar em atividade a mais tempo.
+são os mais antigos e possuem um sensor obsoleto. O GOES-16 é um satélite
+geoestacionário, conhecido por gerar dados de forma mais frequente, geralmente 
+detecta apenas queimadas maiores devido a sua posição distante da Terra. NPP-375 e
+NOAA-20 possuem um sensor que detecta 10 vezes mais focos que sensor MODIS. Por 
+estar em atividade a mais tempo, o NPP-375 gerou mais dados que o NOAA-20.
 [P5. Mostrar gráficos da quantidade de coletas por satélites] \par
 
 \begin{figure}
@@ -360,7 +371,14 @@ NPP-375 tem mais dados que o NOAA-20 por estar em atividade a mais tempo.
     \label{fig:porcentagem_satelites}
 \end{figure}
 
-Os satélites polares passam duas vezes por dia no Brasil, 
+Saber em quais momentos os satélites passam também é importante para a análise. 
+Os satélites polares passam duas vezes por dia no Brasil, variando o local 
+exato da passagem de acordo com as características de sua órbita. Pela  
+figura \ref{fig:tempo_medidas_satelites} é possível comprovar esse comportamento 
+empiricamente, em que os 5 primeiros gráficos, que representam dados gerados por 
+satélites polares, apresentam dois picos durante um período de 24 horas. Já para o  
+caso dos geoestacionários (GOES-16), que ficam fixos em relação a uma posição 
+na Terra, não se observou o mesmo padrão. 
 [P6. Mostrar gráficos que indicam as horas das coletas] \par
 
 \begin{figure}
@@ -368,8 +386,22 @@ Os satélites polares passam duas vezes por dia no Brasil,
     \begin{center}
         \includegraphics[width=35em]{tempo_medidas_satelites}
     \end{center}
-    \legend{Fonte: O Autor}
+    \legend{Fonte: O Autor, agrupando os dados de queimadas}
     \label{fig:tempo_medidas_satelites}
+\end{figure}
+
+Com os dados do \url{https://celestrak.org/} foi possível traçar a rota 
+exata de cada satélite de interesse em um dia específico, apresentado na figura 
+\ref{fig:orbita2022-08-10}. 
+\par
+
+\begin{figure}
+    \caption{Órbita dos satélites no dia 10 de agosto de 2022}
+    \begin{center}
+        \includegraphics[width=35em]{orbita2022-08-10}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:orbita2022-08-10}
 \end{figure}
 
 \section{O que os dados gritam}
