@@ -134,8 +134,9 @@ the abstract should not contain more than 500~words.}
 % aqui comeca o texto propriamente dito
 
 \chapter{Introdução}
-P1. Introducao aos dados \par
-P2. 
+P1. Importancia do trabalho \par
+P2. Ferramentas opensource e códigos gerados também \par
+P2. Introducao aos dados \par
 
 
 \chapter{Visão geral dos dados}
@@ -157,6 +158,8 @@ programa foi desenvolvido com ferramentas abertas, muitas delas
 criadas pelo próprio time de tecnologia da informação do INPE 
 \citep{setzer2019banco}. [P1. Falamos sobre o programa] \par
 
+O Banco de Dados de Queimadas é um excelente caso de como os dados abertos podem 
+ajusar a sociedade. O portal vem eveluindo muito na medida que os anos passam, 
 P2. Ressaltamos a importancia dos dados abertos para a sociedade \par
 
 
@@ -257,9 +260,17 @@ ecossistema Python para Data Sciente: NumPy, Pandas, Matplotlib. Além disso,
 algumas bibliotecas específicas para análise de dados geográficos: GeoPandas, 
 Pysal, Xarray. Para a construção das visualizações e organização do código se 
 optou pelo uso do Jupyter Notebook devido a reprodutibilidade das execuções. 
-Todos os artefatos gerados podem ser obtidos em \url{https://github.com/josebraz/INPE-Queimadas} sobre a licença MIT.
-\par
+Todos os artefatos gerados podem ser obtidos em 
+\url{https://github.com/josebraz/INPE-Queimadas} sobre a licença MIT. 
+[P0. Visão das ferramentas utilizadas]\par
 
+Foi carregado 300 arquivos das queimadas em formato CSV e depois concatenados
+em uma única estrutura de DataFrame. Houve a necessidade de converter o timezone 
+das datas (que eram em UTC) para o timezone de Brasília, a fim de gerar gráficos 
+de mais fácil entendimento para brasileiros. As colunas de texto forma convertidas 
+para categorias, espécies de enumerações no Pandas, reduzindo o espaço ocupado 
+de memória, uma vez que muitos valores acabavam se repetindo na mesma coluna. 
+[P1. pre processamentos dos dados]\par
 
 
 P1. Aqui pode deve ter código em python \par
@@ -276,7 +287,7 @@ como o GOES-12, que está a 29.400 km de distância da superfície
 Abaixo segue um resumo dos satélites usados pelos INPE desde  o início da 
 série histórica até final de 2022 \cite{EmbrapaSatelites}. 
 Os que estão em funcionamento pleno atualmente são:
-NOAA-20, NOAA-19, NOAA-18, GOES-16, NPP-375, AQUA\_M, TERRA\_M, MSG-03, 
+NOAA-20, NOAA-19, NOAA-18, GOES-16, Suomi NPP, AQUA\_M, TERRA\_M, MSG-03, 
 METOP-B e METOP-C. [P1. Falar sobre os principais]\par
 
 \begin{table}[h!]
@@ -286,7 +297,7 @@ METOP-B e METOP-C. [P1. Falar sobre os principais]\par
 \hline
   Nome    & Sensor & Resolução esp. & Órbita & Lançamento & Passagem \\
 \hline
-  NPP-375 & VIIRS    & 375m        & Polar   & 2011 & 5h / 17h \\
+  Suomi NPP & VIIRS    & 375m        & Polar   & 2011 & 5h / 17h \\
   NOAA-20 & VIIRS    & 375m        & Polar   & 2017 & 5h / 17h \\
   NOAA-19 & AVHRR-3  & 1100m       & Polar   & 2009 & 5h / 17h \\
   NOAA-18 & AVHRR-3  & 1100m       & Polar   & 2005 &  \\
@@ -336,14 +347,14 @@ De 01/junho/1998 a 03/julho/2002 o satélite de referência utilizado foi o NOAA
 com passagem no final da tarde. Depois desse período passou-se a utilizar o 
 AQUA com passagem à tarde (chamado nos dados de AQUA\_M-T). O satélite AQUA 
 já ultrapassou a data prevista de encerrar o funcionamento em muitos anos e 
-será descontinuado em breve, quando isso acontecer o satélite NPP-375 será o novo
+será descontinuado em breve, quando isso acontecer o satélite Suomi NPP será o novo
 balizador \citep{PerguntasFrequentesINPE}. [P3. Satelite de referencia] \par
 
 Nos dados disponibilizados pelo INPE são usadas nomenclaturas especiais para 
 alguns satélites. Para os satélites AQUA (AQUA\_M-T e AQUA\_M-M) e TERRA 
 (TERRA\_M-T e TERRA\_M-M), a primeira letra M representa o sensor MODIS e a última
 letra indica em que período do dia foi a passagem do satélite, sendo M para Manhã 
-e T para Tarde. Outros satélites como NPP-375, NOAA-19, NOAA-18, NOAA-16, NOAA-15 
+e T para Tarde. Outros satélites como Suomi NPP, NOAA-19, NOAA-18, NOAA-16, NOAA-15 
 e NOAA-12 também podem apresentar a última letra do nome sendo D para Diurno. 
 A partir do entendimento dessa regra de nomenclatura é possível
 simplificar os dados relacionados aos satélites de forma a facilitar a análise,
@@ -352,14 +363,14 @@ caindo de 32 para 22 valores possíveis de satélites.
 
 Voltando para os dados, é possível perceber a partir da figura
 \ref{fig:porcentagem_satelites} cinco satélites que mais identificaram possíveis 
-focos de queimada, são eles: NPP-375, GOES-16, AQUA, NOAA-16 e TERRA. 
+focos de queimada, são eles: Suomi NPP, GOES-16, AQUA, NOAA-16 e TERRA. 
 Todos eles estão 
 ativos atualmente e com quantidades de coleta significativas em 2022. AQUA e TERRA 
 são os mais antigos e possuem um sensor obsoleto. O GOES-16 é um satélite
 geoestacionário, conhecido por gerar dados de forma mais frequente, geralmente 
-detecta apenas queimadas maiores devido a sua posição distante da Terra. NPP-375 e
+detecta apenas queimadas maiores devido a sua posição distante da Terra. Suomi NPP e
 NOAA-20 possuem um sensor que detecta 10 vezes mais focos que sensor MODIS. Por 
-estar em atividade a mais tempo, o NPP-375 gerou mais dados que o NOAA-20.
+estar em atividade a mais tempo, o Suomi NPP gerou mais dados que o NOAA-20.
 [P5. Mostrar gráficos da quantidade de coletas por satélites] \par
 
 \begin{figure}
