@@ -19,6 +19,7 @@
 \usepackage{times}              % pacote para usar fonte Adobe Times
 \usepackage[alf,abnt-emphasize=bf]{abntex2cite}	% pacote para usar citações abnt
 \usepackage{graphicx}          % para inserir imagens
+\usepackage{booktabs}
 %\usepackage{mathptmx}          % p/ usar fonte Adobe Times nas fórmulas
 
 \graphicspath{ {images/} }
@@ -133,11 +134,14 @@ the abstract should not contain more than 500~words.}
 
 % aqui comeca o texto propriamente dito
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \chapter{Introdução}
 P1. Importancia do trabalho \par
 P2. Ferramentas opensource e códigos gerados também \par
 P2. Introducao aos dados \par
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Visão geral dos dados}
 
@@ -147,11 +151,10 @@ que serão cruciais para compreensão dos próximos capítulos.
 
 \section{O programa DBQueimadas}
 
-O DBQueimadas, Banco de Dados de Queimadas \url{www.inpe.br/queimadas/
-bdqueimadas},
+O DBQueimadas, Banco de Dados de Queimadas \url{www.inpe.br/queimadas/bdqueimadas},
 é um sistema desenvolvido pelo INPE e acessível de forma aberta por meio da web. 
 Conta com mais de 300 milhões de pontos coletados desde o ano de 1998, 
-proviniente de vários satélites. Dentro do site é possível gerar mapas,
+proveniente de vários satélites. Dentro do site é possível gerar mapas,
 tabelas, gráficos e exportar os dados sobre as queimadas no Brasil 
 aplicando diferentes filtros. Todo o 
 programa foi desenvolvido com ferramentas abertas, muitas delas 
@@ -159,14 +162,14 @@ criadas pelo próprio time de tecnologia da informação do INPE
 \citep{setzer2019banco}. [P1. Falamos sobre o programa] \par
 
 O Banco de Dados de Queimadas é um excelente caso de como os dados abertos podem 
-ajusar a sociedade. O portal vem eveluindo muito na medida que os anos passam, 
-P2. Ressaltamos a importancia dos dados abertos para a sociedade \par
-
+ajusar a sociedade. O portal vem evoluindo muito na medida que os anos passam, 
+sempre focado em ser simples se usar. ........
+[P2. Ressaltamos a importancia dos dados abertos para a sociedade] \par
 
 \section{Garimpando os dados}
 
 Uma parte importante do processo foi coletar os dados do DBQueimadas. 
-Para exportar os dados, é necessário preencher os campos de data inicial,
+Para exportar os dados pela web, é necessário preencher os campos de data inicial,
 data final e um endereço de e-mail, o intervalo de tempo não 
 pode exceder 366 dias. Também é possível aplicar filtros ainda mais 
 detalhados como: continente, país, estado, município, satélite, bioma e 
@@ -182,8 +185,9 @@ os dados pelo site a fim de automatizar o processo de download.
 [P2. Motivar a abordagem automatizada] \par
 
 Foi identificado que na verdade o site faz uma requisição GET para a API do 
-DBQueimadas, localizada em https://queimadas.dgi.inpe.br/queimadas/exportacaobdq/
-exportar, passando no parâmetro da URL os filtros aplicados, codificados em JSON.
+DBQueimadas, localizada em 
+\url{https://queimadas.dgi.inpe.br/queimadas/exportacaobdq/exportar}, 
+passando nos parâmetros da URL os filtros aplicados, codificados em JSON.
 Além dos filtros, também é necessário informar o e-mail e o formato de arquivo
 desejado. Um exemplo de uso dessa API, por meio de uma invocação CURL, pode 
 ser encontrado no \ref{anexo:usoApiInpe} [P3. Explicar como a api funciona]
@@ -202,50 +206,55 @@ integração com os serviços do Google (como o Gmail). A partir dessa ferrament
 foi possível extrair o link de cada mensagem e finalmente salvar o dado
 de forma automatizada. [P5. Processo de baixar os dados para o computador] \par
 
+Todos esse processo de investigação e recuperação dos dados levou cerca de uma 
+semana. Todos os arquivos baixados ocupam pouco mais de 4 Gigabytes de 
+armazenamento em disco e somados tem exatamente 43.782.758 linhas. Ao final, todos 
+os arquivos foram recompactados em um único zip (450 Megabytes) e disponibilizados 
+em \url{https://bit.ly/3IgHIXH} para download de forma independete aos servidores 
+do INPE. [P6. Conclusão do processo] \par
 
-\section{Estrutura dos dados}
+
+\section{Significado dos dados}
+
+
+[P0. Definir o que é uma observação, a partir de dados de imagens, gera uma linha] \par
+[P1. Como os dados de cada satélite geram uma observação] \par
+
+
+
+
 
 De acordo com o \citep{PerguntasFrequentesINPE}, as colunas estão definidas
 na Tabela \ref{table:inpeColumns}. [P1. Significado geral de cada coluna]
 
-\begin{table}[h!]
+\begin{table}[htbp]
 \centering
 \caption{Significado de cada coluna dos dados de queimada do INPE}
-\begin{tabular}{ | l l p{10cm} | }
-\hline
- Atributo & Tipo & Descrição \\
-\hline
- Id & string & Identificador único registrado no banco \\
-  \hline
- Latitude & double & Graus decimais da latitude do centro do pixel de 
-                     fogo ativo (valores de 90.0000 até -90.0000) \\ 
-  \hline
- Longitude & double & Graus decimais da longitude do centro do pixel de 
-                      fogo ativo (valores de 180.0000 até -180.0000) \\  
-  \hline
- DataHora & string & Data a hora da passagem do satélite no fuso 
+\begin{tabular}{@{}llp{9cm}@{}}
+ \toprule
+ \texttt{Atributo} & \texttt{Tipo} & Descrição \\
+ \midrule
+ \texttt{Id} & \texttt{string} & Identificador único registrado no banco \\
+ \texttt{Latitude} & \texttt{double} & Graus decimais da latitude do centro 
+                     do pixel de fogo ativo (valores de 90.0000 até -90.0000) \\ 
+ \texttt{Longitude} & \texttt{double} & Graus decimais da longitude do centro 
+                     do pixel de fogo ativo (valores de 180.0000 até -180.0000) \\  
+ \texttt{DataHora} & \texttt{string} & Data a hora da passagem do satélite no fuso 
                      horário de Greenwich (GMT) \\   
-  \hline
- Municipio & string & Nome do município, de acordo com os dados do IBGE 2000 \\
-  \hline
- Estado & string & Nome do estado \\
-  \hline
- Pais & string & Nome do país \\  
-  \hline
- Bioma & string & Nome do bioma brasileiro, de acordo com dados do IBGE 2004 
-                  (para outros países o campo fica vazio) \\
-  \hline
- Precipitação & double & Valor a precipitação do dia até o horário da medida
-                         (-999 para valores inválidos) \\
-  \hline
- DiasSCh & integer & Dias sem chuva até a data da medida 
+ \texttt{Municipio} & \texttt{string} & Nome do município, de acordo com os dados 
+                     do IBGE 2000 \\
+ \texttt{Estado} & \texttt{string} & Nome do estado \\
+ \texttt{Pais} & \texttt{string} & Nome do país \\  
+ \texttt{Bioma} & \texttt{string} & Nome do bioma brasileiro, de acordo com 
+                     dados do IBGE 2004 (para outros países o campo fica vazio) \\
+ \texttt{Precipitação} & \texttt{double} & Valor a precipitação do dia até 
+                     o horário da medida (-999 para valores inválidos) \\
+ \texttt{DiasSCh} & \texttt{integer} & Dias sem chuva até a data da medida 
                      (-999 para valores inválidos) \\
-  \hline
-  RiscoFog & double & Valor do risco de fogo previsto naquele dia 
-                      (-999 para valores inválidos) \\
-  \hline
-  FRP & double & Fire Radiative Power, MW (megawatts) \\
- \hline
+ \texttt{RiscoFog} & \texttt{double} & Valor do risco de fogo previsto naquele dia 
+                     (-999 para valores inválidos) \\
+ \texttt{FRP} & \texttt{double} & Fire Radiative Power, MW (megawatts) \\
+ \bottomrule
 \end{tabular}
 \legend{Fonte: O Autor com base em \citet{PerguntasFrequentesINPE}}
 \label{table:inpeColumns}
@@ -253,7 +262,7 @@ na Tabela \ref{table:inpeColumns}. [P1. Significado geral de cada coluna]
 
 P2. Falar sobre a flag risco de fogo e uma ideia de como é calculada \par
 
-\subsection{Carregando os dados} 
+\section{Carregando os dados para análise} 
 
 Para toda a análise dos dados foi utilizado algumas das ferramentas que integram o 
 ecossistema Python para Data Sciente: NumPy, Pandas, Matplotlib. Além disso, 
@@ -267,14 +276,12 @@ Todos os artefatos gerados podem ser obtidos em
 Foi carregado 300 arquivos das queimadas em formato CSV e depois concatenados
 em uma única estrutura de DataFrame. Houve a necessidade de converter o timezone 
 das datas (que eram em UTC) para o timezone de Brasília, a fim de gerar gráficos 
-de mais fácil entendimento para brasileiros. As colunas de texto forma convertidas 
+de mais fácil entendimento para brasileiros. As colunas de texto foram convertidas 
 para categorias, espécies de enumerações no Pandas, reduzindo o espaço ocupado 
 de memória, uma vez que muitos valores acabavam se repetindo na mesma coluna. 
 [P1. pre processamentos dos dados]\par
 
-
-P1. Aqui pode deve ter código em python \par
-P2. Dar uma noção da quantidade de dados \par
+[P2. Uso dos dados de shapes do território nacional do IBGE] \par
 
 \section{Os Satélites}
 
@@ -290,35 +297,35 @@ Os que estão em funcionamento pleno atualmente são:
 NOAA-20, NOAA-19, NOAA-18, GOES-16, Suomi NPP, AQUA\_M, TERRA\_M, MSG-03, 
 METOP-B e METOP-C. [P1. Falar sobre os principais]\par
 
-\begin{table}[h!]
+\begin{table}[htbp]
 \centering
 \caption{Características dos satélites usados pelo INPE}
-\begin{tabular}{ | l l l l l l | }
-\hline
+\begin{tabular}{ @{}llllcl@{} }
+  \toprule
   Nome    & Sensor & Resolução esp. & Órbita & Lançamento & Passagem \\
-\hline
-  Suomi NPP & VIIRS    & 375m        & Polar   & 2011 & 5h / 17h \\
+  \midrule
+  METOP-C & AVHRR-3  & 1100m       & Polar   & 2018 &  \\
   NOAA-20 & VIIRS    & 375m        & Polar   & 2017 & 5h / 17h \\
+  METOP-B & AVHRR-3  & 1100m       & Polar   & 2012 &  \\
+  Suomi NPP & VIIRS  & 375m        & Polar   & 2011 & 5h / 17h \\
   NOAA-19 & AVHRR-3  & 1100m       & Polar   & 2009 & 5h / 17h \\
   NOAA-18 & AVHRR-3  & 1100m       & Polar   & 2005 &  \\
+  AQUA    & MODIS    & 250 a 1000m & Polar   & 2002 & 5h / 17h \\
   NOAA-17 & AVHRR-3  & 1100m       & Polar   & 2002 &  \\
   NOAA-16 & AVHRR-3  & 1100m       & Polar   & 2000 &  \\
-  NOAA-15 & AVHRR-3  & 1100m       & Polar   & 1998 & 8h / 20h \\
-  NOAA-14 & AVHRR    & 1100m       & Polar   & 1994 & \\
-  NOAA-12 & AVHRR    & 1100m       & Polar   & 1991 & 5h / 17h \\
   TERRA   & MODIS    & 250 a 1000m & Polar   & 1999 & 2h / 14h \\
-  AQUA    & MODIS    & 250 a 1000m & Polar   & 2002 & 5h / 17h \\
-  METOP-C & AVHRR-3  & 1100m       & Polar   & 2018 &  \\
-  METOP-B & AVHRR-3  & 1100m       & Polar   & 2012 &  \\
+  NOAA-15 & AVHRR-3  & 1100m       & Polar   & 1998 & 8h / 20h \\
   TRMM    & VIRS     & 2000m       & Polar   & 1997 &  \\
+  NOAA-14 & AVHRR    & 1100m       & Polar   & 1994 &  \\
+  NOAA-12 & AVHRR    & 1100m       & Polar   & 1991 & 5h / 17h \\
   GOES-16 & ABI      & 2000m       & Geoest. & 2016 & a cada 3 horas \\
+  MSG-03  & SEVIRI   & 3000m       & Geoest. & 2012 &  \\
   GOES-13 & GOES I-M & 4000m       & Geoest. & 2006 & a cada 3 horas \\
+  MSG-02  & SEVIRI   & 3000m       & Geoest. & 2005 &  \\
   GOES-12 & GOES I-M & 4000m       & Geoest. & 2001 & a cada 3 horas \\
   GOES-10 & GOES I-M & 4000m       & Geoest. & 1997 & a cada 3 horas \\
   GOES-08 & GOES I-M & 4000m       & Geoest. & 1994 & a cada 3 horas \\
-  MSG-03  & SEVIRI   & 3000m       & Geoest. & 2012 &  \\
-  MSG-02  & SEVIRI   & 3000m       & Geoest. & 2005 &  \\
- \hline
+  \bottomrule
 \end{tabular}
 \legend{Fonte: O Autor com base em \citet{EmbrapaSatelites}}
 \label{table:satelites}
@@ -361,8 +368,8 @@ simplificar os dados relacionados aos satélites de forma a facilitar a análise
 caindo de 32 para 22 valores possíveis de satélites.
 [P4. Explicar equivalencias entre os satelites] \par
 
-Voltando para os dados, é possível perceber a partir da figura
-\ref{fig:porcentagem_satelites} cinco satélites que mais identificaram possíveis 
+Voltando para os dados, é possível perceber a partir da Figura
+\ref{fig:porcentagem_satelites} cinco satélites que mais identificaram  
 focos de queimada, são eles: Suomi NPP, GOES-16, AQUA, NOAA-16 e TERRA. 
 Todos eles estão 
 ativos atualmente e com quantidades de coleta significativas em 2022. AQUA e TERRA 
@@ -385,7 +392,7 @@ estar em atividade a mais tempo, o Suomi NPP gerou mais dados que o NOAA-20.
 Saber em quais momentos os satélites passam também é importante para a análise. 
 Os satélites polares passam duas vezes por dia no Brasil, variando o local 
 exato da passagem de acordo com as características de sua órbita. Pela  
-figura \ref{fig:tempo_medidas_satelites} é possível comprovar esse comportamento 
+Figura \ref{fig:tempo_medidas_satelites} é possível observar esse comportamento 
 empiricamente, em que os 5 primeiros gráficos, que representam dados gerados por 
 satélites polares, apresentam dois picos durante um período de 24 horas. Já para o  
 caso dos geoestacionários (GOES-16), que ficam fixos em relação a uma posição 
@@ -402,7 +409,7 @@ na Terra, não se observou o mesmo padrão.
 \end{figure}
 
 Com os dados do \url{https://celestrak.org/} foi possível traçar a rota 
-exata de cada satélite de interesse em um dia específico, apresentado na figura 
+exata de cada satélite de interesse em um dia específico, apresentado na Figura 
 \ref{fig:orbita2022-08-10}. 
 \par
 
@@ -420,6 +427,16 @@ exata de cada satélite de interesse em um dia específico, apresentado na figur
 P1. Fazer análise preliminar dos dados gerando alguns gráficos \par
 P2. Gráficos geral do brasil com os focos de queimadas totais \cite{geographicDataSciencePython} \par
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Trabalhos relacionados}
+
+P1. falar sobre como os trabalhos relacionados podem ajudar a entender 
+os dados \par
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Aprofundando a análise dos dados}
 
@@ -438,14 +455,6 @@ user eles para tomadas de decisões (garantir que não é aleatório)
 \section{Padronizando os dados por satélite}
 
 P1. Verificar relação entre dados dos diferentes satélites (se possível) e talvez restringir a análise apenas ao satélite de referencia se for identificado que são basicamente equivalentes \par
-
-\chapter{Correlações}
-
-P1. Levantar variáveis que podem influenciar nas queimadas \par
-P2. Variáveis humanas: influencia da agricultura, pecuária, 
-urbanização, áreas de preservação, reservas indígenas \par
-P3. Variáveis naturais: Clima, ondas solares, períodos de chuvas/secas \par
-
 
 
 \bibliographystyle{abntex2-alf}
