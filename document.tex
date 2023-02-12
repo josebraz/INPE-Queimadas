@@ -208,18 +208,22 @@ de forma automatizada. [P5. Processo de baixar os dados para o computador] \par
 
 Todos esse processo de investigação e recuperação dos dados levou cerca de uma 
 semana. Todos os arquivos baixados ocupam pouco mais de 4 Gigabytes de 
-armazenamento em disco e somados tem exatamente 43.782.758 linhas. Ao final, todos 
-os arquivos foram recompactados em um único zip (450 Megabytes) e disponibilizados 
+armazenamento em disco e somados tem exatamente 43.782.758 linhas. Ao final, eles 
+foram recompactados em um único zip (450 Megabytes) e estão disponíveis 
 em \url{https://bit.ly/3IgHIXH} para download de forma independete aos servidores 
 do INPE. [P6. Conclusão do processo] \par
 
 
 \section{Significado dos dados}
 
+O INPE 
+[P1. Processamento dos dados pelo INPE] \par
 
-[P0. Definir o que é uma observação, a partir de dados de imagens, gera uma linha] \par
-[P1. Como os dados de cada satélite geram uma observação] \par
+[P2. Definir o que é uma observação, a partir de dados de imagens] \par
 
+[P3. Como os dados de cada satélite geram uma observação] \par
+
+[P4. diferença entre área queimada e focos detectados] \par
 
 
 
@@ -281,6 +285,11 @@ para categorias, espécies de enumerações no Pandas, reduzindo o espaço ocupa
 de memória, uma vez que muitos valores acabavam se repetindo na mesma coluna. 
 [P1. pre processamentos dos dados]\par
 
+Também lançou-se mão dos dados públicos territoriais do Instituto Brasileiro de 
+Geografia e Estatística (IBGE) com o intuito de gerar gráficos delimitados em 
+municípios, unidades federativas e biomas. Todos os arquivos baixados estão em 
+formato Shapefile, responsável por armazenar dados vetoriais geográficos. A 
+biblioteca GeoPandas consegue ler e gerar gráficos a partir do Shapefile.
 [P2. Uso dos dados de shapes do território nacional do IBGE] \par
 
 \section{Os Satélites}
@@ -294,7 +303,7 @@ como o GOES-12, que está a 29.400 km de distância da superfície
 Abaixo segue um resumo dos satélites usados pelos INPE desde  o início da 
 série histórica até final de 2022 \cite{EmbrapaSatelites}. 
 Os que estão em funcionamento pleno atualmente são:
-NOAA-20, NOAA-19, NOAA-18, GOES-16, Suomi NPP, AQUA\_M, TERRA\_M, MSG-03, 
+NOAA-20, NOAA-19, NOAA-18, GOES-16, Suomi NPP, AQUA, TERRA, MSG-03, 
 METOP-B e METOP-C. [P1. Falar sobre os principais]\par
 
 \begin{table}[htbp]
@@ -304,27 +313,27 @@ METOP-B e METOP-C. [P1. Falar sobre os principais]\par
   \toprule
   Nome    & Sensor & Resolução esp. & Órbita & Lançamento & Passagem \\
   \midrule
-  METOP-C & AVHRR-3  & 1100m       & Polar   & 2018 &  \\
-  NOAA-20 & VIIRS    & 375m        & Polar   & 2017 & 5h / 17h \\
-  METOP-B & AVHRR-3  & 1100m       & Polar   & 2012 &  \\
-  Suomi NPP & VIIRS  & 375m        & Polar   & 2011 & 5h / 17h \\
-  NOAA-19 & AVHRR-3  & 1100m       & Polar   & 2009 & 5h / 17h \\
-  NOAA-18 & AVHRR-3  & 1100m       & Polar   & 2005 &  \\
-  AQUA    & MODIS    & 250 a 1000m & Polar   & 2002 & 5h / 17h \\
-  NOAA-17 & AVHRR-3  & 1100m       & Polar   & 2002 &  \\
-  NOAA-16 & AVHRR-3  & 1100m       & Polar   & 2000 &  \\
-  TERRA   & MODIS    & 250 a 1000m & Polar   & 1999 & 2h / 14h \\
-  NOAA-15 & AVHRR-3  & 1100m       & Polar   & 1998 & 8h / 20h \\
-  TRMM    & VIRS     & 2000m       & Polar   & 1997 &  \\
-  NOAA-14 & AVHRR    & 1100m       & Polar   & 1994 &  \\
-  NOAA-12 & AVHRR    & 1100m       & Polar   & 1991 & 5h / 17h \\
-  GOES-16 & ABI      & 2000m       & Geoest. & 2016 & a cada 3 horas \\
-  MSG-03  & SEVIRI   & 3000m       & Geoest. & 2012 &  \\
-  GOES-13 & GOES I-M & 4000m       & Geoest. & 2006 & a cada 3 horas \\
-  MSG-02  & SEVIRI   & 3000m       & Geoest. & 2005 &  \\
-  GOES-12 & GOES I-M & 4000m       & Geoest. & 2001 & a cada 3 horas \\
-  GOES-10 & GOES I-M & 4000m       & Geoest. & 1997 & a cada 3 horas \\
-  GOES-08 & GOES I-M & 4000m       & Geoest. & 1994 & a cada 3 horas \\
+  METOP-C & AVHRR-3  & 1100m       & Polar   & 2018 & 21h \\
+  NOAA-20 & VIIRS    & 375m        & Polar   & 2017 & 2h / 14h \\
+  METOP-B & AVHRR-3  & 1100m       & Polar   & 2012 & 21h \\
+  Suomi NPP & VIIRS  & 375m        & Polar   & 2011 & 2h / 14h \\
+  NOAA-19 & AVHRR-3  & 1100m       & Polar   & 2009 & 2h / 14h \\
+  NOAA-18 & AVHRR-3  & 1100m       & Polar   & 2005 & Variadas \\
+  AQUA    & MODIS    & 1000m       & Polar   & 2002 & 2h / 14h \\
+  NOAA-17 & AVHRR-3  & 1100m       & Polar   & 2002 & 21h \\
+  NOAA-16 & AVHRR-3  & 1100m       & Polar   & 2000 & Variadas \\
+  TERRA   & MODIS    & 1000m       & Polar   & 1999 & 11h / 23h \\
+  NOAA-15 & AVHRR-3  & 1100m       & Polar   & 1998 & 5h / 17h \\
+  TRMM    & VIRS     & 2000m       & Polar   & 1997 & Variadas \\
+  NOAA-14 & AVHRR    & 1100m       & Polar   & 1994 & 21h \\
+  NOAA-12 & AVHRR    & 1100m       & Polar   & 1991 & 2h / 15h \\
+  GOES-16 & ABI      & 2000m       & Geoest. & 2016 & Não se aplica \\
+  MSG-03  & SEVIRI   & 3000m       & Geoest. & 2012 & Não se aplica \\
+  GOES-13 & GOES I-M & 4000m       & Geoest. & 2006 & Não se aplica \\
+  MSG-02  & SEVIRI   & 3000m       & Geoest. & 2005 & Não se aplica \\
+  GOES-12 & GOES I-M & 4000m       & Geoest. & 2001 & Não se aplica \\
+  GOES-10 & GOES I-M & 4000m       & Geoest. & 1997 & Não se aplica \\
+  GOES-08 & GOES I-M & 4000m       & Geoest. & 1994 & Não se aplica \\
   \bottomrule
 \end{tabular}
 \legend{Fonte: O Autor com base em \citet{EmbrapaSatelites}}
