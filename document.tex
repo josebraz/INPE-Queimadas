@@ -137,36 +137,83 @@ the abstract should not contain more than 500~words.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Introdução}
-P1. Importancia do trabalho (as maiores emissões de gases de efeito estufa do brasil são por queimadas) \par
-P2. DBQueimadas Ferramentas opensource e códigos gerados também \par
-P3. Introducao aos dados \par
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+O fogo é uma tecnologia que está presente há milénios no território que hoje é o 
+Brasil, desde queimadas controladas pelo povo indígena Kayapó no cerrado para 
+plantio ou caça, até incêndios a partir de combustão espontânea em períodos de seca 
+no sul da Amazônia. O uso do fogo pelos indígenas era controlado, levando em conta 
+o clima atual e a vegetação a ser queimada, e restrito apenas 
+a um período do ano, com o intuito de reduzir pragas e ajudar nas plantações 
+\citep{leonel_2000}. [P0. O que é uma queimada/fogo] \par
 
-\chapter{Visão geral dos dados}
+Hoje as queimadas que mais chamam atenção estão diretamente ligadas ao processo de 
+desmatamento e manejo de áreas agrícolas para o cultivo da monocultura de soja. O 
+fogo também é a prática mais barata e rápida para limpar áreas inteiras para a 
+pecuária bovina. Commodites agrícolas e carne bovina movem a economia do Brasil, 
+que é o maior exportador desses produtos, e aumentam a pressão para o 
+desmatamento de novas áreas na amazônia \citep{fuchs_2020}. 
+[P0. As queimadas hoje] \par
 
-Neste capítulo constam algumas informações importantes sobre os 
-dados disponibilizados pelo Instituto Nacional de Pesquisas Espaciais (INPE), 
-que serão cruciais para compreensão dos próximos capítulos. 
+O Brasil ocupa a quarta posição no ranking de nações que mais emitem gases de 
+efeito estufa por habitantes. O valor absoluto se manteve estável desde 2010, e 
+atingiu o máximo por volta dos anos de 2003 a 2004 \citep{unep2022}. Assim como a 
+Indonésia, o que melhor explica a alta posição do Brasil nesta ranking são as 
+queimadas e o desmatamento da vegetação nativa. Olhando para os municípios do país, 
+dos dez que mais poluem, oito deles estão localizados no bioma da amazônia e não 
+possuem atividades industriais que justificariam esse valor.
+[P0. queimadas e efeito estufa no Brasil] \par
 
-\section{O programa DBQueimadas}
+\begin{figure}
+    \caption{Emissões de gases do efeito estufa per capta de 1990 até 2020 (tCO2e/capita)}
+    \begin{center}
+        \includegraphics[width=35em]{emissoes_gee_per_capta}
+    \end{center}
+    \legend{Fonte: Emissions Gap Report 2022: The Closing Window}
+    \label{fig:emissoes_gee_per_capta}
+\end{figure}
 
-O DBQueimadas, Banco de Dados de Queimadas \url{www.inpe.br/queimadas/bdqueimadas},
-é um sistema desenvolvido pelo INPE e acessível de forma aberta por meio da web. 
+Este trabalho se dedica a estudar e apresentar de forma concisa os dados de 
+focos de queimadas disponibilizados pelo INPE. O principal objetivo é tornar 
+fácil o entendimento desses dados gerados a partir de imagens de satélites, sem a 
+necessidade de um conhecimento prévio das técnicas de ciência de dados e 
+sensoriamento remoto. O escopo de tempo das analises é limitado ao início 
+de 1998, ano que iniciou a base aberta de queimadas, até o final de 2022.  
+[P0. O que é o trabalho em si] \par
+
+Os dados analisados neste trabalho foram obtidos a partir do DBQueimadas, 
+Banco de Dados de Queimadas \url{www.inpe.br/queimadas/bdqueimadas},
+que é um sistema desenvolvido pelo INPE e acessível de forma aberta por meio da web. 
 Conta com mais de 300 milhões de pontos coletados desde o ano de 1998, 
 proveniente de vários satélites. Dentro do site é possível gerar mapas,
 tabelas, gráficos e exportar os dados sobre as queimadas no Brasil 
-aplicando diferentes filtros. Todo o 
-programa foi desenvolvido com ferramentas abertas, muitas delas 
-criadas pelo próprio time de tecnologia da informação do INPE 
-\citep{setzer2019banco}. [P1. Falamos sobre o programa] \par
+aplicando diferentes filtros. Todo o programa foi desenvolvido com 
+ferramentas abertas, muitas delas criadas pelo próprio time de tecnologia da 
+informação do INPE \citep{setzer2019banco}. [P2. Falamos sobre o programa] \par
 
 O Banco de Dados de Queimadas é um excelente caso de como os dados abertos podem 
-ajusar a sociedade. O portal vem evoluindo muito na medida que os anos passam, 
-sempre focado em ser simples se usar. ........
-[P2. Ressaltamos a importancia dos dados abertos para a sociedade] \par
+ajudar a sociedade. O portal vem evoluindo muito na medida que os anos passam, 
+sempre focado em ser simples se usar. Além do DBQueimadas, o INPE também 
+disponibiliza para visualização e download, por meio da Divisão de Geração de 
+Imagens (DGI) \url{www.dgi.inpe.br/catalogo/}, algumas imagens inteiras geradas 
+pelos satélites que o próprio DGI captura e processa. 
+[P3. importancia do dados abertos para a sociedade] \par
 
-\section{Garimpando os dados}
+Durante o decorrer do documento são apresentadas diversas figuras, a maioria de 
+construção do próprio autor, a fim de instigar a intuição 
+do leitor para o tópico que está sendo abordado [P4. Estrutura do documento] \par
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Metodologia}
+
+A metodologia de pesquisa se dividiu em 4 tópicos: Coleta dos dados de focos do 
+INPE a partir do DBQueimadas; Carregamento e pré-processamento dos dados usando 
+Python e Jupyter Notebook; Entender o significado dos dados e como foram gerados 
+pelo INPE; e Analizar os dados e produzir gráficos \par
+
+
+%%%%%%% Coleta de dados 
 
 Uma parte importante do processo foi coletar os dados do DBQueimadas. 
 Para exportar os dados pela web, é necessário preencher os campos de data inicial,
@@ -201,7 +248,7 @@ um minuto a cada requisição. [P4. Falar sobre os scripts de coleta dos dados] 
 Para o processo ser concluído, ainda seria 
 necessário fazer o download do arquivo por meio do link enviado por e-mail.
 Lançou-se mão do Google Scripts, uma ferramenta que possibilita escrever 
-programas simples, em uma liguagem parecida com JavaScript, e tem uma ótima
+programas simples, em uma liguagem parecida com JavaScript, e tem 
 integração com os serviços do Google (como o Gmail). A partir dessa ferramenta
 foi possível extrair o link de cada mensagem e finalmente salvar o dado
 de forma automatizada. [P5. Processo de baixar os dados para o computador] \par
@@ -213,15 +260,40 @@ foram recompactados em um único zip (450 Megabytes) e estão disponíveis
 em \url{https://bit.ly/3IgHIXH} para download de forma independete aos servidores 
 do INPE. [P6. Conclusão do processo] \par
 
+%%%%%%%%%% Carregando os dados para análise}
 
-\section{Como interpretar os dados}
+Para toda a análise dos dados foi utilizado algumas das ferramentas que integram o 
+ecossistema Python para Data Sciente: NumPy, Pandas, Matplotlib. Além disso, 
+algumas bibliotecas específicas para análise de dados geográficos: GeoPandas, 
+Pysal, Xarray. Para a construção das visualizações e organização do código se 
+optou pelo uso do Jupyter Notebook devido a reprodutibilidade das execuções. 
+Todos os artefatos gerados podem ser obtidos em 
+\url{https://github.com/josebraz/INPE-Queimadas} sobre a licença MIT. 
+[P0. Visão das ferramentas utilizadas]\par
+
+Foi carregado 300 arquivos das queimadas em formato CSV e depois concatenados
+em uma única estrutura de DataFrame. Houve a necessidade de converter o timezone 
+das datas (que eram em UTC) para o timezone de Brasília, a fim de gerar gráficos 
+de mais fácil entendimento para brasileiros. As colunas de texto foram convertidas 
+para categorias, espécies de enumerações no Pandas, reduzindo o espaço ocupado 
+de memória, uma vez que muitos valores acabavam se repetindo na mesma coluna. 
+[P1. pre processamentos dos dados]\par
+
+Também lançou-se mão dos dados públicos territoriais do Instituto Brasileiro de 
+Geografia e Estatística (IBGE) com o intuito de gerar gráficos delimitados em 
+municípios, unidades federativas e biomas. Todos os arquivos baixados estão em 
+formato Shapefile, responsável por armazenar dados vetoriais geográficos. A 
+biblioteca GeoPandas consegue ler e gerar gráficos a partir do Shapefile.
+[P2. Uso dos dados de shapes do território nacional do IBGE] \par
+
+%%%%%%%%%% Significado dos dados
 
 Antes de mais nada, é importante entender que os focos ativos de calor, 
-representados por uma linha na tabela dos dados de queimadas, é fruto do 
-processamento em cima de uma imagem de satélite. O INPE ainda 
+representados por uma linha na tabela dos dados de queimadas, são fruto do 
+processamento em cima de imagens de satélite. O INPE ainda 
 disponibiliza junto com as coordenadas da detecção mais alguns dados como 
-risco de fogo, poder do fogo, precipitação e dados da região do foco. A lista 
-completa das colunas pode ser vista na Tabela \ref{table:inpeColumns}
+risco de fogo, poder do fogo, precipitação e dados referentes a região do foco. 
+A lista completa das colunas pode ser vista na Tabela \ref{table:inpeColumns}
  \cite{PerguntasFrequentesINPE}.
 [P0. O que é uma observação nos dados] \par
 
@@ -293,31 +365,13 @@ falsos negativos para grandes queimadas obscurecidas por fumaça densa.
 
 [P5. Falar sobre a flag risco de fogo e uma ideia de como é calculada] \par
 
-\section{Carregando os dados para análise} 
 
-Para toda a análise dos dados foi utilizado algumas das ferramentas que integram o 
-ecossistema Python para Data Sciente: NumPy, Pandas, Matplotlib. Além disso, 
-algumas bibliotecas específicas para análise de dados geográficos: GeoPandas, 
-Pysal, Xarray. Para a construção das visualizações e organização do código se 
-optou pelo uso do Jupyter Notebook devido a reprodutibilidade das execuções. 
-Todos os artefatos gerados podem ser obtidos em 
-\url{https://github.com/josebraz/INPE-Queimadas} sobre a licença MIT. 
-[P0. Visão das ferramentas utilizadas]\par
+\chapter{Visão geral dos dados}
 
-Foi carregado 300 arquivos das queimadas em formato CSV e depois concatenados
-em uma única estrutura de DataFrame. Houve a necessidade de converter o timezone 
-das datas (que eram em UTC) para o timezone de Brasília, a fim de gerar gráficos 
-de mais fácil entendimento para brasileiros. As colunas de texto foram convertidas 
-para categorias, espécies de enumerações no Pandas, reduzindo o espaço ocupado 
-de memória, uma vez que muitos valores acabavam se repetindo na mesma coluna. 
-[P1. pre processamentos dos dados]\par
+Neste capítulo constam algumas informações importantes sobre os 
+dados disponibilizados pelo Instituto Nacional de Pesquisas Espaciais (INPE), 
+que serão cruciais para compreensão dos próximos capítulos. 
 
-Também lançou-se mão dos dados públicos territoriais do Instituto Brasileiro de 
-Geografia e Estatística (IBGE) com o intuito de gerar gráficos delimitados em 
-municípios, unidades federativas e biomas. Todos os arquivos baixados estão em 
-formato Shapefile, responsável por armazenar dados vetoriais geográficos. A 
-biblioteca GeoPandas consegue ler e gerar gráficos a partir do Shapefile.
-[P2. Uso dos dados de shapes do território nacional do IBGE] \par
 
 \section{Os Satélites}
 
