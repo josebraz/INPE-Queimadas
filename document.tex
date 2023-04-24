@@ -213,7 +213,10 @@ imagens brutas geradas pelos satélites são usadas para detecção de focos ati
 
 \section{O monitoramentos das queimadas no Brasil}
 
+
 [P0. definir uma queimada, focos detectados e área queimada] \par
+
+[P0. Diferença entre foco detectado e área queimada] \par
 
 [P1. Falar um pouco do INPE e suas divisões] \par
 
@@ -231,7 +234,58 @@ Imagens (DGI) \url{www.dgi.inpe.br/catalogo/}, algumas imagens inteiras geradas
 pelos satélites que o próprio DGI captura e processa. 
 [P3. importancia do dados abertos para a sociedade] \par
 
-[P5. Falar sobre a flag risco de fogo e uma ideia de como é calculada] \par
+Para obter as imagens brutas dos satélites são necessárias antenas especiais que 
+ficam em centros de recepção de dados. Com esse propósito, a DGI possui duas 
+Estações de Recepção e Gravação (ERG) - a primeira 
+em Cachoeira Paulista (SP) e uma mais recente em Cuiabá (MT). Na estação de SP, é 
+feito o processamento de mais de 200 imagens de diversos satélites todos os dias, 
+extraindo os dados de focos ativos de queimadas que alimentam o DBQueimadas. 
+\citep{SiteDGI} [P4. Papel do DGI] \par
+
+É em posse dessas imagens brutas que o INPE aplica algoritmos de detecção de 
+focos de queimadas. No caso da detecção ser positiva, a posição exata (latitude e 
+longitude) e a hora que a imagem foi gerada são
+adicionadas aos dados como uma nova linha e disponibilizados pelo DBQueimadas. 
+O INPE ainda coloca junto com as coordenadas da detecção mais alguns dados como 
+risco de fogo, poder do fogo, precipitação e dados referentes a região do foco. 
+A lista completa das colunas pode ser vista na Tabela \ref{table:inpeColumns}
+ \cite{PerguntasFrequentesINPE}.
+[P5. O que é uma observação nos dados] \par
+
+\begin{table}[htbp]
+\centering
+\caption{Significado de cada coluna dos dados de queimada do INPE}
+\begin{tabular}{@{}llp{9cm}@{}}
+ \toprule
+ \texttt{Atributo} & \texttt{Tipo} & Descrição \\
+ \midrule
+ \texttt{Id} & \texttt{string} & Identificador único registrado no banco \\
+ \texttt{Latitude} & \texttt{double} & Graus decimais da latitude do centro 
+                     do pixel de fogo ativo (valores de 90.0000 até -90.0000) \\ 
+ \texttt{Longitude} & \texttt{double} & Graus decimais da longitude do centro 
+                     do pixel de fogo ativo (valores de 180.0000 até -180.0000) \\  
+ \texttt{DataHora} & \texttt{string} & Data a hora da passagem do satélite no fuso 
+                     horário de Greenwich (GMT) \\   
+ \texttt{Municipio} & \texttt{string} & Nome do município, de acordo com os dados 
+                     do IBGE 2000 \\
+ \texttt{Estado} & \texttt{string} & Nome do estado \\
+ \texttt{Pais} & \texttt{string} & Nome do país \\  
+ \texttt{Bioma} & \texttt{string} & Nome do bioma brasileiro, de acordo com 
+                     dados do IBGE 2004 (para outros países o campo fica vazio) \\
+ \texttt{Precipitação} & \texttt{double} & Valor a precipitação do dia até 
+                     o horário da medida (-999 para valores inválidos) \\
+ \texttt{DiasSCh} & \texttt{integer} & Dias sem chuva até a data da medida 
+                     (-999 para valores inválidos) \\
+ \texttt{RiscoFog} & \texttt{double} & Valor do risco de fogo previsto naquele dia 
+                     (-999 para valores inválidos) \\
+ \texttt{FRP} & \texttt{double} & Fire Radiative Power, MW (megawatts) \\
+ \bottomrule
+\end{tabular}
+\legend{Fonte: O Autor com base em \citet{PerguntasFrequentesINPE}}
+\label{table:inpeColumns}
+\end{table}
+
+[P7. Como é feito o calculo de área queimada pelo INPE] \par
 
 \section{Os Satélites}
 
@@ -324,7 +378,7 @@ do perú, representado com um ponto no gráfico. \par
     \label{fig:orbita2022-08-10}
 \end{figure}
 
-\section{Detecção das queimadas}
+\section{Detecção dos focos de queimadas}
 
 O algoritmo para identificação de focos ativos é específico para cada tipo 
 de sensor. No geral, eles usam diferentes canais dos sensores dos 
@@ -346,6 +400,18 @@ empregava o Collection 5, que gerava falsos positivos em clareiras florestais e
 falsos negativos para grandes queimadas obscurecidas por fumaça densa.
 \citep{SCHROEDER2008}. [P3. Algoritmo empregrado pelo INPE] \par
 
+O collection 6 .... \citep{GIGLIO2016} \par
+
+Para detectar áreas queimadas, o instituto atualmente usa o produto AQ1km, 
+desenvolvido em parceria com o Laboratório de Aplicações de Satélites Ambientais 
+(LASA) \citep{SiteAQ1km} que ainda está em fase Provisória (ainda pode sofrer 
+mudanças e não foi validada completamente). O produto é aplicados nos dados do 
+sensor MODIS e, desta forma, usa os satélites AQUA e TERRA de forma 
+concomitante \citep{libonati2015algorithm}. Uma vez que o AQUA foi lançado apenas 
+em 2002, o produto só pode ser usados para dados a partir de 2003. \par
+
+O AQ1km .... \citep{libonati2015algorithm} \par
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Trabalhos Relacionados}
@@ -358,13 +424,10 @@ os dados] \par
 
 \chapter{Metodologia}
 
-A metodologia de pesquisa se dividiu em 4 etapas: Coleta dos dados de focos do 
-INPE a partir do DBQueimadas; Carregamento e pré-processamento dos dados usando 
-Python e Jupyter Notebook; Compreenção do significado dos dados e como foram gerados 
-pelo INPE; e Analizar os dados e produzir gráficos. \par
+A metodologia de pesquisa se dividiu em X etapas: Coleta e carregamento dos dados \par
 
 
-%%%%%%% Coleta de dados 
+\section{Coleta e carregamento dos dados}
 
 Uma parte importante do processo foi coletar os dados do site DBQueimadas. 
 Para exportar os dados utilizando o navegador de internet, é necessário 
@@ -450,62 +513,36 @@ algumas análises. Em comparação com a coluna original dos satélites, que tin
 valores possíveis, a nova coluna contém apenas 22 valores possíveis.
 [P2. Explicar equivalencias entre os satelites] \par
 
-%%%%%%%%%% Significado dos dados
+A partir da coluna de nomes de satélites simplificada foi possível atribuir cores 
+únicas para cada um (Figura \ref{fig:cores_satelites}), de forma a padronizar os 
+gráficos e facilitar o entendimento.
 
-Antes de mais nada, é importante entender que os focos ativos de calor, 
-representados por uma linha na tabela dos dados de queimadas, são fruto do 
-processamento em cima de imagens de satélite. O INPE ainda 
-disponibiliza junto com as coordenadas da detecção mais alguns dados como 
-risco de fogo, poder do fogo, precipitação e dados referentes a região do foco. 
-A lista completa das colunas pode ser vista na Tabela \ref{table:inpeColumns}
- \cite{PerguntasFrequentesINPE}.
-[P0. O que é uma observação nos dados] \par
+\begin{figure}
+    \caption{Cores escolhidas para cada satélite}
+    \begin{center}
+        \includegraphics[width=35em]{cores_satelites}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:cores_satelites}
+\end{figure}
 
 
-\begin{table}[htbp]
-\centering
-\caption{Significado de cada coluna dos dados de queimada do INPE}
-\begin{tabular}{@{}llp{9cm}@{}}
- \toprule
- \texttt{Atributo} & \texttt{Tipo} & Descrição \\
- \midrule
- \texttt{Id} & \texttt{string} & Identificador único registrado no banco \\
- \texttt{Latitude} & \texttt{double} & Graus decimais da latitude do centro 
-                     do pixel de fogo ativo (valores de 90.0000 até -90.0000) \\ 
- \texttt{Longitude} & \texttt{double} & Graus decimais da longitude do centro 
-                     do pixel de fogo ativo (valores de 180.0000 até -180.0000) \\  
- \texttt{DataHora} & \texttt{string} & Data a hora da passagem do satélite no fuso 
-                     horário de Greenwich (GMT) \\   
- \texttt{Municipio} & \texttt{string} & Nome do município, de acordo com os dados 
-                     do IBGE 2000 \\
- \texttt{Estado} & \texttt{string} & Nome do estado \\
- \texttt{Pais} & \texttt{string} & Nome do país \\  
- \texttt{Bioma} & \texttt{string} & Nome do bioma brasileiro, de acordo com 
-                     dados do IBGE 2004 (para outros países o campo fica vazio) \\
- \texttt{Precipitação} & \texttt{double} & Valor a precipitação do dia até 
-                     o horário da medida (-999 para valores inválidos) \\
- \texttt{DiasSCh} & \texttt{integer} & Dias sem chuva até a data da medida 
-                     (-999 para valores inválidos) \\
- \texttt{RiscoFog} & \texttt{double} & Valor do risco de fogo previsto naquele dia 
-                     (-999 para valores inválidos) \\
- \texttt{FRP} & \texttt{double} & Fire Radiative Power, MW (megawatts) \\
- \bottomrule
-\end{tabular}
-\legend{Fonte: O Autor com base em \citet{PerguntasFrequentesINPE}}
-\label{table:inpeColumns}
-\end{table}
+\section{Proposta de processamento de área queimada}
 
-Para obter as imagens brutas dos satélites são necessárias antenas especiais que 
-ficam em centros de recepção de dados. Com esse propósito, a Divisão de Geração de 
-Imagens (DGI) do INPE possui duas Estações de Recepção e Gravação (ERG) - a primeira 
-em Cachoeira Paulista (SP) e uma mais recente em Cuiabá (MT). Na estaçao de SP, é 
-feito o processamento de mais de 200 imagens de diversos satélites todos os dias, 
-extraindo os dados de focos ativos de queimadas que alimentam o DBQueimadas. 
-\citep{SiteDGI} [P1. Apresentaçao do instituto como processador de dados] \par
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Análise dos dados}
+\chapter{Resultados e Discussão}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\chapter{Análise dos dados (ignorar)}
 
 Neste capítulo, será feito uma análise dos dados de forma mais profunda, a 
 fim de identificar padrões e formas de entendê-los usando ferramentas de 
