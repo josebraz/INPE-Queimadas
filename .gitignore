@@ -12,3 +12,4 @@ data.*
 *.blg
 *.lot
 .DS_Store
+data_parsed.h5
