@@ -20,6 +20,7 @@
 \usepackage[alf,abnt-emphasize=bf]{abntex2cite}	% pacote para usar citações abnt
 \usepackage{graphicx}          % para inserir imagens
 \usepackage{booktabs}
+\usepackage{float} 
 %\usepackage{mathptmx}          % p/ usar fonte Adobe Times nas fórmulas
 
 \graphicspath{ {images/} }
@@ -165,7 +166,7 @@ dos dez que mais poluem, oito deles estão localizados no bioma da amazônia e n
 possuem atividades industriais que justificariam esse valor.
 [P2. queimadas e efeito estufa no Brasil] \par
 
-\begin{figure}
+\begin{figure}[H]
     \caption{Emissões de gases do efeito estufa per capta de 1990 até 2020 (tCO2e/capita)}
     \begin{center}
         \includegraphics[width=35em]{emissoes_gee_per_capta}
@@ -202,17 +203,11 @@ usadas para detectar um foco ativo de queimada. Após isso, ....
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Fundamentação Teórica}
+\chapter{Conceitos básicos e visão geral dos dados}
 
-Neste capítulo, são apresentados alguns conceitos importantes para o entendimento 
-de todo o trabalho. Para começar, serão formalizadas definições relacionadas às 
-queimadas e como elas são monitoradas no Brasil. Na sequência, será feito uma 
-sumarização dos principais satélites usados 
-pelo INPE e suas características. Por fim, é dado uma visão geral de como as 
-imagens brutas geradas pelos satélites são usadas para detecção de focos ativos.\par
+Neste capítulo, serão apresentados conceitos importantes para a compreensão do trabalho. Primeiramente, serão formalizadas definições relacionadas às queimadas e à forma como são monitoradas no Brasil. Em seguida, será realizada uma sumarização dos principais satélites utilizados pelo INPE e suas características. Além disso, será abordado como as imagens geradas pelos satélites são utilizadas para a detecção de focos ativos. Por fim, apresentaremos uma análise dos dados para demonstrar uma visão geral das principais tendências e gráficos. \par
 
 \section{O monitoramentos das queimadas no Brasil}
-
 
 [P0. definir uma queimada, focos detectados e área queimada] \par
 
@@ -369,7 +364,7 @@ podemos ter uma estimativa razoavelmente precisa de sua tragetória ao longo do
 tempo. Também é possível ver o satélite geoestacioário GOES-16, no norte 
 do perú, representado com um ponto no gráfico. \par
 
-\begin{figure}
+\begin{figure}[H]
     \caption{Órbita dos satélites no dia 10 de agosto de 2022}
     \begin{center}
         \includegraphics[width=35em]{orbita2022-08-10}
@@ -378,7 +373,7 @@ do perú, representado com um ponto no gráfico. \par
     \label{fig:orbita2022-08-10}
 \end{figure}
 
-\section{Detecção dos focos de queimadas}
+\section{Detecção de focos de queimadas e área queimada}
 
 O algoritmo para identificação de focos ativos é específico para cada tipo 
 de sensor. No geral, eles usam diferentes canais dos sensores dos 
@@ -412,6 +407,58 @@ em 2002, o produto só pode ser usados para dados a partir de 2003. \par
 
 O AQ1km .... \citep{libonati2015algorithm} \par
 
+\section{Uma visão geral dos dados}
+
+Neste subcapítulo, será realizada uma análise inicial dos dados disponíveis sobre focos de queimada, com o objetivo de extrair algumas informações relevantes. É importante, no entanto, ter cuidado na escolha dos satélites a serem utilizados na análise. Para algumas análises, caso sejam usados todos os satélites disponíveis, pode ocorrer a contagem de um mesmo foco várias vezes ou, ainda, a contagem do mesmo foco em passagens diurnas e noturnas de um mesmo satélite polar. Para solucionar esse problema, será utilizado o satélite AQUA com passagem à tarde (AQUA\_M-T), que é  o satélite de referência do INPE atualmente. Dessa forma, é possível evitar a contagem duplicada de focos de queimada e garantir a precisão das informações analisadas. \par
+
+Com relação aos satélites, e possível perceber a partir da Figura \ref{fig:porcentagem_satelites} cinco satélites que mais identificaram focos de queimada em toda a série história, são eles: Suomi NPP, GOES-16, AQUA, NOAA-16 e TERRA. Todos eles estão ativos atualmente e com quantidades de coleta significativas em 2022. AQUA e TERRA são os mais antigos e possuem um sensor obsoleto. O GOES-16 é um satélite geoestacionário, conhecido por gerar dados de forma mais frequente, geralmente detecta apenas queimadas maiores devido a sua posição distante da Terra. Suomi NPP e NOAA-20 possuem um sensor que detecta 10 vezes mais focos que sensor MODIS. Por estar em atividade a mais tempo, o Suomi NPP gerou mais dados que o NOAA-20. \par
+
+\begin{figure}[H]
+    \caption{Relação do montante dos dados por satélite}
+    \begin{center}
+        \includegraphics[width=35em]{porcentagem_satelites}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:porcentagem_satelites}
+\end{figure}
+
+Saber em quais momentos os satélites passam também é importante para a análise. 
+Os satélites polares passam duas vezes por dia no Brasil, variando o local 
+exato da passagem de acordo com as características de sua órbita. Pela  
+Figura \ref{fig:tempo_medidas_satelites} é possível observar esse comportamento 
+empiricamente, em que as 5 primeiras linhas, que representam dados gerados por 
+satélites polares, apresentam dois picos durante um período de 24 horas. Já para o  
+caso dos geoestacionários (GOES-16), que ficam fixos em relação a uma posição 
+na Terra, não se observou o mesmo padrão. \par
+
+\begin{figure}[H]
+    \caption{Amostragem por tempo de cada satélite}
+    \begin{center}
+        \includegraphics[width=35em]{tempo_medidas_satelites}
+    \end{center}
+    \legend{Fonte: O Autor, agrupando os dados de queimadas}
+    \label{fig:tempo_medidas_satelites}
+\end{figure}
+
+A partir de uma análise quantitativa dos dados com relação ao tempo de cada medida,
+exposto na Figura \ref{fig:quantitativo_geral}, podemos identificar uma grande 
+sazonalidade, sempre tendo picos entre os meses de agosto e setembro. Desde o 
+início da série, o mês que mais teve focos detectados foi setembro de 2007. 
+
+\begin{figure}[H]
+    \caption{}
+    \begin{center}
+        \includegraphics[width=35em]{quantitativo_geral}
+    \end{center}
+    \legend{Fonte: O Autor, agrupando os dados de queimadas por tempo}
+    \label{fig:quantitativo_geral}
+\end{figure}
+
+
+P1. Fazer análise preliminar dos dados gerando alguns gráficos \par
+P2. Gráficos geral do brasil com os focos de queimadas totais \cite{geographicDataSciencePython} \par
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Trabalhos Relacionados}
@@ -424,9 +471,86 @@ os dados] \par
 
 \chapter{Metodologia}
 
-A metodologia de pesquisa se dividiu em X etapas: Coleta e carregamento dos dados \par
+Nos primeiros subcapítulos serão abordados as ideias e técnicas gerais da metodologia, sem entrar na implementação desenvolvida. Começamos dando uma visão geral de como o método é desenvolvido
+
+\section{Visão geral da metodologia}
+
+A metodologia desenvolvida visa calcular a área de vegetação queimada no Brasil, por meio da análise dos dados de focos de queimadas disponibilizados pelo INPE, juntamente com as características dos diferentes satélites e sensores. A premissa fundamental é que um foco de queimada detectado resulta em uma área queimada. Além disso, considera-se que a quantidade de focos detectados em uma determinada região, em um intervalo de tempo, está diretamente relacionada com a área efetivamente queimada na região. \par 
+
+Para isso, primeiro precisamos entender que o foco detectado por um satélite na verdade representa uma área de abrangência do fogo. Uma vez que estamos em posse das áreas de cada foco detectado de todos os satélites, é possivel proceguir para a próxima fase que é a avaliação das áreas queimadas. Nessa fase, vamos dividir o espaço em pequenos quadrantes e assim avaliá-los separadamente, usando algumas métricas. \par
+
+Para calcular a área queimada dos quadrantes avaliados, é possível utilizar diferentes métodos de avaliação. Um exemplo seria definir um limiar mínimo, acima do qual toda a área do quadrante seria considerada como queimada. Outra possibilidade seria estabelecer uma escala de área do quadrante para que seja considereda como tal. \par
+
+A Figura \ref{fig:exemplo_metodo_completo} ilustra a aplicação completa do método em uma área específica localizada no sudoeste do Pará, durante o dia primeiro ao dia três de setembro de 2022. Na primeira imagem, são mostrados os focos de queimada como pontos, sem nenhum tipo de pré-processamento. Na segunda imagem, os pontos são transformados em áreas. Em seguida, o espaço é divido em quadrantes e avaliados. Na última imagem, é aplicado um cálculo de área queimada levando em conta um limiar de 5 para cada quadrante, resultando em uma área queimada de $48,7 km^2$. \par
+
+\begin{figure}[H]
+    \caption{Aplicação do método completo}
+    \begin{center}
+        \includegraphics[width=35em]{exemplo_metodo_completo}
+    \end{center}
+    \legend{Fonte: O Autor, aplicando o método}
+    \label{fig:exemplo_metodo_completo}
+\end{figure}
+
+\section{Área abrangida por uma medição}
+
+Quando um foco de queimada é detectado por algum satélite, ele representa uma área quadrada aproximadamente do tamanho da resolução de seu sensor. Ou seja, um foco dectado por um satélite AQUA, que utiliza o sensor MODIS, representa uma área de $\approx1Km^2$. Para um satélite com o sensor menos preciso, como o GOES-13, que utiliza o sensor GOES I-M com resolução espacial de $4Km$, a área representada seria 16 vezes maior, indicando uma menor precisão. [Visão geral aproximada] \par
+
+O cálculo exato da área coberta pela medição deve levar em conta as distorções ocorridas pela diferença de localização entre o ponto da medição ($p_m$) e a localização  do satélite ($p_s$). Quanto maior a distância entre os dois pontos, maior será a distorção em relação a área de corbertura do sensor. Para um satélite geoestácionário, por exemplo, essa distância é sempre muito grande, devido a sua órbita com altura em torno do $35Km$. \par
+
+Outro fator que afeta a área coberta é a inclinação dos satélites. Os satélites que orbitam a Terra em órbitas polares, possuem uma determinada inclinação que lhes permitem cobrir diferentes áreas de todo o planeta durante sua tragetória (Figura \ref{fig:orbita2022-08-10}). Quando o satélite está se movendo em uma trajetória ascendente, ou seja, do sul para o norte, a área coberta pelo sensor deve ser rotacionada com um fator positivo. Por outro lado, se a trajetória for descendente, do norte para o sul, o fator de rotação será negativo. \par
+
+A Figura \ref{fig:comparacao_pontos_e_areas} apresenta dados coletados pelo satélite  Suomi NPP no dia dois de setembro de 2022. O primeiro par de imagens corresponde à órbita ascendente do satélite, enquanto o segundo par de imagens corresponde à órbita descendente. Observa-se que, na primeira e terceira imagens, os pontos dos focos de queimada estão alinhados, mas ligeiramente rotacionados em alguns graus, coincidindo com a inclinação do satélite. Na segunda e quarta imagens, os pontos ganham a área do sensor ($500m$) e encaixam perfeitamente entre seus vizinhos. \par
+
+\begin{figure}[H]
+    \caption{Comparação entre pontos e áreas dos focos detectados pelo satélite Suomi NPP}
+    \begin{center}
+        \includegraphics[width=35em]{comparacao_pontos_e_areas}
+    \end{center}
+    \legend{Fonte: O Autor, aplicando o método de cálculo de áreas}
+    \label{fig:comparacao_pontos_e_areas}
+\end{figure}
+
+\section{Separação e quantificação de quadrantes}
+
+A separação entre quadrantes é a forma de discretizar os dados do espaço, que são continuos. Os quadrantes abstraem os detalhes das medições dos diferentes satélites, com diferentes áreas e orientações. Como resultado, temos um gride regular que é usado para as operações de avaliação de serão descritas a seguir. \par
+
+A separação em quadrantes também foi planejada para melhorar o desempenho do processamento. Ao dividir o problema em partes menores, é possível resolver cada uma de forma paralela, pois as avaliações dos quadrantes são independentes entre si. Além disso, com a utilização de índices espaciais, usados nos cálculos de intersecção, o processamento dos quadrantes é ainda mais otimizado. Quanto maior o quadrante usado, menos avaliações são necessárias, porém a precisão da área queimada também diminui. Como se trata de um espaço bidimensional, a complexidade computacional da avaliação em relação à quantidade de quadrantes é $O(n^2)$. \par
+
+Com base em experimentos, foi constatado que o uso de quadrantes muito pequenos (com menos de 0,002 graus quadrados) não aumentam significativamente a precisão dos resultados e, tornam a execução muito mais demorada. Portanto, o valor recomendado para o tamanho dos quadrantes fica em torno de 0,004 a 0,005 graus, o que coincide com o tamanho da menor resolução de sensor presente nos dados, que é o VIIRS de 500m. \par
+
+Com a distribuição dos quadrantes definida, é necessário atribuir a cada um deles um valor que represente a probabilidade de que a área contida tenha sido queimada. Sendo $q$ o quadrante a ser avaliado; $M$ um conjunto de todas as medições; operação $area(p)$ retorna a área de um polígono $p$; $min\_area$ é a área mínima; A definição formal da avaliação é dada por: \par
+
+\begin{equation} \label{eqn:def_qm}
+Qm = \{ m \in M \mid m \cap q \}
+\end{equation}
+
+\begin{equation} \label{eqn:def_qm_line}
+Qm' = \{ m \in Qm \mid area(m) \ge min\_area \}
+\end{equation}
+
+\begin{equation} \label{eqn:def_us}
+Us = \{ m \in Qm' \mid unique\_satelite(m) \}
+\end{equation}
+
+\begin{equation} \label{eqn:def_ia}
+ia = \left(\sum_{m}^{Qm'} area(m)\right) \div area(q)
+\end{equation}
+
+\begin{equation} \label{eqn:def_aq}
+aq = |Us|^2 + min\left(ia, 3.99\ldots \right)
+\end{equation}
+
+Para cada quadrante ($q$), é realizado o cálculo da intersecção com cada medição ($m$) contida nele, resultando em um conjunto $Qm$ (\ref{eqn:def_qm}). Em seguida, é realizada uma filtragem no conjunto $Qm$, removendo todos os elementos que não possuem uma determinada área mínima (por padrão definido como 20\% da área total do quadrante $q$), resultando em $Qm'$ (\ref{eqn:def_qm_line}). A partir de $Qm'$, é extraído o número de satélites diferentes presentes nesse conjunto, que é denominado $Us$ (\ref{eqn:def_us}). Além disso, é calculada a soma das áreas de $Qm'$ e dividida pela área total de $q$, resultando em $ia$ (\ref{eqn:def_ia}). Finalmente, a avaliação final do quadrante ($aq$) é obtida pela expressão \ref{eqn:def_aq}. \par
+
+descorrer sobre as implicações das fórmulas ........
+
+\section{Cálculo da área queimada}
+
+............
 
 
+%% Aqui começa a implementação
 \section{Coleta e carregamento dos dados}
 
 Uma parte importante do processo foi coletar os dados do site DBQueimadas. 
@@ -517,7 +641,7 @@ A partir da coluna de nomes de satélites simplificada foi possível atribuir co
 únicas para cada um (Figura \ref{fig:cores_satelites}), de forma a padronizar os 
 gráficos e facilitar o entendimento.
 
-\begin{figure}
+\begin{figure}[H]
     \caption{Cores escolhidas para cada satélite}
     \begin{center}
         \includegraphics[width=35em]{cores_satelites}
@@ -527,103 +651,11 @@ gráficos e facilitar o entendimento.
 \end{figure}
 
 
-\section{Proposta de processamento de área queimada}
-
-Quando um foco de queimada é detectado, ele representa uma área quadrada do 
-tamanho da resolução se seu sensor. Ou seja, um foco dectado por um satélite AQUA 
-(sensor MODIS), representa uma área de 1Km^2. Para um satélite com o sensor menos 
-preciso, como o GOES-13 (sensor GOES I-M) a área seria de 4Km^2, 16 vezes menos 
-preciso. Além disso, Os satélites tem uma determinada inclinação, que destorce 
-a área medida. 
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Resultados e Discussão}
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\chapter{Análise dos dados (ignorar)}
-
-Neste capítulo, será feito uma análise dos dados de forma mais profunda, a 
-fim de identificar padrões e formas de entendê-los usando ferramentas de 
-visualização de dados.
-
-\section{Uma visão geral}
-
-
-
-Com relação aos satélites, e possível perceber a partir da Figura
-\ref{fig:porcentagem_satelites} cinco satélites que mais identificaram  
-focos de queimada, são eles: Suomi NPP, GOES-16, AQUA, NOAA-16 e TERRA. 
-Todos eles estão 
-ativos atualmente e com quantidades de coleta significativas em 2022. AQUA e TERRA 
-são os mais antigos e possuem um sensor obsoleto. O GOES-16 é um satélite
-geoestacionário, conhecido por gerar dados de forma mais frequente, geralmente 
-detecta apenas queimadas maiores devido a sua posição distante da Terra. Suomi NPP e
-NOAA-20 possuem um sensor que detecta 10 vezes mais focos que sensor MODIS. Por 
-estar em atividade a mais tempo, o Suomi NPP gerou mais dados que o NOAA-20.
-[P5. Mostrar gráficos da quantidade de coletas por satélites] \par
-
-\begin{figure}
-    \caption{Relação do montante dos dados por satélite}
-    \begin{center}
-        \includegraphics[width=35em]{porcentagem_satelites}
-    \end{center}
-    \legend{Fonte: O Autor}
-    \label{fig:porcentagem_satelites}
-\end{figure}
-
-Saber em quais momentos os satélites passam também é importante para a análise. 
-Os satélites polares passam duas vezes por dia no Brasil, variando o local 
-exato da passagem de acordo com as características de sua órbita. Pela  
-Figura \ref{fig:tempo_medidas_satelites} é possível observar esse comportamento 
-empiricamente, em que as 5 primeiras linhas, que representam dados gerados por 
-satélites polares, apresentam dois picos durante um período de 24 horas. Já para o  
-caso dos geoestacionários (GOES-16), que ficam fixos em relação a uma posição 
-na Terra, não se observou o mesmo padrão. 
-[P6. Mostrar gráficos que indicam as horas das coletas] \par
-
-\begin{figure}
-    \caption{Amostragem por tempo de cada satélite}
-    \begin{center}
-        \includegraphics[width=35em]{tempo_medidas_satelites}
-    \end{center}
-    \legend{Fonte: O Autor, agrupando os dados de queimadas}
-    \label{fig:tempo_medidas_satelites}
-\end{figure}
-
-\section{O que os dados gritam (padrões e tendências)}
-
-Este capítulo vai dar uma primeira olhada nos dados, tentando extrair as 
-informaç˜ões que mais chamam a atenção. É importante tomar um certo cuidado nessa 
-análise geral, principalmente na escolha dos satélites. Se forem usados todos os 
-satélites, provavelmente será contado um mesmo foco várias vezes, ou ainda, para um 
-mesmo satélite polar, contar o mesmo foco nas duas passagens dele (de dia e a 
-noite). Para evitar esse problema, será sempre usado o satélite AQUA com passagem a 
-tarde (AQUA\_M-T) que é o satélite de referência. \par
-
-A partir de uma análise quantitativa dos dados com relação ao tempo de cada medida,
-exposto na Figura \ref{fig:quantitativo_geral}, podemos identificar uma grande 
-sazonalidade, sempre tendo picos entre os meses de agosto e setembro. Desde o 
-início da série, o mês que mais teve focos detectados foi setembro de 2007. 
-
-\begin{figure}
-    \caption{}
-    \begin{center}
-        \includegraphics[width=35em]{quantitativo_geral}
-    \end{center}
-    \legend{Fonte: O Autor, agrupando os dados de queimadas por tempo}
-    \label{fig:quantitativo_geral}
-\end{figure}
-
-
-P1. Fazer análise preliminar dos dados gerando alguns gráficos \par
-P2. Gráficos geral do brasil com os focos de queimadas totais \cite{geographicDataSciencePython} \par
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
