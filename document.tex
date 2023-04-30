@@ -517,24 +517,33 @@ A separação entre quadrantes é a forma de discretizar os dados do espaço, qu
 
 A separação em quadrantes também foi planejada para melhorar o desempenho do processamento. Ao dividir o problema em partes menores, é possível resolver cada uma de forma paralela, pois as avaliações dos quadrantes são independentes entre si. Além disso, com a utilização de índices espaciais, usados nos cálculos de intersecção, o processamento dos quadrantes é ainda mais otimizado. Quanto maior o quadrante usado, menos avaliações são necessárias, porém a precisão da área queimada também diminui. Como se trata de um espaço bidimensional, a complexidade computacional da avaliação em relação à quantidade de quadrantes é $O(n^2)$. \par
 
-Com base em experimentos, foi constatado que o uso de quadrantes muito pequenos (com menos de 0,002 graus quadrados) não aumentam significativamente a precisão dos resultados e, tornam a execução muito mais demorada. Portanto, o valor recomendado para o tamanho dos quadrantes fica em torno de 0,004 a 0,005 graus, o que coincide com o tamanho da menor resolução de sensor presente nos dados, que é o VIIRS de 500m. \par
+Com base em experimentos, foi constatado que o uso de quadrantes muito pequenos (com menos de 0,002 graus quadrados) não aumentam significativamente a precisão dos resultados e tornam a execução muito mais demorada. Portanto, o valor recomendado para o tamanho dos quadrantes fica em torno de 0,004 a 0,005 graus, o que coincide com o tamanho da menor resolução de sensor presente nos dados, que é o VIIRS de 500m. A Figura \ref{fig:diferenca_entre_quadrantes} ilustra como a mudança no tamanho do quadrante impacta na quantidade deles e na sua avaliação. \par
 
-Com a distribuição dos quadrantes definida, é necessário atribuir a cada um deles um valor que represente a probabilidade de que a área contida tenha sido queimada. Sendo $q$ o quadrante a ser avaliado; $M$ um conjunto de todas as medições; operação $area(p)$ retorna a área de um polígono $p$; $min\_area$ é a área mínima; A definição formal da avaliação é dada por: \par
+\begin{figure}[H]
+    \caption{Diferença da avaliação para diferentes tamanhos de quadrantes}
+    \begin{center}
+        \includegraphics[width=35em]{diferenca_entre_quadrantes}
+    \end{center}
+    \legend{Fonte: O Autor, variando o tamanho dos quadrantes em uma mesma área}
+    \label{fig:diferenca_entre_quadrantes}
+\end{figure}
+
+Com a distribuição dos quadrantes definida, é necessário atribuir a cada um deles um valor que represente a probabilidade de que a área contida tenha sido queimada. Sendo $q$ o quadrante a ser avaliado; $M$ um conjunto de todas as medições; operação $area(p)$ retorna a área de um polígono $p$; operação $unique\_satelite(Q)$ retorna todos os satélites diferentes do conjunto $Q$; $min\_area$ é a área mínima; A definição formal da avaliação é dada por: \par
 
 \begin{equation} \label{eqn:def_qm}
 Qm = \{ m \in M \mid m \cap q \}
 \end{equation}
 
 \begin{equation} \label{eqn:def_qm_line}
-Qm' = \{ m \in Qm \mid area(m) \ge min\_area \}
+Qm' = \{ m \in Qm \mid area\left(m\right) \ge min\_area \}
 \end{equation}
 
 \begin{equation} \label{eqn:def_us}
-Us = \{ m \in Qm' \mid unique\_satelite(m) \}
+Us = \{ m \in unique\_satelite\left(Qm'\right) \}
 \end{equation}
 
 \begin{equation} \label{eqn:def_ia}
-ia = \left(\sum_{m}^{Qm'} area(m)\right) \div area(q)
+ia = \left(\sum_{m}^{Qm'} area\left(m\right)\right) \div area(q)
 \end{equation}
 
 \begin{equation} \label{eqn:def_aq}
@@ -543,7 +552,10 @@ aq = |Us|^2 + min\left(ia, 3.99\ldots \right)
 
 Para cada quadrante ($q$), é realizado o cálculo da intersecção com cada medição ($m$) contida nele, resultando em um conjunto $Qm$ (\ref{eqn:def_qm}). Em seguida, é realizada uma filtragem no conjunto $Qm$, removendo todos os elementos que não possuem uma determinada área mínima (por padrão definido como 20\% da área total do quadrante $q$), resultando em $Qm'$ (\ref{eqn:def_qm_line}). A partir de $Qm'$, é extraído o número de satélites diferentes presentes nesse conjunto, que é denominado $Us$ (\ref{eqn:def_us}). Além disso, é calculada a soma das áreas de $Qm'$ e dividida pela área total de $q$, resultando em $ia$ (\ref{eqn:def_ia}). Finalmente, a avaliação final do quadrante ($aq$) é obtida pela expressão \ref{eqn:def_aq}. \par
 
-descorrer sobre as implicações das fórmulas ........
+De forma mais alto nível, a avaliação dos quadrantes valoriza significativamente aqueles que apresentam medições de diferentes satélites. Essa abordagem justifica-se pelo fato de que ajuda a reduzir os ruídos nas medições e a identificar queimadas mais intensas. Além disso, diferentes satélites realizam medições em horários distintos (veja a Figura \ref{fig:tempo_medidas_satelites}), o que indica uma queimada mais prolongada. Em ambos os casos, queimadas mais intensas e duradouras sinalizam um maior potencial de o fogo se espalhar para outras áreas da vegetação. \par
+
+A segunda parte da avaliação visa evitar que medições muito pequenas tenham um impacto significativo no resultado final do quadrante, mesmo que hajam muitas delas. 
+Para isso, basicamente calcula quantas vezes a área das medições somadas cabem no quadrante. Ou seja, são medições que estão no quadrante mas que tem pouca probabilidade de indicar uma queimada naquele quadrante específico. Além disso, é importante destacar que quadrantes com medições de apenas um satélite têm um valor limitado de $4.99\ldots$ ($1^2 + 3.99\ldots$). Essa limitação serve como uma penalização para os quadrantes que possuem pouca diversidade de dados, incentivando a valorização de quadrantes com medições de diferentes satélites e, portanto, uma maior probabilidade da área ter sido queimada. \par
 
 \section{Cálculo da área queimada}
 
