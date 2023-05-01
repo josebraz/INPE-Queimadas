@@ -139,32 +139,11 @@ the abstract should not contain more than 500~words.}
 
 \chapter{Introdução}
 
-O fogo é uma tecnologia que está presente há milênios no território que hoje é o 
-Brasil, desde queimadas controladas pelo povo indígena Kayapó no cerrado para 
-plantio ou caça, até incêndios iniciados por combustão espontânea em períodos de 
-seca no sul da Amazônia. O uso do fogo pelos indígenas era controlado, levando em 
-conta o clima atual e a vegetação a ser queimada, e restrito apenas 
-a um período do ano, com o intuito de reduzir pragas e ajudar nas plantações 
-\citep{leonel_2000}. [P0. O que é uma queimada/fogo] \par
+O fogo é uma tecnologia que está presente há milênios no território que hoje é o Brasil, desde queimadas controladas pelo povo indígena Kayapó no cerrado para plantio ou caça, até incêndios iniciados por combustão espontânea em períodos de seca no sul da Amazônia. O uso do fogo pelos indígenas era controlado, levando em conta o clima atual e a vegetação a ser queimada, e restrito apenas a um período do ano, com o intuito de reduzir pragas e ajudar nas plantações \citep{leonel_2000}. [P0. O que é uma queimada/fogo] \par
 
-Hoje as queimadas que mais chamam atenção estão diretamente ligadas ao processo de 
-desmatamento e manejo de áreas agrícolas para o cultivo da monocultura de soja. O 
-fogo também é a prática mais barata e rápida para limpar áreas inteiras para a 
-pecuária bovina. Commodites agrícolas e carne bovina movem a economia do Brasil, 
-que é o maior exportador desses produtos, e aumentam a pressão para o 
-desmatamento de novas áreas na Amazônia \citep{fuchs_2020}. 
-[P1. As queimadas hoje] \par
+Hoje as queimadas que mais chamam atenção estão diretamente ligadas ao processo de desmatamento e manejo de áreas agrícolas para o cultivo da monocultura de soja. O fogo também é a prática mais barata e rápida para limpar áreas inteiras para a pecuária bovina. Commodites agrícolas e carne bovina movem a economia do Brasil, que é o maior exportador desses produtos, e aumentam a pressão para o desmatamento de novas áreas na Amazônia \citep{fuchs_2020}. [P1. As queimadas hoje] \par
 
-O Brasil ocupa a quarta posição no ranking de nações que mais emitem gases de 
-efeito estufa por habitantes, segundo dados da United Nations Environment Programme 
-(UNEP) de 2022. De acordo com o 
-estudo, o valor absoluto se manteve estável desde 2010, e atingiu seu pico por 
-volta dos anos de 2003 a 2004. Assim como a Indonésia, o que melhor explica a 
-alta posição do Brasil neste ranking são as 
-queimadas e o desmatamento da vegetação nativa. Olhando para os municípios do país, 
-dos dez que mais poluem, oito deles estão localizados no bioma da amazônia e não 
-possuem atividades industriais que justificariam esse valor.
-[P2. queimadas e efeito estufa no Brasil] \par
+O Brasil ocupa a quarta posição no ranking de nações que mais emitem gases de efeito estufa por habitantes, segundo dados da United Nations Environment Programme (UNEP) de 2022. De acordo com o estudo, o valor absoluto se manteve estável desde 2010, e atingiu seu pico por volta dos anos de 2003 a 2004. Assim como a Indonésia, o que melhor explica a alta posição do Brasil neste ranking são as queimadas e o desmatamento da vegetação nativa. Olhando para os municípios do país, dos dez que mais poluem, oito deles estão localizados no bioma da amazônia e não possuem atividades industriais que justificariam esse valor. [P2. queimadas e efeito estufa no Brasil] \par
 
 \begin{figure}[H]
     \caption{Emissões de gases do efeito estufa per capta de 1990 até 2020 (tCO2e/capita)}
@@ -175,30 +154,11 @@ possuem atividades industriais que justificariam esse valor.
     \label{fig:emissoes_gee_per_capta}
 \end{figure}
 
-Este trabalho se dedica a estudar e apresentar de forma concisa os dados de 
-focos de queimadas disponibilizados pelo Instituto Nacional de Pesquisas Espaciais 
-(INPE). O principal objetivo é tornar 
-fácil o entendimento desses dados gerados a partir de imagens de satélites, sem a 
-necessidade de um conhecimento prévio das técnicas de ciência de dados e 
-sensoriamento remoto. O escopo de tempo das análises é limitado ao início 
-de 1998, ano que iniciou a base aberta de queimadas, até o final de 2022.  
-[P3. O que é o trabalho em si] \par
+Este trabalho se dedica a estudar e apresentar de forma concisa os dados de focos de queimadas disponibilizados pelo Instituto Nacional de Pesquisas Espaciais (INPE). O principal objetivo é tornar fácil o entendimento desses dados gerados a partir de imagens de satélites, sem a necessidade de um conhecimento prévio das técnicas de ciência de dados e sensoriamento remoto. O escopo de tempo das análises é limitado ao início de 1998, ano que iniciou a base aberta de queimadas, até o final de 2022. [P3. O que é o trabalho em si] \par
 
-Os dados analisados neste trabalho foram obtidos a partir do DBQueimadas, 
-Banco de Dados de Queimadas \url{www.inpe.br/queimadas/bdqueimadas},
-que é um sistema desenvolvido pelo INPE e acessível de forma aberta por meio da web. 
-Conta com mais de 300 milhões de pontos coletados desde o ano de 1998, 
-provenientes de vários satélites \citep{setzer2019banco}. Ao disponibilizar os 
-dados das queimadas o instituto possibilita que a sociedade retribua com pesquisas 
-e fomenta novas abordagens ao problema das queimadas no Brasil, como é o caso 
-deste trabalho. [P4. Fonte dos dados usados] \par
+Os dados analisados neste trabalho foram obtidos a partir do DBQueimadas, Banco de Dados de Queimadas \url{www.inpe.br/queimadas/bdqueimadas}, que é um sistema desenvolvido pelo INPE e acessível de forma aberta por meio da web. Conta com mais de 300 milhões de pontos coletados desde o ano de 1998, provenientes de vários satélites \citep{setzer2019banco}. Ao disponibilizar os dados das queimadas o instituto possibilita que a sociedade retribua com pesquisas e fomenta novas abordagens ao problema das queimadas no Brasil, como é o caso deste trabalho. [P4. Fonte dos dados usados] \par
 
-Durante o decorrer do documento são apresentadas diversas figuras, a maioria de 
-construção do próprio autor, a fim de instigar a intuição do leitor para o 
-tópico que está sendo abordado. De início, será abordado questões mais teóricas 
-envolvendo caracteríscas dos satélites, suas produções de imagens e como são 
-usadas para detectar um foco ativo de queimada. Após isso, .... 
-[P5. Estrutura do documento] \par
+Durante o decorrer do documento são apresentadas diversas figuras, a maioria de construção do próprio autor, a fim de instigar a intuição do leitor para o tópico que está sendo abordado. De início, será abordado questões mais teóricas envolvendo caracteríscas dos satélites, suas produções de imagens e como são usadas para detectar um foco ativo de queimada. Após isso, .... [P5. Estrutura do documento] \par
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -215,37 +175,13 @@ Neste capítulo, serão apresentados conceitos importantes para a compreensão d
 
 [P1. Falar um pouco do INPE e suas divisões] \par
 
-Dentro do site é possível gerar mapas,
-tabelas, gráficos e exportar os dados sobre as queimadas no Brasil 
-aplicando diferentes filtros. Todo o programa foi desenvolvido com 
-ferramentas abertas, muitas delas criadas pelo próprio time de tecnologia da 
-informação do INPE \citep{setzer2019banco}. 
-[P2. Falamos sobre o programa DBQueimadas] \par
+Dentro do site é possível gerar mapas, tabelas, gráficos e exportar os dados sobre as queimadas no Brasil aplicando diferentes filtros. Todo o programa foi desenvolvido com ferramentas abertas, muitas delas criadas pelo próprio time de tecnologia da informação do INPE \citep{setzer2019banco}. [P2. Falamos sobre o programa DBQueimadas] \par
 
-O Banco de Dados de Queimadas é um excelente caso de como os dados abertos podem 
-ajudar a sociedade. Além do DBQueimadas, o INPE também 
-disponibiliza para visualização e download, por meio da Divisão de Geração de 
-Imagens (DGI) \url{www.dgi.inpe.br/catalogo/}, algumas imagens inteiras geradas 
-pelos satélites que o próprio DGI captura e processa. 
-[P3. importancia do dados abertos para a sociedade] \par
+O Banco de Dados de Queimadas é um excelente caso de como os dados abertos podem ajudar a sociedade. Além do DBQueimadas, o INPE também disponibiliza para visualização e download, por meio da Divisão de Geração de Imagens (DGI) \url{www.dgi.inpe.br/catalogo/}, algumas imagens inteiras geradas pelos satélites que o próprio DGI captura e processa. [P3. importancia do dados abertos para a sociedade] \par
 
-Para obter as imagens brutas dos satélites são necessárias antenas especiais que 
-ficam em centros de recepção de dados. Com esse propósito, a DGI possui duas 
-Estações de Recepção e Gravação (ERG) - a primeira 
-em Cachoeira Paulista (SP) e uma mais recente em Cuiabá (MT). Na estação de SP, é 
-feito o processamento de mais de 200 imagens de diversos satélites todos os dias, 
-extraindo os dados de focos ativos de queimadas que alimentam o DBQueimadas. 
-\citep{SiteDGI} [P4. Papel do DGI] \par
+Para obter as imagens brutas dos satélites são necessárias antenas especiais que ficam em centros de recepção de dados. Com esse propósito, a DGI possui duas Estações de Recepção e Gravação (ERG) - a primeira em Cachoeira Paulista (SP) e uma mais recente em Cuiabá (MT). Na estação de SP, é feito o processamento de mais de 200 imagens de diversos satélites todos os dias, extraindo os dados de focos ativos de queimadas que alimentam o DBQueimadas. \citep{SiteDGI} [P4. Papel do DGI] \par
 
-É em posse dessas imagens brutas que o INPE aplica algoritmos de detecção de 
-focos de queimadas. No caso da detecção ser positiva, a posição exata (latitude e 
-longitude) e a hora que a imagem foi gerada são
-adicionadas aos dados como uma nova linha e disponibilizados pelo DBQueimadas. 
-O INPE ainda coloca junto com as coordenadas da detecção mais alguns dados como 
-risco de fogo, poder do fogo, precipitação e dados referentes a região do foco. 
-A lista completa das colunas pode ser vista na Tabela \ref{table:inpeColumns}
- \cite{PerguntasFrequentesINPE}.
-[P5. O que é uma observação nos dados] \par
+É em posse dessas imagens brutas que o INPE aplica algoritmos de detecção de focos de queimadas. No caso da detecção ser positiva, a posição exata (latitude e longitude) e a hora que a imagem foi gerada são adicionadas aos dados como uma nova linha e disponibilizados pelo DBQueimadas. O INPE ainda coloca junto com as coordenadas da detecção mais alguns dados como risco de fogo, poder do fogo, precipitação e dados referentes a região do foco. A lista completa das colunas pode ser vista na Tabela \ref{table:inpeColumns} \cite{PerguntasFrequentesINPE}. [P5. O que é uma observação nos dados] \par
 
 \begin{table}[htbp]
 \centering
@@ -284,17 +220,9 @@ A lista completa das colunas pode ser vista na Tabela \ref{table:inpeColumns}
 
 \section{Os Satélites}
 
-O INPE atualmente processa dados de vários satélites com características
-distintas entre sí. Estão presentes nos dados desde satélites geoestacionários, 
-como o GOES-12, que está a 29.400 km de distância da superfície 
-\citep{GOES12Algo}, até satélites com óbitas polares, entre 700 a 900 km de altura.
-[P0. Visao geral dos satelites] \par
+O INPE atualmente processa dados de vários satélites com características distintas entre sí. Estão presentes nos dados desde satélites geoestacionários, como o GOES-12, que está a 29.400 km de distância da superfície \citep{GOES12Algo}, até satélites com óbitas polares, entre 700 a 900 km de altura.[P0. Visao geral dos satelites] \par
 
-Abaixo segue um resumo dos satélites usados pelos INPE desde o início da 
-série histórica até final de 2022 \cite{EmbrapaSatelites}. 
-Os que estão em funcionamento pleno atualmente são:
-NOAA-20, NOAA-19, NOAA-18, GOES-16, Suomi NPP, AQUA, TERRA, MSG-03, 
-METOP-B e METOP-C. [P1. Falar sobre os principais]\par
+Abaixo segue um resumo dos satélites usados pelos INPE desde o início da série histórica até final de 2022 \cite{EmbrapaSatelites}. Os que estão em funcionamento pleno atualmente são: NOAA-20, NOAA-19, NOAA-18, GOES-16, Suomi NPP, AQUA, TERRA, MSG-03, METOP-B e METOP-C. [P1. Falar sobre os principais]\par
 
 \begin{table}[htbp]
 \centering
@@ -330,39 +258,13 @@ METOP-B e METOP-C. [P1. Falar sobre os principais]\par
 \label{table:satelites}
 \end{table}
 
-Cada satélite pode ter um sensor imageador, que gera imagens, com características
-distintas. Neles são captados imagens não só no comprimento de onda da luz
-visível (de 400nm a 700nm), mas também no infravermelho (de 780nm a 1mm). 
-Suas medições são divididas em canais, que
-variam em resolução espacial e espectral (intervalo de comprimento de onda). 
-Geralmente o primeiro canal é dedicado à luz visível, entre o laranja e o 
-vermelho, e com a maior resolução espacial possível para o sensor. Os outros 
-canais utilizam diferentes intervalos do infravermelho e luz visível.
-[P2. visão geral dos sensores e porque geram dados diferentes] \par
+Cada satélite pode ter um sensor imageador, que gera imagens, com características distintas. Neles são captados imagens não só no comprimento de onda da luz visível (de 400nm a 700nm), mas também no infravermelho (de 780nm a 1mm). Suas medições são divididas em canais, que variam em resolução espacial e espectral (intervalo de comprimento de onda). Geralmente o primeiro canal é dedicado à luz visível, entre o laranja e o vermelho, e com a maior resolução espacial possível para o sensor. Os outros canais utilizam diferentes intervalos do infravermelho e luz visível. [P2. visão geral dos sensores e porque geram dados diferentes] \par
 
-Com todas essas diferenças entre os satélites foi necessário estabelecer um 
-satélite base, que ficou conhecido como Satélite de Referência. Ele é usado 
-para estabelecer uma série temporal e permitir análise de tendência durante 
-vários anos dos focos detectados para diferentes regiões. 
-Este balizador precisa cobrir a área do país de forma
-satisfatória, ou seja, sua órbita não deve distorcer os dados no geral. 
-Além disso, resoluções dos sensores muito baixas, maiores de 1 km, tornam a 
-análise dos focos pouca precisa. [P3. Satelite de referencia] \par
+Com todas essas diferenças entre os satélites foi necessário estabelecer um satélite base, que ficou conhecido como Satélite de Referência. Ele é usado para estabelecer uma série temporal e permitir análise de tendência durante vários anos dos focos detectados para diferentes regiões. Este balizador precisa cobrir a área do país de forma satisfatória, ou seja, sua órbita não deve distorcer os dados no geral. Além disso, resoluções dos sensores muito baixas, maiores de 1 km, tornam a análise dos focos pouca precisa. [P3. Satelite de referencia] \par
 
-De 01/junho/1998 a 03/julho/2002 o satélite de referência utilizado foi o NOAA-12
-com passagem no final da tarde. Depois desse período passou-se a utilizar o 
-AQUA com passagem à tarde (chamado nos dados de AQUA\_M-T). O satélite AQUA 
-já ultrapassou a data prevista de encerrar o funcionamento em muitos anos e 
-será descontinuado em breve, quando isso acontecer o satélite Suomi NPP será o novo
-balizador \citep{PerguntasFrequentesINPE}. [P3. Satelite de referencia] \par
+De 01/junho/1998 a 03/julho/2002 o satélite de referência utilizado foi o NOAA-12 com passagem no final da tarde. Depois desse período passou-se a utilizar o AQUA com passagem à tarde (chamado nos dados de AQUA\_M-T). O satélite AQUA já ultrapassou a data prevista de encerrar o funcionamento em muitos anos e será descontinuado em breve, quando isso acontecer o satélite Suomi NPP será o novo balizador \citep{PerguntasFrequentesINPE}. [P3. Satelite de referencia] \par
 
-Para finalizar, podemos observar na Figura \ref{fig:orbita2022-08-10} a passagem 
-dos satélites no dia 10 de agosto de 2022, gerada a partir de 
-dados do \url{https://celestrak.org/}. Os satélites podem levar 
-vários dias para passar no mesmo local devido a características de sua órbita e 
-podemos ter uma estimativa razoavelmente precisa de sua tragetória ao longo do 
-tempo. Também é possível ver o satélite geoestacioário GOES-16, no norte 
-do perú, representado com um ponto no gráfico. \par
+Para finalizar, podemos observar na Figura \ref{fig:orbita2022-08-10} a passagem dos satélites no dia 10 de agosto de 2022, gerada a partir de dados do \url{https://celestrak.org/}. Os satélites podem levar vários dias para passar no mesmo local devido a características de sua órbita e podemos ter uma estimativa razoavelmente precisa de sua tragetória ao longo do tempo. Também é possível ver o satélite geoestacioário GOES-16, no norte do perú, representado com um ponto no gráfico. \par
 
 \begin{figure}[H]
     \caption{Órbita dos satélites no dia 10 de agosto de 2022}
@@ -375,35 +277,13 @@ do perú, representado com um ponto no gráfico. \par
 
 \section{Detecção de focos de queimadas e área queimada}
 
-O algoritmo para identificação de focos ativos é específico para cada tipo 
-de sensor. No geral, eles usam diferentes canais dos sensores dos 
-satélites, entre a luz visível e o infravermelho, e podem ter comportamentos 
-distintos dependendo se a imagem foi gerada à noite ou de dia. Podem também 
-usar limiares dinâmicos, de acordo com a região do planeta, que são calculados com 
-base em uma espécie de média das temperaturas nas regiões próximas ao longo dos 
-dias. Além disso, é comum a aplicação de máscaras para eliminar regiões submersas, 
-costeiras, deserticas e que estavam nubladas na hora da passagem. 
-[P2. Visão geral dos algoritmos para detecçao] \par
+O algoritmo para identificação de focos ativos é específico para cada tipo de sensor. No geral, eles usam diferentes canais dos sensores dos satélites, entre a luz visível e o infravermelho, e podem ter comportamentos distintos dependendo se a imagem foi gerada à noite ou de dia. Podem também usar limiares dinâmicos, de acordo com a região do planeta, que são calculados com base em uma espécie de média das temperaturas nas regiões próximas ao longo dos dias. Além disso, é comum a aplicação de máscaras para eliminar regiões submersas, costeiras, deserticas e que estavam nubladas na hora da passagem. [P2. Visão geral dos algoritmos para detecçao] \par
 
-Para o caso dos satélites TERRA e AQUA, que têm o sensor MODIS, o 
-instituto mantinha seu próprio método de detecção, que produzia dados de 
-maior confiabilidade \citep{PerguntasFrequentesINPE}. 
-A partir de 2017 o INPE migrou toda a base de dados para o "Collection 6", 
-algoritmo aplicado pela \textit{National Aeronautics and Space Administration} 
-(NASA), marcando o início da chamada Base 2 de queimadas. Anteriormente, a NASA 
-empregava o Collection 5, que gerava falsos positivos em clareiras florestais e 
-falsos negativos para grandes queimadas obscurecidas por fumaça densa.
-\citep{SCHROEDER2008}. [P3. Algoritmo empregrado pelo INPE] \par
+Para o caso dos satélites TERRA e AQUA, que têm o sensor MODIS, o instituto mantinha seu próprio método de detecção, que produzia dados de maior confiabilidade \citep{PerguntasFrequentesINPE}. A partir de 2017 o INPE migrou toda a base de dados para o "Collection 6", algoritmo aplicado pela \textit{National Aeronautics and Space Administration} (NASA), marcando o início da chamada Base 2 de queimadas. Anteriormente, a NASA empregava o Collection 5, que gerava falsos positivos em clareiras florestais e falsos negativos para grandes queimadas obscurecidas por fumaça densa.\citep{SCHROEDER2008}. [P3. Algoritmo empregrado pelo INPE] \par
 
 O collection 6 .... \citep{GIGLIO2016} \par
 
-Para detectar áreas queimadas, o instituto atualmente usa o produto AQ1km, 
-desenvolvido em parceria com o Laboratório de Aplicações de Satélites Ambientais 
-(LASA) \citep{SiteAQ1km} que ainda está em fase Provisória (ainda pode sofrer 
-mudanças e não foi validada completamente). O produto é aplicados nos dados do 
-sensor MODIS e, desta forma, usa os satélites AQUA e TERRA de forma 
-concomitante \citep{libonati2015algorithm}. Uma vez que o AQUA foi lançado apenas 
-em 2002, o produto só pode ser usados para dados a partir de 2003. \par
+Para detectar áreas queimadas, o instituto atualmente usa o produto AQ1km, desenvolvido em parceria com o Laboratório de Aplicações de Satélites Ambientais (LASA) \citep{SiteAQ1km} que ainda está em fase Provisória (ainda pode sofrer mudanças e não foi validada completamente). O produto é aplicados nos dados do sensor MODIS e, desta forma, usa os satélites AQUA e TERRA de forma concomitante \citep{libonati2015algorithm}. Uma vez que o AQUA foi lançado apenas em 2002, o produto só pode ser usados para dados a partir de 2003. \par
 
 O AQ1km .... \citep{libonati2015algorithm} \par
 
@@ -422,14 +302,7 @@ Com relação aos satélites, e possível perceber a partir da Figura \ref{fig:p
     \label{fig:porcentagem_satelites}
 \end{figure}
 
-Saber em quais momentos os satélites passam também é importante para a análise. 
-Os satélites polares passam duas vezes por dia no Brasil, variando o local 
-exato da passagem de acordo com as características de sua órbita. Pela  
-Figura \ref{fig:tempo_medidas_satelites} é possível observar esse comportamento 
-empiricamente, em que as 5 primeiras linhas, que representam dados gerados por 
-satélites polares, apresentam dois picos durante um período de 24 horas. Já para o  
-caso dos geoestacionários (GOES-16), que ficam fixos em relação a uma posição 
-na Terra, não se observou o mesmo padrão. \par
+Saber em quais momentos os satélites passam também é importante para a análise. Os satélites polares passam duas vezes por dia no Brasil, variando o local exato da passagem de acordo com as características de sua órbita. Pela Figura \ref{fig:tempo_medidas_satelites} é possível observar esse comportamento empiricamente, em que as 5 primeiras linhas, que representam dados gerados por satélites polares, apresentam dois picos durante um período de 24 horas. Já para o  caso dos geoestacionários (GOES-16), que ficam fixos em relação a uma posição na Terra, não se observou o mesmo padrão. \par
 
 \begin{figure}[H]
     \caption{Amostragem por tempo de cada satélite}
@@ -440,10 +313,7 @@ na Terra, não se observou o mesmo padrão. \par
     \label{fig:tempo_medidas_satelites}
 \end{figure}
 
-A partir de uma análise quantitativa dos dados com relação ao tempo de cada medida,
-exposto na Figura \ref{fig:quantitativo_geral}, podemos identificar uma grande 
-sazonalidade, sempre tendo picos entre os meses de agosto e setembro. Desde o 
-início da série, o mês que mais teve focos detectados foi setembro de 2007. 
+A partir de uma análise quantitativa dos dados com relação ao tempo de cada medida, exposto na Figura \ref{fig:quantitativo_geral}, podemos identificar uma grande sazonalidade, sempre tendo picos entre os meses de agosto e setembro. Desde o início da série, o mês que mais teve focos detectados foi setembro de 2007. 
 
 \begin{figure}[H]
     \caption{}
@@ -481,7 +351,7 @@ Para isso, primeiro precisamos entender que o foco detectado por um satélite na
 
 Para calcular a área queimada dos quadrantes avaliados, é possível utilizar diferentes métodos de avaliação. Um exemplo seria definir um limiar mínimo, acima do qual toda a área do quadrante seria considerada como queimada. Outra possibilidade seria estabelecer uma escala de área do quadrante para que seja considereda como tal. \par
 
-A Figura \ref{fig:exemplo_metodo_completo} ilustra a aplicação completa do método em uma área específica localizada no sudoeste do Pará, durante o dia primeiro ao dia três de setembro de 2022. Na primeira imagem, são mostrados os focos de queimada como pontos, sem nenhum tipo de pré-processamento. Na segunda imagem, os pontos são transformados em áreas. Em seguida, o espaço é divido em quadrantes e avaliados. Na última imagem, é aplicado um cálculo de área queimada levando em conta um limiar de 5 para cada quadrante, resultando em uma área queimada de $48,7 km^2$. \par
+A Figura \ref{fig:exemplo_metodo_completo} ilustra a aplicação completa do método em uma área específica localizada no sudoeste do Pará, durante o dia primeiro ao dia três de setembro de 2022. Na primeira imagem, são mostrados os focos de queimada como pontos, sem nenhum tipo de pré-processamento. Na segunda imagem, os pontos são transformados em áreas. Em seguida, o espaço é divido em quadrantes e avaliados. Na última imagem, é aplicado um cálculo de área queimada levando em conta um limiar de 5 para cada quadrante, resultando em uma área queimada de $33,32 km^2$. \par
 
 \begin{figure}[H]
     \caption{Aplicação do método completo}
@@ -559,75 +429,59 @@ Para isso, basicamente calcula quantas vezes a área das medições somadas cabe
 
 \section{Cálculo da área queimada}
 
-............
+Finalmente, com os quadrantes avaliados, é possível estimar a área queimada para cada quadrante. É importante que o método de cálculo seja flexível, permitindo que o pesquisador teste diferentes métodos ou treine um modelo de aprendizado de máquina. Uma forma de fazer isso é atribuir um número que represente a porcentagem de área queimada dentro do quadrante e, em seguida, multiplicá-lo pela área total do quadrante para obter a área queimada dentro do quadrante. Após calcular a área queimada de cada quadrante, é necessário somar todos esses valores para obter a área total queimada. \par
+
+Nesse sentido, o papel do pesquisador é definir uma função ($eval(v)$) que receba o valor do quadrante, calculado no passo anterior, e retorne um número real entre zero e um. Essa função também pode receber o maior e o menor valor presente na avaliação dos quadrantes, que podem ser usados para normalizar as áreas. \par
+
+Para facilitar o trabalho do pesquisador, a implementação pode fornecer funções built-in comuns que definem a função $eval(v)$. Na Figura \ref{fig:eval_func_built_in}, são apresentadas algumas possibilidades de definições para essa função. A função mais simples é chamada de limiar, que estabelece que toda a área do quadrante deve ser considerada queimada se a avaliação for maior que um determinado valor e nenhuma área deve ser considerada queimada se não alcançar esse valor. Outra função simples é a linear, que faz o valor da área queimada crescer de forma linear dentro de um valor máximo e mínimo. A última função é a exponencial, semelhante à linear, mas com uma exponenciação que faz o valor crescer mais lentamente no início e de forma mais acentuada no final do intervalo. \par
+
+\begin{figure}[H]
+    \caption{Funções built-in para cálculo de área}
+    \begin{center}
+        \includegraphics[width=25em]{eval_func_built_in}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:eval_func_built_in}
+\end{figure}
+
+A Figura \ref{fig:aplicacao_funcoes_built_in} mostra como as diferentes funções e parâmetros podem gerar resultados bem diferentes. .... \par
+
+\begin{figure}[H]
+    \caption{Exemplo da aplicação das funções built-in}
+    \begin{center}
+        \includegraphics[width=35em]{aplicacao_funcoes_built_in}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:aplicacao_funcoes_built_in}
+\end{figure}
 
 
 %% Aqui começa a implementação
-\section{Coleta e carregamento dos dados}
+\section{Coleta dos dados}
 
-Uma parte importante do processo foi coletar os dados do site DBQueimadas. 
-Para exportar os dados utilizando o navegador de internet, é necessário 
-preencher um formulário os campos de data inicial,
-data final e um endereço de e-mail. O intervalo de tempo não 
-pode exceder um ano. Também é possível aplicar filtros ainda mais 
-detalhados como: continente, país, estado, município, satélite, bioma e 
-unidades de conservação/terras indígenas. Após clicar em "Exportar", 
-uma mensagem é enviada para o e-mail informado no formulário contendo link de 
-download dos dados requisitados. O arquivo disponibilizado é um CSV compactado 
-como um zip. [P1. Contextualizar como é a exportação de dados]\par
+Uma parte importante do processo foi coletar os dados do site DBQueimadas. Para exportar os dados utilizando o navegador de internet, é necessário preencher um formulário os campos de data inicial,data final e um endereço de e-mail. O intervalo de tempo não pode exceder um ano. Também é possível aplicar filtros ainda mais detalhados como: continente, país, estado, município, satélite, bioma e unidades de conservação/terras indígenas. Após clicar em "Exportar", uma mensagem é enviada para o e-mail informado no formulário contendo link de download dos dados requisitados. O arquivo disponibilizado é um CSV compactado como um zip. \par
 
-Apesar de ser um site com boas métrica e usabilidades, seria praticamente 
-inviável baixar todos os dados do Brasil de forma manual. Nesse sentido, 
-foi necessário entender quais eventos são disparados quando solicitamos 
-os dados pelo site a fim de automatizar o processo de download. 
-[P2. Motivar a abordagem automatizada] \par
+Apesar de ser um site com boas métrica e usabilidades, seria praticamente inviável baixar todos os dados do Brasil de forma manual. Nesse sentido, foi necessário entender quais eventos são disparados quando solicitamos os dados pelo site a fim de automatizar o processo de download. \par
 
-Foi identificado que na verdade o site faz uma requisição GET para a API do 
-DBQueimadas, localizada em 
-\url{https://queimadas.dgi.inpe.br/queimadas/exportacaobdq/exportar}, 
-passando nos parâmetros da URL os filtros informados pelo usuário, codificados 
-em JSON. Além dos filtros, também é necessário informar o e-mail e o formato 
-de arquivo desejado. Um exemplo de uso dessa API, por meio de uma invocação CURL, 
-pode ser encontrado no \ref{anexo:usoApiInpe} [P3. Explicar como a api funciona]
+Foi identificado que na verdade o site faz uma requisição GET para a API do DBQueimadas, localizada em \url{https://queimadas.dgi.inpe.br/queimadas/exportacaobdq/exportar}, passando nos parâmetros da URL os filtros informados pelo usuário, codificados em JSON. Além dos filtros, também é necessário informar o e-mail e o formato de arquivo desejado. Um exemplo de uso dessa API, por meio de uma invocação CURL, pode ser encontrado no \ref{anexo:usoApiInpe} \par
 
-A fim de automatizar o processo, foi desenvolvido um script em Python que 
-solicita os dados referentes a 30 dias, totalizando 300 requisições de 1998 
-até 2022. Com 
-o intuito de não sobrecarregar os servidores do INPE, foi adicionada uma espera de 
-um minuto a cada requisição. [P4. Falar sobre os scripts de coleta dos dados] \par
+A fim de automatizar o processo, foi desenvolvido um script em Python que solicita os dados referentes a 30 dias, totalizando 300 requisições de 1998 até 2022. Com o intuito de não sobrecarregar os servidores do INPE, foi adicionada uma espera de um minuto a cada requisição. \par
 
-Para o processo ser concluído, ainda seria 
-necessário fazer o download do arquivo por meio do link enviado por e-mail.
-Lançou-se mão do Google Scripts, uma ferramenta que possibilita escrever 
-programas simples, em uma liguagem parecida com JavaScript, e tem 
-integração com os serviços do Google (como o Gmail). A partir dessa ferramenta
-foi possível extrair o link de cada mensagem e finalmente salvar o arquivo
-de forma automatizada. [P5. Processo de baixar os dados para o computador] \par
+Para o processo ser concluído, ainda seria necessário fazer o download do arquivo por meio do link enviado por e-mail. Lançou-se mão do Google Scripts, uma ferramenta que possibilita escrever programas simples, em uma liguagem parecida com JavaScript, e tem integração com os serviços do Google (como o Gmail). A partir dessa ferramenta foi possível extrair o link de cada mensagem e finalmente salvar o arquivo de forma automatizada. \par
 
-Todos esse processo de investigação e recuperação dos dados levou cerca de uma 
-semana. Todos os arquivos baixados ocupam pouco mais de 4 Gigabytes de 
-armazenamento em disco e somados tem exatamente 43.782.758 linhas. Ao final, eles 
-foram recompactados em um único zip (450 Megabytes) e estão disponíveis 
-em \url{https://bit.ly/3IgHIXH} para download de forma independete aos servidores 
-do INPE. [P6. Conclusão do processo] \par
+Todos esse processo de investigação e recuperação dos dados levou cerca de uma semana. Todos os arquivos baixados ocupam pouco mais de 4 Gigabytes de armazenamento em disco e somados tem exatamente 43.782.758 linhas. Ao final, eles foram recompactados em um único zip (450 Megabytes) e estão disponíveis em \url{https://bit.ly/3IgHIXH} para download de forma independete aos servidores do INPE. \par
 
-Também lançou-se mão dos dados públicos territoriais do Instituto Brasileiro de 
-Geografia e Estatística (IBGE) com o intuito de gerar gráficos delimitados em 
-municípios, unidades federativas e biomas. Todos os arquivos baixados estão em 
-formato Shapefile, responsável por armazenar dados vetoriais geográficos. A 
-biblioteca GeoPandas consegue ler e gerar gráficos a partir do Shapefile.
-[P7. Dados territoriais] \par
+Também lançou-se mão dos dados públicos territoriais do Instituto Brasileiro de Geografia e Estatística (IBGE) com o intuito de gerar gráficos delimitados em municípios, unidades federativas e biomas. Todos os arquivos baixados estão em formato Shapefile, responsável por armazenar dados vetoriais geográficos. \par
 
+\section{Implementação do método}
+
+Para análise dos dados, foram utilizadas diversas ferramentas do ecossistema Python para Data Science, tais como NumPy, Pandas e Matplotlib. Além disso, foram empregadas bibliotecas específicas para análise de dados geográficos, como GeoPandas, Pysal, Xarray e Shapely. Para garantir a reprodutibilidade das execuções e a organização do código, foi adotado o Jupyter Notebook. Todos os artefatos gerados durante o projeto podem ser encontrados em \url{https://github.com/josebraz/INPE-Queimadas}, disponibilizados sob a licença MIT. \par
+
+A biblioteca GeoPandas é uma extensão do Pandas, adicionando uma coluna especial chamada 'geometry'. Essa coluna define as coordenadas e o formato dos dados em um sistema de coordenadas predefinido. O GeoPandas também integra-se com a biblioteca Shapely, que é usada para cálculos de estruturas geométricas espaciais. Com essa biblioteca, é possível realizar operações da teoria dos conjuntos em elementos geométricos, como união, interseção e diferença, entre outras. \par
+
+
+\section{Pre processamento (ignorar)}
 %%%%%%%%%% Carregando os dados para análise e pre processamento
-
-Para toda a análise dos dados foi utilizado algumas das ferramentas que integram o 
-ecossistema Python para Data Sciente: NumPy, Pandas, Matplotlib. Além disso, 
-algumas bibliotecas específicas para análise de dados geográficos: GeoPandas, 
-Pysal, Xarray. Para a construção das visualizações e organização do código se 
-optou pelo uso do Jupyter Notebook devido a reprodutibilidade das execuções. 
-Todos os artefatos gerados podem ser obtidos em 
-\url{https://github.com/josebraz/INPE-Queimadas} sobre a licença MIT. 
-[P0. Visão das ferramentas utilizadas]\par
 
 Os 300 arquivos das queimadas foram carregados para o Pandas e depois concatenados
 em uma única estrutura de DataFrame. Houve a necessidade de converter o timezone 
