@@ -160,7 +160,6 @@ Os dados analisados neste trabalho foram obtidos a partir do DBQueimadas, Banco 
 
 Durante o decorrer do documento são apresentadas diversas figuras, a maioria de construção do próprio autor, a fim de instigar a intuição do leitor para o tópico que está sendo abordado. De início, será abordado questões mais teóricas envolvendo caracteríscas dos satélites, suas produções de imagens e como são usadas para detectar um foco ativo de queimada. Após isso, .... [P5. Estrutura do documento] \par
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Conceitos básicos e visão geral dos dados}
@@ -333,19 +332,26 @@ P2. Gráficos geral do brasil com os focos de queimadas totais \cite{geographicD
 
 \chapter{Trabalhos Relacionados}
 
-[P1. falar sobre como os trabalhos relacionados podem ajudar a entender 
-os dados] \par
+Muitos outros trabalhos antes deste versaram sobre os dados de queimadas do INPE e, em menor escala, especicamente sobre o cálculo das áreas queimadas. Nesse capítulo, serão apresentado alguns trabalhos que estão de alguma forma próximos deste e, no final, será discutido o que faz este de certa forma único. \par
+
+O primeiro estudo refere-se ao trabalho que embasou o produto AQ1km \citep{libonati2015algorithm}, desenvolvido pelo INPE. O objetivo do estudo é detectar áreas queimadas mensalmente por meio de sensoriamento remoto utilizando o sensor MODIS (satélites AQUA e TERRA). Para isso, o algoritmo identifica regiões que apresentaram fogo ativo usando diferentes satélites, extraídos da mesma base do INPE, e agrupa os dados a cada um mês. Em seguida, filtra essas regiões com base em um índice de vegetação sensível a queimadas no espectro do infravermelho próximo, em relação ao mesmo índice do mês anterior. Por fim, identifica regiões próximas às regiões classificadas como área queimada no passo anterior, mas que não apresentaram um indicador forte o suficiente, o que pode ser devido a uma queimada parcial ou baixa intensidade de fogo naquele local. \par
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \chapter{Metodologia}
 
-Nos primeiros subcapítulos serão abordados as ideias e técnicas gerais da metodologia, sem entrar na implementação desenvolvida. Começamos dando uma visão geral de como o método é desenvolvido
+Nos primeiros subcapítulos serão abordados as ideias e técnicas gerais da metodologia, sem entrar na implementação desenvolvida. Começa com uma visão geral de como o método é desenvolvido, depois entra em cada pormenor. No final, é discutido como o método foi efetivamente implementado.
 
 \section{Visão geral da metodologia}
 
 A metodologia desenvolvida visa calcular a área de vegetação queimada no Brasil, por meio da análise dos dados de focos de queimadas disponibilizados pelo INPE, juntamente com as características dos diferentes satélites e sensores. A premissa fundamental é que um foco de queimada detectado resulta em uma área queimada. Além disso, considera-se que a quantidade de focos detectados em uma determinada região, em um intervalo de tempo, está diretamente relacionada com a área efetivamente queimada na região. \par 
+
+... apontaram que a detecção de áreas queimadas pode se beneficiar da fusão de observações de incêndios ativos de vários sensores. \citep{giglio2010assessing} ........ mas incendios ativos podem ficar omissos \citep{giglio2009active} ....... \par
+
+.... fazem um diagrama (workflow) .... \par
 
 Para isso, primeiro precisamos entender que o foco detectado por um satélite na verdade representa uma área de abrangência do fogo. Uma vez que estamos em posse das áreas de cada foco detectado de todos os satélites, é possivel proceguir para a próxima fase que é a avaliação das áreas queimadas. Nessa fase, vamos dividir o espaço em pequenos quadrantes e assim avaliá-los separadamente, usando algumas métricas. \par
 
@@ -479,6 +485,7 @@ Para análise dos dados, foram utilizadas diversas ferramentas do ecossistema Py
 
 A biblioteca GeoPandas é uma extensão do Pandas, adicionando uma coluna especial chamada 'geometry'. Essa coluna define as coordenadas e o formato dos dados em um sistema de coordenadas predefinido. O GeoPandas também integra-se com a biblioteca Shapely, que é usada para cálculos de estruturas geométricas espaciais. Com essa biblioteca, é possível realizar operações da teoria dos conjuntos em elementos geométricos, como união, interseção e diferença, entre outras. \par
 
+[falar sobre suporte a Spatial index https://autogis-site.readthedocs.io/en/2019/notebooks/L3/spatial-join.html] \par
 
 \section{Pre processamento (ignorar)}
 %%%%%%%%%% Carregando os dados para análise e pre processamento
@@ -521,7 +528,6 @@ gráficos e facilitar o entendimento.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Resultados e Discussão}
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
