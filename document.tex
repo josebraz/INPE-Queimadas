@@ -20,7 +20,7 @@
 \usepackage[alf,abnt-emphasize=bf]{abntex2cite}	% pacote para usar citações abnt
 \usepackage{graphicx}          % para inserir imagens
 \usepackage{booktabs}
-\usepackage{float} 
+\usepackage{float}     % para as imagens ficarem no lugar certo
 %\usepackage{mathptmx}          % p/ usar fonte Adobe Times nas fórmulas
 
 \graphicspath{ {images/} }
@@ -146,7 +146,7 @@ Hoje as queimadas que mais chamam atenção estão diretamente ligadas ao proces
 O Brasil ocupa a quarta posição no ranking de nações que mais emitem gases de efeito estufa por habitantes, segundo dados da United Nations Environment Programme (UNEP) de 2022. De acordo com o estudo, o valor absoluto se manteve estável desde 2010, e atingiu seu pico por volta dos anos de 2003 a 2004. Assim como a Indonésia, o que melhor explica a alta posição do Brasil neste ranking são as queimadas e o desmatamento da vegetação nativa. Olhando para os municípios do país, dos dez que mais poluem, oito deles estão localizados no bioma da amazônia e não possuem atividades industriais que justificariam esse valor. [P2. queimadas e efeito estufa no Brasil] \par
 
 \begin{figure}[H]
-    \caption{Emissões de gases do efeito estufa per capta de 1990 até 2020 (tCO2e/capita)}
+    \caption{Emissões de gases do efeito estufa per capta de 1990 até 2020 (tCO2e/capita).}
     \begin{center}
         \includegraphics[width=35em]{emissoes_gee_per_capta}
     \end{center}
@@ -158,7 +158,10 @@ Este trabalho se dedica a estudar e apresentar de forma concisa os dados de foco
 
 Os dados analisados neste trabalho foram obtidos a partir do DBQueimadas, Banco de Dados de Queimadas \url{www.inpe.br/queimadas/bdqueimadas}, que é um sistema desenvolvido pelo INPE e acessível de forma aberta por meio da web. Conta com mais de 300 milhões de pontos coletados desde o ano de 1998, provenientes de vários satélites \citep{setzer2019banco}. Ao disponibilizar os dados das queimadas o instituto possibilita que a sociedade retribua com pesquisas e fomenta novas abordagens ao problema das queimadas no Brasil, como é o caso deste trabalho. [P4. Fonte dos dados usados] \par
 
+... apontaram que a detecção de áreas queimadas pode se beneficiar da fusão de observações de incêndios ativos de vários sensores. \citep{giglio2010assessing} ........ mas incendios ativos podem ficar omissos \citep{giglio2009active} ....... \par
+
 Durante o decorrer do documento são apresentadas diversas figuras, a maioria de construção do próprio autor, a fim de instigar a intuição do leitor para o tópico que está sendo abordado. De início, será abordado questões mais teóricas envolvendo caracteríscas dos satélites, suas produções de imagens e como são usadas para detectar um foco ativo de queimada. Após isso, .... [P5. Estrutura do documento] \par
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -184,7 +187,7 @@ Para obter as imagens brutas dos satélites são necessárias antenas especiais 
 
 \begin{table}[htbp]
 \centering
-\caption{Significado de cada coluna dos dados de queimada do INPE}
+\caption{Significado de cada coluna dos dados de queimada do INPE.}
 \begin{tabular}{@{}llp{9cm}@{}}
  \toprule
  \texttt{Atributo} & \texttt{Tipo} & Descrição \\
@@ -225,7 +228,7 @@ Abaixo segue um resumo dos satélites usados pelos INPE desde o início da séri
 
 \begin{table}[htbp]
 \centering
-\caption{Características dos satélites usados pelo INPE}
+\caption{Características dos satélites usados pelo INPE.}
 \begin{tabular}{ @{}llllcl@{} }
   \toprule
   Nome    & Sensor & Resolução esp. & Órbita & Lançamento & Passagem \\
@@ -266,7 +269,7 @@ De 01/junho/1998 a 03/julho/2002 o satélite de referência utilizado foi o NOAA
 Para finalizar, podemos observar na Figura \ref{fig:orbita2022-08-10} a passagem dos satélites no dia 10 de agosto de 2022, gerada a partir de dados do \url{https://celestrak.org/}. Os satélites podem levar vários dias para passar no mesmo local devido a características de sua órbita e podemos ter uma estimativa razoavelmente precisa de sua tragetória ao longo do tempo. Também é possível ver o satélite geoestacioário GOES-16, no norte do perú, representado com um ponto no gráfico. \par
 
 \begin{figure}[H]
-    \caption{Órbita dos satélites no dia 10 de agosto de 2022}
+    \caption{Órbita dos satélites no dia 10 de agosto de 2022.}
     \begin{center}
         \includegraphics[width=35em]{orbita2022-08-10}
     \end{center}
@@ -275,6 +278,7 @@ Para finalizar, podemos observar na Figura \ref{fig:orbita2022-08-10} a passagem
 \end{figure}
 
 \section{Detecção de focos de queimadas e área queimada}
+\label{deteccao_focos_section}
 
 O algoritmo para identificação de focos ativos é específico para cada tipo de sensor. No geral, eles usam diferentes canais dos sensores dos satélites, entre a luz visível e o infravermelho, e podem ter comportamentos distintos dependendo se a imagem foi gerada à noite ou de dia. Podem também usar limiares dinâmicos, de acordo com a região do planeta, que são calculados com base em uma espécie de média das temperaturas nas regiões próximas ao longo dos dias. Além disso, é comum a aplicação de máscaras para eliminar regiões submersas, costeiras, deserticas e que estavam nubladas na hora da passagem. [P2. Visão geral dos algoritmos para detecçao] \par
 
@@ -288,12 +292,12 @@ O AQ1km .... \citep{libonati2015algorithm} \par
 
 \section{Uma visão geral dos dados}
 
-Neste subcapítulo, será realizada uma análise inicial dos dados disponíveis sobre focos de queimada, com o objetivo de extrair algumas informações relevantes. É importante, no entanto, ter cuidado na escolha dos satélites a serem utilizados na análise. Para algumas análises, caso sejam usados todos os satélites disponíveis, pode ocorrer a contagem de um mesmo foco várias vezes ou, ainda, a contagem do mesmo foco em passagens diurnas e noturnas de um mesmo satélite polar. Para solucionar esse problema, será utilizado o satélite AQUA com passagem à tarde (AQUA\_M-T), que é  o satélite de referência do INPE atualmente. Dessa forma, é possível evitar a contagem duplicada de focos de queimada e garantir a precisão das informações analisadas. \par
+Nesta sessão, será realizada uma análise inicial dos dados disponíveis sobre focos de queimada, com o objetivo de extrair algumas informações relevantes. É importante, no entanto, ter cuidado na escolha dos satélites a serem utilizados na análise. Para algumas análises, caso sejam usados todos os satélites disponíveis, pode ocorrer a contagem de um mesmo foco várias vezes ou, ainda, a contagem do mesmo foco em passagens diurnas e noturnas de um mesmo satélite polar. Para solucionar esse problema, será utilizado o satélite AQUA com passagem à tarde (AQUA\_M-T), que é  o satélite de referência do INPE atualmente. Dessa forma, é possível evitar a contagem duplicada de focos de queimada e garantir a precisão das informações analisadas. \par
 
 Com relação aos satélites, e possível perceber a partir da Figura \ref{fig:porcentagem_satelites} cinco satélites que mais identificaram focos de queimada em toda a série história, são eles: Suomi NPP, GOES-16, AQUA, NOAA-16 e TERRA. Todos eles estão ativos atualmente e com quantidades de coleta significativas em 2022. AQUA e TERRA são os mais antigos e possuem um sensor obsoleto. O GOES-16 é um satélite geoestacionário, conhecido por gerar dados de forma mais frequente, geralmente detecta apenas queimadas maiores devido a sua posição distante da Terra. Suomi NPP e NOAA-20 possuem um sensor que detecta 10 vezes mais focos que sensor MODIS. Por estar em atividade a mais tempo, o Suomi NPP gerou mais dados que o NOAA-20. \par
 
 \begin{figure}[H]
-    \caption{Relação do montante dos dados por satélite}
+    \caption{Relação do montante dos dados por satélite.}
     \begin{center}
         \includegraphics[width=35em]{porcentagem_satelites}
     \end{center}
@@ -304,11 +308,11 @@ Com relação aos satélites, e possível perceber a partir da Figura \ref{fig:p
 Saber em quais momentos os satélites passam também é importante para a análise. Os satélites polares passam duas vezes por dia no Brasil, variando o local exato da passagem de acordo com as características de sua órbita. Pela Figura \ref{fig:tempo_medidas_satelites} é possível observar esse comportamento empiricamente, em que as 5 primeiras linhas, que representam dados gerados por satélites polares, apresentam dois picos durante um período de 24 horas. Já para o  caso dos geoestacionários (GOES-16), que ficam fixos em relação a uma posição na Terra, não se observou o mesmo padrão. \par
 
 \begin{figure}[H]
-    \caption{Amostragem por tempo de cada satélite}
+    \caption{Amostragem por tempo de cada satélite.}
     \begin{center}
         \includegraphics[width=35em]{tempo_medidas_satelites}
     \end{center}
-    \legend{Fonte: O Autor, agrupando os dados de queimadas}
+    \legend{Fonte: O Autor}
     \label{fig:tempo_medidas_satelites}
 \end{figure}
 
@@ -319,7 +323,7 @@ A partir de uma análise quantitativa dos dados com relação ao tempo de cada m
     \begin{center}
         \includegraphics[width=35em]{quantitativo_geral}
     \end{center}
-    \legend{Fonte: O Autor, agrupando os dados de queimadas por tempo}
+    \legend{Fonte: O Autor}
     \label{fig:quantitativo_geral}
 \end{figure}
 
@@ -343,106 +347,123 @@ O primeiro estudo refere-se ao trabalho que embasou o produto AQ1km \citep{libon
 
 \chapter{Metodologia}
 
-Nos primeiros subcapítulos serão abordados as ideias e técnicas gerais da metodologia, sem entrar na implementação desenvolvida. Começa com uma visão geral de como o método é desenvolvido, depois entra em cada pormenor. No final, é discutido como o método foi efetivamente implementado.
+Neste capítulo será abordado como método utilizado para calcular as áreas queimadas foi desenvolvido. Começa com uma visão geral do método, depois entra em cada etapa de forma separada e mais detalhada.
 
 \section{Visão geral da metodologia}
 
 A metodologia desenvolvida visa calcular a área de vegetação queimada no Brasil, por meio da análise dos dados de focos de queimadas disponibilizados pelo INPE, juntamente com as características dos diferentes satélites e sensores. A premissa fundamental é que um foco de queimada detectado resulta em uma área queimada. Além disso, considera-se que a quantidade de focos detectados em uma determinada região, em um intervalo de tempo, está diretamente relacionada com a área efetivamente queimada na região. \par 
 
-... apontaram que a detecção de áreas queimadas pode se beneficiar da fusão de observações de incêndios ativos de vários sensores. \citep{giglio2010assessing} ........ mas incendios ativos podem ficar omissos \citep{giglio2009active} ....... \par
-
-.... fazem um diagrama (workflow) .... \par
-
-Para isso, primeiro precisamos entender que o foco detectado por um satélite na verdade representa uma área de abrangência do fogo. Uma vez que estamos em posse das áreas de cada foco detectado de todos os satélites, é possivel proceguir para a próxima fase que é a avaliação das áreas queimadas. Nessa fase, vamos dividir o espaço em pequenos quadrantes e assim avaliá-los separadamente, usando algumas métricas. \par
-
-Para calcular a área queimada dos quadrantes avaliados, é possível utilizar diferentes métodos de avaliação. Um exemplo seria definir um limiar mínimo, acima do qual toda a área do quadrante seria considerada como queimada. Outra possibilidade seria estabelecer uma escala de área do quadrante para que seja considereda como tal. \par
-
-A Figura \ref{fig:exemplo_metodo_completo} ilustra a aplicação completa do método em uma área específica localizada no sudoeste do Pará, durante o dia primeiro ao dia três de setembro de 2022. Na primeira imagem, são mostrados os focos de queimada como pontos, sem nenhum tipo de pré-processamento. Na segunda imagem, os pontos são transformados em áreas. Em seguida, o espaço é divido em quadrantes e avaliados. Na última imagem, é aplicado um cálculo de área queimada levando em conta um limiar de 5 para cada quadrante, resultando em uma área queimada de $33,32 km^2$. \par
-
 \begin{figure}[H]
-    \caption{Aplicação do método completo}
+    \caption{Diagrama do método.}
     \begin{center}
+        \includegraphics[width=35em]{metodologica_workflow}
         \includegraphics[width=35em]{exemplo_metodo_completo}
     \end{center}
-    \legend{Fonte: O Autor, aplicando o método}
-    \label{fig:exemplo_metodo_completo}
+    \legend{Fonte: O Autor}
+    \label{fig:metodologica_workflow}
 \end{figure}
 
-\section{Área abrangida por uma medição}
+O método completo, conforme apresentado na Figura \ref{fig:metodologica_workflow}, é composto por três principais etapas (cartões em azul): mapeamento dos focos para áreas, separação e avaliação dos quadrantes, e cálculo da área queimada. Cada etapa recebe dados de entrada e produz uma saída que, com exceção da última etapa, é usada como entrada para a etapa subsequente.
 
-Quando um foco de queimada é detectado por algum satélite, ele representa uma área quadrada aproximadamente do tamanho da resolução de seu sensor. Ou seja, um foco dectado por um satélite AQUA, que utiliza o sensor MODIS, representa uma área de $\approx1Km^2$. Para um satélite com o sensor menos preciso, como o GOES-13, que utiliza o sensor GOES I-M com resolução espacial de $4Km$, a área representada seria 16 vezes maior, indicando uma menor precisão. [Visão geral aproximada] \par
+A primeira etapa transforma os pontos dos focos em áreas que representam a abrangência do foco. Essa etapa recebe dados de focos de queimadas do INPE, previamente filtrados para o intervalo de tempo de interesse, e produz como saída as áreas de cada foco. Essas áreas estão diretamente relacionadas às características do satélite e sensor que captaram a imagem original, como abordado em \ref{deteccao_focos_section}, e, portanto, também precisam ser uma entrada.
 
-O cálculo exato da área coberta pela medição deve levar em conta as distorções ocorridas pela diferença de localização entre o ponto da medição ($p_m$) e a localização  do satélite ($p_s$). Quanto maior a distância entre os dois pontos, maior será a distorção em relação a área de corbertura do sensor. Para um satélite geoestácionário, por exemplo, essa distância é sempre muito grande, devido a sua órbita com altura em torno do $35Km$. \par
+Na segunda etapa, o espaço é dividido em quadrantes e avaliado. Os quadrantes recebem as áreas dos focos calculados na etapa anterior e o tamanho do quadrante, que pode ser definido pelo pesquisador. A saída são quadrantes com valores que representam a intensidade das queimadas ocorridas dentro de cada quadrante específico. A função de avaliação é proporcional à diversidade e quantidade das áreas de foco que interceptam os quadrantes.
 
-Outro fator que afeta a área coberta é a inclinação dos satélites. Os satélites que orbitam a Terra em órbitas polares, possuem uma determinada inclinação que lhes permitem cobrir diferentes áreas de todo o planeta durante sua tragetória (Figura \ref{fig:orbita2022-08-10}). Quando o satélite está se movendo em uma trajetória ascendente, ou seja, do sul para o norte, a área coberta pelo sensor deve ser rotacionada com um fator positivo. Por outro lado, se a trajetória for descendente, do norte para o sul, o fator de rotação será negativo. \par
+Na terceira e última etapa, é realizado o cálculo das áreas queimadas, produzindo o resultado final do método. Essa etapa recebe como entrada os quadrantes avaliados no passo anterior e uma função de avaliação da área queimada, que pode ser definida pelo pesquisador. A função é aplicada a todos os quadrantes, resultando em um valor que representa a porcentagem provável de que a área do quadrante tenha sido queimada.
 
-A Figura \ref{fig:comparacao_pontos_e_areas} apresenta dados coletados pelo satélite  Suomi NPP no dia dois de setembro de 2022. O primeiro par de imagens corresponde à órbita ascendente do satélite, enquanto o segundo par de imagens corresponde à órbita descendente. Observa-se que, na primeira e terceira imagens, os pontos dos focos de queimada estão alinhados, mas ligeiramente rotacionados em alguns graus, coincidindo com a inclinação do satélite. Na segunda e quarta imagens, os pontos ganham a área do sensor ($500m$) e encaixam perfeitamente entre seus vizinhos. \par
+A Figura \ref{fig:metodologica_workflow} também ilustra a aplicação completa do método em uma área específica localizada no sudoeste do Pará, durante os dias 1 a 3 de setembro de 2022. Na primeira imagem, são mostrados os focos de queimada, sem nenhum tipo de pré-processamento. Na segunda imagem, os pontos são transformados em áreas. Em seguida, o espaço é dividido em quadrantes e avaliados. Na última imagem, o cálculo da área queimada considera todas as avaliações acima do valor 5 como quadrante totalmente queimado, resultando em uma área queimada de $33,32 km^2$.
+
+\section{Mapeamento dos focos para áreas}
+
+Quando um foco de queimada é detectado pelo INPE, ele representa uma área quadrada aproximadamente do tamanho da resolução do sensor que capturou a imagem original. Ou seja, um foco dectado a partir de imagens do satélite AQUA, que utiliza o sensor MODIS, representa uma área de $\approx1Km^2$. Para um satélite com o sensor menos preciso, como o GOES-13, que utiliza o sensor GOES I-M com resolução espacial de $4Km$, a área representada seria 16 vezes maior, indicando uma menor precisão. \par
+
+O cálculo exato da área coberta pelo foco deve levar em conta, além da resolução do sensor, as distorções provenientes dos seguintes fatores: Diferença de localização entre o foco e o satélite, e as caractísticas da órbita do satélite. No primeiro fator, quanto maior a distância entre os dois pontos, maior será a distorção em relação a área de corbertura do sensor. Para um satélite geoestacionário, por exemplo, essa distância é sempre muito grande, devido a sua órbita com altura de $36Km$ \citep{EmbrapaSatelites}. \par
+
+No segundo fator, a inclinação dos satélites determinam como é a rotação da área coberta. Os satélites que orbitam a Terra em órbitas polares, possuem uma determinada inclinação que lhes permitem cobrir diferentes áreas de todo o planeta durante sua tragetória (Figura \ref{fig:orbita2022-08-10}). Quando o satélite está se movendo em uma trajetória ascendente, ou seja, do sul para o norte, a área coberta pelo sensor deve ser rotacionada em um sentido. Por outro lado, se a trajetória for descendente, do norte para o sul, a rotação deve ser no outro sentido. \par
+
+A Figura \ref{fig:comparacao_pontos_e_areas} apresenta dados coletados pelo satélite  Suomi NPP no dia dois de setembro de 2022. O primeiro par de imagens corresponde à órbita ascendente do satélite, enquanto o segundo par de imagens corresponde à órbita descendente. Observa-se que, na primeira e terceira imagens, os pontos dos focos de queimada estão alinhados, mas ligeiramente rotacionados em alguns graus, coincidindo com a inclinação do satélite. Na segunda e quarta imagens, os pontos ganham a área do sensor ($500m$) e encaixam perfeitamente entre seus vizinhos. A partir desse ponto até o final do documento, a área coberta pelo foco será chamada de medição. \par
 
 \begin{figure}[H]
-    \caption{Comparação entre pontos e áreas dos focos detectados pelo satélite Suomi NPP}
+    \caption{Comparação entre pontos e áreas dos focos detectados pelo satélite Suomi NPP.}
     \begin{center}
         \includegraphics[width=35em]{comparacao_pontos_e_areas}
     \end{center}
-    \legend{Fonte: O Autor, aplicando o método de cálculo de áreas}
+    \legend{Fonte: O Autor}
     \label{fig:comparacao_pontos_e_areas}
 \end{figure}
 
-\section{Separação e quantificação de quadrantes}
+\section{Separação e avaliação de quadrantes}
 
-A separação entre quadrantes é a forma de discretizar os dados do espaço, que são continuos. Os quadrantes abstraem os detalhes das medições dos diferentes satélites, com diferentes áreas e orientações. Como resultado, temos um gride regular que é usado para as operações de avaliação de serão descritas a seguir. \par
+A separação entre quadrantes é a forma de discretizar os dados do espaço, que são contínuos. Os quadrantes abstraem os detalhes das medições dos diferentes satélites, com diferentes áreas e orientações. Como resultado, ilustrado na figura \ref{fig:satellite_quads_split}, temos uma grade regular que é usado para as operações de avaliação de serão descritas a seguir. \par
 
-A separação em quadrantes também foi planejada para melhorar o desempenho do processamento. Ao dividir o problema em partes menores, é possível resolver cada uma de forma paralela, pois as avaliações dos quadrantes são independentes entre si. Além disso, com a utilização de índices espaciais, usados nos cálculos de intersecção, o processamento dos quadrantes é ainda mais otimizado. Quanto maior o quadrante usado, menos avaliações são necessárias, porém a precisão da área queimada também diminui. Como se trata de um espaço bidimensional, a complexidade computacional da avaliação em relação à quantidade de quadrantes é $O(n^2)$. \par
-
-Com base em experimentos, foi constatado que o uso de quadrantes muito pequenos (com menos de 0,002 graus quadrados) não aumentam significativamente a precisão dos resultados e tornam a execução muito mais demorada. Portanto, o valor recomendado para o tamanho dos quadrantes fica em torno de 0,004 a 0,005 graus, o que coincide com o tamanho da menor resolução de sensor presente nos dados, que é o VIIRS de 500m. A Figura \ref{fig:diferenca_entre_quadrantes} ilustra como a mudança no tamanho do quadrante impacta na quantidade deles e na sua avaliação. \par
+O tamanho do quadrante é uma entrada dessa etapa e pode ser definida pelo pesquisador. O valor recomendado desta entrada fica em torno de 0,004 a 0,005 graus, o que coincide com o tamanho da menor resolução de sensor presente nos dados, que é o VIIRS de 500m. \par
 
 \begin{figure}[H]
-    \caption{Diferença da avaliação para diferentes tamanhos de quadrantes}
+    \caption{Separação entre quadrantes.}
     \begin{center}
-        \includegraphics[width=35em]{diferenca_entre_quadrantes}
+        \includegraphics[width=20em]{satellite_quads_split}
     \end{center}
-    \legend{Fonte: O Autor, variando o tamanho dos quadrantes em uma mesma área}
-    \label{fig:diferenca_entre_quadrantes}
+    \legend{Fonte: O Autor}
+    \label{fig:satellite_quads_split}
 \end{figure}
 
-Com a distribuição dos quadrantes definida, é necessário atribuir a cada um deles um valor que represente a probabilidade de que a área contida tenha sido queimada. Sendo $q$ o quadrante a ser avaliado; $M$ um conjunto de todas as medições; operação $area(p)$ retorna a área de um polígono $p$; operação $unique\_satelite(Q)$ retorna todos os satélites diferentes do conjunto $Q$; $min\_area$ é a área mínima; A definição formal da avaliação é dada por: \par
+Com a distribuição dos quadrantes definida, é necessário atribuir a cada um deles um valor que represente a probabilidade de que a área contida tenha sido queimada. A avaliação dos quadrantes deve valorizar aqueles que apresentam medições de diferentes satélites. Essa abordagem justifica-se pelo fato de que ajuda a reduzir os ruídos nas medições e a identificar queimadas mais intensas. Além disso, diferentes satélites realizam medições em horários distintos (veja a Figura \ref{fig:tempo_medidas_satelites}), o que indica uma queimada mais prolongada. Em ambos os casos, queimadas mais intensas e duradouras sinalizam um maior potencial de o fogo se espalhar para outras áreas da vegetação. \par
+
+Sendo $q$ o quadrante (polígono) a ser avaliado; $M$ um conjunto de todas as medições (área coberta pelo foco); operação $area(p)$ retorna a área de um polígono $p$ qualquer; operação $unique\_satelite(Q)$ retorna todos os satélites diferentes do conjunto $Q$; $min\_area$ é a área mínima de uma medição; $threshold\_satellite$ é o número mínimo de satélites para não ser penalizado. A definição formal da avaliação é dada por: \par
+
+Para cada quadrante ($q$), é realizado o cálculo da intersecção com cada medição ($m$) contida nele, resultando em um conjunto $Qm$: \par
 
 \begin{equation} \label{eqn:def_qm}
 Qm = \{ m \in M \mid m \cap q \}
 \end{equation}
 
+Em seguida, é realizada uma filtragem no conjunto $Qm$, removendo todos os elementos que não possuem uma determinada área mínima, resultando em $Qm'$: \par
+
 \begin{equation} \label{eqn:def_qm_line}
 Qm' = \{ m \in Qm \mid area\left(m\right) \ge min\_area \}
 \end{equation}
+
+A partir de $Qm'$, é extraído o número de satélites diferentes presentes nesse conjunto, que é denominado $Us$: \par
 
 \begin{equation} \label{eqn:def_us}
 Us = \{ m \in unique\_satelite\left(Qm'\right) \}
 \end{equation}
 
+Além disso, é calculada a soma das áreas de $Qm'$ e dividida pela área total de $q$, resultando em $ia$. Ou seja, quantas vezes as áreas de $Qm'$ cabem dentro de $q$: \par
+
 \begin{equation} \label{eqn:def_ia}
 ia = \left(\sum_{m}^{Qm'} area\left(m\right)\right) \div area(q)
 \end{equation}
 
-\begin{equation} \label{eqn:def_aq}
-aq = |Us|^2 + min\left(ia, 3.99\ldots \right)
+Penalização de quadrantes que tenham poucos satélites diferentes, o valor de $c$ fica entre 0 e 1 e é linear. \par
+
+\begin{equation} \label{eqn:def_c}
+c = 1 - min\left(1, \frac{|Us|}{threshold\_satellite}\right)
 \end{equation}
 
-Para cada quadrante ($q$), é realizado o cálculo da intersecção com cada medição ($m$) contida nele, resultando em um conjunto $Qm$ (\ref{eqn:def_qm}). Em seguida, é realizada uma filtragem no conjunto $Qm$, removendo todos os elementos que não possuem uma determinada área mínima (por padrão definido como 20\% da área total do quadrante $q$), resultando em $Qm'$ (\ref{eqn:def_qm_line}). A partir de $Qm'$, é extraído o número de satélites diferentes presentes nesse conjunto, que é denominado $Us$ (\ref{eqn:def_us}). Além disso, é calculada a soma das áreas de $Qm'$ e dividida pela área total de $q$, resultando em $ia$ (\ref{eqn:def_ia}). Finalmente, a avaliação final do quadrante ($aq$) é obtida pela expressão \ref{eqn:def_aq}. \par
+Finalmente, a avaliação final do quadrante ($aq$) é obtida pela expressão: \par
 
-De forma mais alto nível, a avaliação dos quadrantes valoriza significativamente aqueles que apresentam medições de diferentes satélites. Essa abordagem justifica-se pelo fato de que ajuda a reduzir os ruídos nas medições e a identificar queimadas mais intensas. Além disso, diferentes satélites realizam medições em horários distintos (veja a Figura \ref{fig:tempo_medidas_satelites}), o que indica uma queimada mais prolongada. Em ambos os casos, queimadas mais intensas e duradouras sinalizam um maior potencial de o fogo se espalhar para outras áreas da vegetação. \par
+\begin{equation} \label{eqn:def_aq}
+aq = |Us|^2 + ia - ai \cdot c
+\end{equation}
 
-A segunda parte da avaliação visa evitar que medições muito pequenas tenham um impacto significativo no resultado final do quadrante, mesmo que hajam muitas delas. 
-Para isso, basicamente calcula quantas vezes a área das medições somadas cabem no quadrante. Ou seja, são medições que estão no quadrante mas que tem pouca probabilidade de indicar uma queimada naquele quadrante específico. Além disso, é importante destacar que quadrantes com medições de apenas um satélite têm um valor limitado de $4.99\ldots$ ($1^2 + 3.99\ldots$). Essa limitação serve como uma penalização para os quadrantes que possuem pouca diversidade de dados, incentivando a valorização de quadrantes com medições de diferentes satélites e, portanto, uma maior probabilidade da área ter sido queimada. \par
+A fórmula final \ref{eqn:def_aq} atribui um peso quadrático à quantidade de satélites diferentes presente no quadrante $q$. Isso garante que, à medida que a diversidade de satélites aumenta dentro do quadrante, o valor de $aq$ aumente de forma exponencial e se distaque dos demais quadrantes com menos diversidade. O resultado é somado com $ai$, que representa quantas vezes a área das medições somadas cabe no quadrante $q$. Esse termo impede que medições com pouca interseção dentro do quadrante tenham uma influência desproporcional no resultado final. \par
+
+Além disso, há uma penalização aplicada aos quadrantes que apresentam poucos satélites diferentes. Quando a quantidade de satélites diferentes em um quadrante é maior do que um limite pré-estabelecido, chamado de $threshold_satellite$, não há penalizações, ou seja, o valor de $c$ é igual a 0. Por outro lado, quando o quadrante não atinge o limite, uma parcela de $ai$ é descontada do resultado final. \par
+
+Desta forma, .... \par
+
 
 \section{Cálculo da área queimada}
 
-Finalmente, com os quadrantes avaliados, é possível estimar a área queimada para cada quadrante. É importante que o método de cálculo seja flexível, permitindo que o pesquisador teste diferentes métodos ou treine um modelo de aprendizado de máquina. Uma forma de fazer isso é atribuir um número que represente a porcentagem de área queimada dentro do quadrante e, em seguida, multiplicá-lo pela área total do quadrante para obter a área queimada dentro do quadrante. Após calcular a área queimada de cada quadrante, é necessário somar todos esses valores para obter a área total queimada. \par
+Finalmente, com os quadrantes avaliados, é possível estimar a área queimada para cada quadrante. É importante que o método de cálculo seja flexível, permitindo que o pesquisador teste diferentes métodos. Uma forma de fazer isso é atribuir um número que represente a porcentagem de área queimada dentro do quadrante e, em seguida, multiplicá-lo pela área total do quadrante para obter a área queimada dentro do quadrante. Após calcular a área queimada de cada quadrante, é necessário somar todos esses valores para obter a área total queimada. \par
 
-Nesse sentido, o papel do pesquisador é definir uma função ($eval(v)$) que receba o valor do quadrante, calculado no passo anterior, e retorne um número real entre zero e um. Essa função também pode receber o maior e o menor valor presente na avaliação dos quadrantes, que podem ser usados para normalizar as áreas. \par
+Nesse sentido, o papel do pesquisador é definir uma função ($eval(v)$) que receba o valor do quadrante, calculado na etapa anterior, e retorne um número real entre zero e um. Essa função também pode receber o maior e o menor valor presente na avaliação dos quadrantes, que podem ser usados para normalizar as áreas. \par
 
-Para facilitar o trabalho do pesquisador, a implementação pode fornecer funções built-in comuns que definem a função $eval(v)$. Na Figura \ref{fig:eval_func_built_in}, são apresentadas algumas possibilidades de definições para essa função. A função mais simples é chamada de limiar, que estabelece que toda a área do quadrante deve ser considerada queimada se a avaliação for maior que um determinado valor e nenhuma área deve ser considerada queimada se não alcançar esse valor. Outra função simples é a linear, que faz o valor da área queimada crescer de forma linear dentro de um valor máximo e mínimo. A última função é a exponencial, semelhante à linear, mas com uma exponenciação que faz o valor crescer mais lentamente no início e de forma mais acentuada no final do intervalo. \par
+Para facilitar o trabalho do pesquisador, a implementação pode fornecer funções embutidas comuns que definem a função $eval(v)$. Na Figura \ref{fig:eval_func_built_in}, são apresentadas algumas possibilidades de definições para essa função. A função mais simples é chamada de limiar, que estabelece que toda a área do quadrante deve ser considerada queimada se a avaliação for maior que um determinado valor e nenhuma área deve ser considerada queimada se não alcançar esse valor. Outra função simples é a linear, que faz o valor da área queimada crescer de forma linear dentro de um valor máximo e mínimo. A última função é a exponencial, semelhante à linear, mas com uma exponenciação que faz o valor crescer mais lentamente no início e de forma mais acentuada no final do intervalo. \par
 
 \begin{figure}[H]
-    \caption{Funções built-in para cálculo de área}
+    \caption{Funções embutidas para cálculo de área.}
     \begin{center}
         \includegraphics[width=25em]{eval_func_built_in}
     \end{center}
@@ -450,10 +471,10 @@ Para facilitar o trabalho do pesquisador, a implementação pode fornecer funç�
     \label{fig:eval_func_built_in}
 \end{figure}
 
-A Figura \ref{fig:aplicacao_funcoes_built_in} mostra como as diferentes funções e parâmetros podem gerar resultados bem diferentes. .... \par
+A Figura \ref{fig:aplicacao_funcoes_built_in} ilustra claramente como diferentes funções e parâmetros podem afetar significativamente os resultados na determinação da área queimada. Cada gráfico mostra a área queimada total calculada usando a função de área queimada indicada no título. Observa-se que a função limiar identifica mais áreas como queimadas, pois trata de forma igual os quadrantes com diferentes níveis de intensidade. No entanto, as funções exponenciais parecem mais próximas da realidade, já que consideram apenas uma porcentagem da área dos quadrantes próximos aos agrupamentos de alta intensidade como queimados. \par
 
 \begin{figure}[H]
-    \caption{Exemplo da aplicação das funções built-in}
+    \caption{Exemplo da aplicação das funções embutidas.}
     \begin{center}
         \includegraphics[width=35em]{aplicacao_funcoes_built_in}
     \end{center}
@@ -461,61 +482,41 @@ A Figura \ref{fig:aplicacao_funcoes_built_in} mostra como as diferentes funçõe
     \label{fig:aplicacao_funcoes_built_in}
 \end{figure}
 
+\chapter{Implementação do método}
 
-%% Aqui começa a implementação
+Após a formalização do método de forma abstrata, esse capítulo descorre sobre a implementação de fato do método. Primeiro está discutido como os dados do DBQueimadas foram coletados da base de forma automatizada. Em seguida, descorre-se sobre a implementação do método ....
+
 \section{Coleta dos dados}
 
-Uma parte importante do processo foi coletar os dados do site DBQueimadas. Para exportar os dados utilizando o navegador de internet, é necessário preencher um formulário os campos de data inicial,data final e um endereço de e-mail. O intervalo de tempo não pode exceder um ano. Também é possível aplicar filtros ainda mais detalhados como: continente, país, estado, município, satélite, bioma e unidades de conservação/terras indígenas. Após clicar em "Exportar", uma mensagem é enviada para o e-mail informado no formulário contendo link de download dos dados requisitados. O arquivo disponibilizado é um CSV compactado como um zip. \par
+Uma parte fundamental do processo foi coletar os dados do site DBQueimadas, que é a fonte primária usada para cálculo das áreas queimadas. Para exportar os dados usando o navegador, é necessário preencher um formulário com os campos de data inicial, data final e um endereço de e-mail, com intervalo de tempo máximo um ano para cada pedido. Também é possível aplicar filtros ainda mais específicos, como continente, país, estado, município, satélite, bioma e unidades de conservação/terras indígenas. Após clicar em "Exportar", uma mensagem contendo um link de download é enviada para o e-mail informado, e o arquivo disponibilizado é um CSV compactado em formato zip.
 
-Apesar de ser um site com boas métrica e usabilidades, seria praticamente inviável baixar todos os dados do Brasil de forma manual. Nesse sentido, foi necessário entender quais eventos são disparados quando solicitamos os dados pelo site a fim de automatizar o processo de download. \par
+Embora o site tenha boa usabilidade, seria impraticável baixar todos os dados do Brasil manualmente sem sobrecarregar os servidores no INPE. Por isso, foi necessário entender como a solicitação dos dados era processada pelo site e, assim, automatizar o download. Foi identificado que o site faz uma requisição GET para a API do DBQueimadas, localizada em \url{https://queimadas.dgi.inpe.br/queimadas/exportacaobdq/exportar}, passando os parâmetros  codificados em JSON da URL, incluindo os filtros, e-mail e formato de arquivo desejado. Um exemplo de uso dessa API por meio de uma chamada CURL pode ser encontrado no \ref{anexo:usoApiInpe}.
 
-Foi identificado que na verdade o site faz uma requisição GET para a API do DBQueimadas, localizada em \url{https://queimadas.dgi.inpe.br/queimadas/exportacaobdq/exportar}, passando nos parâmetros da URL os filtros informados pelo usuário, codificados em JSON. Além dos filtros, também é necessário informar o e-mail e o formato de arquivo desejado. Um exemplo de uso dessa API, por meio de uma invocação CURL, pode ser encontrado no \ref{anexo:usoApiInpe} \par
+Para automatizar o processo, desenvolvemos um script em Python que solicitava os dados de cada 30 dias, totalizando 300 requisições desde 1998 até 2022. Para não sobrecarregar os servidores do INPE, adicionamos uma espera de um minuto entre as requisições. Além disso, implementamos um sistema de registro de requisições em arquivo, que armazenou o estado de cada uma delas, evitando requisições duplicadas e possibilitando a retentativa das requisições que falharam por algum motivo. O programa foi considerado concluído apenas quando todas as requisições contidas no registro estavam marcadas como concluídas.
 
-A fim de automatizar o processo, foi desenvolvido um script em Python que solicita os dados referentes a 30 dias, totalizando 300 requisições de 1998 até 2022. Com o intuito de não sobrecarregar os servidores do INPE, foi adicionada uma espera de um minuto a cada requisição. \par
+Para concluir o processo, ainda era necessário fazer o download do arquivo por meio do link enviado por e-mail. Utilizamos o Google Scripts, uma ferramenta que possibilita escrever programas simples, utilizando uma linguagem semelhante a JavaScript, com integração aos serviços do Google (como o Gmail). O script era executado com um intervalo de dois minutos, varrendo todos os e-mails novos provenientes do DBQueimadas. Com ele, foi possível extrair o link de cada mensagem e, finalmente, salvar o arquivo de forma automatizada. 
 
-Para o processo ser concluído, ainda seria necessário fazer o download do arquivo por meio do link enviado por e-mail. Lançou-se mão do Google Scripts, uma ferramenta que possibilita escrever programas simples, em uma liguagem parecida com JavaScript, e tem integração com os serviços do Google (como o Gmail). A partir dessa ferramenta foi possível extrair o link de cada mensagem e finalmente salvar o arquivo de forma automatizada. \par
+Os dois scripts trabalharam de forma concomitantemente, funcionando como uma espécie de produtor e consumidor distribuído. Enquanto um requisitava os dados para do INPE, o outro vasculhava os e-mails e salvava o arquivo em uma pasta específica. Quando o primeiro script identificava (por meio do nome do arquivo) que a resposta já estava salva, marcava a requisição como concluída no registro. Caso uma requisição permanecesse por mais de 30 minutos no estado pendente, o script fazia uma nova solicitação aos servidores do INPE.
 
-Todos esse processo de investigação e recuperação dos dados levou cerca de uma semana. Todos os arquivos baixados ocupam pouco mais de 4 Gigabytes de armazenamento em disco e somados tem exatamente 43.782.758 linhas. Ao final, eles foram recompactados em um único zip (450 Megabytes) e estão disponíveis em \url{https://bit.ly/3IgHIXH} para download de forma independete aos servidores do INPE. \par
+Todo o processo de investigação e recuperação dos dados levou cerca de uma semana. Todos os arquivos baixados ocupam pouco mais de 4 gigabytes de armazenamento em disco e, juntos, somam exatamente 43.782.758 linhas. Ao final, eles foram recompactados em um único arquivo zip (450 megabytes) que está disponível para download em \url{https://bit.ly/3IgHIXH}, independentemente dos servidores do INPE.
 
-Também lançou-se mão dos dados públicos territoriais do Instituto Brasileiro de Geografia e Estatística (IBGE) com o intuito de gerar gráficos delimitados em municípios, unidades federativas e biomas. Todos os arquivos baixados estão em formato Shapefile, responsável por armazenar dados vetoriais geográficos. \par
+Também utilizamos os dados públicos territoriais do Brasil provenientes do Instituto Brasileiro de Geografia e Estatística (IBGE) para gerar gráficos delimitados em municípios, unidades federativas e biomas. Todos os arquivos baixados estão no formato Shapefile, que é o formato responsável por armazenar dados vetoriais geográficos.
+
 
 \section{Implementação do método}
 
-Para análise dos dados, foram utilizadas diversas ferramentas do ecossistema Python para Data Science, tais como NumPy, Pandas e Matplotlib. Além disso, foram empregadas bibliotecas específicas para análise de dados geográficos, como GeoPandas, Pysal, Xarray e Shapely. Para garantir a reprodutibilidade das execuções e a organização do código, foi adotado o Jupyter Notebook. Todos os artefatos gerados durante o projeto podem ser encontrados em \url{https://github.com/josebraz/INPE-Queimadas}, disponibilizados sob a licença MIT. \par
+Para toda a implementação e análise dos dados, foram utilizadas diversas ferramentas do ecossistema Python para Data Science, tais como NumPy, Pandas e Matplotlib. Além disso, foram empregadas bibliotecas específicas para análise de dados geográficos, como GeoPandas, Pysal, Xarray e Shapely. Para garantir a reprodutibilidade das execuções e a organização do código, foi adotado o Jupyter Notebook. Todos o código e demais artefatos gerados durante o projeto podem ser encontrados em \url{https://github.com/josebraz/INPE-Queimadas}, disponibilizados sob a licença MIT. \par
 
-A biblioteca GeoPandas é uma extensão do Pandas, adicionando uma coluna especial chamada 'geometry'. Essa coluna define as coordenadas e o formato dos dados em um sistema de coordenadas predefinido. O GeoPandas também integra-se com a biblioteca Shapely, que é usada para cálculos de estruturas geométricas espaciais. Com essa biblioteca, é possível realizar operações da teoria dos conjuntos em elementos geométricos, como união, interseção e diferença, entre outras. \par
+A biblioteca GeoPandas, amplamente utilizada na implementação, é uma extensão do Pandas que adiciona uma coluna especial chamada 'geometry'. Essa coluna permite armazenar as coordenadas e o formato dos dados em um sistema de coordenadas pré-definido. Além disso, o GeoPandas integra-se à biblioteca Shapely, que é usada para realizar cálculos e operações em estruturas geométricas espaciais. Com o uso dessas bibliotecas, é possível executar operações avançadas da teoria dos conjuntos em elementos geométricos, como união, interseção, diferença, entre outras, além de calcular a área de qualquer polígono que represente uma área no espaço. \par
 
-[falar sobre suporte a Spatial index https://autogis-site.readthedocs.io/en/2019/notebooks/L3/spatial-join.html] \par
+Após a coleta de dados mencionada anteriormente, os dados foram carregados no Python e algumas otimizações nas estruturas foram realizadas. Os 300 arquivos das queimadas foram lidos pelo Pandas e concatenados em um único DataFrame. Foi necessário converter o fuso horário das datas, que estavam no formato UTC, para o fuso horário de Brasília, a fim de facilitar a compreensão dos gráficos para os usuários brasileiros. Além disso, as colunas de texto, como município, estado, país e satélite, foram convertidas em categorias, que são uma forma de enumeração disponível no Pandas. Essa conversão ajudou a reduzir o consumo de memória, uma vez que muitos valores repetidos ocorriam nessas colunas. \par
 
-\section{Pre processamento (ignorar)}
-%%%%%%%%%% Carregando os dados para análise e pre processamento
+Para otimizar o processamento e a leitura dos dados, também foi utilizada a biblioteca Dask para realizar o processamento paralelo. Essa biblioteca oferece a capacidade de criar clusters locais ou se conectar a clusters remotos, permitindo o envio de tarefas completas para serem processadas pelo cluster. Além disso, o Dask possibilita a leitura dos arquivos de forma paralela, o que resulta em uma redução significativa no tempo de carregamento dos dados. Após o carregamento completo do DataFrame a partir dos arquivos CSV originais durante a primeira execução, foi criado um arquivo no formato H5 que contém os mesmos dados, mas com uma estrutura otimizada para permitir uma leitura mais rápida. Nas execuções subsequentes do programa, ao invés de carregar novamente os arquivos CSV, o programa fará a leitura desse único arquivo H5, resultando em um carregamento ainda mais rápido dos dados.  \par
 
-Os 300 arquivos das queimadas foram carregados para o Pandas e depois concatenados
-em uma única estrutura de DataFrame. Houve a necessidade de converter o timezone 
-das datas (que eram em UTC) para o timezone de Brasília, a fim de gerar gráficos 
-de mais fácil entendimento para brasileiros. As colunas de texto foram convertidas 
-para categorias, espécies de enumerações no Pandas, reduzindo o espaço ocupado 
-de memória, uma vez que muitos valores acabavam se repetindo na mesma coluna. 
-[P1. pre processamentos dos dados]\par
-
-Como parte do pré-processamento dos dados, foi identificado regras de nomenclaturas 
-especiais para alguns satélites. Para o AQUA (AQUA\_M-T e AQUA\_M-M) e TERRA 
-(TERRA\_M-T e TERRA\_M-M), a primeira letra M representa o sensor MODIS e a última
-letra indica em que período do dia foi a passagem do satélite, sendo M para Manhã 
-e T para Tarde. Outros satélites como Suomi NPP, NOAA-19, NOAA-18, NOAA-16, NOAA-15 
-e NOAA-12 também podem apresentar a última letra do nome sendo D para Diurno.
-A partir do entendimento dessa regra de nomenclatura, foi possível criar uma nova 
-coluna que informa o nome simplificado dos satélites, a fim de facilitar 
-algumas análises. Em comparação com a coluna original dos satélites, que tinha 32 
-valores possíveis, a nova coluna contém apenas 22 valores possíveis.
-[P2. Explicar equivalencias entre os satelites] \par
-
-A partir da coluna de nomes de satélites simplificada foi possível atribuir cores 
-únicas para cada um (Figura \ref{fig:cores_satelites}), de forma a padronizar os 
-gráficos e facilitar o entendimento.
+Durante o pré-processamento dos dados, foram identificadas regras de nomenclatura especiais para alguns satélites. No caso dos satélites AQUA (AQUA\_M-T e AQUA\_M-M) e TERRA (TERRA\_M-T e TERRA\_M-M), a última letra indica o período do dia em que ocorreu a passagem do satélite, sendo "M" para Manhã e "T" para Tarde. Outros satélites, como Suomi NPP, NOAA-19, NOAA-18, NOAA-16, NOAA-15 e NOAA-12, podem apresentar a última letra do nome como "D" para Diurno. Com base nessa compreensão das regras de nomenclatura, foi possível criar uma nova coluna que fornece o nome simplificado dos satélites, facilitando algumas análises. Em comparação com a coluna original dos satélites, que tinha 32 valores possíveis, a nova coluna contém apenas 22 valores possíveis. Para cada satélite, foi escolhida uma cor única, conforme apresentado na Figura \ref{fig:cores_satelites}, que é utilizada em todos os gráficos apresentados neste documento. \par
 
 \begin{figure}[H]
-    \caption{Cores escolhidas para cada satélite}
+    \caption{Cores escolhidas para cada satélite.}
     \begin{center}
         \includegraphics[width=35em]{cores_satelites}
     \end{center}
@@ -525,9 +526,35 @@ gráficos e facilitar o entendimento.
 
 
 
+-------
+
+
+A separação em quadrantes também foi planejada para melhorar o desempenho do processamento. Ao dividir o problema em partes menores, é possível resolver cada uma de forma paralela, pois as avaliações dos quadrantes são independentes entre si. Além disso, com a utilização de índices espaciais, usados nos cálculos de intersecção, o processamento dos quadrantes é ainda mais otimizado. Quanto maior o quadrante usado, menos avaliações são necessárias, porém a precisão da área queimada também diminui. Como se trata de um espaço bidimensional, a complexidade computacional da avaliação em relação à quantidade de quadrantes é $O(n^2)$. \par
+
+\begin{figure}[H]
+    \caption{Diferença da avaliação para diferentes tamanhos de quadrantes.}
+    \begin{center}
+        \includegraphics[width=35em]{diferenca_entre_quadrantes}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:diferenca_entre_quadrantes}
+\end{figure}
+
+Com base em experimentos, foi constatado que o uso de quadrantes muito pequenos (com menos de 0,002 graus quadrados) não aumentam significativamente a precisão dos resultados e tornam a execução muito mais demorada.
+
+
+O GeoPandas também oferece suporte à operação de junção espacial (spatial join) de forma otimizada. O spatial join permite combinar diferentes conjuntos de dados com base em sua relação espacial, de maneira semelhante a uma junção em um banco de dados, porém levando em consideração a proximidade geográfica. É possível utilizar diferentes critérios de proximidade geográfica, como verificar se um ponto está dentro de um polígono ou determinar a interseção entre dois polígonos. No contexto da implementação, o spatial join é utilizado para obter todas as medições que intersectam cada quadrante (interseção entre dois polígonos), que é a principal informação usada para avaliar um quadrante. \par
+
+[falar sobre suporte a Spatial index https://autogis-site.readthedocs.io/en/2019/notebooks/L3/spatial-join.html] \par
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Resultados e Discussão}
+
+\section{Aplicações do método}
+
+O método em sí é geral para qualquer entrada de focos de satélites, e retorna no final polígonos representando áreas geográficas associadas a um valor que indica a área queimada dentro desse polígono. Variando a entrada do método e o agrupamento dos resultados preliminares, pode-se obter diferentes resultados finais. \par
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
