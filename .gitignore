@@ -13,3 +13,6 @@ data.*
 *.lot
 .DS_Store
 data_parsed.h5
+.history/
+__pycache__/
+dask-worker-space/
