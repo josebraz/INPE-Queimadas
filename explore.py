@@ -56,6 +56,7 @@ class SatellitesExplore:
                  min_area_percentage: float = default_min_area_percentage,
                  threshold_satellite: float = default_threshold_satellite,
                  burned_area_calc: BurnedAreaCalc = default_burned_area_calc):
+        self.data = data
         self.satellites_data = SatellitesMeasureGeometry(data)
         self.geod = Geod(ellps="WGS84")
         self.dataframe = self.satellites_data.get_satelites_measures_area()
@@ -109,7 +110,7 @@ class SatellitesExplore:
 
     def show_satellites_points(self, ax: plt.Axes, with_base_map: bool = False, markersize: float = 3):
         if len(self.dataframe) == 0: return
-        self.dataframe.representative_point().plot(ax=ax, color=self.data_color, markersize=markersize)
+        ax.scatter(self.data['longitude'], self.data['latitude'], c=self.data_color, s=markersize)
         if with_base_map:
             contextily.add_basemap(ax, crs=self.dataframe.crs,
                 source=contextily.providers.CartoDB.PositronNoLabels)
