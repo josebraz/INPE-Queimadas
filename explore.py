@@ -67,8 +67,6 @@ class SatellitesExplore:
         self.threshold_satellite = threshold_satellite
 
         self.all_evaluated_quads: gpd.GeoDataFrame = None
-        self.grouped_quads: list[MultiPolygon] = None
-        self.unary_union: MultiPolygon = None
 
     def plot(self, width: int = 20, center_lat: float = None, center_lon: float = None, 
              size: float = None, only_quads_evaluated: bool = False, only_quads_areas: bool = False, 
@@ -134,14 +132,15 @@ class SatellitesExplore:
             self.get_all_evaluated_quads().plot(ax=ax, edgecolor='k', linewidth=0.5)
 
     def show_satellites_quads_areas(self, ax: plt.Axes, with_color_bar: bool = True, 
-                                    with_areas: bool = True, cmap = default_cmap):
+                                    with_areas: bool = True, cmap = default_cmap, 
+                                    linewidth=0.5):
         if len(self.dataframe) == 0: return
         area_km2 = self.get_total_area_m_2() / 1000000
         if with_areas:
             ax.legend(title = "{:.2f}Km²".format(area_km2), loc='lower left')
         points: gpd.GeoDataFrame = self.get_all_evaluated_quads()
         points.plot(column='burned_factor', cmap=cmap, legend=with_color_bar,
-            ax=ax, edgecolor='k', linewidth=0.5)
+            ax=ax, edgecolor='k', linewidth=linewidth)
     
     def get_total_area_m_2(self) -> float:
         points: gpd.GeoDataFrame = self.get_burned_areas()
@@ -159,15 +158,15 @@ class SatellitesExplore:
 
     def get_all_evaluated_quads(self) -> gpd.GeoDataFrame:
         if self.all_evaluated_quads is None:
-            grouped_quads_mult: MultiPolygon = self._get_grouped_quads()
-            quads_lst: list[Polygon] = list(grouped_quads_mult.geoms)
-
-            quads_df = gpd.GeoDataFrame({ 'geometry': quads_lst }, crs=self.dataframe.crs)
+            quads_df = grid_gdf(self.dataframe, quadrat_width=self.quadrat_width)
             join_dataframe = gpd.sjoin(self.dataframe, quads_df, predicate="intersects")
 
-            quads_df['value'] = [self._evaluate_quads(index, polygon, join_dataframe) \
-                                for (index, polygon) in enumerate(quads_lst)]
+            values = np.zeros(len(quads_df))
+            for index in join_dataframe['index_right'].unique():
+                values[index] = self._evaluate_quads(index, quads_df.iloc[index].geometry, join_dataframe)
 
+            quads_df['value'] = values
+            quads_df = quads_df[quads_df['value'] > 0.0]
             self.all_evaluated_quads = quads_df
 
         return self.all_evaluated_quads
@@ -189,72 +188,3 @@ class SatellitesExplore:
         penality = 1 - min(1, len(uniques_satellites) / self.threshold_satellite)
 
         return (len(uniques_satellites) ** 2) + intersection_areas_per_poly - intersection_areas_per_poly * penality
-        
-    def _get_unary_union(self) -> list[Polygon]:
-        """
-        Cached way to get unary union set.
-        """
-        if self.unary_union == None:
-            self.unary_union = SatellitesExplore._get_unary_union_list(self.dataframe)
-        return self.unary_union
-    
-    def _get_grouped_quads(self) -> MultiPolygon:
-        """
-        Cached way to get the splited quadrants for all elements of unary union set
-        """
-        if self.grouped_quads == None:
-            self.grouped_quads = SatellitesExplore._split_quads(MultiPolygon(self._get_unary_union()), quadrat_width=self.quadrat_width)
-        return self.grouped_quads
-    
-    @staticmethod
-    def _get_unary_union_list(dataframe: gpd.GeoDataFrame) -> list[Polygon]:
-        temp_union = dataframe.unary_union
-        if temp_union == None or temp_union.is_empty:
-            return []
-        elif isinstance(temp_union, MultiPolygon):
-            return list(temp_union.geoms)
-        else:
-            return [temp_union]
-
-    @staticmethod
-    def _split_quads(geometry, quadrat_width: float, min_num=3) -> MultiPolygon:
-        """
-        Reference: osmnx/utils_geo
-        
-        Split a Polygon or MultiPolygon up into sub-polygons of a specified size.
-        Parameters
-        ----------
-        geometry : shapely.geometry.Polygon or shapely.geometry.MultiPolygon
-            the geometry to split up into smaller sub-polygons
-        quadrat_width : numeric
-            the linear width of the quadrats with which to cut up the geometry (in
-            the units the geometry is in)
-        min_num : int
-            the minimum number of linear quadrat lines (e.g., min_num=3 would
-            produce a quadrat grid of 4 squares)
-        Returns
-        -------
-        geometry : shapely.geometry.MultiPolygon
-        """
-        # create n evenly spaced points between the min and max x and y bounds
-        west, south, east, north = geometry.bounds
-        x_num = int(np.ceil((east - west) / quadrat_width) + 1)
-        y_num = int(np.ceil((north - south) / quadrat_width) + 1)
-        x_points = np.linspace(west, east, num=max(x_num, min_num))
-        y_points = np.linspace(south, north, num=max(y_num, min_num))
-
-        # create a quadrat grid of lines at each of the evenly spaced points
-        vertical_lines = [LineString([(x, y_points[0]), (x, y_points[-1])]) for x in x_points]
-        horizont_lines = [LineString([(x_points[0], y), (x_points[-1], y)]) for y in y_points]
-        lines = vertical_lines + horizont_lines
-
-        # recursively split the geometry by each quadrat line
-        geometries = [geometry]
-
-        for line in lines:
-            # split polygon by line if they intersect, otherwise just keep it
-            split_geoms = [split(g, line).geoms if g.intersects(line) else [g] for g in geometries]
-            # now flatten the list and process these split geoms on the next line in the list of lines
-            geometries = [g for g_list in split_geoms for g in g_list]
-
-        return MultiPolygon(geometries)

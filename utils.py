@@ -1,13 +1,58 @@
 import numpy as np
 import pandas as pd
 import geopandas as gpd
+import dask.dataframe as dd
+
+import rasterio
 import xarray
 import datashader
+
+import os
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 
 from geopy import distance
+from shapely import Polygon, MultiPolygon, LineString
+from shapely.ops import split
+from shapely.geometry import box
+from shapely.geometry import shape
+
+from rasterio.features import shapes as rio_shapes
+
+from constants import *
+
+def read_burn_df() -> pd.DataFrame:
+    if os.path.exists(data_parsed_file):
+        df = pd.read_hdf(data_parsed_file, key='df')
+    else:
+        column_types = {
+            'precipitacao': 'float32',
+            'riscofogo': 'float32',
+            'latitude': 'float64',
+            'longitude': 'float64',
+            'frp': 'float32'
+        }
+        # Create the DataFrame from csv
+        df = dd.read_csv(
+            os.path.join(burn_folder, "*.csv"), parse_dates=["datahora"], dtype=column_types
+        )
+        # Optimize data and setup types
+        df['diasemchuva'] = df['diasemchuva'].fillna(invalid_value).astype("int16")
+        df['riscofogo'] = df['riscofogo'].mask(df['riscofogo'] == invalid_value, 0)
+        df['riscofogo'] = df['riscofogo'].fillna(0).astype("bool")
+        df['satelite'] = df['satelite'].str.upper().astype("category")
+        df['pais'] = df['pais'].str.upper().astype("category")
+        df['estado'] = df['estado'].str.upper().astype("category")
+        df['municipio'] = df['municipio'].str.upper().astype("category")
+        df['bioma'] = df['bioma'].str.upper().astype("category")
+        df['datahora'] = df['datahora'].dt.tz_localize(timezone.utc).dt.tz_convert(data_timezone)
+        df['simp_satelite'] = df['satelite'].map(satelite_map).fillna(df['satelite']).astype("category")
+        df['sensor'] = df['simp_satelite'].map(satelite_sensors).astype("category")
+        df['regiao'] = df['estado'].map(estados_regioes).astype("category")
+        df: pd.DataFrame = df.compute()
+        df.to_hdf(data_parsed_file, key='df', mode='w', format="table")
+    return df
 
 def sub_space(data: pd.DataFrame, min_lat: float, max_lat: float, min_lon: float, max_lon: float) -> pd.DataFrame:
     """Returns a sub data filtered by lat and lon boundary"""
@@ -22,6 +67,17 @@ def sub_space_by_center(data: pd.DataFrame, lat: float, lon: float, size: float)
     """Returns a sub data filtered by lat and lon boundary"""
     min_lat, max_lat, min_lon, max_lon = get_bounds(lat, lon, size)
     return data.query('@min_lon <= longitude <= @max_lon & @min_lat <= latitude <= @max_lat')
+
+def get_landsat_geometry(path: int, row: int) -> Polygon:
+    if not hasattr(get_landsat_geometry, "wrs2"):
+        # reference: https://www.usgs.gov/landsat-missions/landsat-shapefiles-and-kml-files
+        get_landsat_geometry.wrs2: gpd.GeoDataFrame = gpd.read_file('tiff/WRS2_descending_0')
+    return get_landsat_geometry.wrs2.query('PATH == @path & ROW == @row').iloc[0].geometry
+
+def sub_space_by_landsat(df: pd.DataFrame, path: int, row: int) -> pd.DataFrame:
+    temp = gpd.GeoDataFrame(geometry=gpd.points_from_xy(df.longitude, df.latitude), crs="EPSG:4326")
+    geometry = get_landsat_geometry(path, row)
+    return df.loc[temp.intersects(geometry).values]
 
 from typing import Iterator
 
@@ -95,5 +151,57 @@ def compute_grid(data: pd.DataFrame, min_lat: float = None, max_lat: float = Non
     )
     return cvs.points(data, x="longitude", y="latitude")
 
+def grid_gdf(data: gpd.GeoDataFrame, poly: Polygon = None, quadrat_width: float=0.005) -> gpd.GeoDataFrame:
+    if poly == None:
+        bounds = data.total_bounds
+    else:
+        bounds = poly.bounds
+    step = 1/quadrat_width
+    xmin, ymin, xmax, ymax = [int(x * step) / step for x in bounds]
+    grid_cells = []
+    
+    for x0 in np.arange(xmin, xmax+quadrat_width, quadrat_width):
+        for y0 in np.arange(ymin, ymax+quadrat_width, quadrat_width):
+            x1 = x0-quadrat_width
+            y1 = y0+quadrat_width
+            shape = box(x0, y0, x1, y1)
+            grid_cells.append(shape)
+    temp = gpd.GeoDataFrame(geometry=grid_cells, crs=data.crs)
+    if poly is None:
+        return temp
+    else:
+        return temp[temp.intersects(poly).values].reset_index()
+
+def normalize_gdf(data: gpd.GeoDataFrame, bounds: Polygon = None, quadrat_width: float=0.005) -> gpd.GeoDataFrame:
+    if bounds != None: 
+        xmin, ymin, xmax, ymax = bounds.bounds
+        data = data.cx[xmin:xmax, ymin:ymax]
+    grid_df = grid_gdf(data, bounds, quadrat_width)
+    join_dataframe = gpd.sjoin(data, grid_df, predicate="intersects")
+    
+    values = np.zeros(len(grid_df))
+    for index in join_dataframe['index_right'].unique():
+        polygon = grid_df.iloc[index].geometry
+        matches = join_dataframe[join_dataframe['index_right'] == index]
+        intersection_areas = np.array([polygon.intersection(x.buffer(0)).area for x in matches.geometry])
+        values[index] = intersection_areas.sum() / polygon.area if len(intersection_areas) > 0 else 0
+    return gpd.GeoDataFrame({ 'value': values }, geometry=grid_df.geometry, crs=data.crs)
+
+def read_gdf_from_tiff(data_file: str, name: str = 'value') -> gpd.GeoDataFrame:
+    with rasterio.open(data_file) as src:
+        data = src.read(1)
+        data = data.astype('int16')
+        shapes = rio_shapes(data, transform=src.transform)
+        crs = src.crs.to_string()
+
+    values = []
+    geometry = []
+    for shapedict, value in shapes:
+        values.append(int(value))
+        geometry.append(shape(shapedict))
+
+    return gpd.GeoDataFrame(
+        { name: values, 'geometry': geometry }, 
+        crs = crs)
 
 flat_map = lambda f, xs: [y for ys in xs for y in f(ys)]
