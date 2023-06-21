@@ -154,13 +154,15 @@ O Brasil ocupa a quarta posição no ranking de nações que mais emitem gases d
     \label{fig:emissoes_gee_per_capta}
 \end{figure}
 
-Este trabalho se dedica a estudar e apresentar de forma concisa os dados de focos de queimadas disponibilizados pelo Instituto Nacional de Pesquisas Espaciais (INPE). O principal objetivo é tornar fácil o entendimento desses dados gerados a partir de imagens de satélites, sem a necessidade de um conhecimento prévio das técnicas de ciência de dados e sensoriamento remoto. O escopo de tempo das análises é limitado ao início de 1998, ano que iniciou a base aberta de queimadas, até o final de 2022. [P3. O que é o trabalho em si] \par
+Este trabalho se dedica a estudar e apresentar de forma concisa os dados de focos de queimadas disponibilizados pelo Instituto Nacional de Pesquisas Espaciais (INPE). O principal objetivo é tornar fácil o entendimento desses dados gerados a partir de imagens de satélites, sem a necessidade de um conhecimento prévio das técnicas de ciência de dados e sensoriamento remoto. O escopo de tempo das análises é limitado ao início de 1998, ano que iniciou a base aberta de queimadas, até o final de 2022. 
 
-Os dados analisados neste trabalho foram obtidos a partir do DBQueimadas, Banco de Dados de Queimadas \url{www.inpe.br/queimadas/bdqueimadas}, que é um sistema desenvolvido pelo INPE e acessível de forma aberta por meio da web. Conta com mais de 300 milhões de pontos coletados desde o ano de 1998, provenientes de vários satélites \citep{setzer2019banco}. Ao disponibilizar os dados das queimadas o instituto possibilita que a sociedade retribua com pesquisas e fomenta novas abordagens ao problema das queimadas no Brasil, como é o caso deste trabalho. [P4. Fonte dos dados usados] \par
+Os dados analisados neste trabalho foram obtidos a partir do DBQueimadas, Banco de Dados de Queimadas \url{www.inpe.br/queimadas/bdqueimadas}, que é um sistema desenvolvido pelo INPE e acessível de forma aberta por meio da web. Conta com mais de 300 milhões de pontos coletados desde o ano de 1998, provenientes de vários satélites \citep{setzer2019banco}. Ao disponibilizar os dados das queimadas o instituto possibilita que a sociedade retribua com pesquisas e fomenta novas abordagens ao problema das queimadas no Brasil, como é o caso deste trabalho.
 
-... apontaram que a detecção de áreas queimadas pode se beneficiar da fusão de observações de incêndios ativos de vários sensores. \citep{giglio2010assessing} ........ mas incendios ativos podem ficar omissos \citep{giglio2009active} ....... \par
+... apontaram que a detecção de áreas queimadas pode se beneficiar da fusão de observações de incêndios ativos de vários sensores \citep{giglio2010assessing}.
 
-Durante o decorrer do documento são apresentadas diversas figuras, a maioria de construção do próprio autor, a fim de instigar a intuição do leitor para o tópico que está sendo abordado. De início, será abordado questões mais teóricas envolvendo caracteríscas dos satélites, suas produções de imagens e como são usadas para detectar um foco ativo de queimada. Após isso, .... [P5. Estrutura do documento] \par
+Focos ativos apresentam maior contraste com a vegetação e por isso podem ser detectados com maior precisão \citep{GIGLIO2016}, mas devido ao intervalo entre as passagens dos satélites, detectam apenas uma fração das queimadas totais \citep{HANTSON2013, giglio2009active}. .......
+
+Durante o decorrer do documento são apresentadas diversas figuras, a maioria de construção do próprio autor, a fim de instigar a intuição do leitor para o tópico que está sendo abordado. De início, será abordado questões mais teóricas envolvendo caracteríscas dos satélites, suas produções de imagens e como são usadas para detectar um foco ativo de queimada. Após isso, .... \par
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -327,12 +329,7 @@ A partir de uma análise quantitativa dos dados com relação ao tempo de cada m
     \label{fig:quantitativo_geral}
 \end{figure}
 
-
-P1. Fazer análise preliminar dos dados gerando alguns gráficos \par
-P2. Gráficos geral do brasil com os focos de queimadas totais \cite{geographicDataSciencePython} \par
-
-
-\section{Detecção de focos de queimadas e área queimada}
+\section{Detecção de focos ativos e área queimada}
 \label{sec:deteccao_focos_section}
 
 Nesta sessão será abordada de forma mais detalhada como os dados brutos dos sensores dos satélites são usado de fato para encontrar focos ativos de queimadas e como o cálculo da área queimada é realizado atualmente. O texto começa com uma esplicação de como funciona o processamento dos dados brutos e depois apresenta o método mais consolidado atualmente de detecção de focos ativos. Em seguida, são apresentados três métodos diferentes para o calculo da área queimada, sendo um mantido pelo INPE, outro pela NASA e outro pela ESA. 
@@ -416,69 +413,49 @@ O INPE desenvolveu seu próprio algoritmo de detecção de focos de queimadas pa
 
 \subsection*{Produtos de área queimada}
 
-Os algoritmos utilizados para calcular a área queimada utilizam índices que são sensíveis à vegetação queimada, aplicados aos produtos de reflectância. Atualmente, os mais utilizados envolvem uma combinação das bandas do infravermelho próximo (NIR: $0,78-1,2\mu m$) e do infravermelho de onda curta (SWIR: $1,2-3,0\mu m$), o uso do infravermelho de onda média (MWIR: $3-8 \mu m$) é mais raro. Estudos indicam que ocorre uma redução na reflectância do NIR após as queimadas e um aumento na reflectância do SWIR, causados pela queima da vegetação e pela secura do ambiente, respectivamente (conforme ilustrado na Figura \ref{fig:reflectancia_espectral}) \citep{CHUVIECO201945}.
+Nessa parte, abordaremos os produtos mais consolidados para o cálculo de área aqueimada: AQ1Km, AQ30m, MCD64 e FireCCI51 (resumidos na Tabela \ref{table:resumo_produtos_area_queimada}). Muitos outros trabalhos abordaram o cálculo de área queimada e alguns deles são apresentados na sessão \ref{sec:trabalhos_relacionados}. Os algoritmos utilizados para calcular a área queimada utilizam índices que são sensíveis à vegetação queimada, aplicados aos produtos de reflectância. Atualmente, os mais utilizados envolvem uma combinação das bandas do infravermelho próximo (NIR: $0,78-1,2\mu m$) e do infravermelho de onda curta (SWIR: $1,2-3,0\mu m$), o uso do infravermelho de onda média (MWIR: $3-8 \mu m$) é mais raro.
 
-% Após estudos, provou-se que o uso do índice de vegetação de diferença normalizada (NDVI) não era efetivo para diferenciar áreas queimadas de não queimadas (Pereira, 1999). 
-
-Para detecção de áreas queimadas o INPE utiliza dois produtos principais: AQ30m e o AQ1km. O produto AQ1km, desenvolvido em parceria com o Laboratório de Aplicações de Satélites Ambientais (LASA), tem resolução espacial de 1Km e dados mensais \citep{SiteAQ1km}. O produto AQ30m, por outro lado tem resolução espacial de 30m e dados quinzenais. ....... 
-
-O produto AQ1Km está em fase provisória de desenvolvimento (conforme Tabela \ref{table:nivel_maturidade_produtos}). É derivado de dados coletados pelo sensor MODIS, utilizando simultaneamente os satélites Aqua e Terra, além de incorporar informações de focos de queimada do INPE de diferentes satélites \citep{libonati2015algorithm}. 
-
-Resumidamente, o algoritmo do AQ1km inicia filtrando os dados de reflectância com base em critérios de cobertura de nuvens e posição espacial para minimizar distorções. Em seguida, os dados são agrupados por mês para preencher eventuais lacunas diárias. O algoritmo identifica as áreas denominadas "HotSpots", que correspondem a regiões com atividade de fogo durante o período analisado. Posteriormente, é calculado um índice de vegetação para essas áreas, utilizando dados de reflectância no infravermelho próximo (NIR) e no infravermelho médio (MIR: $3-8 \mu m$), conforme proposto em \citet{libonati2011}, comparando-o com o mesmo índice do mês anterior. Por fim, são identificadas regiões próximas às áreas classificadas como queimadas no passo anterior, mas que não apresentaram um indicador suficientemente forte. Isso pode indicar que ocorreu uma queimada parcial ou que a intensidade do fogo foi baixa naquela localidade.
-
-O produto AQ30m .......
-
-A NASA também mantém um produto específico para o cálculo da área queimada, chamado de MCD64A1, utilizando também os dados dos dois satélites com sensor MODIS \citep{GIGLIO201872}, de resolução espacial de $500m$ e temporal de um mês. Diferente da versão anterior, a MCD45A1 (C5), esse algoritmo combina as detecções de fogos ativos de 1 km do Collection 6.1 (ver \ref{sec:deteccao_focos_section}) com um índice de vegetação sensível a queimadas, construído a partir dos canais 5 e 7 do SWIR do sensor MODIS, capturando a reflectância característica do solo em áreas queimadas. A combinação dos dados de fogos ativos e do índice de vegetação permite que o algoritmo se adapte às diferentes regiões e ecossistemas em todo o mundo. Os artefatos produzidos pelo produto podem ser baixados gratuitamento para cada mês a partir de novembro do ano de 2000 pelo site da Earthdata (\url{https://urs.earthdata.nasa.gov}).
-
-O algoritmo inicia selecionando os dados diários de reflectância válidos, ou seja, dados que não contêm nuvens, fogo ativo, estão localizados em terra e possuem valores dentro do intervalo de 0 a 1. Em seguida, calcula o Índice de Vegetação (IV) para cada célula da grade. Posteriormente, o algoritmo calcula a diferença estatística do IV (S), comparando uma janela de dados de 8 dias antes e 8 dias depois do período avaliado. As regiões que não possuem dados confiáveis dentro dessas janelas de tempo são marcadas como não classificadas. Os dados passam por uma classificação inicial utilizando as estatísticas de S e outras informações de probabilidade de queima. Por fim, o algoritmo analisa as regiões vizinhas às que foram previamente classificadas como queimadas, aplicando uma fórmula probabilística que utiliza dados de focos ativos nessas regiões.
-
-A ESA possui seus próprios produtos de cálculo de queimada também, o mais atual é o FireCCI51 \citep{Lizundia2020}. .......
+%% Estudos indicam que ocorre uma redução na reflectância do NIR após as queimadas e um aumento na reflectância do SWIR, causados pela queima da vegetação e pela secura do ambiente, respectivamente (conforme ilustrado na Figura \ref{fig:reflectancia_espectral}) \citep{CHUVIECO201945}.
 
 \begin{table}[htbp]
 \centering
 \caption{Resumo dos produtos de área queimada}
-\begin{tabular}{ @{}lcccl@{} }
+\begin{tabular}{ @{}lllll@{} }
   \toprule
   Nome    & Ano & Res. esp. & Res. tem. & Satélites \\
   \midrule
-  MOD64A1 & 2016  & 500m & mensal & Aqua e Terra \\
+  MOD64 & 2016  & 500m & mensal & Aqua e Terra \\
   FireCCI51 & 2018 & 250m & mensal & Aqua e Terra \\
   AQ1km & 2015 & 1km & mensal & Aqua e Terra \\
-  AQ30m & ..... & 30m & quinzenal & Landsat-8, CBERS-4 e Resourcesat \\
+  AQ30m & 2014 & 30m & quinzenal & Landsat-8 \\
   \bottomrule
 \end{tabular}
 \legend{Fonte: O Autor}
 \label{table:resumo_produtos_area_queimada}
 \end{table}
 
+O INPE utiliza dois produtos principais para a detecção de áreas queimadas: o AQ30m e o AQ1km. O produto AQ1km, desenvolvido em parceria com o Laboratório de Aplicações de Satélites Ambientais (LASA), possui uma resolução espacial de 1 km e fornece dados diários agrupados em períodos mensais \citep{SiteAQ1km}. Por outro lado, o produto AQ30m possui uma resolução espacial de 30 metros e fornece dados quinzenais. Ambos os produtos são complementares e permitem uma análise abrangente das áreas queimadas. O AQ1km é adequado para avaliações mais amplas, como a determinação da porcentagem de área queimada em todo o Brasil durante um mês específico. Já o AQ30m fornece dados locais mais precisos, embora muitas regiões do Brasil não são processadas ou os dados não estão disponíveis publicamente.
+
+O produto AQ1Km está em fase provisória de desenvolvimento (conforme Tabela \ref{table:nivel_maturidade_produtos}). É derivado de dados coletados pelo sensor MODIS, utilizando simultaneamente os satélites Aqua e Terra, além de incorporar informações de focos de queimada do INPE de diferentes satélites \citep{libonati2015algorithm}. Resumidamente, o algoritmo do AQ1km inicia filtrando os dados de reflectância com base em critérios de cobertura de nuvens e posição espacial para minimizar distorções. Em seguida, os dados são agrupados por mês para preencher eventuais lacunas diárias. O algoritmo identifica as áreas denominadas "HotSpots", que correspondem a regiões com atividade de fogo durante o período analisado. Posteriormente, é calculado um índice de vegetação para essas áreas, utilizando dados de reflectância no infravermelho próximo (NIR) e no infravermelho de onda média (MWIR), conforme proposto em \citet{libonati2011}, comparando-o com o mesmo índice do mês anterior. Por fim, são identificadas regiões próximas às áreas classificadas como queimadas no passo anterior, mas que não apresentaram um indicador suficientemente forte, podendo indicar que ocorreu uma queimada parcial ou que a intensidade do fogo foi baixa naquela localidade.
+
+O produto AQ30m é gerado a partir de imagens do satélite Landsat-8, utilizando a diferença entre os índices de vegetação NDVI (Normalized Difference Vegetation Index), NBRL (Normalized Burn Ratio) e BAI (Burned Area Index) entre imagens consecutivas \citep{melchiori2014landsat}. Esses dados passam por uma filtragem com base em limiares definidos por especialistas e, em seguida, são suavizados usando um filtro de mediana 3x3 para eliminar valores discrepantes. O passo final envolve a construção de polígonos com base nos valores calculados e a remoção de polígonos muito pequenos. A implementação desse produto foi feita em Python, utilizando algumas ferramentas de processamento de dados que este trabalho também utiliza (ver capítulo \ref{chp:implementacao_metodo}). No entanto, o processo atualmente não é totalmente automatizado e requer uma avaliação final de um especialista do instituto antes da divulgação. Em \citet{dosclassificaccao}, são apresentadas algumas técnicas de aprendizado de máquina aplicadas na avaliação automática desse produto, obtendo resultados promissores.
+
+A NASA também mantém um produto específico para o cálculo da área queimada, chamado de MCD64, utilizando também os dados dos dois satélites com sensor MODIS \citep{GIGLIO201872}, de resolução espacial de $500m$ e temporal de um mês. Diferente da versão anterior, a MCD45 (C5), esse algoritmo combina as detecções de fogos ativos de 1 km do Collection 6.1 (ver sessão \ref{sec:deteccao_focos_section}) com um índice de vegetação sensível a queimadas, construído a partir dos canais 5 e 7 do SWIR do sensor MODIS, capturando a reflectância característica do solo em áreas queimadas. A combinação dos dados de fogos ativos e do índice de vegetação permite que o algoritmo se adapte às diferentes regiões e ecossistemas em todo o mundo. Os artefatos produzidos pelo produto podem ser baixados gratuitamento para cada mês a partir de novembro do ano de 2000 pelo site da Earthdata (\url{https://urs.earthdata.nasa.gov}).
+
+O algoritmo inicia selecionando os dados diários de reflectância válidos, ou seja, dados que não contêm nuvens, fogo ativo, estão localizados em terra e possuem valores dentro do intervalo de 0 a 1. Em seguida, calcula o Índice de Vegetação (IV) para cada célula da grade. Posteriormente, o algoritmo calcula a diferença estatística do IV (S), comparando uma janela de dados de 8 dias antes e 8 dias depois do período avaliado. As regiões que não possuem dados confiáveis dentro dessas janelas de tempo são marcadas como não classificadas. Os dados passam por uma classificação inicial utilizando as estatísticas de S e outras informações de probabilidade de queima. Por fim, o algoritmo analisa as regiões vizinhas às que foram previamente classificadas como queimadas, aplicando uma fórmula probabilística que utiliza dados de focos ativos nessas regiões.
+
+A ESA possui seus próprios produtos de cálculo de queimada também, o mais atual é o FireCCI51 \citep{Lizundia2020}, que é uma evolução dos produtos anteriores (FireCCI41 e FireCCI50). Assim com o MCD64, também é um produto que combina detecções de focos ativos e dados de reflectância NIR do sensor MODIS, mas com uma resolução mais apurada, de 250m. O algoritmo é dividido em duas fases principais. A primeira a fase, chamada de seed (semente), coleta todos os pontos com alta probabilidade de terem sido queimados, escolhidos a partir de detecções de anomalias térmicas (focos ativos) combinados com a diminuição do NIR, que é indicativo de área queimada \citep{pereira1999}. Depois o algoritmo entra na fase de growing (crescimento), que a partir das sementes aplica limiares locais para identicar o caminho completo das áreas queimadas. Após é feito uma poda para eliminar áreas que cresceram muito além das sementes iniciais, usando algumas heurísticas, a fim de reduzir os falsos positivos.
+
+A ESA desenvolveu o FireCCI51, um produto avançado para o cálculo de áreas queimadas \citep{Lizundia2020}. Esse produto representa uma evolução em relação aos produtos anteriores, FireCCI41 e FireCCI50. Assim como o MCD64, o FireCCI51 combina detecções de focos ativos e dados de reflectância NIR do sensor MODIS, porém com uma resolução mais refinada de 250m. O algoritmo do FireCCI51 é dividido em duas fases principais. Na primeira fase, chamada de "semente", são coletados os pontos com alta probabilidade de terem sido queimados. Esses pontos são selecionados com base nas detecções de anomalias térmicas (focos ativos) e na diminuição do NIR, que é um indicativo de área queimada \citep{pereira1999}. Em seguida, o algoritmo passa para a fase de "crescimento", na qual são aplicados limiares locais a partir das sementes para identificar completamente as áreas queimadas. Posteriormente, é realizada uma poda para eliminar áreas que cresceram muito além das sementes iniciais, utilizando heurísticas que visam reduzir os falsos positivos.
+
 \section{Trabalhos Relacionados}
-\label{chp:trabalhos_relacionados}
+\label{sec:trabalhos_relacionados}
 
-Muitos outros trabalhos antes deste versaram sobre os dados de queimadas e, em menor escala, especificamente sobre o cálculo das áreas queimadas. Nesse capítulo, serão apresentado alguns trabalhos que estão de alguma forma próximos deste e, no final, será discutido o que faz este de certa forma único. \par
+Muitos outros trabalhos antes deste versaram sobre os dados de queimadas e, em menor escala, especificamente sobre o cálculo das áreas queimadas. Nesse capítulo, serão apresentados mais alguns trabalhos que estão de alguma forma próximos deste e os resultados obtidos por eles. No final, será discutido o que faz este ser único. \par
 
-O primeiro estudo refere-se ao trabalho que documentou sobre o produto MCD64A1 \citep{GIGLIO201872}, desenvolvido pela NASA para o cálculo de área queimada usando dados do sensor MODIS, dos satélites AQUA e TERRA. O algoritmo para produção desse produto combina as detecções de fogos ativos de 1 km do Collection 6.1 (ver \ref{sec:deteccao_focos_section}) com um índice de vegetação sensível a queimadas, construído a partir dos canais 5 e 7 do infravermelho curto do sensor MODIS. Esse índice captura a reflectância característica do solo em áreas queimadas com uma resolução espacial de 500m. A combinação dos dados de fogos ativos e do índice de vegetação permite que o algoritmo se adapte às diferentes regiões e ecossistemas em todo o mundo. Os artefatos produzidos pelo produto podem ser baixados gratuitamento para cada mês a partir de novembro do ano de 2000 pelo site da Earthdata (\url{https://urs.earthdata.nasa.gov}).
 
-Também desenvolvido pela NASA, o produto MCD45A1 foi lançado primeiramente em 2008 como parte do Collection 5 e, diferente do MCD64A1, não utiliza dados de focos ativos, apenas dados diários de reflectância da superfície. Ele foi descontinuado em favor do MCD64A1, pois era particularmente sensível a interferências de núvens e aerosois e a períodos de falta de dados. 
-
-Um outro trabalho parecido foi o que embasou o produto AQ1km \citep{libonati2015algorithm}, desenvolvido pelo INPE. O objetivo do estudo é detectar áreas queimadas mensalmente por meio de sensoriamento remoto utilizando o sensor MODIS (satélites AQUA e TERRA). Para isso, o algoritmo identifica regiões que apresentaram fogo ativo usando diferentes satélites, extraídos da mesma base do INPE, e agrupa os dados a cada um mês. Em seguida, filtra essas regiões com base em um índice de vegetação sensível a queimadas no espectro do infravermelho próximo (índice formalizado em \citet{libonati2011}), em relação ao mesmo índice do mês anterior. Por fim, identifica regiões próximas às regiões classificadas como área queimada no passo anterior, mas que não apresentaram um indicador forte o suficiente, o que pode ser devido a uma queimada parcial ou baixa intensidade de fogo naquele local. \par
-
+////// dosclassificaccao, 
 \section*{Comparação e discussão}
-
-\begin{table}[htbp]
-\centering
-\caption{Comparação entre os trabalhos apresentados}
-\begin{tabular}{ @{}llllcl@{} }
-  \toprule
-  Nome    & Ano & Resolução esp. & Resolução tem. \\
-  \midrule
-  MOD64A1 & 2016  & 1100m       & Polar   & 2018 & 21h \\
-
-  \bottomrule
-\end{tabular}
-\legend{Fonte: O Autor}
-\label{table:trabalhos_relacionados}
-\end{table}
-
 
 Ambos os estudos utilizaram dados do sensor MODIS para monitorar a reflectância da vegetação a fim de detectar áreas queimadas, embora tenham utilizado índices de vegetação diferentes. Os resultados apresentados pelo produto AQ1km em comparação com o MCD64A1 e MCD45A1 indicam muito mais áreas queimadas, mas apresentam uma menor acurácia geral. Em contraste ao MCD64A1, o produto AQ1km inova e se beneficia dos dados de diferentes satélites para definir as áreas de interesse e calcular o índice de vegetação. No entanto, ainda sofre das mesmas limitações do sensor MODIS, dependendo apenas de dois satélites, AQUA e TERRA, para o resultado final. \par
 
@@ -629,6 +606,7 @@ A Figura \ref{fig:aplicacao_funcoes_built_in} ilustra claramente como diferentes
 \end{figure}
 
 \chapter{Implementação do método}
+\label{chp:implementacao_metodo}
 
 Após a formalização do método de forma abstrata, esse capítulo descorre sobre a implementação de fato do método. Primeiro está discutido como os dados do DBQueimadas foram coletados da base de forma automatizada. Em seguida, descorre-se sobre a implementação do método ....
 

@@ -20,6 +20,8 @@ from shapely.geometry import MultiPolygon
 from shapely.geometry import LineString
 from shapely.ops import split
 
+import contextily as cx
+
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 import matplotlib.colors as colors
@@ -150,3 +152,57 @@ def plot_colortable(colors, *, ncols=4) -> plt.Figure:
         )
 
     return fig
+
+burn_colors = {
+    -2: (0.0, 0.0, 1.0, 1.0),
+    -1: (0.0, 0.0, 0.0, 1.0),
+    0: (0.0, 0.0, 0.0, 0.0)
+}
+for i in range(1, 367):
+    burn_colors[i] = (1.0, 0.0, 0.0, 1.0)
+
+legend_handler = [
+    patches.Patch(color=burn_colors[1], label='Queimado'),
+    patches.Patch(color=burn_colors[-2], label='Água'),
+    patches.Patch(color=burn_colors[-1], label='Sem dado'),
+]
+
+def show_nasa_burn_area(fp: str, **kwargs):
+    ax = kwargs.get('ax')
+    if ax == None:
+        fig, ax = plt.subplots(1, 1)
+    ax.legend(handles=legend_handler)
+    data = read_gdf_from_tiff(fp)
+    color = data['value'].map(burn_colors)
+    data.plot(color=color, ax=ax, linewidth=0, **kwargs)
+    cx.add_basemap(ax, crs=data.crs.to_string())
+
+fire_colors = {
+    0: (0.0, 0.0, 0.0, 1.0), # 0 = missing input data
+    1: (0.0, 0.0, 0.0, 1.0), # 1 = obsolete; not used since Collection 1
+    2: (0.0, 0.0, 0.0, 1.0), # 2 = other reason
+    3: (0.0, 0.0, 0.0, 0.0), # 3 =  non-fire water pixel
+    4: (0.5, 0.5, 0.5, 1.0), # 4 =  cloud
+    5: (0.0, 0.0, 0.0, 0.0), # 5 =  non-fire land pixel
+    6: (1.0, 1.0, 1.0, 1.0), # 6 =  unknown (land or water)
+    7: (0.5, 0.0, 0.0, 1.0), # 7 =  fire
+    8: (0.75, 0.0, 0.0, 1.0), # 8 =  fire
+    9: (1.0, 0.0, 0.0, 1.0), # 9 =  fire
+}
+
+fire_legend_handler = [
+    patches.Patch(color=fire_colors[0], label='Sem dado'),
+    patches.Patch(color=fire_colors[4], label='Núvem'),
+    patches.Patch(color=fire_colors[6], label='Desconhecido'),
+    patches.Patch(color=fire_colors[9], label='Fogo'),
+]
+
+def show_active_fire(fp: str, **kwargs):
+    ax = kwargs.get('ax')
+    if ax == None:
+        fig, ax = plt.subplots(1, 1)
+    ax.legend(handles=fire_legend_handler)
+    data = read_gdf_from_tiff(fp)
+    color = data['value'].map(fire_colors)
+    data.plot(color=color, ax=ax, linewidth=0, **kwargs)
+    cx.add_basemap(ax, crs=data.crs.to_string())
