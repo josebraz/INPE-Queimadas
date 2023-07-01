@@ -109,7 +109,7 @@ def time_measure_dist(df: pd.DataFrame, satelite='AQUA_M-T', ax: plt.Axes=plt.ax
     if '23:59:59' not in time_counts.index:
         time_counts['23:59:59'] = 0
     time_counts = time_counts.resample('30min').sum().reindex().rename(satelite)
-    time_counts.plot(ax=ax, legend=True)
+    time_counts.plot(ax=ax, color=satellites_colors[satelite], legend=True)
 
 def plot_colortable(colors, *, ncols=4) -> plt.Figure:
     cell_width = 212

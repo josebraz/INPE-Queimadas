@@ -124,12 +124,13 @@ class SatellitesExplore:
     def show_satellites_quads_evaluated(self, ax: plt.Axes, with_color_bar: bool = True, 
                                         cmap = default_cmap, evaluated_quads: bool = True):
         if len(self.dataframe) == 0: return
+        points: gpd.GeoDataFrame = self.get_all_evaluated_quads()[self.get_all_evaluated_quads()['value'] > 0.0]
         if evaluated_quads:
-            self.get_all_evaluated_quads().plot(ax=ax, edgecolor='k', alpha=0.5, 
-                                                linewidth=0.5, column='value', cmap='hot', 
-                                                legend=with_color_bar)
+            points.plot(ax=ax, edgecolor='k', alpha=0.5, 
+                        linewidth=0.5, column='value', cmap='hot', 
+                        legend=with_color_bar)
         else:
-            self.get_all_evaluated_quads().plot(ax=ax, edgecolor='k', linewidth=0.5)
+            points.plot(ax=ax, edgecolor='k', linewidth=0.5)
 
     def show_satellites_quads_areas(self, ax: plt.Axes, with_color_bar: bool = True, 
                                     with_areas: bool = True, cmap = default_cmap, 
@@ -138,7 +139,7 @@ class SatellitesExplore:
         area_km2 = self.get_total_area_m_2() / 1000000
         if with_areas:
             ax.legend(title = "{:.2f}Km²".format(area_km2), loc='lower left')
-        points: gpd.GeoDataFrame = self.get_all_evaluated_quads()
+        points: gpd.GeoDataFrame = self.get_all_evaluated_quads()[self.get_all_evaluated_quads()['value'] > 0.0]
         points.plot(column='burned_factor', cmap=cmap, legend=with_color_bar,
             ax=ax, edgecolor='k', linewidth=linewidth)
     
@@ -166,7 +167,6 @@ class SatellitesExplore:
                 values[index] = self._evaluate_quads(index, quads_df.iloc[index].geometry, join_dataframe)
 
             quads_df['value'] = values
-            quads_df = quads_df[quads_df['value'] > 0.0]
             self.all_evaluated_quads = quads_df
 
         return self.all_evaluated_quads

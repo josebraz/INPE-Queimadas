@@ -92,16 +92,26 @@ Agradeço ao \LaTeX\ por não ter vírus de macro\ldots
 % A NBR 14724:2011 estipula que a ordem das abreviações
 % na lista deve ser alfabética (como no exemplo abaixo).
 \begin{listofabbrv}{SPMD}
+	\item[ABI] Advanced Baseline Imager
 	\item[API] Application Programming Interface (Interface de Programação de Aplicação)
-	\item[CSV] Comma Separated Values (valores separados por vírgulas).
+	\item[ATRS] Along Track Scanning Radiometer
+	\item[AVHRR] Advanced Very High Resolution Radiometer
+	\item[CSV] Comma Separated Values (valores separados por vírgulas)
+	\item[EUMETSAT] European Organisation for the Exploitation of Meteorological Satellites
+	\item[ESA] European Space Agency
     \item[GMT] Greenwich Mean Time
+    \item[GOES] Geostationary Operational Environmental Satellite
     \item[INPE] Instituto Nacional de Pesquisas Espaciais
     \item[IBGE] Instituto Brasileiro de Geografia e Estatística
+    \item[JAXA] Japan Aerospace Exploration Agency
     \item[URL] Uniform Resource Locator (Localizador Uniforme de Recursos)
+    \item[NASA] National Aeronautics and Space Administration
     \item[NOAA] National Oceanic and Atmosphere Administration
+    \item[MSG] Meteosat Second Generation
+    \item[METOP] Meteorological Operational Satellite
     \item[MODIS] Moderate Resolution Imaging Spectroradiometer
-    \item[GOES] Geostationary Operational Environmental Satellite
-    \item[AVHRR] Advanced Very High Resolution Radiometer
+    \item[TRMM] Tropical Rainfall Measuring Mission
+    \item[VIIRS] Visible Infrared Imaging Radiometer Suite
 \end{listofabbrv}
 
 % idem para a lista de símbolos
@@ -169,21 +179,23 @@ Durante o decorrer do documento são apresentadas diversas figuras, a maioria de
 
 \chapter{Conceitos básicos e trabalhos relacionados}
 
-Neste capítulo, serão apresentados conceitos importantes para a compreensão do trabalho. Primeiramente, serão formalizadas definições relacionadas às queimadas e à forma como são monitoradas no Brasil. Em seguida, será realizada uma sumarização dos principais satélites utilizados pelo INPE e suas características. Em seguida, será abordado como as imagens geradas pelos satélites são utilizadas para a detecção de focos ativos. Por fim, apresentaremos uma análise dos dados para demonstrar uma visão geral das principais tendências e gráficos. \par
+Neste capítulo, serão apresentados conceitos importantes para a compreensão de todo trabalho e dos resultados obtidos com o método proposto. Primeiramente, serão formalizadas definições relacionadas às queimadas e à forma como são monitoradas no Brasil. Na próxima sessão, será realizada uma sumarização dos principais satélites utilizados pelo INPE e suas características. Após isso, apresentaremos uma análise dos dados para demonstrar uma visão geral das principais tendências e gráficos. Em seguida, será abordado como as imagens geradas pelos satélites são utilizadas para a detecção de focos ativos. Por fim, apresentaremos alguns trabalhos relacionados e quais os resultados obtidos por eles. \par
 
 \section{O monitoramento das queimadas no Brasil}
 
-Um foco de queima, também conhecido como "Fire Pixel", é a detecção de fogo na vegetação por uma imagem de satélite. A área de abrangência dessa detecção é do tamanho de um pixel na imagem. Um incêndio pode durar dias e queimar uma grande extensão de terra, o que provavelmente resultará na detecção de vários focos de queima. O número de focos de queima está diretamente relacionado à extensão total queimada e pode ser utilizado para comparações e análises. A área queimada, por outro lado, representa o resultado deixado pelo incêndio e também pode ser estimada a partir de imagens de satélites, usando índices de vegetação de diferentes bandas do sensor dos satélites. \par
+Um foco de queima, também conhecido como "Fire Pixel", é a detecção de fogo na vegetação por uma imagem de satélite. A área de abrangência dessa detecção é do tamanho de um pixel da imagem, por isso está relacionada diretamente com a resolução do sensor do satélite. Por exemplo, se um sensor tem resolução de aproximadamente 1km, a área coberta pelo pixel equivale a 1km no nadir (no equador) \cite{PerguntasFrequentesINPE}. A resolução do sensor, na verdade, representa uma estimativa do tamanho dos pixels, pois eles podem sofrer distorções relacionadas a inclinação e distância do satélite em relação ao ponto medido. 
 
-É importante destacar que o foco de queima por si só não representa de forma precisa o que está acontecendo na região, mas é um indicador valioso da intensidade e extensão do fogo. Poucos focos ou uma área queimada pequena não necessariamente refletem a intensidade da degradação da vegetação e o impacto ambiental. Áreas de floresta densa, mesmo que pequenas, podem ser gravemente afetadas, resultando em perdas significativas de fauna e flora, incluindo espécies exóticas e em risco de extinção. \par
+É importante destacar que o foco de queima por si só não representa de forma precisa o que está acontecendo na região, mas é um indicador valioso da intensidade e extensão do fogo. Poucos focos ou uma área queimada pequena não necessariamente refletem a intensidade da degradação da vegetação e o impacto ambiental. Áreas de floresta densa, mesmo que pequenas, podem ser gravemente afetadas, resultando em perdas significativas de fauna e flora, incluindo espécies exóticas e em risco de extinção.
 
-É com o intuito de monitorar e proteguer o meio ambiente do país que o INPE desenvolve o programa de Monitoramento de Queimadas e Incêndios Florestais (\url{https://queimadas.dgi.inpe.br/queimadas/portal}). O programa é um conjunto de ferramentas abertas, muitas delas acessíveis via Web, desenvolvidas pelo time de tecnologia do INPE. É possível obter e visualizar dados sobre os focos de queimadas, risco de fogo, área queimada, focos em áreas de preservação e propriedades rurais, entre outras. \par
+Um incêndio, diferente de um foco de queima, pode durar dias e queimar uma grande extensão de terra, o que provavelmente resultará na detecção de vários focos de queima. O número de focos de queima está diretamente relacionado à extensão total queimada e pode ser utilizado para comparações e análises \citep{giglio2010assessing}. A área queimada, por outro lado, representa o resultado deixado pelo incêndio e também pode ser estimada a partir de imagens de satélites, usando índices de vegetação de diferentes bandas do sensor dos satélites ou outras técnicas (ver sessão \ref{sec:deteccao_focos_section}).
 
-O programa também conta com o Banco de Dados de Queimadas (DBQueimadas), um site que possibilita gerar mapas, tabelas, gráficos e exportar os dados sobre as queimadas no Brasil aplicando diferentes filtros \citep{setzer2019banco}. O DBQueimadas é um excelente caso de como os dados abertos podem ajudar a sociedade. Além do DBQueimadas, o INPE também disponibiliza para visualização e download, por meio da Divisão de Geração de Imagens (DGI) \url{www.dgi.inpe.br/catalogo/}, algumas imagens inteiras geradas pelos satélites que o próprio DGI captura e processa. \par
+É com o intuito de monitorar e proteguer o meio ambiente do Brasil das queimadas que o INPE desenvolve o programa de Monitoramento de Queimadas e Incêndios Florestais (\url{https://queimadas.dgi.inpe.br/queimadas/portal}). O programa é um conjunto de ferramentas abertas, muitas delas acessíveis via Web, desenvolvidas pelo time de tecnologia do INPE que possibilitam obter e visualizar dados sobre os focos de queimadas, risco de fogo, área queimada, focos em áreas de preservação e propriedades rurais, entre outras.
 
-Para obter as imagens brutas dos satélites são necessárias antenas especiais que ficam em centros de recepção de dados. Com esse propósito, a DGI possui duas Estações de Recepção e Gravação (ERG) - a primeira em Cachoeira Paulista (SP) e uma mais recente em Cuiabá (MT). Na estação de SP, é feito o processamento de mais de 200 imagens de diversos satélites todos os dias, extraindo os dados de focos ativos de queimadas que alimentam o DBQueimadas \citep{SiteDGI}. \par
+O programa também conta com o Banco de Dados de Queimadas (DBQueimadas), um site capaz de gerar mapas, tabelas, gráficos e exportar os dados sobre as queimadas no Brasil aplicando diferentes filtros \citep{setzer2019banco}. O DBQueimadas é um excelente caso de como os dados abertos podem ajudar a sociedade, pois qualquer pessoa pode ter acesso aos dados e desenvolver trabalhos científicos, fomentando a ciência e melhorando o monitoramento. É a partir do DBQueimadas que este trabalho obteve boa parte dos dados necessários para o desenvolvimento.
 
-É em posse dessas imagens brutas que o INPE aplica algoritmos de detecção de focos de queimadas, abordado na Sessão \ref{sec:deteccao_focos_section}. No caso da detecção ser positiva, a posição exata (latitude e longitude) e a hora que a imagem foi gerada são adicionadas aos dados como uma nova linha e disponibilizados pelo DBQueimadas. O INPE ainda coloca junto com as coordenadas da detecção mais alguns dados como risco de fogo, poder do fogo, precipitação e dados referentes a região do foco. A lista completa das colunas pode ser vista na Tabela \ref{table:inpeColumns} \cite{PerguntasFrequentesINPE}. \par
+Além do DBQueimadas, o INPE também disponibiliza para visualização e download, por meio da Divisão de Geração de Imagens (DGI) \url{www.dgi.inpe.br/catalogo/}, algumas imagens inteiras geradas pelos satélites que o próprio DGI captura e processa. Para obter essas imagens brutas são necessárias antenas especiais que ficam em centros de recepção de dados. Com esse propósito, a DGI possui duas Estações de Recepção e Gravação (ERG) - a primeira em Cachoeira Paulista (SP) e uma mais recente em Cuiabá (MT). Na estação de SP, é feito o processamento de mais de 200 imagens de diversos satélites todos os dias, extraindo os dados de focos ativos de queimadas que alimentam o DBQueimadas \citep{SiteDGI}. \par
+
+É em posse dessas imagens o INPE aplica algoritmos de detecção de focos de queima, abordado na Sessão \ref{sec:deteccao_focos_section}. No caso da detecção ser positiva, a posição exata (latitude e longitude) e a hora que a imagem foi gerada são adicionadas aos dados como uma nova linha e disponibilizados pelo DBQueimadas. O INPE ainda coloca junto com as coordenadas da detecção mais alguns dados como risco de fogo, poder do fogo, precipitação e dados referentes a região do foco. A lista completa das colunas pode ser vista na Tabela \ref{table:inpeColumns} \cite{PerguntasFrequentesINPE}. \par
 
 \begin{table}[htbp]
 \centering
@@ -214,15 +226,17 @@ Para obter as imagens brutas dos satélites são necessárias antenas especiais 
  \texttt{FRP} & \texttt{double} & Fire Radiative Power, MW (megawatts) \\
  \bottomrule
 \end{tabular}
-\legend{Fonte: O Autor com base em \citet{PerguntasFrequentesINPE}}
+\legend{Fonte: \citet{PerguntasFrequentesINPE}}
 \label{table:inpeColumns}
 \end{table}
+
+
 
 \section{Os Satélites e Sensores}
 
 O INPE processa atualmente dados de diversos satélites, cada um com características distintas. Esses satélites abrangem uma ampla gama de órbitas e altitudes, desde satélites geoestacionários, como o GOES-12, localizado a 29.400 km de distância da superfície \citep{GOES12Algo}, até satélites em órbitas polares, que ficam entre 700 e 900 km de altura. Cada um desses satélites é equipado com diferentes sensores que são utilizados para diversos propósitos, como observação da vegetação terrestre, nuvens, oceanos e monitoramento atmosférico. \par
 
-Cada satélite pode estar equipado com um sensor imageador que captura imagens com características distintas. Esses sensores são capazes de captar não apenas a luz visível, no intervalo de 400 nm a 700 nm, mas também o infravermelho, de 780 nm a 1 mm. As medições realizadas pelos sensores são divididas em canais, que diferem em termos de resolução espacial - a escala geográfica representada por cada pixel da imagem - e resolução espectral, ou seja, o intervalo de comprimento de onda abrangido. Geralmente, o primeiro canal é dedicado à luz visível, abrangendo o espectro do laranja ao vermelho e possui a maior resolução espacial possível para o sensor. Os demais canais utilizam diferentes intervalos de comprimento de onda do infravermelho e da luz visível, frequentemente com incremento na resolução espacial. \par
+Cada satélite pode estar equipado com um sensor imageador que captura imagens com características distintas. Esses sensores são capazes de captar não apenas a luz visível, no intervalo de 400 nm a 700 nm, mas também o infravermelho, de 780 nm a 1 mm. As medições realizadas pelos sensores são divididas em canais, que diferem em termos de resolução espacial - a escala geográfica representada por cada pixel da imagem - e resolução espectral, ou seja, o intervalo de comprimento de onda abrangido. \par
 
 Os satélites também podem ser classificados de acordo com o tipo de óbita, que pode ser polar ou geoestacionária. Os satélites polares percorrem toda a terra, com uma altitude baixa e alta velocidade, passando várias vezes pelos polos norte e sul em um único dia. Já os satélites geoestacionários ajustam sua orbita para sempre parecerem estacionários em relação a um ponto fixo na Terra. Esses satélites ficam em altitudes mais altas devido à sua velocidade mais baixa, que é igual à rotação da Terra. A Figura \ref{fig:orbita2022-08-10}, gerada a partir de dados do site Celestrak (\url{https://celestrak.org/}), mostra a passagem de alguns satélites polares no Brasil no dia 10 de agosto de 2022. Também é possível ver o satélite geoestacioário GOES-16, localizado ao norte do perú, representado com um ponto no gráfico. \par
 
@@ -235,14 +249,14 @@ Os satélites também podem ser classificados de acordo com o tipo de óbita, qu
     \label{fig:orbita2022-08-10}
 \end{figure}
 
-A Tabela \ref{table:satelites} contém um resumo dos satélites utilizados pelo INPE desde o início da série histórica até o final de 2022 \cite{EmbrapaSatelites}. Atualmente, os satélites que estão em pleno funcionamento são: NOAA-20, NOAA-19, NOAA-18, GOES-16, Suomi NPP, AQUA, TERRA, MSG-03, METOP-B e METOP-C. Os demais satélites, como NOAA-17, NOAA-16, NOAA-15, TRMM, NOAA-14, NOAA-12, GOES-13, MSG-02, GOES-12, GOES-10 e GOES-08, deixaram de operar em diferentes momentos devido a problemas técnicos ou ao fim de sua vida útil e componentes. \par
+A Tabela \ref{table:satelites} contém um resumo dos satélites utilizados pelo INPE desde o início da série histórica até o final de 2022 \cite{EmbrapaSatelites}. Atualmente, os satélites que estão em pleno funcionamento são: NOAA-20, NOAA-19, NOAA-18, GOES-16, Suomi NPP, AQUA, TERRA, MSG-03, METOP-B e METOP-C. Os demais satélites, como NOAA-17, NOAA-16, NOAA-15, TRMM, NOAA-14, NOAA-12, GOES-13, MSG-02, GOES-12, GOES-10 e GOES-08, deixaram de operar em diferentes momentos devido a problemas técnicos ou ao fim de sua vida útil. \par
 
 \begin{table}[htbp]
 \centering
 \caption{Características dos satélites usados pelo INPE.}
 \begin{tabular}{ @{}llllcl@{} }
   \toprule
-  Nome    & Sensor & Resolução esp. & Órbita & Lançamento & Passagem \\
+  Nome    & Sensor & Resolução esp. & Órbita & Lançado & Passagem no Brasil \\
   \midrule
   METOP-C & AVHRR-3  & 1100m       & Polar   & 2018 & 21h \\
   NOAA-20 & VIIRS    & 500m        & Polar   & 2017 & 2h / 14h \\
@@ -273,26 +287,30 @@ A Tabela \ref{table:satelites} contém um resumo dos satélites utilizados pelo 
 \label{table:satelites}
 \end{table}
 
-Os satélites TERRA e AQUA, ambos com o sensor Moderate Resolution Imaging Spectroradiometer (MODIS), foram lançados em 1999 e 2002 respectivamente. São americanos e foram desenvolvidos em parceria com o Japão, Canada e Brasil. O sensor MODIS possui 36 canais e resolução espectral que varia de 250m a 1km em diferentes espectros do infravermelo e luz visível. É especialmente capaz de detectar mudanças no uso e cobertura da terra bem como queimadas e atividades vulcânicas. \par
+Os satélites TERRA e AQUA, ambos com o sensor Moderate Resolution Imaging Spectroradiometer (MODIS), foram lançados em 1999 e 2002 respectivamente. São americanos e foram desenvolvidos em parceria com o Japão, Canada e Brasil. O sensor MODIS possui 36 canais e resolução espectral que varia de 250m a 1km em diferentes espectros do infravermelo e luz visível. É especialmente capaz de detectar mudanças no uso e cobertura da terra bem como queimadas e atividades vulcânicas.
 
-Os satélites da série NOAA (National Oceanic and Atmospheric Administration) são operados pela agência americana de mesmo nome. Embora tenha havido vários satélites NOAA ao longo do tempo, atualmente estão em operação o NOAA-20, NOAA-19 e NOAA-18. Esses satélites desempenham um papel fundamental no fornecimento de dados para a previsão do tempo e o monitoramento da vegetação. 
+Os satélites da série National Oceanic and Atmospheric Administration (NOAA) são operados pela agência americana de mesmo nome. Embora tenha havido vários satélites NOAA ao longo do tempo, atualmente estão em operação o NOAA-20, NOAA-19 e NOAA-18. Esses satélites desempenham um papel fundamental no fornecimento de dados para a previsão do tempo e o monitoramento da vegetação. 
 
-Além dos satélites NOAA, em 2011, a NOAA em parceria com a NASA lançou o satélite Suomi NPP (Suomi National Polar-orbiting Partnership). O Suomi NPP tem como objetivo principal obter observações ambientais e meteorológicas avançadas da Terra. É equipado com o sensor VIIRS (Visible Infrared Imaging Radiometer Suite), que também está presente no NOAA-20. Esses dois satélites, Suomi NPP e NOAA-20, são os satélites com mais alta resolução espacial entre todos os processados pelo INPE. \par 
+Além dos satélites NOAA, em 2011, a NOAA em parceria com a National Aeronautics and Space Administration (NASA) lançou o satélite Suomi NPP (Suomi National Polar-orbiting Partnership). O Suomi NPP tem como objetivo principal obter observações ambientais e meteorológicas avançadas da Terra. É equipado com o sensor Visible Infrared Imaging Radiometer Suite (VIIRS), que também está presente no NOAA-20. Esses dois satélites, Suomi NPP e NOAA-20, são os satélites com mais alta resolução espacial entre todos os processados pelo INPE, equivalente a 250m.
 
-O conjunto de satélites GOES (Geostationary Operational Environmental Satellite) é operado pela NASA e controlado também pelo NOAA. As primeiras versões desses satélites geoestacionários foram equipadas com o sensor GOES I-M (Imager Radiometer e Vertical Sounder) de resolução espacial equivalente a 4km. A partir do GOES-16 o sensor foi substituído pelo ABI (Advanced Baseline Imager), capaz de produzir imagens com resolução 4 vezes melhores. Esse conjunto de satélites foi e ainda é muito usado nas previsões metereológicas nos países do continente americano. \par
+O conjunto de satélites Geostationary Operational Environmental Satellite (GOES) é operado pela NASA e controlado também pelo NOAA. As primeiras versões desses satélites geoestacionários foram equipadas com o sensor GOES I-M (Imager Radiometer e Vertical Sounder) de resolução espacial equivalente a 4km. A partir do GOES-16 o sensor foi substituído pelo Advanced Baseline Imager (ABI), capaz de produzir imagens com resolução 4 vezes melhores. Esse conjunto de satélites foi e ainda é muito usado nas previsões metereológicas nos países do continente americano.
 
-O INPE processa as imagens dos satélites da série METOP (Meteorological Operational Satellite), incluindo o METOP-B e o METOP-C, bem como os satélites da série MSG (Meteosat Second Generation), como o MSG-02 (Meteosat-9) e o MSG-03 (Meteosat-10). Ambas missões projetadas em parceria com a ESA (Agência Espacial Europeia) e a EUMETSAT (Organização Europeia para a Exploração de Satélites Meteorológicos). Esses satélites têm como objetivo a previsão do tempo, o monitoramento climático e o acompanhamento de desastres naturais. O METOP-C é o último satélite planejado para a série METOP, completando assim o conjunto de satélites METOP-A, METOP-B e METOP-C.
+O INPE processa as imagens dos satélites da série Meteorological Operational Satellite (METOP), incluindo o METOP-B e o METOP-C, bem como os satélites da série Meteosat Second Generation (MSG), como o MSG-02 (Meteosat-9) e o MSG-03 (Meteosat-10). Ambas missões projetadas em parceria com a European Space Agency (ESA) e a European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT). Esses satélites têm como objetivo a previsão do tempo, o monitoramento climático e o acompanhamento de desastres naturais. O METOP-C é o último satélite planejado para a série METOP, completando assim o conjunto de satélites METOP-A, METOP-B e METOP-C.
 
-O instituto também processou dados dos satélites ERS-1 e ERS-2, equipados com o sensor ATRS (Along Track Scanning Radiometer) da Agência Espacial Europeia (ESA) \cite{EmbrapaSatelites}. Esses satélites, de órbita polar, são especializados em medir com precisão a temperatura da terra e dos oceanos. Os dados coletados por esses satélites são utilizados por cientistas para detectar mudanças climáticas e vegetação, incluindo eventos como queimadas, em todo o planeta. O ATRS possui duas versões, sendo que o primeiro (ATSR-1) possui 4 canais e o segundo (ATSR-2) foi aprimorado com um canal adicional para capturar a luz visível, possibilitando o monitoramento da vegetação.  \par
+O instituto também processou dados dos satélites ERS-1 e ERS-2, equipados com o sensor  Along Track Scanning Radiometer (ATRS) da ESA \cite{EmbrapaSatelites}. Esses satélites, de órbita polar, são especializados em medir com precisão a temperatura da terra e dos oceanos. Os dados coletados por esses satélites são utilizados por cientistas para detectar mudanças climáticas e vegetação, incluindo eventos como queimadas, em todo o planeta. O ATRS possui duas versões, sendo que o primeiro (ATSR-1) possui 4 canais e o segundo (ATSR-2) foi aprimorado com um canal adicional para capturar a luz visível, possibilitando o monitoramento da vegetação. 
 
-Também estão presentes nos dados, em menor escala, os focos de queimadas obtidos pelo satélite TRMM (Tropical Rainfall Measuring Mission). O TRMM foi uma missão conjunta entre a NASA e a JAXA (Agência Espacial Japonesa), que teve início em 1997 e oficialmente encerrou em 2015. O principal objetivo dessa missão era estudar a distribuição de chuvas e tempestades, bem como suas influências no clima global. \par
+Também estão presentes nos dados, em menor escala, os focos de queimadas obtidos pelo satélite Tropical Rainfall Measuring Mission (TRMM). O TRMM foi uma missão conjunta entre a NASA e a Japan Aerospace Exploration Agency (JAXA), que teve início em 1997 e oficialmente encerrou em 2015. O principal objetivo dessa missão foi estudar a distribuição de chuvas e tempestades, bem como suas influências no clima global. \par
 
-Para estabelecer uma série temporal consistente e permitir a análise de tendências ao longo de vários anos dos focos de queimadas detectados em diferentes regiões, o INPE definiu um satélite de referência. Esse satélite de referência é escolhido com base em critérios específicos. É importante que sua órbita cubra satisfatoriamente a área do país, sem distorcer os dados de forma significativa. Além disso, é desejável que os sensores do satélite tenham resoluções adequadas, ou seja, não muito baixas, para garantir uma análise precisa dos focos de queimadas.
+\subsection*{O satélite de referência}
+
+Para estabelecer uma série temporal consistente e permitir a análise de tendências ao longo de vários anos dos focos de queimadas detectados em diferentes regiões, o INPE definiu um satélite de referência. Esse satélite de referência é escolhido com base em critérios específicos. É importante que sua órbita cubra satisfatoriamente a área do país, sem distorcer os dados de forma significativa. Além disso, é desejável que os sensores do satélite tenham resoluções adequadas, ou seja, não muito baixas, para garantir uma análise precisa dos focos de queimadas. \citep{PerguntasFrequentesINPE}
 
 No período de 01 de junho de 1998 a 03 de julho de 2002, o satélite de referência utilizado foi o NOAA-12, com passagem no final da tarde. Após esse período, passou-se a utilizar o satélite AQUA, com passagem à tarde (identificado nos dados como AQUA\_M-T). O AQUA tem operado além da data prevista de encerramento e provavelmente deve ser descontinuado em breve. Quando isso ocorrer, a previsão é que o satélite Suomi NPP deve ser o novo satélite de referência \citep{PerguntasFrequentesINPE}. Sempre que há uma mudança de satélite de referência, a série histórica de quantidade de focos de queimada precisa ser ajustada devido a diferença entre os satélites.
-\section{Uma visão geral dos dados}
 
-Nesta sessão, será realizada uma análise inicial dos dados disponíveis sobre focos de queimada, com o objetivo de extrair algumas informações relevantes. É importante, no entanto, ter cuidado na escolha dos satélites a serem utilizados na análise. Para algumas análises, caso sejam usados todos os satélites disponíveis, pode ocorrer a contagem de um mesmo foco várias vezes ou, ainda, a contagem do mesmo foco em passagens diurnas e noturnas de um mesmo satélite polar. Para solucionar esse problema, será utilizado o satélite AQUA com passagem à tarde (AQUA\_M-T), que é o satélite de referência do INPE atualmente. Dessa forma, é possível evitar a contagem duplicada de focos de queimada e garantir a precisão das informações analisadas. \par
+\section{Uma visão geral dos dados}
+\label{sec:visao_geral}
+
+Nesta sessão, será realizada uma análise inicial dos dados disponíveis sobre focos de queimada, com o objetivo de extrair algumas informações relevantes. É importante, no entanto, ter cuidado na escolha dos satélites a serem utilizados na análise. Para algumas análises, caso sejam usados todos os satélites disponíveis, pode ocorrer a contagem de um mesmo foco várias vezes para diferentes satélites. Ou ainda, a contagem do mesmo foco em passagens diurnas e noturnas de um mesmo satélite polar. Para solucionar esse problema, em casos em que a quantidade absoluta de focos importa, será utilizado o satélite AQUA com passagem à tarde (AQUA\_M-T), que é o satélite de referência do INPE atualmente. Dessa forma, é possível evitar a contagem duplicada de focos de queimada e garantir a precisão das informações analisadas. \par
 
 \begin{figure}[H]
     \caption{Detecções por satélite, sensor, bioma e região durante toda a série histórica}
@@ -303,11 +321,9 @@ Nesta sessão, será realizada uma análise inicial dos dados disponíveis sobre
     \label{fig:medicoes_nos_anos}
 \end{figure}
 
-A análise começa, na Figura \ref{fig:medicoes_nos_anos}, com uma visão preliminar sobre as características dos focos detectados durante toda a série história. Aqui é importante destacar que vários focos podem representar uma única queimada e também não tem relação necessariamente com a área queimada. Nota-se que a série começa basicamente com os dados do satélite NOAA-12, que era o satélite de referência até 2002, e teve dados até 2007, ano que foi desativado. TERRA e AQUA foram os únicos satélites presentes no início e que até hoje tem relevância nos dados. A partir de 2012, com a entrada do satélite Suomi NPP, os dados mais que duplicaram devido a capacidade do sensor VIIRS a bordo deste satélite e depois, em 2019, junto ao NOAA-20 também. A partir de 2017 o satélite GOES-16 entra em ação e, mesmo sendo geoestacionário, passou a ter relevância. \par
+A análise começa, na Figura \ref{fig:medicoes_nos_anos}, com uma visão preliminar sobre as características dos focos detectados durante toda a série história, para todos os satélites. Aqui é importante destacar que vários focos podem representar uma única queimada, como mencionado anteriormente, e também não há relação necessariamente direta com a área queimada. Nota-se que a série começa basicamente com os dados do satélite NOAA-12, que era o satélite de referência até 2002, e teve dados até 2007, ano que foi desativado. TERRA e AQUA foram os únicos satélites presentes no início e que até hoje tem relevância nos dados. A partir de 2012, com a entrada do satélite Suomi NPP, os dados mais que duplicaram devido a capacidade do sensor VIIRS a bordo deste satélite e depois, em 2019, junto ao satélite NOAA-20 também. A partir de 2017 o satélite GOES-16 entra em ação e, mesmo sendo geoestacionário (com menor capacidade de datecção dos focos), passou a ter relevância. \par
 
-Quanto as detecções por bioma, nota-se que no decorrer dos anos a proporção entre os focos em cada bioma se manteve basicamente constrante, com excessão do período de 2019 a 2022. Nesse período, o bioma Pantanal quebrou a tendência de ter poucos focos detectados, apresentando um aumento de 600\% e justificado por um período de seca prolongado \cite{pantanal2021dinamica}. Nesse mesmo período, também notou-se um aumento nas detecções, ainda que bem menor, no bioma da Mata Atlântica, bioma considerado o mais degradado do Brasil. \par
-
-Saber em quais momentos os satélites passam também é importante para a análise. Os satélites polares passam duas vezes por dia no Brasil, variando o local exato da passagem de acordo com as características de sua órbita. Pela Figura \ref{fig:tempo_medidas_satelites} é possível observar esse comportamento empiricamente, em que as 5 primeiras linhas, que representam dados gerados por satélites polares, apresentam dois picos durante um período de 24 horas. Já para o  caso dos geoestacionários (GOES-16), que ficam fixos em relação a uma posição na Terra, não se observou o mesmo padrão. \par
+Quanto as detecções por bioma, nota-se que no decorrer dos anos a proporção entre os focos em cada bioma se manteve basicamente constrante, com excessão do período de 2019 a 2022. Nesse período, o bioma Pantanal quebrou a tendência de ter poucos focos detectados, apresentando um aumento de 600\% e justificado por um período de seca prolongado \cite{pantanal2021dinamica}. Nesse mesmo período, também notou-se um aumento nas detecções, ainda que bem menor, no bioma da Mata Atlântica.
 
 \begin{figure}[H]
     \caption{Amostragem por tempo de cada satélite.}
@@ -318,16 +334,37 @@ Saber em quais momentos os satélites passam também é importante para a análi
     \label{fig:tempo_medidas_satelites}
 \end{figure}
 
-A partir de uma análise quantitativa dos dados com relação ao tempo de cada medida, exposto na Figura \ref{fig:quantitativo_geral}, podemos identificar uma grande sazonalidade, sempre tendo picos entre os meses de agosto e setembro. Desde o início da série, o mês que mais teve focos detectados foi setembro de 2007. 
+Saber em quais momentos os satélites passam também é importante para a análise. Os satélites polares passam duas vezes por dia no Brasil, variando o local exato da passagem de acordo com as características de sua órbita. Pela Figura \ref{fig:tempo_medidas_satelites} é possível observar esse comportamento também nos dados. As quatro primeiras linhas, que representam dados gerados por satélites polares, apresentam dois picos durante um período de 24 horas. Já para o caso dos satélites geoestacionários (GOES-16) não se observou o mesmo padrão, apresentando mais dados entre o período da tarde e início da noite, provavelmente por ser um intervalo de tempo mais quente e seco, mais propício para o fogo \citep{nepstad2007mortality}.
 
 \begin{figure}[H]
-    \caption{}
+    \caption{Somatório dos focos do satélite de referência agrupado por mês}
     \begin{center}
         \includegraphics[width=35em]{quantitativo_geral}
     \end{center}
     \legend{Fonte: O Autor}
     \label{fig:quantitativo_geral}
 \end{figure}
+
+Ao realizar uma análise quantitativa dos focos de queimadas, considerando apenas o satélite de referência, é possível identificar uma sazonalidade clara na Figura \ref{fig:quantitativo_geral}. Os períodos do ano com maior número de detecções estão concentrados entre julho e setembro, com um pico máximo em 2007. Por outro lado, entre dezembro e março, as detecções diminuem significativamente, representando menos de 10\% do total de focos no ano.
+
+Esse padrão sazonal foi explicado em um estudo realizado por \citet{martins2020dinamica}. O trabalho analisou os dados de focos de queimada do satélite AQUA, obtidos pelo INPE, para o período de 2003 a 2018. Os resultados indicaram que a precipitação exerce uma influência direta na quantidade e localização dos focos no território nacional. Durante o período chuvoso, de dezembro a março, o Brasil é afetado pela Zona de Convergência Intertropical e pela Zona de Convergência do Atlântico Sul. Quando esses fenômenos estão menos intensos, a região nordeste entra em um período de seca, e à medida que a seca se intensifica, as queimadas se tornam mais frequentes e intensas.
+
+No geral, observa-se uma tendência de queda nos focos de queimada. Tanto os períodos de baixa quanto os períodos de alta apresentam uma diminuição nas ocorrências. Essa tendência é fortemente influenciada pelos anos de 2009, 2011 e 2013, que registraram o menor número de focos, bem como pelos anos anteriores, de 2003 a 2005 e 2007, com ocorrências mais elevadas. É importante destacar que nos últimos anos, a média anual dentro de cada ano rompeu essa tendência, o que pode ser um sinal de alerta do aumento das queimadas.
+
+\begin{figure}[H]
+    \caption{Relação de focos por área geográfica do país por município (superior esquerdo); por estado (superior direito); por região (inferior equerdo); e por bioma (inferior direito)}
+    \begin{center}
+        \includegraphics[width=25em]{brasil_focos}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:brasil_focos}
+\end{figure}
+
+A Figura \ref{fig:brasil_focos} é fruto da relação dos dados de focos de queimadas com dados geográficos do país proveniente do IBGE. Nela é apresentado a quantidade de focos por $km^2$ para cada minicípio, estado, região e bioma do país desde o início dos dados do satélite de referência. A quantização não é fixa para todos dos mapas, por isso cada mapa possui uma legenda que fica no canto esquerdo inferior. Cada linha da legenda representa o valor inicial (exclusivo, exceto no primeiro) e o valor final (inclusivo) do intervalo. 
+
+O bioma Pantanal, apesar de apresentar queimadas mais recentes, já se destaca como o bioma que teve mais focos detectados, quase um foco por $km^2$. Logo depois vem o Cerrado, bioma de interesse de vários trabalhos que envolvem as queimadas, com a maior concentração de focos na parte superior de bioma, onde se intersecta com a região Norte e Nordeste. Os biomas Pampa, Mata Atlântica e Caatinga apresentam a menor proporção de focos por $km^2$, provalmente por já estarem muito degradados pelo processo de urbanização que começou na costa do país.
+
+Pará, Rondônia e Acre são estados que apresentaram bastante focos e são cobertos quase completamente pelo bioma da amazônia. Por outro lado, estados nessa mesma situação, como Amazonas, Roraima e Amapa tem poucos focos. Muitas cidades do nordeste do Rio Grande do Sul e Santa Catarina também se destacaram, apesar da região Sul inteira não apresentar valores significativos. 
 
 \section{Detecção de focos ativos e área queimada}
 \label{sec:deteccao_focos_section}
@@ -438,7 +475,9 @@ O INPE utiliza dois produtos principais para a detecção de áreas queimadas: o
 
 O produto AQ1Km está em fase provisória de desenvolvimento (conforme Tabela \ref{table:nivel_maturidade_produtos}). É derivado de dados coletados pelo sensor MODIS, utilizando simultaneamente os satélites Aqua e Terra, além de incorporar informações de focos de queimada do INPE de diferentes satélites \citep{libonati2015algorithm}. Resumidamente, o algoritmo do AQ1km inicia filtrando os dados de reflectância com base em critérios de cobertura de nuvens e posição espacial para minimizar distorções. Em seguida, os dados são agrupados por mês para preencher eventuais lacunas diárias. O algoritmo identifica as áreas denominadas "HotSpots", que correspondem a regiões com atividade de fogo durante o período analisado. Posteriormente, é calculado um índice de vegetação para essas áreas, utilizando dados de reflectância no infravermelho próximo (NIR) e no infravermelho de onda média (MWIR), conforme proposto em \citet{libonati2011}, comparando-o com o mesmo índice do mês anterior. Por fim, são identificadas regiões próximas às áreas classificadas como queimadas no passo anterior, mas que não apresentaram um indicador suficientemente forte, podendo indicar que ocorreu uma queimada parcial ou que a intensidade do fogo foi baixa naquela localidade.
 
-O produto AQ30m é gerado a partir de imagens do satélite Landsat-8, utilizando a diferença entre os índices de vegetação NDVI (Normalized Difference Vegetation Index), NBRL (Normalized Burn Ratio) e BAI (Burned Area Index) entre imagens consecutivas \citep{melchiori2014landsat}. Esses dados passam por uma filtragem com base em limiares definidos por especialistas e, em seguida, são suavizados usando um filtro de mediana 3x3 para eliminar valores discrepantes. O passo final envolve a construção de polígonos com base nos valores calculados e a remoção de polígonos muito pequenos. A implementação desse produto foi feita em Python, utilizando algumas ferramentas de processamento de dados que este trabalho também utiliza (ver capítulo \ref{chp:implementacao_metodo}). No entanto, o processo atualmente não é totalmente automatizado e requer uma avaliação final de um especialista do instituto antes da divulgação. Em \citet{dosclassificaccao}, são apresentadas algumas técnicas de aprendizado de máquina aplicadas na avaliação automática desse produto, obtendo resultados promissores.
+O produto AQ30m é gerado a partir de imagens do satélite Landsat-8, utilizando a diferença entre os índices de vegetação NDVI (Normalized Difference Vegetation Index), NBRL (Normalized Burn Ratio) e BAI (Burned Area Index) entre imagens consecutivas \citep{melchiori2014landsat}. Esses dados passam por uma filtragem com base em limiares definidos por especialistas e, em seguida, são suavizados usando um filtro de mediana 3x3 para eliminar valores discrepantes. O passo final envolve a construção de polígonos com base nos valores calculados e a remoção de polígonos muito pequenos. A implementação desse produto foi feita em Python, utilizando algumas ferramentas de processamento de dados que este trabalho também utiliza (ver capítulo \ref{chp:implementacao_metodo}). 
+
+No entanto, o processo atualmente não é totalmente automatizado e requer uma avaliação final de um especialista do instituto antes da divulgação. Isso é necessário pois a degradação da vegetação pode ter ocorrido por outro fator além da queimada, como desmatamento, colheita ou preparação do solo. Quando os especialistas não tem certeza se a área destacada foi originada por uma queimada, a classficação é de não-queimada. Em \citet{dosclassificaccao}, são apresentadas algumas técnicas de aprendizado de máquina aplicadas na avaliação automática desse produto, obtendo resultados promissores (ver a Sessão \ref{sec:trabalhos_relacionados}).
 
 A NASA também mantém um produto específico para o cálculo da área queimada, chamado de MCD64, utilizando também os dados dos dois satélites com sensor MODIS \citep{GIGLIO201872}, de resolução espacial de $500m$ e temporal de um mês. Diferente da versão anterior, a MCD45 (C5), esse algoritmo combina as detecções de fogos ativos de 1 km do Collection 6.1 (ver sessão \ref{sec:deteccao_focos_section}) com um índice de vegetação sensível a queimadas, construído a partir dos canais 5 e 7 do SWIR do sensor MODIS, capturando a reflectância característica do solo em áreas queimadas. A combinação dos dados de fogos ativos e do índice de vegetação permite que o algoritmo se adapte às diferentes regiões e ecossistemas em todo o mundo. Os artefatos produzidos pelo produto podem ser baixados gratuitamento para cada mês a partir de novembro do ano de 2000 pelo site da Earthdata (\url{https://urs.earthdata.nasa.gov}).
 
@@ -453,8 +492,16 @@ A ESA desenvolveu o FireCCI51, um produto avançado para o cálculo de áreas qu
 
 Muitos outros trabalhos antes deste versaram sobre os dados de queimadas e, em menor escala, especificamente sobre o cálculo das áreas queimadas. Nesse capítulo, serão apresentados mais alguns trabalhos que estão de alguma forma próximos deste e os resultados obtidos por eles. No final, será discutido o que faz este ser único. \par
 
+O primeiro trabalho analisado é o \citet{dosclassificaccao} que se dedicou a eliminar a necessidade de uma avaliação humana no produto AQ30m, para o calculo de áreas queimadas a partir de imagens do satélite Landsat-8. O documento aborda os resultados do treinamento de cinco modelos de aprendizado de máquina: K-Nearest Neighbors (kNN), Decision Trees (DT), Random Forests (RF), Neural Networks (NN) e Support Vector Machines (SVM). São usadas quatro dados de entradas para esse modelo: Quantidade de queimadas anteriores próximas a área analisada, Focos ativos de queima de diferentes satélites extraídos da base de dados do INPE, valor do índice Mid-Infrared Burn Index (MIRBI) e valor do índice Normalized
+Difference Water Index (NDWI).
 
-////// dosclassificaccao, 
+O treinamento foi com 9 imagens no período de 16/03/17 a 24/09/17 na região órbita-ponto 223/067. A validação foi feita com uma imagem em 10/10/17 e obteve resultado melhores no modelo usando Random Forests e no modelo usando Redes Neurais. A acurácia geral ficou acima de 96\% para esses modelos. O modelos de K-Nearest Neighbors e Decision Trees ficaram entre 80\% e 90\% de acurácia. O pior modelo, o Support Vector Machines, obteve acurácia de pouco mais de 50\%. O trabalho conclui que os modelos podem atingir boas acurácias, mas como são treinados usando classificações 
+
+
+////// pereira2017burned
+
+//////
+
 \section*{Comparação e discussão}
 
 Ambos os estudos utilizaram dados do sensor MODIS para monitorar a reflectância da vegetação a fim de detectar áreas queimadas, embora tenham utilizado índices de vegetação diferentes. Os resultados apresentados pelo produto AQ1km em comparação com o MCD64A1 e MCD45A1 indicam muito mais áreas queimadas, mas apresentam uma menor acurácia geral. Em contraste ao MCD64A1, o produto AQ1km inova e se beneficia dos dados de diferentes satélites para definir as áreas de interesse e calcular o índice de vegetação. No entanto, ainda sofre das mesmas limitações do sensor MODIS, dependendo apenas de dois satélites, AQUA e TERRA, para o resultado final. \par
