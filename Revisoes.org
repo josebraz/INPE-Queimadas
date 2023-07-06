@@ -95,13 +95,26 @@
     anteriores, mas depois eles descartaram esse algorimo melhor? Como
     assim?
 *** Produtos de área queimada
+- Na Tabela 2.6 temos uma ordem, primeiro MOD... termina por AQ30m
+  - Garantir que a ordem de apresentação que segue a tabela no resto
+    desta parte obdeça a mesma ordem. Se a ordem do texto é a
+    desejada, alterar a ordem da tabela. Por exemplo, o produto da
+    NASA (MOD64) vem depois do INPE, mas aparece primeiro na tabela,
+    causando uma inconsistência.
 - sessão 2.5. => Seção 2.5.
 - Laboratório de Aplicações de Satélites Ambientais (LASA), =>
   informar qual a instituição que abriga este laboratório
 - "HotSpots" => ``HotSpots'' (pontos quentes)
 - (ver capítulo 4). => (mais detalhes no Capítulo 4).
-- 
-- 
-- 
-- 
-
+- classficação
+- Sessão 2.5
+- A primeira a fase => A primeira fase
+- identicar => identificar
+- O início do parágrafo que começa por "A ESA desenvolveu o FireCCI51,
+  um produto avançado" parece ser uma repetição do parágrafo anterior,
+  embora existam algumas diferenças. Achei estranho isso. Poderia me
+  esclarecer como tu escreveu dois parágrafos tão parecidos um contra
+  o outro?
+*** Tabela 2.6
+- Colocar uma coluna extra que indica a citação
+  - Valor das células desta coluna é a citação em si
