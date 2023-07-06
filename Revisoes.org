@@ -15,7 +15,9 @@
 - Todas as figuras e tabelas, melhorar local onde o latex as coloca
   - \begin{figure} => \begin{figure}[!htb]
   - \begin{table} => \begin{table}[!htb]
-
+- Todas as aspas devem ser em modo Latex
+  - "semente" => ``semente''
+  - Ou configurar corretamente o Latex para que isso seja automático
 ** 2023-07-06 Capítulo 2 CONCEITOS BÁSICOS E TRABALHOS RELACIONADOS
 *** 2.0 Introdução
 - sessão, => seção
@@ -115,6 +117,9 @@
   embora existam algumas diferenças. Achei estranho isso. Poderia me
   esclarecer como tu escreveu dois parágrafos tão parecidos um contra
   o outro?
+- Considerando apenas o parágrafo de baixo
+- "semente" => ``semente''
+- "crescimento"
 *** Tabela 2.6
 - Colocar uma coluna extra que indica a citação
   - Valor das células desta coluna é a citação em si
