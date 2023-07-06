@@ -9,3 +9,53 @@
 #+BEGIN_SRC emacs-lisp
 (setq org-use-property-inheritance t)
 #+END_SRC
+
+* Revisões
+** 2023-07-06 Capítulo 2 CONCEITOS BÁSICOS E TRABALHOS RELACIONADOS
+*** 2.0 Introdução
+- sessão, => seção
+- será realizada uma sumarização => é apresentado um sumário
+- tempo verbal
+  - Tenho prioridade pelo tempo presente, pois o documento técnico é em geral atemporal
+  - Assim,
+    - apresentaremos => apresentamos
+    - será => é
+    - ...
+- quais os resultados obtidos por eles. => em contraste com o presente trabalho.
+*** 2.1 O monitoramento das queimadas no Brasil
+- (ver sessão 2.4) => (ver Seção 2.4)
+  - Veja que referências futuras em geral não são boas, pois
+    demonstram problemas de estrutura -> por que levar o leitor para
+    um ponto futuro?
+- Falta uma vírgula em algum local da primeira frase do parágrafo
+  seguinte
+- É em posse dessas imagens o INPE => que o INPE
+- Sessão 2.4 => Seção
+- Explicar no texto que a tabela 2.1 possui três colunas, o atributo,
+  o tipo e a descrição.
+*** Tabela 2.1
+- O cabeçalho em negrito, sem texttt
+*** 2.2 Os Satélites e Sensores
+- tipo de óbita => órbita
+*** Tabela 2.2
+- Qual é a ordem? Sugiro separar pelo tipo de órbita, já feito, e
+  depois listá-los em ordem de "Lançado"
+*** 2.3 Uma visão geral dos dados
+- sessão => seção
+- Sempre colocar a figura referenciada após sua primeira referência no
+  texto. Atualmente, a Figura 2.2 não respeita isso. Corrigir. Idem
+  Figura 2.3.
+- constrante, => constante
+- quantização => quantificação
+*** Figure 2.5
+- O primeiro mapa tem bastante "preto" pois as linhas limítrofes são
+  desta cor. Mal dá para ver os detalhes por causa da borda. Talvez
+  reduzir a borda para algo bem pequeno (ou até eliminar).
+- Os nomes das bacias, regiões, estados não são legíveis. Remover
+  portanto.
+*** 2.4 Detecção de focos ativos e área queimada
+- sessão => Seção
+- esplicação => explicação
+- calculo => cálculo
+- 
+- 
