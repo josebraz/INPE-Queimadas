@@ -123,3 +123,27 @@
 *** Tabela 2.6
 - Colocar uma coluna extra que indica a citação
   - Valor das células desta coluna é a citação em si
+* Reuniões
+** 2023-07-06 O que falta fazer?
+1. Capítulo 1 de introdução
+   - Descrever melhor o contexto
+   - A problemática (identicar a área queimada)
+   - Como os outros detectam área queimada ("produtos" área queimada)
+   - A solução proposta e validada
+     - Vantagens e desvantagens da tua abordagem
+   - Descrever o principal resultado
+     - Validação da técnica demonstrou que funciona tão bem quanto a dos trabalhos relacionados
+     - A área queimada aumentou ou diminuiu?
+   - Estrutura do documento
+2. Seção 2.5 de trabalhos relacionados
+3. [X] Capítulo 3 do método
+   - Necessidade de uma releitura do José
+   - Implementação do blur
+4. Capítulo 4 do implementação do método
+5. Capítulo 5 de resultados
+   - Todo o código está implementado
+6. Capítulo de conclusão
+
+Data de fim: 13/08/2023
+
+Data prevista de defesa: 4-6 de setembro
