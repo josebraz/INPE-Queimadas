@@ -1,0 +1,11 @@
+#+TITLE: Revisões
+#+AUTHOR: Lucas M. Schnorr
+#+LaTeX_CLASS_OPTIONS: [a2paper,10pt]
+#+STARTUP: overview indent
+#+OPTIONS: toc:nil
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+TAGS: noexport(n)
+
+#+BEGIN_SRC emacs-lisp
+(setq org-use-property-inheritance t)
+#+END_SRC
