@@ -11,6 +11,11 @@
 #+END_SRC
 
 * Revisões
+** Geral
+- Todas as figuras e tabelas, melhorar local onde o latex as coloca
+  - \begin{figure} => \begin{figure}[!htb]
+  - \begin{table} => \begin{table}[!htb]
+
 ** 2023-07-06 Capítulo 2 CONCEITOS BÁSICOS E TRABALHOS RELACIONADOS
 *** 2.0 Introdução
 - sessão, => seção
@@ -57,5 +62,46 @@
 - sessão => Seção
 - esplicação => explicação
 - calculo => cálculo
+- específos
+- Em latex, escrever ``produtos'' ao invés de "produtos".
+- algorítmos (sem acento normalmente)
+- (Tabela 2.3) => , como apresentado na Tabela 2.3,
+- (Tabela 2.4): => , como listado na Tabela 2.4.
+  - Ponto final.
+- "Collection"e => ``Collection'' e
+*** Tabela 2.3
+- No caption, usar ponto final (em todos os captions)
+- que qualidade => faltou algo!
+*** Tabela 2.4
+- comunição
+*** Tabela 2.5
+- Talvez colocar em ordem temporal, de cima para baixo, dado que no
+  texto se menciona que é "desde o advento do AQUA".
+*** Figura 2.6
+- Esta figura não é referenciada no texto. Todas as figuras, tabelas,
+  listagens, etc devem ser referenciadas no texto.
+- Nesta figura, ainda que trazida de fora, o eixo X não tem
+  label. Deixar mais explícito no caption o que é o eixo Y e o que é o
+  eixo X.
+*** Produtos de focos ativos
+- deserticas
+- na hora da passagem. => na hora da passagem do satélite empregado.
+- "sem dado". => ``sem dado''.
+- Como o algoritmo não é mais utilizado e seus resultados foram
+  substituídos na base de dados, ele não será abordado neste
+  trabalho.
+  - Não entendi bem essa colocação. Eles desenvolveram um algoritmo
+    próprio por conta de problemas da abordagem descrita em parágrafos
+    anteriores, mas depois eles descartaram esse algorimo melhor? Como
+    assim?
+*** Produtos de área queimada
+- sessão 2.5. => Seção 2.5.
+- Laboratório de Aplicações de Satélites Ambientais (LASA), =>
+  informar qual a instituição que abriga este laboratório
+- "HotSpots" => ``HotSpots'' (pontos quentes)
+- (ver capítulo 4). => (mais detalhes no Capítulo 4).
 - 
 - 
+- 
+- 
+
