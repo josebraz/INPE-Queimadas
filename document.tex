@@ -22,6 +22,8 @@
 \usepackage{booktabs}
 \usepackage{float}     % para as imagens ficarem no lugar certo
 %\usepackage{mathptmx}          % p/ usar fonte Adobe Times nas fórmulas
+\usepackage{multirow}
+\usepackage{amsmath}
 
 \graphicspath{ {images/} }
 
@@ -172,37 +174,37 @@ Os dados analisados neste trabalho foram obtidos a partir do DBQueimadas, Banco 
 
 Focos ativos apresentam maior contraste com a vegetação e por isso podem ser detectados com maior precisão \citep{GIGLIO2016}, mas devido ao intervalo entre as passagens dos satélites, detectam apenas uma fração das queimadas totais \citep{HANTSON2013, giglio2009active}. .......
 
-Durante o decorrer do documento são apresentadas diversas figuras, a maioria de construção do próprio autor, a fim de instigar a intuição do leitor para o tópico que está sendo abordado. De início, será abordado questões mais teóricas envolvendo caracteríscas dos satélites, suas produções de imagens e como são usadas para detectar um foco ativo de queimada. Após isso, .... \par
+Durante o decorrer do documento são apresentadas diversas figuras, a maioria de construção do próprio autor, a fim de instigar a intuição do leitor para o tópico que está sendo abordado. De início, é abordado questões mais teóricas envolvendo caracteríscas dos satélites, suas produções de imagens e como são usadas para detectar um foco ativo de queimada. Após isso, .... \par
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Conceitos básicos e trabalhos relacionados}
 
-Neste capítulo, serão apresentados conceitos importantes para a compreensão de todo trabalho e dos resultados obtidos com o método proposto. Primeiramente, serão formalizadas definições relacionadas às queimadas e à forma como são monitoradas no Brasil. Na próxima sessão, será realizada uma sumarização dos principais satélites utilizados pelo INPE e suas características. Após isso, apresentaremos uma análise dos dados para demonstrar uma visão geral das principais tendências e gráficos. Em seguida, será abordado como as imagens geradas pelos satélites são utilizadas para a detecção de focos ativos. Por fim, apresentaremos alguns trabalhos relacionados e quais os resultados obtidos por eles. \par
+Neste capítulo, serão apresentados conceitos importantes para a compreensão de todo trabalho e dos resultados obtidos com o método proposto. Primeiramente, serão formalizadas definições relacionadas às queimadas e à forma como são monitoradas no Brasil. Na próxima seção, é realizada uma sumarização dos principais satélites utilizados pelo INPE e suas características. Após isso, apresentamos uma análise dos dados para demonstrar uma visão geral das principais tendências e gráficos. Em seguida, é abordado como as imagens geradas pelos satélites são utilizadas para a detecção de focos ativos. Por fim, apresentamos alguns trabalhos relacionados com o cálculo de área queimada em contraste com o presente trabalho. \par
 
 \section{O monitoramento das queimadas no Brasil}
 
-Um foco de queima, também conhecido como "Fire Pixel", é a detecção de fogo na vegetação por uma imagem de satélite. A área de abrangência dessa detecção é do tamanho de um pixel da imagem, por isso está relacionada diretamente com a resolução do sensor do satélite. Por exemplo, se um sensor tem resolução de aproximadamente 1km, a área coberta pelo pixel equivale a 1km no nadir (no equador) \cite{PerguntasFrequentesINPE}. A resolução do sensor, na verdade, representa uma estimativa do tamanho dos pixels, pois eles podem sofrer distorções relacionadas a inclinação e distância do satélite em relação ao ponto medido. 
+Um foco de queima, também conhecido como ``Fire Pixel'', é a detecção de fogo na vegetação por uma imagem de satélite. A área de abrangência dessa detecção é do tamanho de um pixel da imagem, por isso está relacionada diretamente com a resolução do sensor do satélite. Por exemplo, se um sensor tem resolução de aproximadamente 1km, a área coberta pelo pixel equivale a 1km no nadir (no equador) \cite{PerguntasFrequentesINPE}. A resolução do sensor, na verdade, representa uma estimativa do tamanho dos pixels, pois eles podem sofrer distorções relacionadas a inclinação e distância do satélite em relação ao ponto medido. 
 
 É importante destacar que o foco de queima por si só não representa de forma precisa o que está acontecendo na região, mas é um indicador valioso da intensidade e extensão do fogo. Poucos focos ou uma área queimada pequena não necessariamente refletem a intensidade da degradação da vegetação e o impacto ambiental. Áreas de floresta densa, mesmo que pequenas, podem ser gravemente afetadas, resultando em perdas significativas de fauna e flora, incluindo espécies exóticas e em risco de extinção.
 
-Um incêndio, diferente de um foco de queima, pode durar dias e queimar uma grande extensão de terra, o que provavelmente resultará na detecção de vários focos de queima. O número de focos de queima está diretamente relacionado à extensão total queimada e pode ser utilizado para comparações e análises \citep{giglio2010assessing}. A área queimada, por outro lado, representa o resultado deixado pelo incêndio e também pode ser estimada a partir de imagens de satélites, usando índices de vegetação de diferentes bandas do sensor dos satélites ou outras técnicas (ver sessão \ref{sec:deteccao_focos_section}).
+Um incêndio, diferente de um foco de queima, pode durar dias e queimar uma grande extensão de terra, o que provavelmente resulta na detecção de vários focos de queima. O número de focos de queima está diretamente relacionado à extensão total queimada e pode ser utilizado para comparações e análises \citep{giglio2010assessing}. A área queimada, por outro lado, representa o resultado deixado pelo incêndio, que também pode ser estimada a partir de imagens de satélites. Existem vários métodos para detectar focos ativos e calcular a área queimada a partir dos dados brutos de satélites, alguns deles são abordados no decorrer do documento. 
 
-É com o intuito de monitorar e proteguer o meio ambiente do Brasil das queimadas que o INPE desenvolve o programa de Monitoramento de Queimadas e Incêndios Florestais (\url{https://queimadas.dgi.inpe.br/queimadas/portal}). O programa é um conjunto de ferramentas abertas, muitas delas acessíveis via Web, desenvolvidas pelo time de tecnologia do INPE que possibilitam obter e visualizar dados sobre os focos de queimadas, risco de fogo, área queimada, focos em áreas de preservação e propriedades rurais, entre outras.
+Para monitorar e proteguer o meio ambiente do Brasil das queimadas, o INPE desenvolve o programa de Monitoramento de Queimadas e Incêndios Florestais (\url{https://queimadas.dgi.inpe.br/queimadas/portal}). O programa é um conjunto de ferramentas abertas, muitas delas acessíveis via Web, desenvolvidas pelo time de tecnologia do INPE que possibilitam obter e visualizar dados sobre os focos de queimadas, risco de fogo, área queimada, focos em áreas de preservação e propriedades rurais, entre outras.
 
 O programa também conta com o Banco de Dados de Queimadas (DBQueimadas), um site capaz de gerar mapas, tabelas, gráficos e exportar os dados sobre as queimadas no Brasil aplicando diferentes filtros \citep{setzer2019banco}. O DBQueimadas é um excelente caso de como os dados abertos podem ajudar a sociedade, pois qualquer pessoa pode ter acesso aos dados e desenvolver trabalhos científicos, fomentando a ciência e melhorando o monitoramento. É a partir do DBQueimadas que este trabalho obteve boa parte dos dados necessários para o desenvolvimento.
 
 Além do DBQueimadas, o INPE também disponibiliza para visualização e download, por meio da Divisão de Geração de Imagens (DGI) \url{www.dgi.inpe.br/catalogo/}, algumas imagens inteiras geradas pelos satélites que o próprio DGI captura e processa. Para obter essas imagens brutas são necessárias antenas especiais que ficam em centros de recepção de dados. Com esse propósito, a DGI possui duas Estações de Recepção e Gravação (ERG) - a primeira em Cachoeira Paulista (SP) e uma mais recente em Cuiabá (MT). Na estação de SP, é feito o processamento de mais de 200 imagens de diversos satélites todos os dias, extraindo os dados de focos ativos de queimadas que alimentam o DBQueimadas \citep{SiteDGI}. \par
 
-É em posse dessas imagens o INPE aplica algoritmos de detecção de focos de queima, abordado na Sessão \ref{sec:deteccao_focos_section}. No caso da detecção ser positiva, a posição exata (latitude e longitude) e a hora que a imagem foi gerada são adicionadas aos dados como uma nova linha e disponibilizados pelo DBQueimadas. O INPE ainda coloca junto com as coordenadas da detecção mais alguns dados como risco de fogo, poder do fogo, precipitação e dados referentes a região do foco. A lista completa das colunas pode ser vista na Tabela \ref{table:inpeColumns} \cite{PerguntasFrequentesINPE}. \par
+É em posse dessas imagens que o INPE aplica algoritmos de detecção de focos de queima, abordado na Seção \ref{sec:deteccao_focos_section}. No caso da detecção ser positiva, a posição exata (latitude e longitude) e a hora que a imagem foi gerada são adicionadas aos dados como uma nova linha e disponibilizados pelo DBQueimadas. O INPE ainda coloca junto com as coordenadas da detecção mais alguns dados como risco de fogo, poder do fogo, precipitação e dados referentes a região do foco. A lista completa da estrutura dos dados pode ser vista na Tabela \ref{table:inpeColumns}, nela a coluna Atributo indica o nome de cada coluna nos dados, seguido do tipo e uma breve descrição \cite{PerguntasFrequentesINPE}. \par
 
 \begin{table}[htbp]
 \centering
 \caption{Significado de cada coluna dos dados de queimada do INPE.}
 \begin{tabular}{@{}llp{9cm}@{}}
  \toprule
- \texttt{Atributo} & \texttt{Tipo} & Descrição \\
+ \textbf{Atributo} & \textbf{Tipo} & \textbf{Descrição} \\
  \midrule
  \texttt{Id} & \texttt{string} & Identificador único registrado no banco \\
  \texttt{Latitude} & \texttt{double} & Graus decimais da latitude do centro 
@@ -230,15 +232,13 @@ Além do DBQueimadas, o INPE também disponibiliza para visualização e downloa
 \label{table:inpeColumns}
 \end{table}
 
-
-
 \section{Os Satélites e Sensores}
 
-O INPE processa atualmente dados de diversos satélites, cada um com características distintas. Esses satélites abrangem uma ampla gama de órbitas e altitudes, desde satélites geoestacionários, como o GOES-12, localizado a 29.400 km de distância da superfície \citep{GOES12Algo}, até satélites em órbitas polares, que ficam entre 700 e 900 km de altura. Cada um desses satélites é equipado com diferentes sensores que são utilizados para diversos propósitos, como observação da vegetação terrestre, nuvens, oceanos e monitoramento atmosférico. \par
+O INPE processa atualmente dados de diversos satélites, cada um com características distintas. Esses satélites abrangem uma ampla gama de órbitas e altitudes, desde satélites geoestacionários, como o GOES-12, localizado a 29.400 km de distância da superfície \citep{GOES12Algo}, até satélites em órbitas polares, que ficam entre 700 e 900 km de altura. Cada um deles é equipado com diferentes sensores que são utilizados para diversos propósitos, como observação da vegetação terrestre, nuvens, oceanos e monitoramento atmosférico. \par
 
-Cada satélite pode estar equipado com um sensor imageador que captura imagens com características distintas. Esses sensores são capazes de captar não apenas a luz visível, no intervalo de 400 nm a 700 nm, mas também o infravermelho, de 780 nm a 1 mm. As medições realizadas pelos sensores são divididas em canais, que diferem em termos de resolução espacial - a escala geográfica representada por cada pixel da imagem - e resolução espectral, ou seja, o intervalo de comprimento de onda abrangido. \par
+Cada satélite pode estar equipado com um sensor imageador que captura imagens com características distintas. Esses sensores são capazes de captar não apenas a luz visível, no comprimento de onda de 400 nm a 700 nm, mas também o infravermelho, de 780 nm a 1 mm. As medições realizadas pelos sensores são divididas em canais, que diferem em termos de resolução espacial - a escala geográfica representada por cada pixel da imagem - e resolução espectral, ou seja, o intervalo de comprimento de onda abrangido. \par
 
-Os satélites também podem ser classificados de acordo com o tipo de óbita, que pode ser polar ou geoestacionária. Os satélites polares percorrem toda a terra, com uma altitude baixa e alta velocidade, passando várias vezes pelos polos norte e sul em um único dia. Já os satélites geoestacionários ajustam sua orbita para sempre parecerem estacionários em relação a um ponto fixo na Terra. Esses satélites ficam em altitudes mais altas devido à sua velocidade mais baixa, que é igual à rotação da Terra. A Figura \ref{fig:orbita2022-08-10}, gerada a partir de dados do site Celestrak (\url{https://celestrak.org/}), mostra a passagem de alguns satélites polares no Brasil no dia 10 de agosto de 2022. Também é possível ver o satélite geoestacioário GOES-16, localizado ao norte do perú, representado com um ponto no gráfico. \par
+Os satélites também podem ser classificados de acordo com o tipo de órbita, que pode ser polar ou geoestacionária. Os satélites polares percorrem toda a terra, com uma altitude baixa e alta velocidade, passando várias vezes pelos polos norte e sul em um único dia. Já os satélites geoestacionários ajustam sua orbita para sempre parecerem estacionários em relação a um ponto fixo na Terra. Esses satélites ficam em altitudes mais altas devido à sua velocidade mais baixa, que é igual à rotação da Terra. A Figura \ref{fig:orbita2022-08-10}, gerada a partir de dados do site Celestrak (\url{https://celestrak.org/}), mostra a passagem de alguns satélites polares no Brasil no dia 10 de agosto de 2022. Também é possível ver o satélite geoestacioário GOES-16, localizado ao norte do perú, representado com um ponto no gráfico. \par
 
 \begin{figure}[H]
     \caption{Órbita dos satélites no dia 10 de agosto de 2022.}
@@ -249,14 +249,14 @@ Os satélites também podem ser classificados de acordo com o tipo de óbita, qu
     \label{fig:orbita2022-08-10}
 \end{figure}
 
-A Tabela \ref{table:satelites} contém um resumo dos satélites utilizados pelo INPE desde o início da série histórica até o final de 2022 \cite{EmbrapaSatelites}. Atualmente, os satélites que estão em pleno funcionamento são: NOAA-20, NOAA-19, NOAA-18, GOES-16, Suomi NPP, AQUA, TERRA, MSG-03, METOP-B e METOP-C. Os demais satélites, como NOAA-17, NOAA-16, NOAA-15, TRMM, NOAA-14, NOAA-12, GOES-13, MSG-02, GOES-12, GOES-10 e GOES-08, deixaram de operar em diferentes momentos devido a problemas técnicos ou ao fim de sua vida útil. \par
+A Tabela \ref{table:satelites} contém um resumo dos satélites utilizados pelo INPE desde o início da série histórica até o final de 2022 \cite{EmbrapaSatelites}. Na Tabela, são apresentados o nome do satélite, o nome do sensor imageador, a resolução espacial do sensor, o tipo de órbita do satélite, o ano em que o satélite entrou em operação e, por último, os dois horários aproximados da passagem de um satélite polar no território do Brasil. Os horários exatos dessa passagem variam de acordo com a excentricidade da órbita do satélite o que reflete no chamado ``Periodo de revisita'', que indica quantos dias o satélite leva para repetir a mesma tragetória.
 
 \begin{table}[htbp]
 \centering
 \caption{Características dos satélites usados pelo INPE.}
 \begin{tabular}{ @{}llllcl@{} }
   \toprule
-  Nome    & Sensor & Resolução esp. & Órbita & Lançado & Passagem no Brasil \\
+  \textbf{Nome}    & \textbf{Sensor} & \textbf{Resolução esp.} & \textbf{Órbita} & \textbf{Lançado} & \textbf{Passagem no Brasil} \\
   \midrule
   METOP-C & AVHRR-3  & 1100m       & Polar   & 2018 & 21h \\
   NOAA-20 & VIIRS    & 500m        & Polar   & 2017 & 2h / 14h \\
@@ -287,6 +287,8 @@ A Tabela \ref{table:satelites} contém um resumo dos satélites utilizados pelo 
 \label{table:satelites}
 \end{table}
 
+Atualmente, os satélites que estão em pleno funcionamento são: NOAA-20, NOAA-19, NOAA-18, GOES-16, Suomi NPP, AQUA, TERRA, MSG-03, METOP-B e METOP-C. Os demais satélites, como NOAA-17, NOAA-16, NOAA-15, TRMM, NOAA-14, NOAA-12, GOES-13, MSG-02, GOES-12, GOES-10 e GOES-08, deixaram de operar em diferentes momentos devido a problemas técnicos ou ao fim de sua vida útil.
+
 Os satélites TERRA e AQUA, ambos com o sensor Moderate Resolution Imaging Spectroradiometer (MODIS), foram lançados em 1999 e 2002 respectivamente. São americanos e foram desenvolvidos em parceria com o Japão, Canada e Brasil. O sensor MODIS possui 36 canais e resolução espectral que varia de 250m a 1km em diferentes espectros do infravermelo e luz visível. É especialmente capaz de detectar mudanças no uso e cobertura da terra bem como queimadas e atividades vulcânicas.
 
 Os satélites da série National Oceanic and Atmospheric Administration (NOAA) são operados pela agência americana de mesmo nome. Embora tenha havido vários satélites NOAA ao longo do tempo, atualmente estão em operação o NOAA-20, NOAA-19 e NOAA-18. Esses satélites desempenham um papel fundamental no fornecimento de dados para a previsão do tempo e o monitoramento da vegetação. 
@@ -310,7 +312,10 @@ No período de 01 de junho de 1998 a 03 de julho de 2002, o satélite de referê
 \section{Uma visão geral dos dados}
 \label{sec:visao_geral}
 
-Nesta sessão, será realizada uma análise inicial dos dados disponíveis sobre focos de queimada, com o objetivo de extrair algumas informações relevantes. É importante, no entanto, ter cuidado na escolha dos satélites a serem utilizados na análise. Para algumas análises, caso sejam usados todos os satélites disponíveis, pode ocorrer a contagem de um mesmo foco várias vezes para diferentes satélites. Ou ainda, a contagem do mesmo foco em passagens diurnas e noturnas de um mesmo satélite polar. Para solucionar esse problema, em casos em que a quantidade absoluta de focos importa, será utilizado o satélite AQUA com passagem à tarde (AQUA\_M-T), que é o satélite de referência do INPE atualmente. Dessa forma, é possível evitar a contagem duplicada de focos de queimada e garantir a precisão das informações analisadas. \par
+Nesta seção, é realizada uma análise inicial dos dados disponíveis sobre focos de queimada, com o objetivo de extrair algumas informações relevantes. É importante, no entanto, ter cuidado na escolha dos satélites a serem utilizados na análise. Para algumas análises, caso sejam usados todos os satélites disponíveis, pode ocorrer a contagem de um mesmo foco várias vezes para diferentes satélites. Ou ainda, a contagem do mesmo foco em passagens diurnas e noturnas de um mesmo satélite polar. Para solucionar esse problema, em casos em que a quantidade absoluta de focos importa, será utilizado o satélite AQUA com passagem à tarde (AQUA\_M-T), que é o satélite de referência do INPE atualmente. Dessa forma, é possível evitar a contagem duplicada de focos de queimada e garantir a precisão das informações analisadas. 
+
+A análise começa, na Figura \ref{fig:medicoes_nos_anos}, com uma visão preliminar sobre as características dos focos detectados durante toda a série história, para todos os satélites. Aqui é importante destacar que vários focos podem representar uma única queimada, como mencionado anteriormente, e também não há relação necessariamente direta com a área queimada. Nota-se que a série começa basicamente com os dados do satélite NOAA-12, que era o satélite de referência até 2002, e teve dados até 2007, ano que foi desativado. TERRA e AQUA foram os únicos satélites presentes no início e que até hoje tem relevância nos dados. A partir de 2012, com a entrada do satélite Suomi NPP, os dados mais que duplicaram devido a capacidade do sensor VIIRS a bordo deste satélite e depois, em 2019, junto ao satélite NOAA-20 também. A partir de 2017 o satélite GOES-16 entra em ação e, mesmo sendo geoestacionário (com menor capacidade de datecção dos focos), passou a ter relevância.
+
 
 \begin{figure}[H]
     \caption{Detecções por satélite, sensor, bioma e região durante toda a série histórica}
@@ -321,9 +326,9 @@ Nesta sessão, será realizada uma análise inicial dos dados disponíveis sobre
     \label{fig:medicoes_nos_anos}
 \end{figure}
 
-A análise começa, na Figura \ref{fig:medicoes_nos_anos}, com uma visão preliminar sobre as características dos focos detectados durante toda a série história, para todos os satélites. Aqui é importante destacar que vários focos podem representar uma única queimada, como mencionado anteriormente, e também não há relação necessariamente direta com a área queimada. Nota-se que a série começa basicamente com os dados do satélite NOAA-12, que era o satélite de referência até 2002, e teve dados até 2007, ano que foi desativado. TERRA e AQUA foram os únicos satélites presentes no início e que até hoje tem relevância nos dados. A partir de 2012, com a entrada do satélite Suomi NPP, os dados mais que duplicaram devido a capacidade do sensor VIIRS a bordo deste satélite e depois, em 2019, junto ao satélite NOAA-20 também. A partir de 2017 o satélite GOES-16 entra em ação e, mesmo sendo geoestacionário (com menor capacidade de datecção dos focos), passou a ter relevância. \par
+Quanto as detecções por bioma, nota-se que no decorrer dos anos a proporção entre os focos em cada bioma se manteve basicamente constante, com excessão do período de 2019 a 2022. Nesse período, o bioma Pantanal quebrou a tendência de ter poucos focos detectados, apresentando um aumento de 600\% e justificado por um período de seca prolongado \cite{pantanal2021dinamica}. Nesse mesmo período, também notou-se um aumento nas detecções, ainda que bem menor, no bioma da Mata Atlântica.
 
-Quanto as detecções por bioma, nota-se que no decorrer dos anos a proporção entre os focos em cada bioma se manteve basicamente constrante, com excessão do período de 2019 a 2022. Nesse período, o bioma Pantanal quebrou a tendência de ter poucos focos detectados, apresentando um aumento de 600\% e justificado por um período de seca prolongado \cite{pantanal2021dinamica}. Nesse mesmo período, também notou-se um aumento nas detecções, ainda que bem menor, no bioma da Mata Atlântica.
+Saber em quais momentos os satélites passam também é importante para a análise. Os satélites polares passam duas vezes por dia no Brasil, variando o local exato da passagem de acordo com as características de sua órbita. Pela Figura \ref{fig:tempo_medidas_satelites} é possível observar esse comportamento também nos dados. As quatro primeiras linhas, que representam dados gerados por satélites polares, apresentam dois picos durante um período de 24 horas. Já para o caso dos satélites geoestacionários (GOES-16) não se observou o mesmo padrão, apresentando mais dados entre o período da tarde e início da noite, provavelmente por ser um intervalo de tempo mais quente e seco, mais propício para o fogo \citep{nepstad2007mortality}.
 
 \begin{figure}[H]
     \caption{Amostragem por tempo de cada satélite.}
@@ -334,7 +339,7 @@ Quanto as detecções por bioma, nota-se que no decorrer dos anos a proporção 
     \label{fig:tempo_medidas_satelites}
 \end{figure}
 
-Saber em quais momentos os satélites passam também é importante para a análise. Os satélites polares passam duas vezes por dia no Brasil, variando o local exato da passagem de acordo com as características de sua órbita. Pela Figura \ref{fig:tempo_medidas_satelites} é possível observar esse comportamento também nos dados. As quatro primeiras linhas, que representam dados gerados por satélites polares, apresentam dois picos durante um período de 24 horas. Já para o caso dos satélites geoestacionários (GOES-16) não se observou o mesmo padrão, apresentando mais dados entre o período da tarde e início da noite, provavelmente por ser um intervalo de tempo mais quente e seco, mais propício para o fogo \citep{nepstad2007mortality}.
+Ao realizar uma análise quantitativa dos focos de queimadas, considerando apenas o satélite de referência, é possível identificar uma sazonalidade clara na Figura \ref{fig:quantitativo_geral}. Os períodos do ano com maior número de detecções estão concentrados entre julho e setembro, com um pico máximo em 2007. Por outro lado, entre dezembro e março, as detecções diminuem significativamente, representando menos de 10\% do total de focos no ano.
 
 \begin{figure}[H]
     \caption{Somatório dos focos do satélite de referência agrupado por mês}
@@ -344,8 +349,6 @@ Saber em quais momentos os satélites passam também é importante para a análi
     \legend{Fonte: O Autor}
     \label{fig:quantitativo_geral}
 \end{figure}
-
-Ao realizar uma análise quantitativa dos focos de queimadas, considerando apenas o satélite de referência, é possível identificar uma sazonalidade clara na Figura \ref{fig:quantitativo_geral}. Os períodos do ano com maior número de detecções estão concentrados entre julho e setembro, com um pico máximo em 2007. Por outro lado, entre dezembro e março, as detecções diminuem significativamente, representando menos de 10\% do total de focos no ano.
 
 Esse padrão sazonal foi explicado em um estudo realizado por \citet{martins2020dinamica}. O trabalho analisou os dados de focos de queimada do satélite AQUA, obtidos pelo INPE, para o período de 2003 a 2018. Os resultados indicaram que a precipitação exerce uma influência direta na quantidade e localização dos focos no território nacional. Durante o período chuvoso, de dezembro a março, o Brasil é afetado pela Zona de Convergência Intertropical e pela Zona de Convergência do Atlântico Sul. Quando esses fenômenos estão menos intensos, a região nordeste entra em um período de seca, e à medida que a seca se intensifica, as queimadas se tornam mais frequentes e intensas.
 
@@ -360,7 +363,7 @@ No geral, observa-se uma tendência de queda nos focos de queimada. Tanto os per
     \label{fig:brasil_focos}
 \end{figure}
 
-A Figura \ref{fig:brasil_focos} é fruto da relação dos dados de focos de queimadas com dados geográficos do país proveniente do IBGE. Nela é apresentado a quantidade de focos por $km^2$ para cada minicípio, estado, região e bioma do país desde o início dos dados do satélite de referência. A quantização não é fixa para todos dos mapas, por isso cada mapa possui uma legenda que fica no canto esquerdo inferior. Cada linha da legenda representa o valor inicial (exclusivo, exceto no primeiro) e o valor final (inclusivo) do intervalo. 
+A Figura \ref{fig:brasil_focos} é fruto da relação dos dados de focos de queimadas com dados geográficos do país proveniente do IBGE. Nela é apresentado a quantidade de focos por $km^2$ para cada minicípio, estado, região e bioma do país desde o início dos dados do satélite de referência. A quantificação não é fixa para todos dos mapas, por isso cada mapa possui uma legenda que fica no canto esquerdo inferior. Cada linha da legenda representa o valor inicial (exclusivo, exceto no primeiro) e o valor final (inclusivo) do intervalo. 
 
 O bioma Pantanal, apesar de apresentar queimadas mais recentes, já se destaca como o bioma que teve mais focos detectados, quase um foco por $km^2$. Logo depois vem o Cerrado, bioma de interesse de vários trabalhos que envolvem as queimadas, com a maior concentração de focos na parte superior de bioma, onde se intersecta com a região Norte e Nordeste. Os biomas Pampa, Mata Atlântica e Caatinga apresentam a menor proporção de focos por $km^2$, provalmente por já estarem muito degradados pelo processo de urbanização que começou na costa do país.
 
@@ -369,19 +372,19 @@ Pará, Rondônia e Acre são estados que apresentaram bastante focos e são cobe
 \section{Detecção de focos ativos e área queimada}
 \label{sec:deteccao_focos_section}
 
-Nesta sessão será abordada de forma mais detalhada como os dados brutos dos sensores dos satélites são usado de fato para encontrar focos ativos de queimadas e como o cálculo da área queimada é realizado atualmente. O texto começa com uma esplicação de como funciona o processamento dos dados brutos e depois apresenta o método mais consolidado atualmente de detecção de focos ativos. Em seguida, são apresentados três métodos diferentes para o calculo da área queimada, sendo um mantido pelo INPE, outro pela NASA e outro pela ESA. 
+Nesta seção é abordada de forma mais detalhada como os dados brutos dos sensores dos satélites são usados de fato para encontrar focos ativos de queimadas e como o cálculo da área queimada é realizado atualmente. O texto começa com uma explicação de como funciona o processamento dos dados brutos e depois apresenta o método mais consolidado atualmente de detecção de focos ativos. Em seguida, são apresentados quatro métodos diferentes para o cálculo da área queimada, sendo dois mantidos pelo INPE, outro pela NASA e outro pela ESA. 
 
-Os dados brutos dos sensores dos satélites são processados usando algoritmos específos e produzem resultados chamados de "produtos". Nesse processo, os algorítmos corrigem distorções, eliminam ruídos e convertem os valores para dados que podem ser representados visualmente. Os produtos podem ter várias finalidades, como detecção de níveis de $CO_2$, radiância do solo, anomalias térmicas, entre outros, além de servirem como entrada para outros produtos. Os produtos podem ser classificados pelo seu nível de maturidade (Tabela \ref{table:nivel_maturidade_produtos}) e pelo nível de processamento dos dados (Tabela \ref{table:nivel_processamento_produtos}):
+Os dados brutos dos sensores dos satélites são processados usando algoritmos específicos e produzem resultados chamados de ``produtos''. Nesse processo, os algoritmos corrigem distorções, eliminam ruídos e convertem os valores para dados que podem ser representados visualmente. Os produtos podem ter várias finalidades, como detecção de níveis de $CO_2$, radiância do solo, anomalias térmicas, entre outros, além de servirem como entrada para outros produtos. Os produtos podem ser classificados pelo seu nível de maturidade, como apresentado na Tabela \ref{table:nivel_maturidade_produtos}, e pelo nível de processamento dos dados, como listado na Tabela \ref{table:nivel_processamento_produtos}.
 
 \begin{table}[htbp]
 \centering
 \caption{Nível de maturidade dos produtos}
 \begin{tabular}{ @{}lp{12cm}@{} }
   \toprule
-  Nível & Descrição \\
+  \textbf{Nível} & \textbf{Descrição} \\
   \midrule
   Beta & Apenas deve ser usado para testes \\
-  Provisório & O produto está em melhoria e segue sendo validado, não há garantias que qualidade \\
+  Provisório & O produto está em melhoria e segue sendo validado, não há garantias de qualidade \\
   Validado & O produto tem alta qualidade e pode ser usado para estudos rigorosos, como de mudanças climáticas. É subdividido em 4 estágios de validação. Nessa fase, o produto ainda pode seguir melhorando para atingir estágios mais altos de validação. \\
   \bottomrule
 \end{tabular}
@@ -391,12 +394,12 @@ Os dados brutos dos sensores dos satélites são processados usando algoritmos e
 
 \begin{table}[htbp]
 \centering
-\caption{Nível de processamento dos dados dos produtos}
+\caption{Nível de processamento dos dados dos produtos.}
 \begin{tabular}{ @{}lp{12cm}@{} }
   \toprule
-  Nível & Descrição \\
+  \textbf{Nível} & \textbf{Descrição} \\
   \midrule
-  Nível 0 & É o mais próximo dos dados brutos, com tratamento apenas de erros gerados pela comunição dos dados, como dados duplicados \\
+  Nível 0 & É o mais próximo dos dados brutos, com tratamento apenas de erros gerados pela comunicação dos dados, como dados duplicados \\
   Nível 1 & São dados georeferenciados com correções geométricas em relação a superfície da terra. Contém dados como radiância e reflectâncias. São subdivididos entre 1A, 1B e 1C \\
   Nível 2 & São dados referentes a geofísica da terra, como características da superfície terrestre, dados atmosféricos, níveis de poluentes, entre outros. São subdivididos entre 2A e 2B \\
   Nível 3 & São dados de nível 2 organizados no espaço e agrupados em perídos de tempo fixo (diário, mensal, anual), permitindo uma análise em escala global. \\
@@ -407,20 +410,20 @@ Os dados brutos dos sensores dos satélites são processados usando algoritmos e
 \label{table:nivel_processamento_produtos}
 \end{table}
 
-A evolução dos produtos gerados a partir do sensor MODIS é contínua à medida que a série temporal se expande. Isso resulta em diferentes versões do conjunto de produtos, denominado "Collection" e seguido por um número que define a versão. Por exemplo, a versão mais recente atualmente é a Collection 6.1, que também pode ser referida de forma simplificada como C6.1. Durante o desenvolvimento de uma nova versão, a versão anterior continua disponível enquanto os cálculos e processamentos são atualizados para os diferentes produtos. Isso permite que os usuários tenham acesso contínuo aos dados e resultados até que a nova versão esteja completa. A Tabela \ref{table:versoes_collection} apresenta um resumo das principais mudanças que ocorreram de uma versão para outra do Collection, começando pela versão que surgiu no mesmo ano do lançamento do satélite AQUA.
+A evolução dos produtos gerados a partir do sensor MODIS é contínua à medida que a série temporal se expande. Isso resulta em diferentes versões do conjunto de produtos, denominado ``Collection'' e seguido por um número que define a versão. Por exemplo, a versão mais recente atualmente é a Collection 6.1, que também pode ser referida de forma simplificada como C6.1. Durante o desenvolvimento de uma nova versão, a versão anterior continua disponível enquanto os cálculos e processamentos são atualizados para os diferentes produtos. Isso permite que os usuários tenham acesso contínuo aos dados e resultados até que a nova versão esteja completa. A Tabela \ref{table:versoes_collection} apresenta um resumo das principais mudanças que ocorreram de uma versão para outra do Collection, começando pela versão que surgiu no mesmo ano do lançamento do satélite AQUA.
 
 \begin{table}[htbp]
 \centering
-\caption{Versões resumidas do Collection para o sensor MODIS}
+\caption{Versões resumidas do Collection para o sensor MODIS.}
 \begin{tabular}{ @{}lllp{10cm}@{} }
   \toprule
-  Versão & Criação & Fim & Descrição \\
+  \textbf{Versão} & \textbf{Criação} & \textbf{Fim} & \textbf{Descrição} \\
   \midrule
-  6.1 & 2017 & Atual & Corrigiu problemas nos dados de entrada do Nível-1B (L1B) - com algumas novas melhorias nos produtos do Nível-2 (L2) e Nível-3 (L3) adicionadas. \\
-  6   & 2013 & 2018  & A Coleção 6 incluiu muitas novas atualizações científicas e melhorias. \\
-  5.1 & 2008 & 2016  & Atualização fundamental para o Produto L2 de Aerossol (04\_L2) e o Produto L2 de Nuvem (06\_L2) - juntamente com todos os produtos L3 para incorporar as atualizações do L2. \\
-  5   & 2005 & 2016  & Primeira grande coleção científica, que foi amplamente distribuída. \\
   4   & 2002 & 2006  & Primeira versão que atinguiu 3 estágios de validação \\
+  5   & 2005 & 2016  & Primeira grande coleção científica, que foi amplamente distribuída. \\
+  5.1 & 2008 & 2016  & Atualização fundamental para o Produto L2 de Aerossol (04\_L2) e o Produto L2 de Nuvem (06\_L2) - juntamente com todos os produtos L3 para incorporar as atualizações do L2. \\
+  6   & 2013 & 2018  & A Coleção 6 incluiu muitas novas atualizações científicas e melhorias. \\
+  6.1 & 2017 & Atual & Corrigiu problemas nos dados de entrada do Nível-1B (L1B) - com algumas novas melhorias nos produtos do Nível-2 (L2) e Nível-3 (L3) adicionadas. \\
   \bottomrule
 \end{tabular}
 \legend{Fonte: Traduzido e modificado a partir de \citep{modisCollectionVersions}}
@@ -429,8 +432,41 @@ A evolução dos produtos gerados a partir do sensor MODIS é contínua à medid
 
 \subsection*{Produtos de focos ativos}
 
-\begin{figure}
-    \caption{Variação da reflectância (\%) em relação à frequência da luz eletromagnética emitida por uma floresta. A cor verde representa a reflectância de uma vegetação não queimada, a cor vermelha representa a reflectância do fogo ativo na parte inferior da floresta (no solo), a cor preta representa um incêndio na copa das árvores e a cor cinza representa a reflectância de uma vegetação queimada (carvão).}
+Os algoritmos que geram produtos de focos ativos, geralmente usam diferentes canais dos sensores dos satélites, entre a luz visível e o infravermelho, e podem ter comportamentos distintos dependendo se a imagem foi gerada à noite ou de dia. Podem também usar limiares dinâmicos, de acordo com a região do planeta, que são calculados, com base em uma espécie de média das temperaturas nas regiões próximas ao longo dos dias. Além disso, é comum a aplicação de máscaras para eliminar regiões submersas, costeiras, desérticas e que estavam nubladas na hora da passagem do satélite empregado.
+
+Para simplificar o trabalho, apresentamos apenas o método empregado para a detecção de focos ativos oficial da NASA, a partir do sensor MODIS \citep{GIGLIO2016}, que faz parte de Collection 6.1. O método recebe como entrada os produtos Nível 1B de radiância dos dois satélites (MOD021KM/MYD021KM) e os produtos Nível 1A (MOD03/MYD03) que identificam regiões de água, regiões costeiras e de terra. O resultado são dois produtos de Nível 2 e de resolução espacial 1Km, MOD14 para o satélite Terra e MYD14 para o satélite Aqua.
+
+O processamento começa identificando e eliminando as regiões costeiras dos dados de reflectância, a fim de evitar confundir áreas terrestres mais quentes com áreas de água. Em seguida, ocorre a filtragem das regiões com cobertura de nuvens, utilizando limites atualizados, com cuidado para não excluir regiões de fumaça proveniente de incêndios ativos. As regiões remanescentes passam por um processo de avaliação para determinar potenciais píxels de fogo ativo. Esse processo envolve o teste da reflectância em relação a limiares dinâmicos, que são constantemente atualizados e ajustados para diferentes regiões do planeta, no caso das áreas terrestres. Para regiões onde não há dados suficientes para calcular os limiares dinâmicos ou para áreas de água, é utilizado um limiar fixo igual ao do Collection 5.
+
+O algoritmo passa então a calcular médias de reflectância em uma grade centrada no pixel potencial de fogo ativo. Com base nessas médias locais, os pixels que atendem aos diversos testes relacionados a essas médias são selecionados. Os pixels que não possuem dados suficientes na vizinhança e não passaram nos testes são rotulados como ``sem dado''. Em seguida, o algoritmo entra em uma fase de descarte dos pixels preliminarmente classificados como fogo ativo, a fim de reduzir os falsos positivos. Durante essa fase de descarte, os pixels são eliminados se forem identificados reflexos solares maiores do que o aceitável ou se estiverem próximos a regiões costeiras, tanto para pixels na água quanto na terra. Além disso, outros filtros são aplicados exclusivamente para pixels em terra: se eles pertencem a regiões desérticas ou se estão em regiões de clareiras florestais.
+
+O INPE empregava seu próprio algoritmo de detecção de focos de queimadas para o sensor MODIS, o qual produzia dados de maior confiabilidade \citep{PerguntasFrequentesINPE}. No entanto, a partir de 2017, o instituto adotou também os algoritmos do Collection 6 e reprocessou toda a sua base de dados de focos de queimadas. Isso marcou o início da chamada Base 2 de queimadas, que é totalmente compatível com os produtos de queimadas da NASA \citep{PerguntasFrequentesINPE}. Anteriormente, quando o Collection 5 estava em uso, eram observados falsos positivos em clareiras florestais e falsos negativos para grandes queimadas que estavam obscurecidas por fumaça densa \citep{SCHROEDER2008}, o que justificava o desenvolvimento de um algoritmo próprio pelo INPE para o Brasil. Como esse algoritmo  não é mais utilizado e seus resultados foram substituídos na base de dados do INPE, ele não é abordado neste trabalho.
+
+\subsection*{Produtos de área queimada}
+
+Nesta parte, são apresentados alguns dos produtos mais consolidados para o cálculo de área queimada no Brasil e no mundo: AQ1Km, AQ30m, MCD64 e FireCCI51. Um resumo desses quatro produtos pode ser encontrado na Tabela \ref{table:resumo_produtos_area_queimada}. A tabela fornece informações do nome do produto, o ano de início de uso, a resolução espacial e temporal, os satélites utilizados no cálculo e a principal referência teóricas que embasam esses métodos. Além desses produtos, existem muitos outros trabalhos que abordam o cálculo de área queimada, e alguns deles são mencionados na Seção \ref{sec:trabalhos_relacionados}. 
+
+\begin{table}[htbp]
+\centering
+\caption{Resumo dos produtos de área queimada.}
+\begin{tabular}{ @{}llllll@{} }
+  \toprule
+  \textbf{Nome} & \textbf{Ano} & \textbf{Res. esp.} & \textbf{Res. tem.} & \textbf{Satélites} & \textbf{Embasamento teórico} \\
+  \midrule
+  AQ1km & 2015 & 1km & mensal & Aqua/Terra & \citet{libonati2015algorithm} \\
+  AQ30m & 2014 & 30m & quinzenal & Landsat-8 & \citet{melchiori2014landsat} \\
+  MOD64 & 2016  & 500m & mensal & Aqua/Terra & \citet{GIGLIO201872} \\
+  FireCCI51 & 2018 & 250m & mensal & Aqua/Terra & \citet{Lizundia2020} \\
+  \bottomrule
+\end{tabular}
+\legend{Fonte: O Autor}
+\label{table:resumo_produtos_area_queimada}
+\end{table}
+
+Os algoritmos utilizados para calcular a área queimada empregam índices que são sensíveis à vegetação queimada, aplicados aos produtos de reflectância dos satélites. Atualmente, os mais utilizados envolvem uma combinação das bandas do infravermelho próximo (NIR: $0,78-1,2\mu m$) e do infravermelho de onda curta (SWIR: $1,2-3,0\mu m$), enquanto o uso do infravermelho de onda média (MWIR: $3-8 \mu m$) é menos comum. Estudos indicam que, em uma área queimada, a reflectância do NIR é reduzida e a reflectância do SWIR é aumentada, devido à queima da vegetação e à secura do ambiente, respectivamente \citep{CHUVIECO201945}. Esse comportamente é ilustrado na Figura \ref{fig:reflectancia_espectral}.
+
+\begin{figure}[H]
+    \caption{Variação da reflectância (\%), no eixo y, em relação à frequência da luz eletromagnética emitida por uma floresta, no eixo x. A cor verde representa a reflectância de uma vegetação não queimada, a cor vermelha representa a reflectância do fogo ativo na parte inferior da floresta (no solo), a cor preta representa um incêndio na copa das árvores e a cor cinza representa a reflectância de uma vegetação queimada (carvão).}
     \begin{center}
         \includegraphics[width=25em]{Reflectance-spectra-for-unburned-vegetation-canopy-and-fires-affecting-different}
     \end{center}
@@ -438,69 +474,32 @@ A evolução dos produtos gerados a partir do sensor MODIS é contínua à medid
     \label{fig:reflectancia_espectral}
 \end{figure}
 
-Os algoritmos que geram produtos de focos ativos, geralmente usam diferentes canais dos sensores dos satélites, entre a luz visível e o infravermelho, e podem ter comportamentos distintos dependendo se a imagem foi gerada à noite ou de dia. Podem também usar limiares dinâmicos, de acordo com a região do planeta, que são calculados, com base em uma espécie de média das temperaturas nas regiões próximas ao longo dos dias. Além disso, é comum a aplicação de máscaras para eliminar regiões submersas, costeiras, deserticas e que estavam nubladas na hora da passagem. \par
+O INPE utiliza dois produtos principais para a detecção de áreas queimadas: o AQ30m e o AQ1km. O produto AQ1km, desenvolvido em parceria com o Laboratório de Aplicações de Satélites Ambientais (LASA) do Departamento de Meteorologia da UFRJ, possui uma resolução espacial de 1 km e fornece dados diários agrupados em períodos mensais \citep{SiteAQ1km}. Por outro lado, o produto AQ30m possui uma resolução espacial de 30 metros e fornece dados quinzenais. Ambos os produtos são complementares e permitem uma análise abrangente das áreas queimadas. O AQ1km é adequado para avaliações mais amplas, como a determinação da porcentagem de área queimada em todo o Brasil durante um mês específico. Já o AQ30m fornece dados locais mais precisos, embora muitas regiões do Brasil não são processadas ou os dados não estão disponíveis publicamente.
 
-Para simplificar o trabalho, será abordado apenas o método empregado para a detecção de focos ativos oficial da NASA, a partir do sensor MODIS \citep{GIGLIO2016}, que faz parte de Collection 6.1. O método recebe como entrada os produtos Nível 1B de radiância dos dois satélites (MOD021KM/MYD021KM) e os produtos Nível 1A (MOD03/MYD03) que identificam regiões de água, regiões costeiras e de terra. O resultado são dois produtos, MOD14 para o satélite Terra e MYD14 para o satélite Aqua, de Nível 2 e de resolução espacial 1Km.
+O produto AQ1Km está em fase provisória de desenvolvimento (conforme Tabela \ref{table:nivel_maturidade_produtos}). É derivado de dados coletados pelo sensor MODIS, utilizando simultaneamente os satélites Aqua e Terra, além de incorporar informações de focos de queimada do INPE de diferentes satélites \citep{libonati2015algorithm}. Resumidamente, o algoritmo do AQ1km inicia filtrando os dados de reflectância com base em critérios de cobertura de nuvens e posição espacial para minimizar distorções. Em seguida, os dados são agrupados por mês para preencher eventuais lacunas diárias. O algoritmo identifica as áreas denominadas ``HotSpots'' (pontos quentes), que correspondem a regiões com atividade de fogo durante o período analisado. Posteriormente, é calculado um índice de vegetação para essas áreas, utilizando dados de reflectância no infravermelho próximo (NIR) e no infravermelho de onda média (MWIR), conforme proposto em \citet{libonati2011}, comparando-o com o mesmo índice do mês anterior. Por fim, são identificadas regiões próximas às áreas classificadas como queimadas no passo anterior, mas que não apresentaram um indicador suficientemente forte, podendo indicar que ocorreu uma queimada parcial ou que a intensidade do fogo foi baixa naquela localidade.
 
-O processamento começa identificando e eliminando as regiões costeiras dos dados de reflectância, a fim de evitar confundir áreas terrestres mais quentes com áreas de água. Em seguida, ocorre a filtragem das regiões com cobertura de nuvens, utilizando limites atualizados, com cuidado para não excluir regiões de fumaça proveniente de incêndios ativos. As regiões remanescentes passam por um processo de avaliação para determinar potenciais píxels de fogo ativo. Esse processo envolve o teste da reflectância em relação a limiares dinâmicos, que são constantemente atualizados e ajustados para diferentes regiões do planeta, no caso das áreas terrestres. Para regiões onde não há dados suficientes para calcular os limiares dinâmicos ou para áreas de água, é utilizado um limiar fixo igual ao do Collection 5.
+O produto AQ30m é gerado a partir de imagens do satélite Landsat-8, utilizando a diferença entre os índices de vegetação NDVI (Normalized Difference Vegetation Index), NBRL (Normalized Burn Ratio) e BAI (Burned Area Index) entre imagens consecutivas \citep{melchiori2014landsat}. Esses dados passam por uma filtragem com base em limiares definidos por especialistas e, em seguida, são suavizados usando um filtro de mediana 3x3 para eliminar valores discrepantes. O passo final envolve a construção de polígonos com base nos valores calculados e a remoção de polígonos muito pequenos. A implementação desse produto foi feita em Python, utilizando algumas ferramentas de processamento de dados que este trabalho também utiliza (mais detalhes no Capítulo \ref{chp:implementacao_metodo}). 
 
-O algoritmo passa então a calcular médias de reflectância em uma grade centrada no pixel potencial de fogo ativo. Com base nessas médias locais, os pixels que atendem aos diversos testes relacionados a essas médias são selecionados. Os pixels que não possuem dados suficientes na vizinhança e não passaram nos testes são rotulados como "sem dado". Em seguida, o algoritmo entra em uma fase de descarte dos pixels preliminarmente classificados como fogo ativo, a fim de reduzir os falsos positivos. Durante essa fase de descarte, os pixels são eliminados se forem identificados reflexos solares maiores do que o aceitável ou se estiverem próximos a regiões costeiras, tanto para pixels na água quanto na terra. Além disso, outros filtros são aplicados exclusivamente para pixels em terra: se eles pertencem a regiões desérticas ou se estão em regiões de clareiras florestais.
+No entanto, o processo atualmente não é totalmente automatizado e requer uma avaliação final de um especialista do instituto antes da divulgação. Isso é necessário pois a degradação da vegetação pode ter ocorrido por outro fator além da queimada, como desmatamento, colheita ou preparação do solo. Quando os especialistas não tem certeza se a área destacada foi originada por uma queimada, a classificação é de não-queimada. Em \citet{dosclassificaccao}, são apresentadas algumas técnicas de aprendizado de máquina aplicadas na avaliação automática desse produto, obtendo resultados promissores (ver a Seção \ref{sec:trabalhos_relacionados}).
 
-O INPE desenvolveu seu próprio algoritmo de detecção de focos de queimadas para o sensor MODIS, o qual produzia dados de maior confiabilidade \citep{PerguntasFrequentesINPE}. No entanto, a partir de 2017, o instituto migrou toda a sua base de dados de focos de queimadas para o Collection 6, marcando o início da chamada Base 2 de queimadas. Anteriormente, quando o Collection 5 estava em uso, eram observados falsos positivos em clareiras florestais e falsos negativos para grandes queimadas que estavam obscurecidas por fumaça densa \citep{SCHROEDER2008}, o que justificava o desenvolvimento do algoritmo próprio. Como o algoritmo não é mais utilizado e seus resultados foram substituídos na base de dados, ele não será abordado neste trabalho.
-
-\subsection*{Produtos de área queimada}
-
-Nessa parte, abordaremos os produtos mais consolidados para o cálculo de área aqueimada: AQ1Km, AQ30m, MCD64 e FireCCI51 (resumidos na Tabela \ref{table:resumo_produtos_area_queimada}). Muitos outros trabalhos abordaram o cálculo de área queimada e alguns deles são apresentados na sessão \ref{sec:trabalhos_relacionados}. Os algoritmos utilizados para calcular a área queimada utilizam índices que são sensíveis à vegetação queimada, aplicados aos produtos de reflectância. Atualmente, os mais utilizados envolvem uma combinação das bandas do infravermelho próximo (NIR: $0,78-1,2\mu m$) e do infravermelho de onda curta (SWIR: $1,2-3,0\mu m$), o uso do infravermelho de onda média (MWIR: $3-8 \mu m$) é mais raro.
-
-%% Estudos indicam que ocorre uma redução na reflectância do NIR após as queimadas e um aumento na reflectância do SWIR, causados pela queima da vegetação e pela secura do ambiente, respectivamente (conforme ilustrado na Figura \ref{fig:reflectancia_espectral}) \citep{CHUVIECO201945}.
-
-\begin{table}[htbp]
-\centering
-\caption{Resumo dos produtos de área queimada}
-\begin{tabular}{ @{}lllll@{} }
-  \toprule
-  Nome    & Ano & Res. esp. & Res. tem. & Satélites \\
-  \midrule
-  MOD64 & 2016  & 500m & mensal & Aqua e Terra \\
-  FireCCI51 & 2018 & 250m & mensal & Aqua e Terra \\
-  AQ1km & 2015 & 1km & mensal & Aqua e Terra \\
-  AQ30m & 2014 & 30m & quinzenal & Landsat-8 \\
-  \bottomrule
-\end{tabular}
-\legend{Fonte: O Autor}
-\label{table:resumo_produtos_area_queimada}
-\end{table}
-
-O INPE utiliza dois produtos principais para a detecção de áreas queimadas: o AQ30m e o AQ1km. O produto AQ1km, desenvolvido em parceria com o Laboratório de Aplicações de Satélites Ambientais (LASA), possui uma resolução espacial de 1 km e fornece dados diários agrupados em períodos mensais \citep{SiteAQ1km}. Por outro lado, o produto AQ30m possui uma resolução espacial de 30 metros e fornece dados quinzenais. Ambos os produtos são complementares e permitem uma análise abrangente das áreas queimadas. O AQ1km é adequado para avaliações mais amplas, como a determinação da porcentagem de área queimada em todo o Brasil durante um mês específico. Já o AQ30m fornece dados locais mais precisos, embora muitas regiões do Brasil não são processadas ou os dados não estão disponíveis publicamente.
-
-O produto AQ1Km está em fase provisória de desenvolvimento (conforme Tabela \ref{table:nivel_maturidade_produtos}). É derivado de dados coletados pelo sensor MODIS, utilizando simultaneamente os satélites Aqua e Terra, além de incorporar informações de focos de queimada do INPE de diferentes satélites \citep{libonati2015algorithm}. Resumidamente, o algoritmo do AQ1km inicia filtrando os dados de reflectância com base em critérios de cobertura de nuvens e posição espacial para minimizar distorções. Em seguida, os dados são agrupados por mês para preencher eventuais lacunas diárias. O algoritmo identifica as áreas denominadas "HotSpots", que correspondem a regiões com atividade de fogo durante o período analisado. Posteriormente, é calculado um índice de vegetação para essas áreas, utilizando dados de reflectância no infravermelho próximo (NIR) e no infravermelho de onda média (MWIR), conforme proposto em \citet{libonati2011}, comparando-o com o mesmo índice do mês anterior. Por fim, são identificadas regiões próximas às áreas classificadas como queimadas no passo anterior, mas que não apresentaram um indicador suficientemente forte, podendo indicar que ocorreu uma queimada parcial ou que a intensidade do fogo foi baixa naquela localidade.
-
-O produto AQ30m é gerado a partir de imagens do satélite Landsat-8, utilizando a diferença entre os índices de vegetação NDVI (Normalized Difference Vegetation Index), NBRL (Normalized Burn Ratio) e BAI (Burned Area Index) entre imagens consecutivas \citep{melchiori2014landsat}. Esses dados passam por uma filtragem com base em limiares definidos por especialistas e, em seguida, são suavizados usando um filtro de mediana 3x3 para eliminar valores discrepantes. O passo final envolve a construção de polígonos com base nos valores calculados e a remoção de polígonos muito pequenos. A implementação desse produto foi feita em Python, utilizando algumas ferramentas de processamento de dados que este trabalho também utiliza (ver capítulo \ref{chp:implementacao_metodo}). 
-
-No entanto, o processo atualmente não é totalmente automatizado e requer uma avaliação final de um especialista do instituto antes da divulgação. Isso é necessário pois a degradação da vegetação pode ter ocorrido por outro fator além da queimada, como desmatamento, colheita ou preparação do solo. Quando os especialistas não tem certeza se a área destacada foi originada por uma queimada, a classficação é de não-queimada. Em \citet{dosclassificaccao}, são apresentadas algumas técnicas de aprendizado de máquina aplicadas na avaliação automática desse produto, obtendo resultados promissores (ver a Sessão \ref{sec:trabalhos_relacionados}).
-
-A NASA também mantém um produto específico para o cálculo da área queimada, chamado de MCD64, utilizando também os dados dos dois satélites com sensor MODIS \citep{GIGLIO201872}, de resolução espacial de $500m$ e temporal de um mês. Diferente da versão anterior, a MCD45 (C5), esse algoritmo combina as detecções de fogos ativos de 1 km do Collection 6.1 (ver sessão \ref{sec:deteccao_focos_section}) com um índice de vegetação sensível a queimadas, construído a partir dos canais 5 e 7 do SWIR do sensor MODIS, capturando a reflectância característica do solo em áreas queimadas. A combinação dos dados de fogos ativos e do índice de vegetação permite que o algoritmo se adapte às diferentes regiões e ecossistemas em todo o mundo. Os artefatos produzidos pelo produto podem ser baixados gratuitamento para cada mês a partir de novembro do ano de 2000 pelo site da Earthdata (\url{https://urs.earthdata.nasa.gov}).
+A NASA também mantém um produto específico para o cálculo da área queimada, chamado de MCD64, utilizando também os dados dos dois satélites com sensor MODIS \citep{GIGLIO201872}, de resolução espacial de $500m$ e temporal de um mês. Diferente da versão anterior, a MCD45 (C5), esse algoritmo combina as detecções de fogos ativos de 1 km do Collection 6.1 (ver Seção \ref{sec:deteccao_focos_section}) com um índice de vegetação sensível a queimadas, construído a partir dos canais 5 e 7 do SWIR do sensor MODIS, capturando a reflectância característica do solo em áreas queimadas. A combinação dos dados de fogos ativos e do índice de vegetação permite que o algoritmo se adapte às diferentes regiões e ecossistemas em todo o mundo. Os artefatos produzidos pelo produto podem ser baixados gratuitamento para cada mês a partir de novembro do ano de 2000 pelo site da Earthdata (\url{https://urs.earthdata.nasa.gov}).
 
 O algoritmo inicia selecionando os dados diários de reflectância válidos, ou seja, dados que não contêm nuvens, fogo ativo, estão localizados em terra e possuem valores dentro do intervalo de 0 a 1. Em seguida, calcula o Índice de Vegetação (IV) para cada célula da grade. Posteriormente, o algoritmo calcula a diferença estatística do IV (S), comparando uma janela de dados de 8 dias antes e 8 dias depois do período avaliado. As regiões que não possuem dados confiáveis dentro dessas janelas de tempo são marcadas como não classificadas. Os dados passam por uma classificação inicial utilizando as estatísticas de S e outras informações de probabilidade de queima. Por fim, o algoritmo analisa as regiões vizinhas às que foram previamente classificadas como queimadas, aplicando uma fórmula probabilística que utiliza dados de focos ativos nessas regiões.
 
-A ESA possui seus próprios produtos de cálculo de queimada também, o mais atual é o FireCCI51 \citep{Lizundia2020}, que é uma evolução dos produtos anteriores (FireCCI41 e FireCCI50). Assim com o MCD64, também é um produto que combina detecções de focos ativos e dados de reflectância NIR do sensor MODIS, mas com uma resolução mais apurada, de 250m. O algoritmo é dividido em duas fases principais. A primeira a fase, chamada de seed (semente), coleta todos os pontos com alta probabilidade de terem sido queimados, escolhidos a partir de detecções de anomalias térmicas (focos ativos) combinados com a diminuição do NIR, que é indicativo de área queimada \citep{pereira1999}. Depois o algoritmo entra na fase de growing (crescimento), que a partir das sementes aplica limiares locais para identicar o caminho completo das áreas queimadas. Após é feito uma poda para eliminar áreas que cresceram muito além das sementes iniciais, usando algumas heurísticas, a fim de reduzir os falsos positivos.
-
-A ESA desenvolveu o FireCCI51, um produto avançado para o cálculo de áreas queimadas \citep{Lizundia2020}. Esse produto representa uma evolução em relação aos produtos anteriores, FireCCI41 e FireCCI50. Assim como o MCD64, o FireCCI51 combina detecções de focos ativos e dados de reflectância NIR do sensor MODIS, porém com uma resolução mais refinada de 250m. O algoritmo do FireCCI51 é dividido em duas fases principais. Na primeira fase, chamada de "semente", são coletados os pontos com alta probabilidade de terem sido queimados. Esses pontos são selecionados com base nas detecções de anomalias térmicas (focos ativos) e na diminuição do NIR, que é um indicativo de área queimada \citep{pereira1999}. Em seguida, o algoritmo passa para a fase de "crescimento", na qual são aplicados limiares locais a partir das sementes para identificar completamente as áreas queimadas. Posteriormente, é realizada uma poda para eliminar áreas que cresceram muito além das sementes iniciais, utilizando heurísticas que visam reduzir os falsos positivos.
+A ESA desenvolveu o FireCCI51, um produto avançado para o cálculo de áreas queimadas \citep{Lizundia2020}. Esse produto representa uma evolução em relação aos produtos anteriores, FireCCI41 e FireCCI50. Assim como o MCD64, o FireCCI51 combina detecções de focos ativos e dados de reflectância NIR do sensor MODIS, porém com uma resolução mais refinada de 250m. O algoritmo do FireCCI51 é dividido em duas fases principais. Na primeira fase, chamada de ``semente'', são coletados os pontos com alta probabilidade de terem sido queimados. Esses pontos são selecionados com base nas detecções de anomalias térmicas (focos ativos) e na diminuição do NIR, que é um indicativo de área queimada \citep{pereira1999}. Em seguida, o algoritmo passa para a fase de ``crescimento'', na qual são aplicados limiares locais a partir das sementes para identificar completamente as áreas queimadas. Posteriormente, é realizada uma poda para eliminar áreas que cresceram muito além das sementes iniciais, utilizando heurísticas que visam reduzir os falsos positivos.
 
 \section{Trabalhos Relacionados}
 \label{sec:trabalhos_relacionados}
 
-Muitos outros trabalhos antes deste versaram sobre os dados de queimadas e, em menor escala, especificamente sobre o cálculo das áreas queimadas. Nesse capítulo, serão apresentados mais alguns trabalhos que estão de alguma forma próximos deste e os resultados obtidos por eles. No final, será discutido o que faz este ser único. \par
+Muitos outros trabalhos antes deste versaram sobre os dados de queimadas e, em menor escala, especificamente sobre o cálculo das áreas queimadas. Nesse capítulo, serão apresentados mais alguns trabalhos que estão de alguma forma próximos deste e os resultados obtidos por eles. Ao final, é discutido o que faz este ser único.
 
-O primeiro trabalho analisado é o \citet{dosclassificaccao} que se dedicou a eliminar a necessidade de uma avaliação humana no produto AQ30m, para o calculo de áreas queimadas a partir de imagens do satélite Landsat-8. O documento aborda os resultados do treinamento de cinco modelos de aprendizado de máquina: K-Nearest Neighbors (kNN), Decision Trees (DT), Random Forests (RF), Neural Networks (NN) e Support Vector Machines (SVM). São usadas quatro dados de entradas para esse modelo: Quantidade de queimadas anteriores próximas a área analisada, Focos ativos de queima de diferentes satélites extraídos da base de dados do INPE, valor do índice Mid-Infrared Burn Index (MIRBI) e valor do índice Normalized
-Difference Water Index (NDWI).
+O primeiro trabalho analisado é o \citet{dosclassificaccao} que se dedicou a eliminar a necessidade de uma avaliação humana no produto AQ30m, para o cálculo de áreas queimadas a partir de imagens do satélite Landsat-8. O documento aborda os resultados do treinamento de cinco modelos de aprendizagem de máquina: K-Nearest Neighbors (kNN), Decision Trees (DT), Random Forests (RF), Neural Networks (NN) e Support Vector Machines (SVM). São usadas quatro dados de entradas para esse modelo: Quantidade de queimadas anteriores próximas a área analisada, focos ativos de queima de diferentes satélites extraídos da base de dados do INPE, valor do índice Mid-Infrared Burn Index (MIRBI) e valor do índice Normalized Difference Water Index (NDWI).
 
-O treinamento foi com 9 imagens no período de 16/03/17 a 24/09/17 na região órbita-ponto 223/067. A validação foi feita com uma imagem em 10/10/17 e obteve resultado melhores no modelo usando Random Forests e no modelo usando Redes Neurais. A acurácia geral ficou acima de 96\% para esses modelos. O modelos de K-Nearest Neighbors e Decision Trees ficaram entre 80\% e 90\% de acurácia. O pior modelo, o Support Vector Machines, obteve acurácia de pouco mais de 50\%. O trabalho conclui que os modelos podem atingir boas acurácias, mas como são treinados usando classificações 
+O treinamento desses modelos foi com 9 imagens no período de 16/03/17 a 24/09/17 na região órbita-ponto 223/067. A validação foi feita com uma imagem em 10/10/17 e obteve resultado melhores nos modelos Random Forests e Redes Neurais. A acurácia geral ficou acima de 96\% para esses modelos. O modelos de K-Nearest Neighbors e Decision Trees ficaram entre 80\% e 90\% de acurácia. O pior modelo, o Support Vector Machines, obteve acurácia de pouco mais de 50\%. O trabalho conclui que os modelos podem atingir boas acurácias, mas como são treinados usando modelos de classificação, ao final o resultado é sempre uma classificação binária entre ``Queimado'' e ``Não queimado''. Isso simplifica muito o treinamento dos modelos, mas pode não ser ideal por agrupar áreas de desmatamento, colheita ou preparação do solo em uma classe errada.
 
+O segundo trabalho analisado é o \citet{pereira2017burned} que usa um modelo de aprendizagem de máquina chamado de Máquina de Vetores de Suporte de Classe Única (OC-SVDD) para o mapeamento de áreas queimadas no Cerrado brasileiro com uma resolução de 300m. O método precisa apenas de dados da classe ``Queimada'', o que simplifica sua automatização. Para alimentar o modelo, foi usado dados pré processados de focos ativos detectados pelo sensor VIIRS (resolução de 375m) representando a classe ``Queimada''. Junto aos focos, também foram usados dados quizenais de reflectância do satélite PROBA-V (missão da ESA descontinuada em 2020), com o intuito de detectar regiões queimadas que não foram indicadas pelos dados dos focos ativos, o que reduz o erro de omissão. Devido ao uso dos dados do PROBA-V o método recebeu o nome de AQM-PROBA.
 
-////// pereira2017burned
-
-//////
+O método foi avaliado contra o produto AQ30m e comparando os resultados com o MCD64A1 aplicados em 13 orbitas-ponto Landsat. A abordagem de avaliação é a mesma usada em \citet{libonati2015algorithm} e, consequentemente, neste presente trabalho, como dicutido na Seção \ref{sec:metodologia_avaliacao}. O AQM-PROBA apresentou em média 30\% de erros de omissão e 22\% de erros de comissão. Comparando com o MCD64A1, o método proposto indica mais queimadas verdadeiras, mas também aumenta a taxa de falsos positivos. A conclusão do trabalho é que o método AQM-PROBA produz resultados mais próximos da referência AQ30m comparado com o MCD64A1, mesmo que tanto o AQM-PROBA quanto o MCD64A1 subestimam a área queimada de referência.
 
 \section*{Comparação e discussão}
 
@@ -516,7 +515,7 @@ No caso do trabalho em questão não são utilizados os dados brutos dos satéli
 
 \chapter{Metodologia}
 
-Neste capítulo será abordado como método utilizado para calcular as áreas queimadas foi desenvolvido. Começa com uma visão geral do método, depois entra em cada etapa de forma separada e mais detalhada.
+Neste capítulo é abordado como o método utilizado para calcular as áreas queimadas foi desenvolvido. Começa com uma visão geral do método, depois entra em cada etapa de forma separada e mais detalhada.
 
 \section{Visão geral da metodologia}
 
@@ -534,7 +533,7 @@ A metodologia desenvolvida visa calcular a área de vegetação queimada no Bras
 
 O método completo, conforme apresentado na Figura \ref{fig:metodologica_workflow}, é composto por três principais etapas (cartões em azul): mapeamento dos focos para áreas, separação e avaliação dos quadrantes, e cálculo da área queimada. Cada etapa recebe dados de entrada e produz uma saída que, com exceção da última etapa, é usada como entrada para a etapa subsequente.
 
-A primeira etapa transforma os pontos dos focos em áreas que representam a abrangência do foco. Essa etapa recebe dados de focos de queimadas do INPE, previamente filtrados para o intervalo de tempo de interesse, e produz como saída as áreas de cada foco. Essas áreas estão diretamente relacionadas às características do satélite e sensor que captaram a imagem original, como abordado em \ref{sec:deteccao_focos_section}, e, portanto, também precisam ser uma entrada para essa etapa.
+A primeira etapa transforma os pontos dos focos em áreas que representam a abrangência do foco. Essa etapa recebe dados de focos de queimadas do INPE, previamente filtrados para o intervalo de tempo de interesse, e produz como saída as áreas de cada foco. Essas áreas estão diretamente relacionadas às características do satélite e sensor que captaram a imagem original, como abordado na Seção  \ref{sec:deteccao_focos_section}, e, portanto, também precisam ser uma entrada para essa etapa.
 
 Na segunda etapa, o espaço é dividido em quadrantes e avaliado. Esse passo recebe as áreas dos focos calculados na etapa anterior e o tamanho do quadrante, que pode ser definido pelo pesquisador. A saída são quadrantes com valores que representam a intensidade das queimadas ocorridas dentro de cada quadrante específico. A função de avaliação é proporcional à diversidade e quantidade das áreas de foco que interceptam os quadrantes.
 
@@ -659,7 +658,7 @@ Após a formalização do método de forma abstrata, esse capítulo descorre sob
 
 \section{Coleta dos dados}
 
-Uma parte fundamental do processo foi coletar os dados do site DBQueimadas, que é a fonte primária usada para cálculo das áreas queimadas. Para exportar os dados usando o navegador, é necessário preencher um formulário com os campos de data inicial, data final e um endereço de e-mail, com intervalo de tempo máximo um ano para cada pedido. Também é possível aplicar filtros ainda mais específicos, como continente, país, estado, município, satélite, bioma e unidades de conservação/terras indígenas. Após clicar em "Exportar", uma mensagem contendo um link de download é enviada para o e-mail informado, e o arquivo disponibilizado é um CSV compactado em formato zip.
+Uma parte fundamental do processo foi coletar os dados do site DBQueimadas, que é a fonte primária usada para cálculo das áreas queimadas. Para exportar os dados usando o navegador, é necessário preencher um formulário com os campos de data inicial, data final e um endereço de e-mail, com intervalo de tempo máximo um ano para cada pedido. Também é possível aplicar filtros ainda mais específicos, como continente, país, estado, município, satélite, bioma e unidades de conservação/terras indígenas. Após clicar em ``Exportar'', uma mensagem contendo um link de download é enviada para o e-mail informado, e o arquivo disponibilizado é um CSV compactado em formato zip.
 
 Embora o site tenha boa usabilidade, seria impraticável baixar todos os dados do Brasil manualmente sem sobrecarregar os servidores no INPE. Por isso, foi necessário entender como a solicitação dos dados era processada pelo site e, assim, automatizar o download. Foi identificado que o site faz uma requisição GET para a API do DBQueimadas, localizada em \url{https://queimadas.dgi.inpe.br/queimadas/exportacaobdq/exportar}, passando os parâmetros  codificados em JSON da URL, incluindo os filtros, e-mail e formato de arquivo desejado. Um exemplo de uso dessa API por meio de uma chamada CURL pode ser encontrado no \ref{anexo:usoApiInpe}.
 
@@ -686,7 +685,7 @@ Após a coleta de dados mencionada anteriormente, os dados foram carregados no P
 
 Para otimizar o processamento e a leitura dos dados, também foi utilizada a biblioteca Dask especializada no processamento paralelo e distribuído. Essa biblioteca oferece a capacidade de criar clusters locais ou se conectar a clusters remotos, permitindo o envio de tarefas completas para serem processadas pelo cluster. Além disso, o Dask possibilita a leitura dos arquivos de forma paralela, o que resulta em uma redução significativa no tempo de carregamento dos dados. Após o carregamento completo do DataFrame a partir dos arquivos CSV originais durante a primeira execução, foi criado um arquivo no formato H5 que contém os mesmos dados, mas com uma estrutura otimizada para permitir uma leitura mais rápida. Nas execuções subsequentes do programa, ao invés de carregar novamente os arquivos CSV, o programa fará a leitura desse único arquivo H5, resultando em um carregamento ainda mais rápido dos dados.  \par
 
-Durante o pré-processamento dos dados, foram identificadas regras de nomenclatura especiais para alguns satélites. No caso dos satélites AQUA (AQUA\_M-T e AQUA\_M-M) e TERRA (TERRA\_M-T e TERRA\_M-M), a última letra indica o período do dia em que ocorreu a passagem do satélite, sendo "M" para Manhã e "T" para Tarde. Outros satélites, como Suomi NPP, NOAA-19, NOAA-18, NOAA-16, NOAA-15 e NOAA-12, podem apresentar a última letra do nome como "D" para Diurno. Com base nessa compreensão das regras de nomenclatura, foi possível criar uma nova coluna que fornece o nome simplificado dos satélites, facilitando algumas análises. Em comparação com a coluna original dos satélites, que tinha 32 valores possíveis, a nova coluna contém apenas 22 valores possíveis. Para cada satélite, foi escolhida uma cor única, conforme apresentado na Figura \ref{fig:cores_satelites}, que é utilizada em todos os gráficos apresentados neste documento. \par
+Durante o pré-processamento dos dados, foram identificadas regras de nomenclatura especiais para alguns satélites. No caso dos satélites AQUA (AQUA\_M-T e AQUA\_M-M) e TERRA (TERRA\_M-T e TERRA\_M-M), a última letra indica o período do dia em que ocorreu a passagem do satélite, sendo ``M'' para Manhã e ``T'' para Tarde. Outros satélites, como Suomi NPP, NOAA-19, NOAA-18, NOAA-16, NOAA-15 e NOAA-12, podem apresentar a última letra do nome como ``D'' para Diurno. Com base nessa compreensão das regras de nomenclatura, foi possível criar uma nova coluna que fornece o nome simplificado dos satélites, facilitando algumas análises. Em comparação com a coluna original dos satélites, que tinha 32 valores possíveis, a nova coluna contém apenas 22 valores possíveis. Para cada satélite, foi escolhida uma cor única, conforme apresentado na Figura \ref{fig:cores_satelites}, que é utilizada em todos os gráficos apresentados neste documento. \par
 
 \begin{figure}[H]
     \caption{Cores escolhidas para cada satélite.}
@@ -730,7 +729,81 @@ Com base em experimentos, foi constatado que o uso de quadrantes muito pequenos 
 \chapter{Resultados e Discussão}
 \label{chp:resultados_discussão}
 
-\section{Aplicações do método}
+\section{Metodologia da avaliação}
+\label{sec:metodologia_avaliacao}
+
+Para a avaliação, usamos uma Tabela de Contingência modificada (ver Tabela \ref{table:matriz_de_confusao}) de forma que acomodasse valores contínuos, representando o percentual de sua área queimada. Esse método de avaliação foi baseado em \citet{libonati2015algorithm} que também aplicou a mesma técnica de avaliação. A Tabela apresenta duas classes de interesse, que são ``Queimado'' e ``Não queimado'' de forma a comparar elas com um método de referência e um método de interesse, que normalmente está sendo testado. A partir dessa comparação surgem os valores de Verdadeiro Positivo (TP), Falso Positivo (FP), Falso Negativo (FN) e Verdadeiro Negativo (TN).
+
+A versão original da Tabela de Contingência é usada normalmente pra avaliar problemas de classificação, ou seja, discretos. Por exemplo, para o problema de identificar letras e números a partir de imagens, o resultado da classificação de um caractere é sempre o caractere que melhor o define, com base no modelo de classificação empregado. Para o caso da área queimada, um quadrante não deve ser classificado basicamente como queimado ou não queimadado. A abordagem mais realista leva em conta que um quadrante pode ter apenas uma parte de sua área queimada. Isso nos leva ao uso de um número, entre 0 e 1, representando o percentual da área dentro do quadrante que foi efetivamente queimada.
+
+\begin{table}[htbp]
+\centering
+\caption{Tabela de Contingência.}
+\begin{tabular}{ccccc}
+\toprule
+ \multicolumn{2}{c}{} & \multicolumn{3}{c}{\textbf{Referência}} \\
+ \cline{3-5}
+ \noalign{\smallskip} % space
+ \multicolumn{2}{c}{}                  & \textbf{Queimado} & \textbf{Não queimado} & \textbf{Total} \\
+\midrule
+ \multirow{3}{*}{\textbf{\shortstack{Método\\ proposto}}} & \textbf{Queimado}     & TP       & FP           & TP + FP \\
+                        & \textbf{Não queimado} & FN       & TN           & FN + TN \\
+                        & \textbf{Total}        & TP + FN  & FP + TN      & TP + FP + FN + TN \\
+\bottomrule
+\end{tabular}
+\legend{Fonte: \citet{libonati2015algorithm}, modificado pelo autor}
+\label{table:matriz_de_confusao}
+\end{table}
+
+Seja $p_r$ a avaliação de um quadrante pelo método de referência e $p_p$ a avaliação pelo método proposto, utilizamos as equações definidas em \ref{eqn:def_values} para calcular os valores TP, FP, FN e TN da Tabela de Contingência. Essas equações podem ser compreendidas também pela teoria de conjuntos, onde a operação $min$ representa a união e a subtração representa a diferença de dois conjuntos. Desse forma, a união de $p_r$ e $p_p$ indica o valor em que tanto o método proposto quanto o de referência concordam, resultandos nos TP. O mesmo pensamento vale também para o TN. Para os valores de erros, FN e FP, o resultado é extraído a partir de uma diferença que satura em zero. O valor de FP é zero quando $p_p \le p_r$, indicando que não há superestimação. Da mesma forma, o valor de FN é zero quando $p_r \le p_p$, indicando que não há subestimação.
+
+\begin{equation} \label{eqn:def_values}
+\begin{split}
+	TP & = min\left(p_r, p_p\right) \\
+	TN & = min\left(1 - p_r, 1 - p_p\right) \\
+	FP & = max\left(p_p - p_r, 0\right) \\
+	FN & = max\left(p_r - p_p, 0\right)
+\end{split}
+\end{equation}
+
+Com esses dados, calculamos algumas métricas que nos ajudam a entender os resultados e melhor avaliar a solução proposta. A acurácia geral (OA), definido na Equação \ref{eqn:def_oa}, e o Índice de Sucesso Crítico (CSI), definido na Equação \ref{eqn:def_csi}, estão relacionadas. Enquanto a primeira leva em conta todos os dados de classificação, a segunda omite a informação dos verdadeiros negativos. Isso pode ser bom para o caso das queimadas, em que a classe ``Não queimado'' é muito mais frequente que a classe ``Queimado''. Para esses caso, pode-se entender que a métrica CSI foca na classificação correta da classe que seria ``difícil'' de acertar.
+
+\begin{equation} \label{eqn:def_oa}
+  OA = \frac{TP + TN}{TP + FP + FN + TN}
+\end{equation}
+
+\begin{equation} \label{eqn:def_csi}
+  CSI = \frac{TP}{TP + FP + FN}
+\end{equation}
+
+Outras duas métricas importantes relacionadas são o Erro de Omissão (OE), definido na Equação \ref{eqn:def_oe}, e o Erro de Comissão (CE), definido na Equação \ref{eqn:def_ce}. O OE representa a proporção de elementos que deveriam ser classificados como queimados, mas foram erroneamente classificados como não queimados, ou seja, houve uma omissão. Por outro lado, o CE representa a proporção de elementos que foram classificados como queimados, mas que deveriam ser classificados com não queimados, em outras palavras, houve uma comissão. O valor dessas métricas fica entre 0 e 1 e quando menor, mais preciso é o modelo.
+
+\begin{equation} \label{eqn:def_oe}
+  OE = \frac{FN}{FN + TP}
+\end{equation}
+
+\begin{equation} \label{eqn:def_ce}
+  CE = \frac{FP}{FP + TP}
+\end{equation}
+
+O Viés (B) é um indicativo de qual a tendência que o modelo seguiu. Um valor menor que 1 indica que o modelo está classificando menos áreas queimadas do que deveria. Caso o valor for maior que 1, está classificando mais áreas queimadas comparado a referência. Quando a métrica vale 1 a quantidade de áreas classificadas como queimada é a mesma. Essa métrica não deve ser usada como indicativo de precisão porque, mesmo quando vale 1, pode não haver correspondência com a classificação correta de áreas queimadas do modelo com as áreas queimadas da referência.
+
+\begin{equation} \label{eqn:def_b}
+  B = \frac{TP + FP}{TP + FN}
+\end{equation}
+
+O Coefiente de Dice (DC), também conhecido como Índice de Sørensen–Dice, é muito usado em processamento de imagens para calcular a similaridade de duas imagens, fazendo um sobreposição de seus valores. O valor fica entre 0 e 1, em que 1 representa uma sobreposição perfeita e valores próximos de 0 indicam uma maior taxa de erro. A equação de DC é similar a CSI, porém com um peso maior aplicado aos Verdadeiros positivos.
+
+\begin{equation} \label{eqn:def_dc}
+  DC = \frac{2 * TP}{2 * TP + FP + FN}
+\end{equation}
+
+
+
+
+\section{Resultados apresentados}
+
+Nesta seção é apresentado como o método foi avaliado em relação ao estado da arte do cálculo de áreas queimadas. Comparamos os resultados do método proposto com os dados dos produtos MDC64A1, AQ1Km e AQ30m.  ......
 
 O método em sí é geral para qualquer entrada de focos de satélites, e retorna no final polígonos representando áreas geográficas associadas a um valor que indica a área queimada dentro desse polígono. Variando a entrada do método e o agrupamento dos resultados preliminares, pode-se obter diferentes resultados finais. \par
 
