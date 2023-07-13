@@ -68,11 +68,18 @@ def sub_space_by_center(data: pd.DataFrame, lat: float, lon: float, size: float)
     min_lat, max_lat, min_lon, max_lon = get_bounds(lat, lon, size)
     return data.query('@min_lon <= longitude <= @max_lon & @min_lat <= latitude <= @max_lat')
 
+
 def get_landsat_geometry(path: int, row: int) -> Polygon:
     if not hasattr(get_landsat_geometry, "wrs2"):
-        # reference: https://www.usgs.gov/landsat-missions/landsat-shapefiles-and-kml-files
-        get_landsat_geometry.wrs2: gpd.GeoDataFrame = gpd.read_file('tiff/WRS2_descending_0')
-    return get_landsat_geometry.wrs2.query('PATH == @path & ROW == @row').iloc[0].geometry
+        # reference: http://www.dgi.inpe.br/documentacao/grades em Grade TM da America do Sul no formato (Shape File)
+        get_landsat_geometry.wrs2: gpd.GeoDataFrame = gpd.read_file('tiff/grade_tm_am_do_sul')
+    return get_landsat_geometry.wrs2.query('ORBITA == @path & PONTO == @row').iloc[0].geometry
+
+# def get_landsat_geometry(path: int, row: int) -> Polygon:
+#     if not hasattr(get_landsat_geometry, "wrs2"):
+#         # reference: https://www.usgs.gov/landsat-missions/landsat-shapefiles-and-kml-files
+#         get_landsat_geometry.wrs2: gpd.GeoDataFrame = gpd.read_file('tiff/WRS2_descending_0')
+#     return get_landsat_geometry.wrs2.query('PATH == @path & ROW == @row').iloc[0].geometry
 
 def sub_space_by_landsat(df: pd.DataFrame, path: int, row: int) -> pd.DataFrame:
     temp = gpd.GeoDataFrame(geometry=gpd.points_from_xy(df.longitude, df.latitude), crs="EPSG:4326")
@@ -177,7 +184,7 @@ def normalize_gdf(data: gpd.GeoDataFrame, bounds: Polygon = None, quadrat_width:
         xmin, ymin, xmax, ymax = bounds.bounds
         data = data.cx[xmin:xmax, ymin:ymax]
     grid_df = grid_gdf(data, bounds, quadrat_width)
-    join_dataframe = gpd.sjoin(data, grid_df, predicate="intersects")
+    join_dataframe = gpd.sjoin(data, grid_df, op="intersects")
     
     values = np.zeros(len(grid_df))
     for index in join_dataframe['index_right'].unique():

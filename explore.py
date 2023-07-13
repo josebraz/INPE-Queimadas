@@ -27,18 +27,18 @@ from typing import Callable
 
 default_threshold: float = 5
 
-BurnedAreaCalc = Callable[[float, float, float], float]
+BurnedAreaCalc = Callable[[float, np.ndarray], float]
 
 def threshold_burned_area_calc(threshold: float = default_threshold) -> BurnedAreaCalc:
-    return lambda value, min_value, max_value: 1.0 if value >= threshold else 0.0
+    return lambda value, values: 1.0 if value >= threshold else 0.0
 
 def linear_burned_area_calc(min_range: float, max_range: float) -> BurnedAreaCalc:
     value_range = (max_range - min_range)
-    return lambda value, min_value, max_value: min(1, max(0, (value - min_range) / value_range))
+    return lambda value, values: min(1, max(0, (value - min_range) / value_range))
 
 def polinomial_burned_area_calc(min_range: float, max_range: float, expoent: int) -> BurnedAreaCalc:
     value_range = (max_range - min_range)
-    return lambda value, min_value, max_value: min(1, max(0, ((value - min_range) / value_range))**expoent)
+    return lambda value, values: min(1, max(0, ((value - min_range) / value_range))**expoent)
 
 def get_default_cmap():
     colors_lst = [(1, 0, 0, c) for c in np.linspace(0, 1, 100)]
@@ -51,12 +51,15 @@ class SatellitesExplore:
     default_min_area_percentage = 0.2
     default_threshold_satellite = 3
 
-    def __init__(self, data: pd.DataFrame, 
+    def __init__(self, 
+                 data: pd.DataFrame, 
+                 delimited_region: Polygon = None,
                  quadrat_width: float = 0.005, 
                  min_area_percentage: float = default_min_area_percentage,
                  threshold_satellite: float = default_threshold_satellite,
                  burned_area_calc: BurnedAreaCalc = default_burned_area_calc):
         self.data = data
+        self.delimited_region = delimited_region
         self.satellites_data = SatellitesMeasureGeometry(data)
         self.geod = Geod(ellps="WGS84")
         self.dataframe = self.satellites_data.get_satelites_measures_area()
@@ -150,17 +153,16 @@ class SatellitesExplore:
     def get_burned_areas(self) -> gpd.GeoDataFrame:
         points: gpd.GeoDataFrame = self.get_all_evaluated_quads()
         if 'burned_area' not in points.columns:
-            max_value = points['value'].max()
-            min_value = points['value'].min()
-            points['burned_factor'] = points['value'].map(lambda value: self.burned_area_calc(value, min_value, max_value))
+            values = points['value'].values
+            points['burned_factor'] = points['value'].map(lambda value: self.burned_area_calc(value, values))
             points['area'] = points['geometry'].map(lambda geo: abs(self.geod.geometry_area_perimeter(geo)[0]))
             points['burned_area'] = points['area'] * points['burned_factor']
         return points
 
     def get_all_evaluated_quads(self) -> gpd.GeoDataFrame:
         if self.all_evaluated_quads is None:
-            quads_df = grid_gdf(self.dataframe, quadrat_width=self.quadrat_width)
-            join_dataframe = gpd.sjoin(self.dataframe, quads_df, predicate="intersects")
+            quads_df = grid_gdf(self.dataframe, poly=self.delimited_region, quadrat_width=self.quadrat_width)
+            join_dataframe = gpd.sjoin(self.dataframe, quads_df, op="intersects")
 
             values = np.zeros(len(quads_df))
             for index in join_dataframe['index_right'].unique():
