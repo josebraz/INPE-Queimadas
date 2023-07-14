@@ -177,7 +177,7 @@ def grid_gdf(data: gpd.GeoDataFrame, poly: Polygon = None, quadrat_width: float=
     if poly is None:
         return temp
     else:
-        return temp[temp.intersects(poly).values].reset_index()
+        return temp[temp.intersects(poly).values].reset_index().drop('index', axis=1, inplace=True)
 
 def normalize_gdf(data: gpd.GeoDataFrame, bounds: Polygon = None, quadrat_width: float=0.005) -> gpd.GeoDataFrame:
     if bounds != None: 

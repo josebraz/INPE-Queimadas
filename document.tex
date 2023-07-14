@@ -187,7 +187,7 @@ Durante o decorrer do documento são apresentadas diversas figuras, a maioria de
 
 \chapter{Conceitos básicos e trabalhos relacionados}
 
-Neste Capítulo, serão apresentados conceitos importantes para a compreensão de todo trabalho e dos resultados obtidos com o método proposto. Primeiramente, serão formalizadas definições relacionadas às queimadas e à forma como são monitoradas no Brasil. Na próxima seção, é realizada uma sumarização dos principais satélites utilizados pelo INPE e suas características. Após isso, apresentamos uma análise dos dados para demonstrar uma visão geral das principais tendências e gráficos. Em seguida, é abordado como as imagens geradas pelos satélites são utilizadas para a detecção de focos ativos. Por fim, apresentamos alguns trabalhos relacionados com o cálculo de área queimada em contraste com o presente trabalho. \par
+Neste Capítulo, serão apresentados conceitos importantes para a compreensão de todo trabalho e dos resultados obtidos com o novo método proposto. Primeiramente, serão formalizadas definições relacionadas às queimadas e à forma como são monitoradas no Brasil. Na próxima seção, é realizada uma sumarização dos principais satélites utilizados pelo INPE e suas características. Após isso, apresentamos uma análise dos dados para demonstrar uma visão geral das principais tendências e gráficos. Em seguida, é abordado como as imagens geradas pelos satélites são utilizadas para a detecção de focos ativos. Por fim, apresentamos alguns trabalhos relacionados com o cálculo de área queimada em contraste com o presente trabalho. \par
 
 \section{O monitoramento das queimadas no Brasil}
 
@@ -244,7 +244,7 @@ O INPE processa atualmente dados de diversos satélites, cada um com caracterís
 
 Cada satélite pode estar equipado com um sensor imageador que captura imagens com características distintas. Esses sensores são capazes de captar não apenas a luz visível, no comprimento de onda de 400 nm a 700 nm, mas também o infravermelho, de 780 nm a 1 mm. As medições realizadas pelos sensores são divididas em canais, que diferem em termos de resolução espacial - a escala geográfica representada por cada pixel da imagem - e resolução espectral, ou seja, o intervalo de comprimento de onda abrangido. \par
 
-Os satélites também podem ser classificados de acordo com o tipo de órbita, que pode ser polar ou geoestacionária. Os satélites polares percorrem toda a terra, com uma altitude baixa e alta velocidade, passando várias vezes pelos polos norte e sul em um único dia. Já os satélites geoestacionários ajustam sua orbita para sempre parecerem estacionários em relação a um ponto fixo na Terra. Esses satélites ficam em altitudes mais altas devido à sua velocidade mais baixa, que é igual à rotação da Terra. A Figura \ref{fig:orbita2022-08-10}, gerada a partir de dados do site Celestrak (\url{https://celestrak.org/}), mostra a passagem de alguns satélites polares no Brasil no dia 10 de agosto de 2022. Também é possível ver o satélite geoestacioário GOES-16, localizado ao norte do perú, representado com um ponto no gráfico. \par
+Os satélites também podem ser classificados de acordo com o tipo de órbita, que pode ser polar ou geoestacionária. Os satélites polares percorrem toda a terra, com uma altitude baixa e alta velocidade, passando várias vezes pelos polos norte e sul em um único dia. Já os satélites geoestacionários ajustam sua órbita para sempre parecerem estacionários em relação a um ponto fixo na Terra. Esses satélites ficam em altitudes mais altas devido à sua velocidade mais baixa, que é igual à rotação da Terra. A Figura \ref{fig:orbita2022-08-10}, gerada a partir de dados do site Celestrak (\url{https://celestrak.org/}), mostra a passagem de alguns satélites polares no Brasil no dia 10 de agosto de 2022. Também é possível ver o satélite geoestacioário GOES-16, localizado ao norte do perú, representado com um ponto no gráfico. \par
 
 \begin{figure}[H]
     \caption{Órbita dos satélites no dia 10 de agosto de 2022.}
@@ -319,10 +319,10 @@ No período de 01 de junho de 1998 a 03 de julho de 2002, o satélite de referê
 
 São considerados satélites de média resolução aqueles que possuem um sensor capaz de poduzir imagens em que um pixel equivale de 10 a 60 metros \citep{EmbrapaSatelites}. A principal missão que emprega esses satélites é a Landsat que lançou 9 satélites e teve início em 1972. Atualmente, apenas os satélites Landsat-8 e Landsat-9 estão ativos. Esses satélites tem período de revisita de 16 dias, ou seja, a cada 16 dias produzem dados da mesma região. 
 
-A missão Lansat estabeleceu um sistema de órbita-ponto que divide o planeta em vários quadrantes, chama do Worldwide Reference System (WRS). A partir do Landsat-4 o WRS ganhou uma versão 2 (WRS-2), para se adequar ao fato de que os satélites passaram de 18 para 16 dias de tempo de revisita. O Brasil é coberto por 390 quadrantes, como na Figura \ref{fig:orbitas_ponto_landsat}, sendo marcados com o número da órbita e sua linha correspondente, chamado no inglês de \textit{path/row}.
+A missão Lansat estabeleceu um sistema de órbita-ponto que divide o planeta em vários quadrantes, chamo de \textit{Worldwide Reference System} (WRS). A partir do Landsat-4 o WRS ganhou uma versão 2 (WRS-2) para se adequar ao fato de que os satélites passaram de 18 para 16 dias de tempo de revisita. O Brasil é coberto por 390 quadrantes, como na Figura \ref{fig:orbitas_ponto_landsat}, sendo marcados com o número da órbita e sua linha correspondente, chamado no inglês de \textit{path/row}.
 
 \begin{figure}[H]
-    \caption{Orbitas-ponto Landsat que cobrem o território brasileiro com base no WRS-2.}
+    \caption{Órbitas-ponto Landsat que cobrem o território brasileiro com base no WRS-2.}
     \begin{center}
         \includegraphics[width=30em]{orbitas_ponto_landsat}
     \end{center}
@@ -477,7 +477,7 @@ Nesta parte, são apresentados alguns dos produtos mais consolidados para o cál
   \textbf{Nome} & \textbf{Ano} & \textbf{Res. esp.} & \textbf{Res. tem.} & \textbf{Satélites} & \textbf{Embasamento teórico} \\
   \midrule
   AQ1km & 2015 & 1km & mensal & Aqua/Terra & \citet{libonati2015algorithm} \\
-  AQ30m & 2014 & 30m & quinzenal & Landsat-8 & \citet{melchiori2014landsat} \\
+  AQ30m & 2014 & 30m & quinzenal & Landsat-5,7,8 & \citet{melchiori2014landsat} \\
   MCD64A1 & 2016  & 500m & mensal & Aqua/Terra & \citet{GIGLIO201872} \\
   FireCCI51 & 2018 & 250m & mensal & Aqua/Terra & \citet{Lizundia2020} \\
   \bottomrule
@@ -501,7 +501,7 @@ O INPE utiliza dois produtos principais para a detecção de áreas queimadas: o
 
 O produto AQ1Km está em fase provisória de desenvolvimento (conforme Tabela \ref{table:nivel_maturidade_produtos}). É derivado de dados coletados pelo sensor MODIS, utilizando simultaneamente os satélites Aqua e Terra, além de incorporar informações de focos de queimada do INPE de diferentes satélites \citep{libonati2015algorithm}. Resumidamente, o algoritmo do AQ1km inicia filtrando os dados de reflectância com base em critérios de cobertura de nuvens e posição espacial para minimizar distorções. Em seguida, os dados são agrupados por mês para preencher eventuais lacunas diárias. O algoritmo identifica as áreas denominadas ``HotSpots'' (pontos quentes), que correspondem a regiões com atividade de fogo durante o período analisado. Posteriormente, é calculado um índice de vegetação para essas áreas, utilizando dados de reflectância no infravermelho próximo (NIR) e no infravermelho de onda média (MWIR), conforme proposto em \citet{libonati2011}, comparando-o com o mesmo índice do mês anterior. Por fim, são identificadas regiões próximas às áreas classificadas como queimadas no passo anterior, mas que não apresentaram um indicador suficientemente forte, podendo indicar que ocorreu uma queimada parcial ou que a intensidade do fogo foi baixa naquela localidade.
 
-O produto AQ30m é gerado a partir de imagens do satélite Landsat-8, utilizando a diferença entre os índices de vegetação NDVI (Normalized Difference Vegetation Index), NBRL (Normalized Burn Ratio) e BAI (Burned Area Index) entre imagens consecutivas \citep{melchiori2014landsat}. Esses dados passam por uma filtragem com base em limiares definidos por especialistas e, em seguida, são suavizados usando um filtro de mediana 3x3 para eliminar valores discrepantes. O passo final envolve a construção de polígonos com base nos valores calculados e a remoção de polígonos muito pequenos. A implementação desse produto foi feita em Python, utilizando algumas ferramentas de processamento de dados que este trabalho também utiliza (mais detalhes no Capítulo \ref{chp:implementacao_metodo}). 
+O produto AQ30m é gerado a partir de imagens dos satélites Landsat-5, Landsat-7 e Landsat-8, utilizando a diferença entre os índices de vegetação NDVI (Normalized Difference Vegetation Index), NBRL (Normalized Burn Ratio) e BAI (Burned Area Index) entre imagens consecutivas \citep{melchiori2014landsat}. Esses dados passam por uma filtragem com base em limiares definidos por especialistas e, em seguida, são suavizados usando um filtro de mediana 3x3 para eliminar valores discrepantes. O passo final envolve a construção de polígonos com base nos valores calculados e a remoção de polígonos muito pequenos. A implementação desse produto foi feita em Python, utilizando algumas ferramentas de processamento de dados que este trabalho também utiliza (mais detalhes no Capítulo \ref{chp:implementacao_metodo}). 
 
 No entanto, o processo atualmente não é totalmente automatizado e requer uma avaliação final de um especialista do instituto antes da divulgação. Isso é necessário pois a degradação da vegetação pode ter ocorrido por outro fator além da queimada, como desmatamento, colheita ou preparação do solo. Quando os especialistas não tem certeza se a área destacada foi originada por uma queimada, a classificação é de não-queimada. Em \citet{dosclassificaccao}, são apresentadas algumas técnicas de aprendizado de máquina aplicadas na avaliação automática desse produto, obtendo resultados promissores (ver a Seção \ref{sec:trabalhos_relacionados}).
 
@@ -522,7 +522,7 @@ O treinamento desses modelos foi com 9 imagens no período de 16/03/17 a 24/09/1
 
 O segundo trabalho analisado é o \citet{pereira2017burned} que usa um modelo de aprendizagem de máquina chamado de Máquina de Vetores de Suporte de Classe Única (OC-SVDD) para o mapeamento de áreas queimadas no Cerrado brasileiro com uma resolução de 300m. O método precisa apenas de dados da classe ``Queimada'', o que simplifica sua automatização. Para alimentar o modelo, foi usado dados pré processados de focos ativos detectados pelo sensor VIIRS (resolução de 375m) representando a classe ``Queimada''. Junto aos focos, também foram usados dados quizenais de reflectância do satélite PROBA-V (missão da ESA descontinuada em 2020), com o intuito de detectar regiões queimadas que não foram indicadas pelos dados dos focos ativos, o que reduz o erro de omissão. Devido ao uso dos dados do PROBA-V o método recebeu o nome de AQM-PROBA.
 
-O método foi avaliado contra o produto AQ30m e comparando os resultados com o MCD64A1 aplicados em 13 orbitas-ponto Landsat. A abordagem de avaliação é a mesma usada em \citet{libonati2015algorithm} e, consequentemente, neste presente trabalho, como dicutido na Seção \ref{sec:metodologia_avaliacao}. O AQM-PROBA apresentou em média 30\% de erros de omissão e 22\% de erros de comissão. Comparando com o MCD64A1, o método proposto indica mais queimadas verdadeiras, mas também aumenta a taxa de falsos positivos. A conclusão do trabalho é que o método AQM-PROBA produz resultados mais próximos da referência AQ30m comparado com o MCD64A1, mesmo que tanto o AQM-PROBA quanto o MCD64A1 subestimam a área queimada de referência.
+O método foi avaliado contra o produto AQ30m e comparando os resultados com o MCD64A1 aplicados em 13 órbitas-ponto Landsat. A abordagem de avaliação é a mesma usada em \citet{libonati2015algorithm} e, consequentemente, neste presente trabalho, como dicutido na Seção \ref{sec:metodologia_avaliacao}. O AQM-PROBA apresentou em média 30\% de erros de omissão e 22\% de erros de comissão. Comparando com o MCD64A1, o AQM-PROBA indica mais queimadas verdadeiras, mas também aumenta a taxa de falsos positivos. A conclusão do trabalho é que o método AQM-PROBA produz resultados mais próximos da referência AQ30m comparado com o MCD64A1, mesmo que tanto o AQM-PROBA quanto o MCD64A1 subestimam a área queimada de referência.
 
 \section*{Comparação e discussão}
 
@@ -538,11 +538,11 @@ No caso do presente trabalho, não são utilizados os dados de produtos de refle
 
 \chapter{Metodologia}
 
-Neste Capítulo é abordado como o método utilizado para calcular as áreas queimadas foi desenvolvido. Começa com uma visão geral do método, depois entra em cada etapa de forma separada e mais detalhada.
+Neste Capítulo é abordado como o método utilizado para calcular as áreas queimadas a partir de focos ativos foi desenvolvido. Começa com uma visão geral do método, depois entra em cada etapa de forma separada e mais detalhada.
 
 \section{Visão geral da metodologia}
 
-A metodologia desenvolvida visa calcular a área de vegetação queimada no Brasil, por meio da análise dos dados de focos de queimadas disponibilizados pelo INPE, juntamente com as características dos diferentes satélites e sensores. A premissa fundamental é que um foco de queimada detectado resulta em uma área queimada. Além disso, considera-se que a quantidade de focos detectados em uma determinada região, em um intervalo de tempo, está diretamente relacionada com a área efetivamente queimada na região. \par 
+A metodologia desenvolvida visa calcular a área de vegetação queimada no Brasil, por meio da análise dos dados de focos de queimadas disponibilizados pelo INPE, juntamente com as características dos diferentes satélites e sensores. O método proposto recebeu o nome de AQ-FA, sigla para Área Queimada por Focos Ativos. A premissa fundamental é que um foco de queimada detectado resulta em uma área queimada. Além disso, considera-se que a quantidade de focos detectados em uma determinada região, em um intervalo de tempo, está diretamente relacionada com a área efetivamente queimada na região. \par 
 
 \begin{figure}[H]
     \caption{Diagrama do método. A entrada principal são os dados de focos de queimadas e a saída principal é a estimativa de áreas queimadas. Abaixo os resultados produzidos com a aplicação em um determinado local para cada estapa.}
@@ -568,11 +568,11 @@ O método é flexível e altamente configurável, podendo assim gerar resultados
 
 \section{Mapeamento dos focos para áreas}
 
-Quando um foco de queimada é detectado pelo INPE a partir de um satélite, o foco representa uma área quadrada aproximadamente do tamanho da resolução do sensor que capturou a imagem original. Ou seja, um foco dectado a partir de imagens do satélite AQUA, que utiliza o sensor MODIS, representa uma área de $\approx1Km^2$. Para um satélite com o sensor menos preciso, como o GOES-13, que utiliza o sensor GOES I-M com resolução espacial de $4Km$, a área representada seria 16 vezes maior, indicando uma menor precisão. \par
+Quando um foco de queimada é detectado pelo INPE a partir de um satélite, o foco representa uma área quadrada aproximadamente do tamanho da resolução do sensor que capturou a imagem original. Ou seja, um foco dectado a partir de imagens do satélite AQUA, que utiliza o sensor MODIS, representa uma área de $\approx1Km^2$. Para um satélite com o sensor menos preciso, como o GOES-13, que utiliza o sensor GOES I-M com resolução espacial de $4Km$, a área representada seria 16 vezes maior, indicando uma menor precisão.
 
-O cálculo exato da área coberta pelo foco deve levar em conta, além da resolução do sensor, as distorções provenientes dos seguintes fatores: Diferença de localização entre o foco e o satélite, e as caractísticas da órbita do satélite. No primeiro fator, quanto maior a distância entre os dois pontos, maior será a distorção em relação a área de corbertura do sensor. Para um satélite geoestacionário, por exemplo, essa distância é sempre muito grande, devido a sua órbita com altura de $36Km$ \citep{EmbrapaSatelites}. \par
+O cálculo exato da área coberta pelo foco deve levar em conta, além da resolução do sensor, as distorções provenientes dos seguintes fatores: Diferença de localização entre o foco e o satélite, e as caractísticas da órbita do satélite. No primeiro fator, quanto maior a distância entre os dois pontos, maior será a distorção em relação a área de corbertura do sensor. Para um satélite geoestacionário, por exemplo, essa distância é sempre muito grande, devido a sua órbita com altura de $36Km$ \citep{EmbrapaSatelites}.
 
-No segundo fator, a inclinação dos satélites determinam como é a rotação da área coberta. Os satélites que orbitam a Terra em órbitas polares, possuem uma determinada inclinação que lhes permitem cobrir diferentes áreas de todo o planeta durante sua tragetória (Figura \ref{fig:orbita2022-08-10}). Quando o satélite está se movendo em uma trajetória ascendente, ou seja, do sul para o norte, a área coberta pelo sensor deve ser rotacionada em um sentido. Por outro lado, se a trajetória for descendente, do norte para o sul, a rotação deve ser no outro sentido. \par
+No segundo fator, a inclinação dos satélites determinam como é a rotação da área coberta. Os satélites que orbitam a Terra em órbitas polares, possuem uma determinada inclinação que lhes permitem cobrir diferentes áreas de todo o planeta durante sua tragetória (Figura \ref{fig:orbita2022-08-10}). Quando o satélite está se movendo em uma trajetória ascendente, ou seja, do sul para o norte, a área coberta pelo sensor deve ser rotacionada em um sentido. Por outro lado, se a trajetória for descendente, do norte para o sul, a rotação deve ser no outro sentido.
 
 \begin{figure}[H]
     \caption{Comparação entre pontos e áreas dos focos detectados pelo satélite Suomi NPP.}
@@ -583,13 +583,13 @@ No segundo fator, a inclinação dos satélites determinam como é a rotação d
     \label{fig:comparacao_pontos_e_areas}
 \end{figure}
 
-A Figura \ref{fig:comparacao_pontos_e_areas} apresenta dados coletados pelo satélite  Suomi NPP no dia dois de setembro de 2022. O primeiro par de imagens corresponde à órbita ascendente do satélite, enquanto o segundo par de imagens corresponde à órbita descendente. Observa-se que, na primeira e terceira imagens, os pontos dos focos de queimada estão alinhados, mas ligeiramente rotacionados em alguns graus, coincidindo com a inclinação do satélite. Na segunda e quarta imagens, os pontos ganham a área do sensor ($500m$) e encaixam perfeitamente entre seus vizinhos. A partir desse ponto até o final do documento, a área coberta pelo foco será chamada de medição. \par
+A Figura \ref{fig:comparacao_pontos_e_areas} apresenta dados coletados pelo satélite  Suomi NPP no dia dois de setembro de 2022. O primeiro par de imagens corresponde à órbita ascendente do satélite, enquanto o segundo par de imagens corresponde à órbita descendente. Observa-se que, na primeira e terceira imagens, os pontos dos focos de queimada estão alinhados, mas ligeiramente rotacionados em alguns graus, coincidindo com a inclinação do satélite. Na segunda e quarta imagens, os pontos ganham a área do sensor ($500m$) e encaixam perfeitamente entre seus vizinhos. A partir desse ponto até o final do documento, a área coberta pelo foco será chamada de medição.
 
 \section{Separação e avaliação de quadrantes}
 
-A separação entre quadrantes é a forma de discretizar os dados do espaço, que são contínuos. Os quadrantes abstraem os detalhes das medições dos diferentes satélites, com diferentes áreas e orientações. Como resultado, ilustrado na figura \ref{fig:satellite_quads_split}, temos uma grade regular que é usado para as operações de avaliação de serão descritas a seguir. \par
+A separação entre quadrantes é a forma de discretizar os dados do espaço, que são contínuos. Os quadrantes abstraem os detalhes das medições dos diferentes satélites, com diferentes áreas e orientações. Como resultado, ilustrado na figura \ref{fig:satellite_quads_split}, temos uma grade regular que é usado para as operações de avaliação de serão descritas a seguir.
 
-O tamanho do quadrante é uma entrada dessa etapa e pode ser definida pelo pesquisador. O valor recomendado desta entrada fica em torno de 0,004 a 0,005 graus, o que coincide com o tamanho da menor resolução de sensor presente nos dados, que é o VIIRS de 500m. \par
+O tamanho do quadrante é uma entrada dessa etapa, chamada de \texttt{quadrant\_width}, e pode ser definida pelo pesquisador. Esse parâmetro é expresso em graus e significa quantos graus de longitude e latitude o quadrante vai ocupar. Normalmente o valor deve ser pequeno, a fim de não reduzir muito a resolução da solução, sendo recomendado em torno de 0,004 a 0,005 graus. Esse valor coincide com o tamanho da maior resolução de sensor presente nos dados, que é o VIIRS de 375m.
 
 \begin{figure}[H]
     \caption{Separação entre quadrantes.}
@@ -600,59 +600,59 @@ O tamanho do quadrante é uma entrada dessa etapa e pode ser definida pelo pesqu
     \label{fig:satellite_quads_split}
 \end{figure}
 
-Com a distribuição dos quadrantes definida, é necessário atribuir a cada um deles um valor que represente a probabilidade de que a área contida tenha sido queimada. A avaliação dos quadrantes deve valorizar aqueles que apresentam medições de diferentes satélites. Essa abordagem justifica-se pelo fato de que ajuda a reduzir os ruídos nas medições e a identificar queimadas mais intensas. Além disso, diferentes satélites realizam medições em horários distintos (veja a Figura \ref{fig:tempo_medidas_satelites}), o que indica uma queimada mais prolongada. Em ambos os casos, queimadas mais intensas e duradouras sinalizam um maior potencial de o fogo se espalhar para outras áreas da vegetação. \par
+Com a distribuição dos quadrantes definida, é necessário atribuir a cada um deles um valor que represente a probabilidade de que a área contida tenha sido queimada. A avaliação dos quadrantes deve valorizar aqueles que apresentam medições de diferentes satélites. Essa abordagem justifica-se pelo fato de que ajuda a reduzir os ruídos nas medições e a identificar queimadas mais intensas. Além disso, diferentes satélites realizam medições em horários distintos (veja a Figura \ref{fig:tempo_medidas_satelites}), o que indica uma queimada mais prolongada. Em ambos os casos, queimadas mais intensas e duradouras sinalizam um maior potencial de o fogo se espalhar para outras áreas da vegetação.
 
-Sendo $q$ o quadrante (polígono) a ser avaliado; $M$ um conjunto de todas as medições (área coberta pelo foco); operação $area(p)$ retorna a área de um polígono $p$ qualquer; operação $unique\_satelite(Q)$ retorna todos os satélites diferentes do conjunto $Q$; $min\_area$ é a área mínima de uma medição; $threshold\_satellite$ é o número mínimo de satélites para não ser penalizado. A definição formal da avaliação é dada por: \par
+Sendo $q$ o quadrante (polígono) a ser avaliado; $M$ um conjunto de todas as medições (área coberta pelo foco); operação $area(p)$ retorna a área de um polígono $p$ qualquer; operação $unique\_satelite(Q)$ retorna todos os satélites diferentes do conjunto $Q$; a constante \texttt{min\_area} é a área mínima de uma medição; a constante \texttt{threshold\_satellite} é o número mínimo de satélites para não ser penalizado. A definição formal da avaliação é dada por: \par
 
-Para cada quadrante ($q$), é realizado o cálculo da intersecção com cada medição ($m$) contida nele, resultando em um conjunto $Qm$: \par
+Para cada quadrante ($q$), é realizado o cálculo da intersecção com cada medição ($m$) contida nele, resultando em um conjunto $Qm$:
 
 \begin{equation} \label{eqn:def_qm}
 Qm = \{ m \in M \mid m \cap q \}
 \end{equation}
 
-Em seguida, é realizada uma filtragem no conjunto $Qm$, removendo todos os elementos que não possuem uma determinada área mínima, resultando em $Qm'$: \par
+Em seguida, é realizada uma filtragem no conjunto $Qm$, removendo todos os elementos que não possuem uma determinada área mínima, resultando em $Qm'$:
 
 \begin{equation} \label{eqn:def_qm_line}
 Qm' = \{ m \in Qm \mid area\left(m\right) \ge min\_area \}
 \end{equation}
 
-A partir de $Qm'$, é extraído o número de satélites diferentes presentes nesse conjunto, que é denominado $Us$: \par
+A partir de $Qm'$, é extraído o número de satélites diferentes presentes nesse conjunto, que é denominado $Us$:
 
 \begin{equation} \label{eqn:def_us}
 Us = \{ m \in unique\_satelite\left(Qm'\right) \}
 \end{equation}
 
-Além disso, é calculada a soma das áreas de $Qm'$ e dividida pela área total de $q$, resultando em $ia$. Ou seja, quantas vezes as áreas de $Qm'$ cabem dentro de $q$: \par
+Além disso, é calculada a soma das áreas de $Qm'$ e dividida pela área total de $q$, resultando em $ia$. Ou seja, quantas vezes as áreas de $Qm'$ cabem dentro de $q$:
 
 \begin{equation} \label{eqn:def_ia}
 ia = \left(\sum_{m}^{Qm'} area\left(m\right)\right) \div area(q)
 \end{equation}
 
-Penalização de quadrantes que tenham poucos satélites diferentes, o valor de $c$ fica entre 0 e 1 e é linear. \par
+Penalização de quadrantes que tenham poucos satélites diferentes, o valor de $c$ fica entre 0 e 1 e é linear.
 
 \begin{equation} \label{eqn:def_c}
 c = 1 - min\left(1, \frac{|Us|}{threshold\_satellite}\right)
 \end{equation}
 
-Finalmente, a avaliação final do quadrante ($aq$) é obtida pela expressão: \par
+Finalmente, a avaliação final do quadrante ($aq$) é obtida pela expressão:
 
 \begin{equation} \label{eqn:def_aq}
 aq = |Us|^2 + ia - ai \cdot c
 \end{equation}
 
-A fórmula final \ref{eqn:def_aq} atribui um peso quadrático à quantidade de satélites diferentes presente no quadrante $q$. Isso garante que, à medida que a diversidade de satélites aumenta dentro do quadrante, o valor de $aq$ aumente de forma exponencial e se distaque dos demais quadrantes com menos diversidade. O resultado é somado com $ai$, que representa quantas vezes a área das medições somadas cabe no quadrante $q$. Esse termo impede que medições com pouca interseção dentro do quadrante tenham uma influência desproporcional no resultado final. \par
+A fórmula final \ref{eqn:def_aq} atribui um peso quadrático à quantidade de satélites diferentes presente no quadrante $q$. Isso garante que, à medida que a diversidade de satélites aumenta dentro do quadrante, o valor de $aq$ aumente de forma exponencial e se distaque dos demais quadrantes com menos diversidade. O resultado é somado com $ai$, que representa quantas vezes a área das medições somadas cabe no quadrante $q$. Esse termo impede que medições com pouca interseção dentro do quadrante tenham uma influência desproporcional no resultado final.
 
-Além disso, há uma penalização aplicada aos quadrantes que apresentam poucos satélites diferentes. Quando a quantidade de satélites diferentes em um quadrante é maior do que um limite pré-estabelecido, chamado de $threshold\_satellite$, não há penalizações, ou seja, o valor de $c$ é igual a 0. Por outro lado, quando o quadrante não atinge o limite, uma parcela de $ai$ é descontada do resultado final. \par
+Além disso, há uma penalização aplicada aos quadrantes que apresentam poucos satélites diferentes. Quando a quantidade de satélites diferentes em um quadrante é maior do que um limite pré-estabelecido, chamado de \texttt{threshold\_satellite}, não há penalizações, ou seja, o valor de $c$ é igual a 0. Por outro lado, quando o quadrante não atinge o limite, uma parcela de $ai$ é descontada do resultado final. 
 
-Essa etapa é considerada concluída quando todos os quadrantes estão avaliados seguindo as equações apresentadas. Desta forma, a avaliação de um quadrante não depende de outras avaliações de seus vizinhos ou outra forma de dependência de dados, o que possibilita a avaliação paralela dos quadrantes. \par
+Essa etapa é considerada concluída quando todos os quadrantes estão avaliados seguindo as equações apresentadas. Desta forma, a avaliação de um quadrante não depende de outras avaliações de seus vizinhos ou outra forma de dependência de dados, o que possibilita a avaliação paralela dos quadrantes.
 
 \section{Cálculo da área queimada}
 
-Finalmente, com os quadrantes avaliados, é possível estimar a área queimada para cada quadrante. É importante que o método de cálculo seja flexível, permitindo que o pesquisador teste diferentes métodos. Uma forma de fazer isso é atribuir um número que represente a porcentagem de área queimada dentro do quadrante e, em seguida, multiplicá-lo pela área total do quadrante para obter a área queimada dentro do quadrante. Após calcular a área queimada de cada quadrante, é necessário somar todos esses valores para obter a área total queimada. \par
+Finalmente, com os quadrantes avaliados, é possível estimar a área queimada para cada quadrante. É importante que o método de cálculo seja flexível, permitindo que o pesquisador teste diferentes métodos. Uma forma de fazer isso é atribuir um número que represente a porcentagem de área queimada dentro do quadrante e, em seguida, multiplicá-lo pela área total do quadrante para obter a área queimada dentro do quadrante. Após calcular a área queimada de cada quadrante, é necessário somar todos esses valores para obter a área total queimada.
 
-Nesse sentido, o papel do pesquisador é definir uma função ($eval(v)$) que receba o valor do quadrante, calculado na etapa anterior, e retorne um número real entre zero e um. Essa função também pode receber o maior e o menor valor presente na avaliação dos quadrantes, valores que podem ser usados para normalizar o cálculo. Ou seja, o pesquisador pode definir uma função linear que indique que o quadrante só deve ser considerado totalmente queimado se o valor do quadrante for o maior.\par
+Nesse sentido, o papel do pesquisador é definir uma função (\texttt{eval(v)}) que receba o valor do quadrante, calculado na etapa anterior, e retorne um número real entre zero e um. Essa função também pode receber o maior e o menor valor presente na avaliação dos quadrantes, valores que podem ser usados para normalizar o cálculo. Ou seja, o pesquisador pode definir uma função que indique que o quadrante só deve ser considerado totalmente queimado se o valor do quadrante for o maior.
 
-Para facilitar o trabalho do pesquisador, a implementação pode fornecer funções embutidas comuns que definem a função $eval(v)$. Na Figura \ref{fig:eval_func_built_in}, são apresentadas algumas possibilidades de definições para essa função. A função mais simples é chamada de limiar, que estabelece que toda a área do quadrante deve ser considerada queimada se a avaliação for maior que um determinado valor e nenhuma área deve ser considerada queimada se não alcançar esse valor. Outra função simples é a linear, que faz o valor da área queimada crescer de forma linear dentro de um valor máximo e mínimo. A última função é a exponencial, semelhante à linear, mas com uma exponenciação que faz o valor crescer mais lentamente no início e de forma mais acentuada no final do intervalo. \par
+Para facilitar o trabalho do pesquisador, a implementação pode fornecer funções embutidas comuns que definem a função \texttt{eval(v)}. Na Figura \ref{fig:eval_func_built_in}, são apresentadas algumas possibilidades de definições para essa função. A função mais simples é chamada de \texttt{limiar}, que estabelece que toda a área do quadrante deve ser considerada queimada se a avaliação for maior que um determinado valor e nenhuma área deve ser considerada queimada se não alcançar esse valor. Outra função simples é a \texttt{linear}, que faz o valor da área queimada crescer de forma linear dentro de um valor máximo e mínimo. A última função é a \texttt{exponencial}, semelhante à \texttt{linear}, mas com uma exponenciação que faz o valor crescer mais lentamente no início e de forma mais acentuada no final do intervalo.
 
 \begin{figure}[H]
     \caption{Funções embutidas para cálculo de área.}
@@ -663,7 +663,7 @@ Para facilitar o trabalho do pesquisador, a implementação pode fornecer funç�
     \label{fig:eval_func_built_in}
 \end{figure}
 
-A Figura \ref{fig:aplicacao_funcoes_built_in} ilustra claramente como diferentes funções e parâmetros podem afetar significativamente os resultados na determinação da área queimada. Cada gráfico mostra a área queimada total calculada usando a função de área queimada indicada no título. Observa-se que a função limiar identifica mais áreas como queimadas, pois trata de forma igual os quadrantes com diferentes níveis de intensidade. No entanto, as funções exponenciais parecem mais próximas da realidade, já que consideram apenas uma porcentagem da área dos quadrantes próximos aos agrupamentos de alta intensidade como queimados. \par
+A Figura \ref{fig:aplicacao_funcoes_built_in} ilustra claramente como diferentes funções e parâmetros podem afetar significativamente os resultados na determinação da área queimada. Cada gráfico mostra a área queimada total calculada usando a função de área queimada indicada no título. Observa-se que a função \texttt{limiar} identifica mais áreas como queimadas, pois trata de forma igual os quadrantes com diferentes níveis de intensidade. No entanto, as funções exponenciais parecem mais próximas da realidade, já que consideram apenas uma porcentagem da área dos quadrantes próximos aos agrupamentos de alta intensidade como queimados.
 
 \begin{figure}[H]
     \caption{Exemplo da aplicação das funções embutidas.}
@@ -698,7 +698,7 @@ Também foi utilizado os dados públicos territoriais do Brasil provenientes do 
 
 \section{Implementação do método}
 
-Para toda a implementação e análise dos dados, foram utilizadas diversas ferramentas do ecossistema Python para Data Science, tais como NumPy, Pandas e Matplotlib. Além disso, foram empregadas bibliotecas específicas para análise de dados geográficos, como GeoPandas, Pysal, Xarray e Shapely. Para garantir a reprodutibilidade das execuções e a organização do código, foi adotado o Jupyter Notebook. Todos o código e demais artefatos gerados durante o projeto podem ser encontrados em \url{https://github.com/josebraz/INPE-Queimadas}, disponibilizados sob a licença MIT. \par
+Para toda a implementação e análise dos dados, foram utilizadas diversas ferramentas do ecossistema Python para Data Science, tais como NumPy, Pandas e Matplotlib. Além disso, foram empregadas bibliotecas específicas para análise de dados geográficos, como GeoPandas, Pysal, Xarray e Shapely. Para garantir a reprodutibilidade das execuções e a organização do código, foi adotado o Jupyter Notebook. Todos o código e demais artefatos gerados durante o projeto podem ser encontrados em \url{https://github.com/josebraz/INPE-Queimadas}, disponibilizados sob a licença MIT.
 
 A biblioteca GeoPandas, amplamente utilizada na implementação, é uma extensão do Pandas que adiciona uma coluna especial chamada 'geometry'. Essa coluna permite armazenar as coordenadas e o formato dos dados em um sistema de coordenadas pré-definido. Além disso, o GeoPandas integra-se à biblioteca Shapely, que é usada para realizar cálculos e operações em estruturas geométricas espaciais. Com o uso dessas bibliotecas, é possível executar operações avançadas da teoria dos conjuntos em elementos geométricos, como união, interseção, diferença, entre outras, além de calcular a área de qualquer polígono que represente uma área no espaço. \par
 
@@ -751,6 +751,8 @@ Com base em experimentos, foi constatado que o uso de quadrantes muito pequenos 
 
 \chapter{Resultados e Discussão}
 \label{chp:resultados_discussão}
+
+Nesses capítulo é apresentado a validação do AQ-FA comparando-o com o estado da arte do cálculo de área queimada. Primeiro é discutido a metodologia de avaliação escolhida, depois a avaliação é aplicada ao produto e é discutido sua qualidade. Por fim, os resultados do AQ-FA aplicado em todo o território brasileiro são apresentados e discutidos.
 
 \section{Metodologia da avaliação}
 \label{sec:metodologia_avaliacao}
@@ -821,9 +823,9 @@ O Coefiente de Dice (DC), também conhecido como Índice de Sørensen–Dice, é
   DC = \frac{2 * TP}{2 * TP + FP + FN}
 \end{equation}
 
-\section{Aplicação da metodologia}
+\section{Validação do AQ-FA}
 
-Nesta seção, é apresentado como o método de avaliação foi aplicado para comparar o método proposto de cálculo de áreas queimadas em relação ao estado da arte. Para isso, utilizamos o produto AQ30m como referência e comparamos, lado a lado, o método proposto, o produto MDC64A1 e o produto AQ1Km. Os dados do produto MDC64A1 foram obtidos a partir do site AppEEARS (\url{https://appeears.earthdatacloud.nasa.gov/}). Os dados do AQ30m podem ser visualizados e baixados de forma simples pelo site do Programa Queimadas (\url{https://queimadas.dgi.inpe.br/queimadas/aq30m}). Para obter os dados do AQ1Km foi necessário fazer uma solicitação para o INPE por e-mail, a resposta foi informando o servidor FTP para download dos produtos em formato Shapefile.
+Nesta seção, é apresentado como o AQ-FA foi validado em relação ao estado da arte. Para isso, utilizamos o produto AQ30m como referência e comparamos, lado a lado, o AQ-FA, o produto MDC64A1 e o produto AQ1Km. Os dados do produto MDC64A1 foram obtidos a partir do site AppEEARS (\url{https://appeears.earthdatacloud.nasa.gov/}). Os dados do AQ30m podem ser visualizados e baixados de forma simples pelo site do Programa Queimadas (\url{https://queimadas.dgi.inpe.br/queimadas/aq30m}). Para obter os dados do AQ1Km foi necessário fazer uma solicitação para o INPE por e-mail, a resposta foi informando o servidor FTP para download dos produtos em formato Shapefile.
 
 Os produtos têm resoluções diferentes, 30m, 500m e 1km respectivamente para AQ30m, MDC64A1 e AQ1km. Com isso, é necessário fazer uma transformação de forma que todos os produtos utilizados na avaliação estejam na mesma resolução. Há diferentes formas de fazer isso, em \citet{BOSCHETTI2004280} é apresentado um método que minimiza os erros de comissão e omissão do processo de transformar dados de área queimadas de resolução maiores em resoluções menores. 
 
@@ -849,12 +851,45 @@ Uma outra forma de transformar uma resolução maior para uma menor é manter o 
     \label{fig:resolução_continua}
 \end{figure}
 
-Além do obstáculo das resoluções diferentes entre os produtos, um outro problema é a escolha da porção territorial a ser avaliada. Para simplificar e possibilitar a comparação entre diversos trabalhos mencionados (como em \citet{libonati2015algorithm}), foi escolhido usar as áreas delimitadas pelo WRS-2, descritas na Figura \ref{fig:orbitas_ponto_landsat}. O produto AQ30m também é distribuído seguindo o mesmo sistema, mas com uma diferença que demanda atenção. No sistema WRS-2, as órbitas-ponto podem ter intersecção com outras órbitas-ponto vizinhas. Caso isso fosse mantido no produto AQ30m, poderia haver contagens repetidas de uma mesma área queimada nas extremidades da área delimitada pela órbita-ponto. Para solucionar esse problema, foi usado uma versão modificada da grade WRS-2, obtida a partir de \url{http://www.dgi.inpe.br/documentacao/grades}, que é um mosaico sem sobreposiç˜ão.
+Além do obstáculo das resoluções diferentes entre os produtos, um outro problema é a escolha da porção territorial a ser avaliada. Para simplificar e possibilitar a comparação entre diversos trabalhos mencionados (como em \citet{libonati2015algorithm}), foi escolhido usar as áreas delimitadas pelo WRS-2, descritas na Figura \ref{fig:orbitas_ponto_landsat}. O produto AQ30m também é distribuído seguindo o mesmo sistema, mas com uma diferença que demanda atenção. No sistema WRS-2, as órbitas-ponto podem ter intersecção com outras órbitas-ponto vizinhas. Caso isso fosse mantido no produto AQ30m, poderia haver contagens repetidas de uma mesma área queimada nas extremidades da área delimitada pela órbita-ponto. Para solucionar esse problema, foi usado uma versão modificada da grade WRS-2, obtida a partir de \url{http://www.dgi.inpe.br/documentacao/grades}, que é um mosaico sem sobreposição.
+
+Antes de começar a avaliação, é necessário definir os parâmetros passados ao AQ-FA. Para a validação do método e todo o restante do trabalho utilizamos parâmetros fixos definidos da seguinte forma: A funcão \texttt{eval(v)} foi definida como \texttt{exponencial(1.5, 6.5, 2)}; a constante \texttt{min\_area} vale $0.1$; a constante \texttt{threshold\_satellite} teve valor $2$ atribuído; e a constante \texttt{quadrant\_width} recebeu o valor de $0.005$. Essa combinação de parâmetros teve o intuito de reduzir os erros de omissão, classificando mais facilmente um quadrantes como queimado. Mas também dificulta quadrantes com poucas ocorrências de focos serem classificados erroneamente como queimados, reduzindo os erros de comissão.
+
+A Figura \ref{fig:validacao_221_67} apresenta a aplicação do AQ-FA (direita) na órbita-ponto 221/67 comparando com o AQ30m (esquerda), entre o período de 3 de junho de 2021 a 19 de junho de 2021. É possível perceber que as duas imagens não são muito diferentes nas grandes cicatrizes (porções marcadas pelo fogo). A área queimada total no AQ-FA é cerca que 10Km maior, provavelmente pela imprecisão na detecção das bordas das cicatrizes. As áreas mais brancas na imagem da esquerda indicam que houve focos ativos naquela região, mas não foram suficientemente intensos ou diversos para indicar uma queima total do quadrante.
+
+\begin{figure}[H]
+    \caption{Aplicação do AQ-FA na órbita-ponto 221/67 no período 3 de julho a 19 de julho de 2021. A esquerda é o produto AQ30m (referência) e a direita é AQ-FA. Quanto mais vermelho escuro, maior o percentual de área queimada.}
+    \begin{center}
+        \includegraphics[width=30em]{validacao_221_67}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:validacao_221_67}
+\end{figure}
+
+Os resultados estatísticos dessa e de outras aplicações do método, também comparado com o produto AQ30m, são apresentadas na Tabela \ref{table:regioes_validação}. .........
+
+\begin{table}[htbp]
+\centering
+\caption{Regiões e período de tempo da validação.}
+\begin{tabular}{cccccccc}
+\toprule
+ \textbf{Órbita-ponto} & \textbf{Início} & \textbf{Fim} & \textbf{OA} & \textbf{CE} & \textbf{OE} & \textbf{DC} & \textbf{B} \\
+\midrule
+ 221/67 & 03/07/2021 & 19/07/2021 &  \\ 
+\bottomrule
+\end{tabular}
+\legend{Fonte: O Autor}
+\label{table:regioes_validação}
+\end{table}
+
 
 \section{Resultados apresentados}
 
 
 O método em sí é geral para qualquer entrada de focos de satélites, e retorna no final polígonos representando áreas geográficas associadas a um valor que indica a área queimada dentro desse polígono. Variando a entrada do método e o agrupamento dos resultados preliminares, pode-se obter diferentes resultados finais. \par
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
