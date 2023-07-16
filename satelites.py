@@ -13,11 +13,9 @@ from shapely.geometry import Polygon
 import matplotlib.pyplot as plt
 
 from pyorbital.orbital import Orbital
+from functools import lru_cache
 
 from constants import *
-
-square_cache = {}
-data_cache = {}
 
 def is_geostationary(satellite_name: str) -> bool:
     return not math.isnan(satellite_data.get(satellite_name)[1])
@@ -160,8 +158,6 @@ class AltAzimuthRange(object):
         return {'x': bx, 'y': by, 'z': bz, 'radius': b_radius}
 
 class SatellitesMeasureGeometry:
-    orbital_cache = {}
-
     def __init__(self, data: pd.DataFrame, crs: str = 'EPSG:4326'):
         self.data = data
         self.crs = crs
@@ -182,10 +178,9 @@ class SatellitesMeasureGeometry:
         return self.cache_areas 
 
     @staticmethod
+    @lru_cache
     def get_orbital(satelite: str) -> Orbital:
-        if satelite not in SatellitesMeasureGeometry.orbital_cache.keys():
-            SatellitesMeasureGeometry.orbital_cache[satelite] = Orbital(satelite)
-        return SatellitesMeasureGeometry.orbital_cache[satelite]
+        return Orbital(satelite, line1=tle_data[satelite][0], line2=tle_data[satelite][1])
 
     @staticmethod
     def _rotate_square(square: np.array, theta_x: float=0.0, theta_y: float=0.0) -> np.array:
@@ -204,51 +199,41 @@ class SatellitesMeasureGeometry:
                 satellite_lon: float, satellite_lat: float, alt: float) -> np.array:
         need_adjust = alt >= 1000
         if need_adjust:
-            key = (x, y, resolution, inclination, satellite_lon, satellite_lat, alt)
+            satellite = AltAzimuthRange()
+            satellite.observer(y, x, 0)
+            satellite.target(satellite_lat, satellite_lon, alt * 1000)
+            data = satellite.calculate()
+            dist = data['distance']
+            azimuth = data['azimuth']
+
+            change_dist = ((dist / 1000) - alt) * 8 # fator de ajuste (validar)
+            real_x_distance = alt + change_dist * math.cos(math.radians(azimuth % 90)) # in km
+            real_y_distance = alt + change_dist * math.sin(math.radians(azimuth % 90)) # in km
+
+            adjust_x = (real_x_distance * resolution/2.0) / alt
+            adjust_y = (real_y_distance * resolution/2.0) / alt
+            resolution_x, resolution_y = adjust_x * 2, adjust_y * 2
+            inclination_x, inclination_y = 0.0, math.radians(5) #math.radians(satellite_lon - x), math.radians(satellite_lat - y) 
         else:
-            key = (x, y, resolution, inclination)
-        if key not in square_cache.keys():
-            if need_adjust:
-                satellite = AltAzimuthRange()
-                satellite.observer(y, x, 0)
-                satellite.target(satellite_lat, satellite_lon, alt * 1000)
-                data = satellite.calculate()
-                dist = data['distance']
-                azimuth = data['azimuth']
+            resolution_x, resolution_y = resolution, resolution
+            inclination_x, inclination_y = inclination, inclination
+        geodesic_x = distance.geodesic(kilometers=resolution_x / 2.0)
+        geodesic_y = distance.geodesic(kilometers=resolution_y / 2.0)
 
-                change_dist = ((dist / 1000) - alt) * 8 # fator de ajuste (validar)
-                real_x_distance = alt + change_dist * math.cos(math.radians(azimuth % 90)) # in km
-                real_y_distance = alt + change_dist * math.sin(math.radians(azimuth % 90)) # in km
-
-                adjust_x = (real_x_distance * resolution/2.0) / alt
-                adjust_y = (real_y_distance * resolution/2.0) / alt
-                resolution_x, resolution_y = adjust_x * 2, adjust_y * 2
-                inclination_x, inclination_y = 0.0, math.radians(5) #math.radians(satellite_lon - x), math.radians(satellite_lat - y) 
-            else:
-                resolution_x, resolution_y = resolution, resolution
-                inclination_x, inclination_y = inclination, inclination
-            geodesic_x = distance.geodesic(kilometers=resolution_x / 2.0)
-            geodesic_y = distance.geodesic(kilometers=resolution_y / 2.0)
-
-            top: Point = geodesic_y.destination((y, x), 0)
-            bottom: Point = geodesic_y.destination((y, x), 180)
-            right: Point = geodesic_x.destination((y, x), 90)
-            left: Point = geodesic_x.destination((y, x), -90)
-            simple_square = np.array([
-                [left.longitude, top.latitude], # top left
-                [right.longitude, top.latitude], # top rigth
-                [right.longitude, bottom.latitude], # bottom rigth
-                [left.longitude, bottom.latitude] # bottom left
-            ])
-            square_cache[key] = SatellitesMeasureGeometry._rotate_square(simple_square, inclination_x, inclination_y)
-        return square_cache[key]
+        top: Point = geodesic_y.destination((y, x), 0)
+        bottom: Point = geodesic_y.destination((y, x), 180)
+        right: Point = geodesic_x.destination((y, x), 90)
+        left: Point = geodesic_x.destination((y, x), -90)
+        simple_square = np.array([
+            [left.longitude, top.latitude], # top left
+            [right.longitude, top.latitude], # top rigth
+            [right.longitude, bottom.latitude], # bottom rigth
+            [left.longitude, bottom.latitude] # bottom left
+        ])
+        return SatellitesMeasureGeometry._rotate_square(simple_square, inclination_x, inclination_y)
 
     def _get_satellite_data(self, time: pd.Timestamp, satellite_name: str) -> tuple[str, float, float, float, float]:
         """Returns satellite name, inclination, longitude, latitude and alture"""
-        key = (time.to_pydatetime(), satellite_name)
-        if key in data_cache:
-            return data_cache[key]
-        
         if is_geostationary(satellite_name):
             return (satellite_name, *satellite_data[satellite_name])
 
@@ -261,8 +246,6 @@ class SatellitesMeasureGeometry:
         descending = loc1[1] > loc2[1]
         inclination = orb.orbit_elements.inclination * (-1 if descending else 1)
         result = satellite_name, inclination, *loc1
-        
-        data_cache[key] = result
         return result
 
     def _get_squares(self) -> pd.Series:

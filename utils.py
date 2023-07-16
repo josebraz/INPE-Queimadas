@@ -89,15 +89,19 @@ def sub_space_by_landsat(df: pd.DataFrame, path: int, row: int) -> pd.DataFrame:
 
 from typing import Iterator
 
-def split_by_range(data: pd.DataFrame, range: pd.DatetimeIndex, time_column='datahora') -> Iterator[tuple[pd.DataFrame, pd.Timestamp]]:
+def split_by_range_index(range: pd.DatetimeIndex) -> Iterator[tuple[pd.Timestamp, pd.Timestamp]]:
     """Returns a list of dataframe with time_column grouped for each value of range"""
     if len(range) <= 1:
         return
     for (i, current) in enumerate(range):
         if i < len(range) - 1:
             next = range[i+1]
-            yield (data.query(f'@current <= {time_column} < @next'), current)
-            # yield (data[(data[time_column] >= current) & (data[time_column] < next)], current)
+            yield (current, next)
+
+def split_by_range(data: pd.DataFrame, range: pd.DatetimeIndex, time_column='datahora') -> Iterator[tuple[pd.DataFrame, pd.Timestamp]]:
+    """Returns a list of dataframe with time_column grouped for each value of range"""
+    for (current, next) in split_by_range_index(range):
+        yield (data.query(f'@current <= {time_column} < @next'), current)
 
 def grid_to_dataframe(grid: xarray.DataArray) -> pd.DataFrame:
     data = grid.to_pandas().unstack()
