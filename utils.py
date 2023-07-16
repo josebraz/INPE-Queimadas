@@ -8,6 +8,7 @@ import xarray
 import datashader
 
 import os
+from datetime import timezone
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
@@ -177,14 +178,16 @@ def grid_gdf(data: gpd.GeoDataFrame, poly: Polygon = None, quadrat_width: float=
     if poly is None:
         return temp
     else:
-        return temp[temp.intersects(poly).values].reset_index().drop('index', axis=1, inplace=True)
+        temp = temp[temp.intersects(poly).values].reset_index()
+        temp.drop('index', axis=1, inplace=True)
+        return temp
 
 def normalize_gdf(data: gpd.GeoDataFrame, bounds: Polygon = None, quadrat_width: float=0.005) -> gpd.GeoDataFrame:
     if bounds != None: 
         xmin, ymin, xmax, ymax = bounds.bounds
         data = data.cx[xmin:xmax, ymin:ymax]
     grid_df = grid_gdf(data, bounds, quadrat_width)
-    join_dataframe = gpd.sjoin(data, grid_df, op="intersects")
+    join_dataframe = gpd.sjoin(data, grid_df, predicate="intersects")
     
     values = np.zeros(len(grid_df))
     for index in join_dataframe['index_right'].unique():

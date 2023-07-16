@@ -13,7 +13,7 @@
 conda create -n geo_env
 conda activate geo_env
 conda config --env --set channel_priority strict
-conda install python=3 ipykernel scipy numpy geopandas shapely pyproj rasterio xarray datashader dask pysal
+conda install python=3 ipykernel scipy numpy geopandas shapely pyproj rasterio xarray datashader dask pysal pytables
 pip3 install contextily geopy matplotlib-scalebar pyorbital osmnx
 ```
 
