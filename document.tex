@@ -192,7 +192,7 @@ Neste Capítulo, serão apresentados conceitos importantes para a compreensão d
 
 \section{O monitoramento das queimadas no Brasil}
 
-Um foco de queima, também conhecido como ``Fire Pixel'', é a detecção de fogo na vegetação por uma imagem de satélite. A área de abrangência dessa detecção é do tamanho de um pixel da imagem, por isso está relacionada diretamente com a resolução do sensor do satélite. Por exemplo, se um sensor tem resolução de aproximadamente 1km, a área coberta pelo pixel equivale a 1km no nadir (no equador) \cite{PerguntasFrequentesINPE}. A resolução do sensor, na verdade, representa uma estimativa do tamanho dos pixels, pois eles podem sofrer distorções relacionadas a inclinação e distância do satélite em relação ao ponto medido. 
+Um foco de queima, também conhecido como ``Fire Pixel'', é a detecção de fogo na vegetação por uma imagem de satélite. A área de abrangência dessa detecção é do tamanho de um pixel da imagem, por isso está relacionada diretamente com a resolução do sensor do satélite. Por exemplo, se um sensor tem resolução de aproximadamente 1 km, a área coberta pelo pixel equivale a 1 km no nadir (no equador) \cite{PerguntasFrequentesINPE}. A resolução do sensor, na verdade, representa uma estimativa do tamanho dos pixels, pois eles podem sofrer distorções relacionadas a inclinação e distância do satélite em relação ao ponto medido. 
 
 É importante destacar que o foco de queima por si só não representa de forma precisa o que está acontecendo na região, mas é um indicador valioso da intensidade e extensão do fogo. Poucos focos ou uma área queimada pequena não necessariamente refletem a intensidade da degradação da vegetação e o impacto ambiental. Áreas de floresta densa, mesmo que pequenas, podem ser gravemente afetadas, resultando em perdas significativas de fauna e flora, incluindo espécies exóticas e em risco de extinção.
 
@@ -296,13 +296,13 @@ A Tabela \ref{table:satelites} contém um resumo dos satélites utilizados pelo 
 
 Atualmente, os satélites que estão em pleno funcionamento são: NOAA-20, NOAA-19, NOAA-18, GOES-16, Suomi NPP, AQUA, TERRA, MSG-03, METOP-B e METOP-C. Os demais satélites, como NOAA-17, NOAA-16, NOAA-15, TRMM, NOAA-14, NOAA-12, GOES-13, MSG-02, GOES-12, GOES-10 e GOES-08, deixaram de operar em diferentes momentos devido a problemas técnicos ou ao fim de sua vida útil.
 
-Os satélites TERRA e AQUA, ambos com o sensor Moderate Resolution Imaging Spectroradiometer (MODIS), foram lançados em 1999 e 2002 respectivamente. São americanos e foram desenvolvidos em parceria com o Japão, Canada e Brasil. O sensor MODIS possui 36 canais e resolução espectral que varia de 250m a 1km em diferentes espectros do infravermelo e luz visível. É especialmente capaz de detectar mudanças no uso e cobertura da terra bem como queimadas e atividades vulcânicas.
+Os satélites TERRA e AQUA, ambos com o sensor Moderate Resolution Imaging Spectroradiometer (MODIS), foram lançados em 1999 e 2002 respectivamente. São americanos e foram desenvolvidos em parceria com o Japão, Canada e Brasil. O sensor MODIS possui 36 canais e resolução espectral que varia de 250 m a 1 km em diferentes espectros do infravermelo e luz visível. É especialmente capaz de detectar mudanças no uso e cobertura da terra bem como queimadas e atividades vulcânicas.
 
 Os satélites da série National Oceanic and Atmospheric Administration (NOAA) são operados pela agência americana de mesmo nome. Embora tenha havido vários satélites NOAA ao longo do tempo, atualmente estão em operação o NOAA-20, NOAA-19 e NOAA-18. Esses satélites desempenham um papel fundamental no fornecimento de dados para a previsão do tempo e o monitoramento da vegetação. 
 
 Além dos satélites NOAA, em 2011, a NOAA em parceria com a National Aeronautics and Space Administration (NASA) lançou o satélite Suomi NPP (Suomi National Polar-orbiting Partnership). O Suomi NPP tem como objetivo principal obter observações ambientais e meteorológicas avançadas da Terra. É equipado com o sensor Visible Infrared Imaging Radiometer Suite (VIIRS), que também está presente no NOAA-20. Esses dois satélites, Suomi NPP e NOAA-20, são os satélites com mais alta resolução espacial entre todos os processados pelo INPE, equivalente a 250m.
 
-O conjunto de satélites Geostationary Operational Environmental Satellite (GOES) é operado pela NASA e controlado também pelo NOAA. As primeiras versões desses satélites geoestacionários foram equipadas com o sensor GOES I-M (Imager Radiometer e Vertical Sounder) de resolução espacial equivalente a 4km. A partir do GOES-16 o sensor foi substituído pelo Advanced Baseline Imager (ABI), capaz de produzir imagens com resolução 4 vezes melhores. Esse conjunto de satélites foi e ainda é muito usado nas previsões metereológicas nos países do continente americano.
+O conjunto de satélites Geostationary Operational Environmental Satellite (GOES) é operado pela NASA e controlado também pelo NOAA. As primeiras versões desses satélites geoestacionários foram equipadas com o sensor GOES I-M (Imager Radiometer e Vertical Sounder) de resolução espacial equivalente a 4 km. A partir do GOES-16 o sensor foi substituído pelo Advanced Baseline Imager (ABI), capaz de produzir imagens com resolução 4 vezes melhores. Esse conjunto de satélites foi e ainda é muito usado nas previsões metereológicas nos países do continente americano.
 
 O INPE processa as imagens dos satélites da série Meteorological Operational Satellite (METOP), incluindo o METOP-B e o METOP-C, bem como os satélites da série Meteosat Second Generation (MSG), como o MSG-02 (Meteosat-9) e o MSG-03 (Meteosat-10). Ambas missões projetadas em parceria com a European Space Agency (ESA) e a European Organisation for the Exploitation of Meteorological Satellites (EUMETSAT). Esses satélites têm como objetivo a previsão do tempo, o monitoramento climático e o acompanhamento de desastres naturais. O METOP-C é o último satélite planejado para a série METOP, completando assim o conjunto de satélites METOP-A, METOP-B e METOP-C.
 
@@ -458,7 +458,7 @@ A evolução dos produtos gerados a partir do sensor MODIS é contínua à medid
 
 Os algoritmos que geram produtos de focos ativos, geralmente usam diferentes canais dos sensores dos satélites, entre a luz visível e o infravermelho, e podem ter comportamentos distintos dependendo se a imagem foi gerada à noite ou de dia. Podem também usar limiares dinâmicos, de acordo com a região do planeta, que são calculados, com base em uma espécie de média das temperaturas nas regiões próximas ao longo dos dias. Além disso, é comum a aplicação de máscaras para eliminar regiões submersas, costeiras, desérticas e que estavam nubladas na hora da passagem do satélite empregado.
 
-Para simplificar o trabalho, apresentamos apenas o método empregado para a detecção de focos ativos oficial da NASA, a partir do sensor MODIS \citep{GIGLIO2016}, que faz parte de Collection 6.1. O método recebe como entrada os produtos Nível 1B de radiância dos dois satélites (MOD021KM/MYD021KM) e os produtos Nível 1A (MOD03/MYD03) que identificam regiões de água, regiões costeiras e de terra. O resultado são dois produtos de Nível 2 e de resolução espacial 1Km, MOD14 para o satélite Terra e MYD14 para o satélite Aqua.
+Para simplificar o trabalho, apresentamos apenas o método empregado para a detecção de focos ativos oficial da NASA, a partir do sensor MODIS \citep{GIGLIO2016}, que faz parte de Collection 6.1. O método recebe como entrada os produtos Nível 1B de radiância dos dois satélites (MOD021KM/MYD021KM) e os produtos Nível 1A (MOD03/MYD03) que identificam regiões de água, regiões costeiras e de terra. O resultado são dois produtos de Nível 2 e de resolução espacial 1 km, MOD14 para o satélite Terra e MYD14 para o satélite Aqua.
 
 O processamento começa identificando e eliminando as regiões costeiras dos dados de reflectância, a fim de evitar confundir áreas terrestres mais quentes com áreas de água. Em seguida, ocorre a filtragem das regiões com cobertura de nuvens, utilizando limites atualizados, com cuidado para não excluir regiões de fumaça proveniente de incêndios ativos. As regiões remanescentes passam por um processo de avaliação para determinar potenciais píxels de fogo ativo. Esse processo envolve o teste da reflectância em relação a limiares dinâmicos, que são constantemente atualizados e ajustados para diferentes regiões do planeta, no caso das áreas terrestres. Para regiões onde não há dados suficientes para calcular os limiares dinâmicos ou para áreas de água, é utilizado um limiar fixo igual ao do Collection 5.
 
@@ -477,10 +477,10 @@ Nesta parte, são apresentados alguns dos produtos mais consolidados para o cál
   \toprule
   \textbf{Nome} & \textbf{Ano} & \textbf{Res. esp.} & \textbf{Res. tem.} & \textbf{Satélites} & \textbf{Embasamento teórico} \\
   \midrule
-  AQ1km & 2015 & 1km & mensal & Aqua/Terra & \citet{libonati2015algorithm} \\
-  AQ30m & 2014 & 30m & quinzenal & Landsat-5,7,8 & \citet{melchiori2014landsat} \\
-  MCD64A1 & 2016  & 500m & mensal & Aqua/Terra & \citet{GIGLIO201872} \\
-  FireCCI51 & 2018 & 250m & mensal & Aqua/Terra & \citet{Lizundia2020} \\
+  AQ1km & 2015 & 1 km & mensal & Aqua/Terra & \citet{libonati2015algorithm} \\
+  AQ30m & 2014 & 30 m & quinzenal & Landsat-5,7,8 & \citet{melchiori2014landsat} \\
+  MCD64A1 & 2016  & 500 m & mensal & Aqua/Terra & \citet{GIGLIO201872} \\
+  FireCCI51 & 2018 & 250 m & mensal & Aqua/Terra & \citet{Lizundia2020} \\
   \bottomrule
 \end{tabular}
 \legend{Fonte: O Autor}
@@ -568,10 +568,11 @@ A Figura \ref{fig:metodologica_workflow} também ilustra a aplicação completa 
 O método é flexível e altamente configurável, podendo assim gerar resultados bem diferentes dependendo de suas entradas, ainda que para o mesmo conjunto de dados de focos. O pesquisador pode testar combinações de entradas e avaliar os resultados usando algum comparador (\textit{benchmark}). Um exemplo seria compara as saídas do método com os resultado obtidos pelo produto AQ1km (abordado na Seção \ref{sec:deteccao_focos_section}).
 
 \section{Mapeamento dos focos para áreas}
+\label{sec:focos_para_areas}
 
-Quando um foco de queimada é detectado pelo INPE a partir de um satélite, o foco representa uma área quadrada aproximadamente do tamanho da resolução do sensor que capturou a imagem original. Por exemplo, um foco dectado a partir de imagens do satélite AQUA, que utiliza o sensor MODIS, representa uma área de $\approx1Km^2$. Para um satélite com o sensor menos preciso, como o GOES-13, que utiliza o sensor GOES I-M com resolução espacial de $4Km$, a área representada seria 16 vezes maior, indicando uma menor precisão.
+Quando um foco de queimada é detectado pelo INPE a partir de um satélite, o foco representa uma área quadrada aproximadamente do tamanho da resolução do sensor que capturou a imagem original. Por exemplo, um foco dectado a partir de imagens do satélite AQUA, que utiliza o sensor MODIS, representa uma área de $\approx1 km^2$. Para um satélite com o sensor menos preciso, como o GOES-13, que utiliza o sensor GOES I-M com resolução espacial de $4 km$, a área representada seria 16 vezes maior, indicando uma menor precisão.
 
-O cálculo exato da área coberta pelo foco deve levar em conta, além da resolução do sensor, as distorções provenientes dos seguintes fatores: Diferença de localização entre o foco e o satélite, e as caractísticas da órbita do satélite. No primeiro fator, quanto maior a distância entre os dois pontos, maior será a distorção em relação a área de corbertura do sensor. Para um satélite geoestacionário, por exemplo, essa distância é sempre muito grande, devido a sua órbita com altura de $36Km$ \citep{EmbrapaSatelites}.
+O cálculo exato da área coberta pelo foco deve levar em conta, além da resolução do sensor, as distorções provenientes dos seguintes fatores: Diferença de localização entre o foco e o satélite, e as caractísticas da órbita do satélite. No primeiro fator, quanto maior a distância entre os dois pontos, maior será a distorção em relação a área de corbertura do sensor. Para um satélite geoestacionário, por exemplo, essa distância é sempre muito grande, devido a sua órbita com altura de $36 km$ \citep{EmbrapaSatelites}.
 
 No segundo fator, a inclinação dos satélites determinam como é a rotação da área coberta. Os satélites que orbitam a Terra em órbitas polares, possuem uma determinada inclinação que lhes permitem cobrir diferentes áreas de todo o planeta durante sua tragetória (Figura \ref{fig:orbita2022-08-10}). Quando o satélite está se movendo em uma trajetória ascendente, ou seja, do sul para o norte, a área coberta pelo sensor deve ser rotacionada em um sentido. Por outro lado, se a trajetória for descendente, do norte para o sul, a rotação deve ser no outro sentido.
 
@@ -587,6 +588,7 @@ A Figura \ref{fig:comparacao_pontos_e_areas} apresenta dados coletados pelo sat�
 \end{figure}
 
 \section{Separação e avaliação de quadrantes}
+\label{sec:separacao_e_avaliacao}
 
 A separação entre quadrantes é a forma de discretizar os dados do espaço, que são contínuos. Os quadrantes abstraem os detalhes das medições dos diferentes satélites, com diferentes áreas e orientações. Como resultado, ilustrado na figura \ref{fig:satellite_quads_split}, temos uma grade regular que é usado para as operações de avaliação de serão descritas a seguir. 
 
@@ -648,6 +650,7 @@ Além disso, há uma penalização aplicada aos quadrantes que apresentam poucos
 Essa etapa é considerada concluída quando todos os quadrantes estão avaliados seguindo as equações apresentadas. Desta forma, a avaliação de um quadrante não depende de outras avaliações de seus vizinhos ou outra forma de dependência de dados, o que possibilita a avaliação paralela dos quadrantes.
 
 \section{Cálculo da área queimada}
+\label{sec:calculo_area_queimada}
 
 Finalmente, com os quadrantes avaliados, é possível estimar a área queimada para cada quadrante. É importante que o método de cálculo seja flexível, permitindo que o pesquisador teste diferentes métodos. Uma forma de fazer isso é atribuir um número que represente a porcentagem de área queimada dentro do quadrante e, em seguida, multiplicá-lo pela área total do quadrante para obter a área queimada dentro do quadrante. Após calcular a área queimada de cada quadrante, é necessário somar todos esses valores para obter a área total queimada.
 
@@ -719,30 +722,18 @@ Para toda a implementação e análise dos dados, foram utilizadas diversas ferr
 
 A biblioteca \textit{GeoPandas}, amplamente utilizada na implementação, é uma extensão da biblioteca \textit{Pandas} que adiciona uma coluna especial chamada ``geometry''. Essa coluna permite armazenar as coordenadas e o formato geográfico dos dados em um sistema de coordenadas pré-definido. Além disso, o \textit{GeoPandas} tem integração com a biblioteca \textit{Shapely}, que é usada para realizar cálculos e operações em estruturas geométricas espaciais. Com o uso dessas bibliotecas, é possível executar operações avançadas baseadas na teoria dos conjuntos em elementos geométricos, como união, interseção, diferença, entre outras, além de calcular a área de qualquer polígono que represente uma área no espaço.
 
------
+Para implementar a etapa de mapeamento dos focos para áreas (Seção \ref{sec:focos_para_areas}), foi necessário obter as informações de posição, altitude e inclinação dos satélites, a fim de aplicar os ajustes necessários às áreas resultantes. Para os satélites geoestacionários, as coordenadas de posição e altitude são fixas e foram codificadas diretamente no código. No entanto, as posições dos satélites polares são variáveis ao longo do tempo. Para determinar a posição aproximada em um determinado momento, utilizou-se a biblioteca \textit{pyorbital}, que implementa esse os cálculos necessários.
 
-Para a implementação da etapa de mapeamento dos focos para áreas (Seção \ref{sec:focos_para_areas}) foi necessário ter a posição, altura e inclinação satélites, a fim de aplicar os ajustes necessários a área resultante. Para os satélites Geoestacionários, as coordenadas da posição e altura estão presentes de forma fixa no código (\textit{hardcoded}), já que esse tipo de satélite não muda sua posição em relação a Terra. A posição dos satélites Polares, por outro lado, varia constantemente. Para saber a posição aproximada, em um determinado tempo, foi utilizado a biblioteca \textit{pyorbital} que implementa esses cálculos. 
+Com a posição do satélite polar, podemos determinar a direção da trajetória observando a diferença em sua posição entre dois momentos de tempo próximos. Se a trajetória for descendente, a área é rotacionada com uma inclinação negativa; caso contrário, é rotacionada com uma inclinação positiva. Além da rotação, também é aplicado um escalonamento na área da medição com base na distância entre a medição e o satélite. No caso do satélite GOES-16, que possui uma altitude de aproximadamente 36.000 km, o sensor possui uma resolução de cerca de 2 km no equador. No entanto, em regiões distantes de sua posição, ocorre uma distorção e a área correspondente da medição deve ser maior. Para simplificar e otimizar a implementação dessa etapa, aplicamos o escalonamento da área apenas nas medições dos satélites geoestacionários, pois são os satélites que estão mais distantes das medições.
 
+A implementação da etapa de separação e avaliação de quadrantes (Seção \ref{sec:separacao_e_avaliacao}) fez uso da operação Junção Espacial (\textit{Spatial Join}) suportado pela biblioteca \textit{GeoPandas}. A Junção Espacial permite combinar diferentes conjuntos de dados com base em sua relação espacial, de maneira semelhante a uma junção em um banco de dados, porém levando em consideração a proximidade geográfica. É possível utilizar diferentes critérios de proximidade geográfica, como verificar se um ponto está dentro de um polígono ou determinar a interseção entre dois polígonos. No contexto da implementação, a Junção Espacial é utilizado para obter todas as medições que intersectam cada quadrante (interseção entre dois polígonos), que é a principal informação usada para avaliar um quadrante.
 
+A separação em quadrantes também foi planejada para melhorar o desempenho do processamento. Ao dividir o problema em partes menores, é possível resolver cada uma de forma paralela, pois as avaliações dos quadrantes são independentes entre si. Além disso, a separação em quadrantes otimiza ainda mais o processamento da junção espacial, que se beneficia quando os quadrantes para a interseção não são muito grandes. No entanto, é importante considerar que quanto maior o quadrante utilizado, menos avaliações são necessárias, mas a precisão da área queimada também é reduzida.
 
------
-
-O \textit{GeoPandas} também oferece suporte à operação de Junção Espacial (\textit{Spatial Join}) de forma otimizada. A Junção Espacial permite combinar diferentes conjuntos de dados com base em sua relação espacial, de maneira semelhante a uma junção em um banco de dados, porém levando em consideração a proximidade geográfica. É possível utilizar diferentes critérios de proximidade geográfica, como verificar se um ponto está dentro de um polígono ou determinar a interseção entre dois polígonos. No contexto da implementação, a Junção Espacial é utilizado para obter todas as medições que intersectam cada quadrante (interseção entre dois polígonos), que é a principal informação usada para avaliar um quadrante.
-
-
-
-A implementação das áreas dos focos, chamado de medições, usou os dados de satlélites de forma fixa no código (hardcoded). Apesar de exister bibliotecas especializadas em cálculos de órbitas de satélite, como a Orbital, essa abordagem foi escolhida a fim de evitar a necessidade de internet para execução do programa e simplificar o código. \par
-
-
-
-Para simplificar e otimizar a implementação da parte das áreas dos focos, foi\par
-
-------
-
-A separação em quadrantes também foi planejada para melhorar o desempenho do processamento. Ao dividir o problema em partes menores, é possível resolver cada uma de forma paralela, pois as avaliações dos quadrantes são independentes entre si. Além disso, a separação em quadrantes otimiza ainda mais o processamento da junção espacial, que se beneficia quando os quadrantes para a interseção não são muito grandes. No entanto, é importante considerar que quanto maior o quadrante utilizado, menos avaliações são necessárias, mas a precisão da área queimada também é reduzida. Como se trata de um espaço bidimensional, a complexidade computacional da avaliação em relação à quantidade de quadrantes é $O(n^2)$. \par
+Com base em experimentos, foi constatado que o uso de quadrantes muito pequenos (com menos de 0,002 graus quadrados) não aumentam significativamente a precisão dos resultados e tornam a execução muito mais demorada. Como se trata de um espaço bidimensional, a complexidade computacional da avaliação em relação à quantidade de quadrantes é $O(n^2)$. A Figura \ref{fig:diferenca_entre_quadrantes} mostra a diferença entre quatro tamanhos de quadrantes: 0,008; 0,004; 0,002 e 0,001.
 
 \begin{figure}[H]
-    \caption{Diferença da avaliação para diferentes tamanhos de quadrantes.}
+    \caption{Diferença da avaliação para quatro tamanhos de quadrantes.}
     \begin{center}
         \includegraphics[width=35em]{diferenca_entre_quadrantes}
     \end{center}
@@ -750,8 +741,7 @@ A separação em quadrantes também foi planejada para melhorar o desempenho do 
     \label{fig:diferenca_entre_quadrantes}
 \end{figure}
 
-Com base em experimentos, foi constatado que o uso de quadrantes muito pequenos (com menos de 0,002 graus quadrados) não aumentam significativamente a precisão dos resultados e tornam a execução muito mais demorada.
-
+A implementação da etapa de cálculo da área queimada (Seção \ref{sec:calculo_area_queimada}) foi basicamente aplicar um mapeamento dos valores dos quadrantes avaliados com a função área queimada. Depois é feito uma multiplicação desse valor com a área abrangida pelo quandrante, calculada usando a biblioteca \textit{pyproj} que retorna a área em metros. Por último, para saber a área queimada total foi aplicado um somatório de todos esses valores.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -834,7 +824,7 @@ O Coefiente de Dice (DC), também conhecido como Índice de Sørensen–Dice, é
 
 Nesta seção, é apresentado como o AQ-FA foi validado em relação ao estado da arte. Para isso, utilizamos o produto AQ30m como referência e comparamos, lado a lado, o AQ-FA, o produto MDC64A1 e o produto AQ1Km. Os dados do produto MDC64A1 foram obtidos a partir do site AppEEARS (\url{https://appeears.earthdatacloud.nasa.gov/}). Os dados do AQ30m podem ser visualizados e baixados de forma simples pelo site do Programa Queimadas (\url{https://queimadas.dgi.inpe.br/queimadas/aq30m}). Para obter os dados do AQ1Km foi necessário fazer uma solicitação para o INPE por e-mail, a resposta foi informando o servidor FTP para download dos produtos em formato Shapefile.
 
-Os produtos têm resoluções diferentes, 30m, 500m e 1km respectivamente para AQ30m, MDC64A1 e AQ1km. Com isso, é necessário fazer uma transformação de forma que todos os produtos utilizados na avaliação estejam na mesma resolução. Há diferentes formas de fazer isso, em \citet{BOSCHETTI2004280} é apresentado um método que minimiza os erros de comissão e omissão do processo de transformar dados de área queimadas de resolução maiores em resoluções menores. 
+Os produtos têm resoluções diferentes, 30 m, 500 m e 1 km respectivamente para AQ30m, MDC64A1 e AQ1km. Com isso, é necessário fazer uma transformação de forma que todos os produtos utilizados na avaliação estejam na mesma resolução. Há diferentes formas de fazer isso, em \citet{BOSCHETTI2004280} é apresentado um método que minimiza os erros de comissão e omissão do processo de transformar dados de área queimadas de resolução maiores em resoluções menores. 
 
 Esse trabalho classificou os quadrantes de forma binária, em queimado e não queimado, o que altera o resultado do total de área queimada. Nesse sentido, a Figura \ref{fig:diferenca_resoluções} mostra a diferença do total da área queimada entre a versão original, de resolução 30m, e três variações de limiares em uma resolução maior. Os valores de cada quadrante foram obtivos fazendo uma intercção entre os limites do quadrante e o polígono original, depois disso é filtrado apenas os quadrantes que apresentaram um valor acima do limiar testado. Ou seja, todos os quadrantes maiores que 0, 0.5 ou igual a 1 são apresentados, respectivamente, na segunda, terceira e quarta imagem.
 
@@ -862,7 +852,7 @@ Além do obstáculo das resoluções diferentes entre os produtos, um outro prob
 
 Antes de começar a avaliação, é necessário definir os parâmetros passados ao AQ-FA. Para a validação do método e todo o restante do trabalho utilizamos parâmetros fixos definidos da seguinte forma: A funcão \texttt{eval(v)} foi definida como \texttt{exponencial(1.5, 6.5, 2)}; a constante \texttt{min\_area} vale $0.1$; a constante \texttt{threshold\_satellite} teve valor $2$ atribuído; e a constante \texttt{quadrant\_width} recebeu o valor de $0.005$. Essa combinação de parâmetros teve o intuito de reduzir os erros de omissão, classificando mais facilmente um quadrantes como queimado. Mas também dificulta quadrantes com poucas ocorrências de focos serem classificados erroneamente como queimados, reduzindo os erros de comissão.
 
-A Figura \ref{fig:validacao_221_67} apresenta a aplicação do AQ-FA (direita) na órbita-ponto 221/67 comparando com o AQ30m (esquerda), entre o período de 3 de junho de 2021 a 19 de junho de 2021. É possível perceber que as duas imagens não são muito diferentes nas grandes cicatrizes (porções marcadas pelo fogo). A área queimada total no AQ-FA é cerca que 10Km maior, provavelmente pela imprecisão na detecção das bordas das cicatrizes. As áreas mais brancas na imagem da esquerda indicam que houve focos ativos naquela região, mas não foram suficientemente intensos ou diversos para indicar uma queima total do quadrante.
+A Figura \ref{fig:validacao_221_67} apresenta a aplicação do AQ-FA (direita) na órbita-ponto 221/67 comparando com o AQ30m (esquerda), entre o período de 3 de junho de 2021 a 19 de junho de 2021. É possível perceber que as duas imagens não são muito diferentes nas grandes cicatrizes (porções marcadas pelo fogo). A área queimada total no AQ-FA é cerca que 10 Km maior, provavelmente pela imprecisão na detecção das bordas das cicatrizes. As áreas mais brancas na imagem da esquerda indicam que houve focos ativos naquela região, mas não foram suficientemente intensos ou diversos para indicar uma queima total do quadrante.
 
 \begin{figure}[H]
     \caption{Aplicação do AQ-FA na órbita-ponto 221/67 no período 3 de julho a 19 de julho de 2021. A esquerda é o produto AQ30m (referência) e a direita é AQ-FA. Quanto mais vermelho escuro, maior o percentual de área queimada.}
