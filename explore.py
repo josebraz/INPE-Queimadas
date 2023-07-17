@@ -162,7 +162,7 @@ class SatellitesExplore:
     def get_all_evaluated_quads(self) -> gpd.GeoDataFrame:
         if self.all_evaluated_quads is None:
             quads_df = grid_gdf(self.dataframe, poly=self.delimited_region, quadrat_width=self.quadrat_width)
-            join_dataframe = gpd.sjoin(self.dataframe, quads_df, predicate="intersects")
+            join_dataframe = gpd.sjoin(self.dataframe, quads_df, op="intersects")
 
             values = np.zeros(len(quads_df))
             for index in join_dataframe['index_right'].unique():

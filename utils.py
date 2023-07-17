@@ -191,7 +191,7 @@ def normalize_gdf(data: gpd.GeoDataFrame, bounds: Polygon = None, quadrat_width:
         xmin, ymin, xmax, ymax = bounds.bounds
         data = data.cx[xmin:xmax, ymin:ymax]
     grid_df = grid_gdf(data, bounds, quadrat_width)
-    join_dataframe = gpd.sjoin(data, grid_df, predicate="intersects")
+    join_dataframe = gpd.sjoin(data, grid_df, op="intersects")
     
     values = np.zeros(len(grid_df))
     for index in join_dataframe['index_right'].unique():
@@ -236,7 +236,7 @@ def create_gpd(data: xr.DataArray, value_dim: str = 'value', poly: Polygon = Non
         crs="EPSG:4326")
     grid = grid_gdf(points, poly=poly, quadrat_width=quadrat_width)
     grid.drop('index', axis=1, inplace=True) # todo remove this
-    join_dataframe: gpd.GeoDataFrame = gpd.sjoin(grid, points, predicate="contains")
+    join_dataframe: gpd.GeoDataFrame = gpd.sjoin(grid, points, op="contains")
     values = np.zeros(len(grid))
     for index in join_dataframe['index_right'].unique():
         values[index] = points.iloc[index]['value']
@@ -255,7 +255,7 @@ def evaluate_gpd(reference: gpd.GeoDataFrame, other: gpd.GeoDataFrame,
     
     original_geometry = other['geometry']
     other['geometry'] = other.representative_point()
-    join_gpd = gpd.sjoin(reference, other, predicate="contains", lsuffix='reference', rsuffix='other')
+    join_gpd = gpd.sjoin(reference, other, op="contains", lsuffix='reference', rsuffix='other')
     other['geometry'] = original_geometry
     
     same_names = reference_value_column == other_value_column
