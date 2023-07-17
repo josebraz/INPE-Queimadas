@@ -4,7 +4,7 @@ import geopandas as gpd
 import dask.dataframe as dd
 
 import rasterio
-import xarray
+import xarray as xr
 import datashader
 
 import os
@@ -103,7 +103,7 @@ def split_by_range(data: pd.DataFrame, range: pd.DatetimeIndex, time_column='dat
     for (current, next) in split_by_range_index(range):
         yield (data.query(f'@current <= {time_column} < @next'), current)
 
-def grid_to_dataframe(grid: xarray.DataArray) -> pd.DataFrame:
+def grid_to_dataframe(grid: xr.DataArray) -> pd.DataFrame:
     data = grid.to_pandas().unstack()
     frame =  data.where(data > 0).dropna().reset_index().rename(columns={0: "value"}) 
     return frame
@@ -135,7 +135,7 @@ def configure_geografic_axes(ax: plt.Axes, min_lon: float, max_lon: float,
 
 def compute_grid(data: pd.DataFrame, min_lat: float = None, max_lat: float = None, 
                  min_lon: float = None, max_lon: float = None, 
-                 aggr_dist = distance.Distance(kilometers=1)) -> xarray.DataArray:
+                 aggr_dist = distance.Distance(kilometers=1)) -> xr.DataArray:
     if not min_lat:
         min_lat = data['latitude'].min()
     if not max_lat:
@@ -219,3 +219,79 @@ def read_gdf_from_tiff(data_file: str, name: str = 'value') -> gpd.GeoDataFrame:
         crs = crs)
 
 flat_map = lambda f, xs: [y for ys in xs for y in f(ys)]
+
+def create_dataarray(data: gpd.GeoDataFrame, value_column: str = 'value') -> xr.DataArray:
+    temp = data[data[value_column] > 0.0]
+    points = temp.representative_point()
+    idx = pd.MultiIndex.from_arrays(arrays=[points.y, points.x], names=["y", "x"])
+    s = pd.Series(temp[value_column].values, index=idx)
+    return xr.DataArray.from_series(s, sparse=True)
+
+def create_gpd(data: xr.DataArray, value_dim: str = 'value', poly: Polygon = None, quadrat_width: float = 0.005) -> gpd.GeoDataFrame:
+    frame = data.to_dataframe(name=value_dim)
+    frame = frame[frame['value'] > 0]
+    points = gpd.GeoDataFrame(
+        { 'value' : frame['value'] }, 
+        geometry=gpd.points_from_xy(x=frame['x'], y=frame['y']),
+        crs="EPSG:4326")
+    grid = grid_gdf(points, poly=poly, quadrat_width=quadrat_width)
+    grid.drop('index', axis=1, inplace=True) # todo remove this
+    join_dataframe: gpd.GeoDataFrame = gpd.sjoin(grid, points, predicate="contains")
+    values = np.zeros(len(grid))
+    for index in join_dataframe['index_right'].unique():
+        values[index] = points.iloc[index]['value']
+    grid['value'] = values
+    return grid
+
+def evaluate_gpd(reference: gpd.GeoDataFrame, other: gpd.GeoDataFrame,
+                 reference_value_column: str = 'value', 
+                 other_value_column: str = 'value'):
+    """
+    | other \ reference | queimada | não queimada |
+    |-------------------|----------|--------------|
+    |     queimada      |    TP    |      FP      |
+    |   não queimada    |    FN    |      TN      |
+    """
+    
+    original_geometry = other['geometry']
+    other['geometry'] = other.representative_point()
+    join_gpd = gpd.sjoin(reference, other, predicate="contains", lsuffix='reference', rsuffix='other')
+    other['geometry'] = original_geometry
+    
+    same_names = reference_value_column == other_value_column
+    burned_reference = np.array(join_gpd[reference_value_column + ('_reference' if same_names else '')])
+    burned_other = np.array(join_gpd[other_value_column + ('_other' if same_names else '')])
+    unburned_reference = np.array(1.0 - join_gpd[reference_value_column + ('_reference' if same_names else '')])
+    unburned_other = np.array(1.0 - join_gpd[other_value_column + ('_other' if same_names else '')])
+
+    def calculate_same(array1, array2):
+        min_array = np.array([array1, array2]).min(axis=0)
+        min_array[np.isnan(min_array)] = 0.0
+        return min_array.sum()
+    
+    def calculate_diff(array1, array2):
+        temp1 = array1[array1 > array2]
+        temp2 = array2[array1 > array2]
+        diff = (temp1 - temp2)
+        return diff.sum()
+
+    TP = calculate_same(burned_reference, burned_other) # True Positive
+    FN = calculate_diff(burned_reference, burned_other) # False Negative
+    FP = calculate_diff(burned_other, burned_reference) # False Positive
+    TN = calculate_same(unburned_reference, unburned_other) # True Negative
+
+    ACC = (TP + TN) / (TP + FP + FN + TN)
+    TPR = 0 if TP + FN == 0 else TP / (TP + FN) # true positive rate
+    TNR = 0 if TN + FP == 0 else TN / (TN + FP) # true negative rate
+    PPV = 0 if TP + FP == 0 else TP / (TP + FP) # positive predictive value 
+    NPV = 0 if TN + FN == 0 else TN / (TN + FN) # negative predictive value
+    OE = 0 if FN + TP == 0 else FN / (FN + TP) 
+    CE = 0 if FP + TP == 0 else FP / (FP + TP)
+    B  = (TP + FP) / (TP + FN) # viés
+    DC = 2 * TP / (2 * TP + FP + FN)
+    CSI = TP / (TP + FP + FN)
+
+    return { 'TP': TP, 'FP': FP, 'FN': FN, 'TN': TN,
+             'ACC': ACC, 'CE': CE, 'OE': OE, 'B': B, 
+             'DC': DC, 'TPR': TPR, 'TNR': TNR, 'PPV': PPV, 
+             'NPV': NPV, 'CSI': CSI }

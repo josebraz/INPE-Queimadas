@@ -249,7 +249,7 @@ class SatellitesMeasureGeometry:
         return result
 
     def _get_squares(self) -> pd.Series:
-        if len(self.data) == 0: return pd.Series([])
+        if len(self.data) == 0: return pd.Series([], dtype='float64')
         points = pd.DataFrame({
             'latitude': self.data['latitude'], 
             'longitude': self.data['longitude'], 
