@@ -166,7 +166,7 @@ def compute_grid(data: pd.DataFrame, min_lat: float = None, max_lat: float = Non
     return cvs.points(data, x="longitude", y="latitude")
 
 @lru_cache(maxsize=300)
-def _grid_gdf_cached(crs:str, bounds: np.ndarray, poly: Polygon, quadrat_width: float) -> gpd.GeoDataFrame:
+def _grid_gdf_cached(crs: str, bounds: np.ndarray, poly: Polygon, quadrat_width: float) -> gpd.GeoDataFrame:
     step = 1/quadrat_width
     xmin, ymin, xmax, ymax = [int(x * step) / step for x in bounds]
     xs = np.arange(xmin, xmax+quadrat_width, quadrat_width)
@@ -234,7 +234,7 @@ def create_gpd(data: xr.DataArray, value_dim: str = 'value', poly: Polygon = Non
         { 'value' : frame['value'] }, 
         geometry=gpd.points_from_xy(x=frame['x'], y=frame['y']),
         crs="EPSG:4326")
-    grid = grid_gdf(points, poly=poly, quadrat_width=quadrat_width)
+    grid = grid_gdf(points, poly=poly, quadrat_width=quadrat_width).copy()
     grid.drop('index', axis=1, inplace=True) # todo remove this
     join_dataframe: gpd.GeoDataFrame = gpd.sjoin(grid, points, predicate="contains")
     values = np.zeros(len(grid))

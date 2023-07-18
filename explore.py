@@ -174,8 +174,10 @@ class SatellitesExplore:
             for index in join_dataframe['index_right'].unique():
                 values[index] = self._evaluate_quads(index, quads_df.iloc[index].geometry, join_dataframe)
 
-            quads_df['value'] = values
-            self.all_evaluated_quads = quads_df
+            self.all_evaluated_quads = gpd.GeoDataFrame(
+                { 'value': values, 'geometry': quads_df['geometry'] },
+                crs = quads_df.crs
+            )
 
         return self.all_evaluated_quads
     
