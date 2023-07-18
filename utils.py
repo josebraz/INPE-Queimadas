@@ -8,7 +8,7 @@ import xarray as xr
 import datashader
 
 import os
-from datetime import timezone
+from datetime import timezone, datetime, timedelta
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
@@ -18,6 +18,7 @@ from shapely import Polygon, MultiPolygon, LineString
 from shapely.ops import split
 from shapely.geometry import box
 from shapely.geometry import shape
+from pyproj import Geod
 
 from rasterio.features import shapes as rio_shapes
 
@@ -73,13 +74,13 @@ def sub_space_by_center(data: pd.DataFrame, lat: float, lon: float, size: float)
 def get_landsat_geometry(path: int, row: int) -> Polygon:
     if not hasattr(get_landsat_geometry, "wrs2"):
         # reference: http://www.dgi.inpe.br/documentacao/grades em Grade TM da America do Sul no formato (Shape File)
-        get_landsat_geometry.wrs2: gpd.GeoDataFrame = gpd.read_file('tiff/grade_tm_am_do_sul')
+        get_landsat_geometry.wrs2: gpd.GeoDataFrame = gpd.read_file('aux/grade_tm_am_do_sul')
     return get_landsat_geometry.wrs2.query('ORBITA == @path & PONTO == @row').iloc[0].geometry
 
 # def get_landsat_geometry(path: int, row: int) -> Polygon:
 #     if not hasattr(get_landsat_geometry, "wrs2"):
 #         # reference: https://www.usgs.gov/landsat-missions/landsat-shapefiles-and-kml-files
-#         get_landsat_geometry.wrs2: gpd.GeoDataFrame = gpd.read_file('tiff/WRS2_descending_0')
+#         get_landsat_geometry.wrs2: gpd.GeoDataFrame = gpd.read_file('aux/WRS2_descending_0')
 #     return get_landsat_geometry.wrs2.query('PATH == @path & ROW == @row').iloc[0].geometry
 
 def sub_space_by_landsat(df: pd.DataFrame, path: int, row: int) -> pd.DataFrame:
@@ -295,3 +296,43 @@ def evaluate_gpd(reference: gpd.GeoDataFrame, other: gpd.GeoDataFrame,
              'ACC': ACC, 'CE': CE, 'OE': OE, 'B': B, 
              'DC': DC, 'TPR': TPR, 'TNR': TNR, 'PPV': PPV, 
              'NPV': NPV, 'CSI': CSI }
+
+def get_burned_area_km2(gdf: gpd.GeoDataFrame) -> float:
+    geod = Geod(ellps="WGS84")
+    positive_normalized = gdf[gdf['value'] > 0]
+    def perimeter(geo):
+        try:
+            return abs(geod.geometry_area_perimeter(geo)[0])
+        except:
+            return 0.0
+    area = positive_normalized['geometry'].map(perimeter)
+    return (area * positive_normalized['value']).sum() / 1000000
+
+def get_year_date_pairs(year: int) -> list[tuple[str, str]]:
+    date_range = pd.date_range(f'{year}-01-01', periods=12, freq='M').insert(0, f'{year}-01-01')
+    return [((start + timedelta(days=0 if i == 0 else 1)).strftime('%Y-%m-%d'), end.strftime('%Y-%m-%d')) 
+              for i, (start, end) in enumerate(split_by_range_index(date_range))]
+
+def to_pretty_table_latex(dt: pd.DataFrame, columns: list[str], sort: list[str]) -> pd.Series:
+    def print_item(column: str, item: any):
+        if column == 'orbita_ponto':
+            return "\\multirow{2}{*}{" + item + "}"
+        elif column in ['start_dt', 'end_dt']:
+            return datetime.strptime(item.split(' ')[0], '%Y-%m-%d').strftime('%d/%m/%Y')
+        elif column in ['reference_area_km2', 'model_area_km2']:
+            return "${:.1f}Km^2$".format(item)
+        elif column in ["B", "DC", "CSI"]:
+            return "{:.2f}".format(item)
+        elif isinstance(item, float):
+            return "{:.2f}\\%".format(int(item * 10000) / 100)
+        else:
+            return str(item)
+
+    def print_row(row):
+        values = [print_item(columns[i], item) for i, item in enumerate(row)]
+        values.insert(1, "")
+        top = values[0::2]
+        bottom = values[1::2]
+        return " & ".join(top) + " \\\\\n" + " " * 24 + " & ".join(bottom) + " \\\\\n\\hline"
+    
+    return dt.sort_values(sort, ascending=False).loc[:, columns].apply(lambda row: print_row(row.values), axis=1)

@@ -1,23 +1,13 @@
-
-import os
-import math
-
-from datetime import timezone, datetime, timedelta
-
 import numpy as np
 import pandas as pd
 import geopandas as gpd
 import contextily
 
 from shapely.geometry import Polygon
-from shapely.geometry import MultiPolygon
-from shapely.geometry import LineString
-from shapely.ops import split
 
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 
-# nossos arquivos
 from utils import *
 from satelites import *
 from graphic import *
@@ -191,3 +181,19 @@ class SatellitesExplore:
         penality = 1 - min(1, len(uniques_satellites) / self.threshold_satellite)
 
         return (len(uniques_satellites) ** 2) + intersection_areas_per_poly - intersection_areas_per_poly * penality
+
+class BurnedAreaCalcWrapper:
+
+    def __init__(self, classifierBuilder, **kargs):
+        self.classifierBuilder = classifierBuilder
+        self.kargs = kargs
+        self.hist = None
+
+    def invoke(self, value: float, values: np.ndarray) -> float:
+        if self.hist is None:
+            self.hist = self.classifierBuilder(values, **self.kargs)
+            self.min_range = self.hist.bins[int(len(self.hist.bins)/2) - 1]
+            self.max_range = self.hist.bins[int(len(self.hist.bins)/2)]
+            print(self.min_range, self.max_range)
+            self.value_range = (self.max_range - self.min_range)
+        return min(1, max(0, (value - self.min_range) / self.value_range))

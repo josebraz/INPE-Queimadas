@@ -18,7 +18,7 @@ from functools import lru_cache
 from constants import *
 
 def is_geostationary(satellite_name: str) -> bool:
-    return not math.isnan(satellite_data.get(satellite_name)[1])
+    return not math.isnan(satellite_data.get(satellite_name, (0.0, float('nan'), float('nan'), 0.0))[1])
 
 class AltAzimuthRange(object):
     default_lat = None

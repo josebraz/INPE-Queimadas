@@ -206,3 +206,34 @@ def show_active_fire(fp: str, **kwargs):
     color = data['value'].map(fire_colors)
     data.plot(color=color, ax=ax, linewidth=0, **kwargs)
     cx.add_basemap(ax, crs=data.crs.to_string())
+
+def compare_values(values1: np.array, values2: np.array, n: int = 10, 
+                   values1_label: str = 'Other', values2_label: str = 'Reference'):
+    bins = np.linspace(0.0, 1.0, n)
+    inds1 = np.digitize(values1, bins)
+    inds2 = np.digitize(values2, bins)
+
+    count = np.array([[np.min([np.sum(inds1 == i+1), np.sum(inds2 == j+1)]) for j in range(n)] for i in range(n)])
+
+    fig, ax = plt.subplots(1, 1)
+    ax.imshow(np.flip(count, 0), cmap='viridis', extent=[0, 1, 0, 1], norm=colors.LogNorm(vmin=count.min(), vmax=count.max()))
+
+    ax.set_xticks(np.linspace(0.0, 1.0, 5))
+    ax.set_yticks(np.linspace(0.0, 1.0, 5))
+    ax.set_xticks(np.linspace(0.0, 1.0, n+1), minor=True)
+    ax.set_yticks(np.linspace(0.0, 1.0, n+1), minor=True)
+    ax.set_xticklabels(np.linspace(0.0, 1.0, 5))
+    ax.set_yticklabels(np.linspace(0.0, 1.0, 5))
+    ax.set_ylabel(values1_label)
+    ax.set_xlabel(values2_label)
+
+    ax.grid(False)
+    ax.grid(which='minor', color='w', linestyle='-', linewidth=1)
+
+def plot_burned_gdf(ax: plt.Axes, gdf: gpd.GeoDataFrame, simple: bool = False, legend=True):
+    positive_normalized = gdf[gdf['value'] > 0]
+    if simple:
+        positive_normalized.plot(ax=ax, linewidth=0.0)
+    else:
+        positive_normalized.plot(column='value', ax=ax, cmap='Reds', linewidth=0.0, legend=legend)
+    ax.legend(title = "{:.2f}Km²".format(get_burned_area_km2(gdf)), loc='lower left')
