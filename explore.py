@@ -150,10 +150,25 @@ class SatellitesExplore:
             points['burned_area'] = points['area'] * points['burned_factor']
         return points
 
+    def recalcule_burned_area(self, burned_area_calc: BurnedAreaCalc):
+        self.burned_area_calc = burned_area_calc
+        points: gpd.GeoDataFrame = self.get_all_evaluated_quads()
+        return SatellitesExplore.recalcule_burned_area_static(burned_area_calc, points, self.geod)
+
+    @staticmethod
+    def recalcule_burned_area_static(burned_area_calc: BurnedAreaCalc, points: gpd.GeoDataFrame, 
+                                     geod: Geod = Geod(ellps="WGS84")):
+        if 'area' not in points.columns:
+            points['area'] = points['geometry'].map(lambda geo: abs(geod.geometry_area_perimeter(geo)[0]))
+        values = points['value'].values
+        points['burned_factor'] = points['value'].map(lambda value: burned_area_calc(value, values))
+        points['burned_area'] = points['area'] * points['burned_factor']
+        return points
+
     def get_all_evaluated_quads(self) -> gpd.GeoDataFrame:
         if self.all_evaluated_quads is None:
             quads_df = grid_gdf(self.dataframe, poly=self.delimited_region, quadrat_width=self.quadrat_width)
-            join_dataframe = gpd.sjoin(self.dataframe, quads_df, op="intersects")
+            join_dataframe = gpd.sjoin(self.dataframe, quads_df, predicate="intersects")
 
             values = np.zeros(len(quads_df))
             for index in join_dataframe['index_right'].unique():

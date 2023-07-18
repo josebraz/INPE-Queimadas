@@ -21,6 +21,7 @@ from shapely.geometry import shape
 from pyproj import Geod
 
 from rasterio.features import shapes as rio_shapes
+from functools import lru_cache
 
 from constants import *
 
@@ -164,22 +165,16 @@ def compute_grid(data: pd.DataFrame, min_lat: float = None, max_lat: float = Non
     )
     return cvs.points(data, x="longitude", y="latitude")
 
-def grid_gdf(data: gpd.GeoDataFrame, poly: Polygon = None, quadrat_width: float=0.005) -> gpd.GeoDataFrame:
-    if poly == None:
-        bounds = data.total_bounds
-    else:
-        bounds = poly.bounds
+@lru_cache(maxsize=300)
+def _grid_gdf_cached(crs:str, bounds: np.ndarray, poly: Polygon, quadrat_width: float) -> gpd.GeoDataFrame:
     step = 1/quadrat_width
     xmin, ymin, xmax, ymax = [int(x * step) / step for x in bounds]
-    grid_cells = []
-    
-    for x0 in np.arange(xmin, xmax+quadrat_width, quadrat_width):
-        for y0 in np.arange(ymin, ymax+quadrat_width, quadrat_width):
-            x1 = x0-quadrat_width
-            y1 = y0+quadrat_width
-            shape = box(x0, y0, x1, y1)
-            grid_cells.append(shape)
-    temp = gpd.GeoDataFrame(geometry=grid_cells, crs=data.crs)
+    xs = np.arange(xmin, xmax+quadrat_width, quadrat_width)
+    ys = np.arange(ymin, ymax+quadrat_width, quadrat_width)
+    xss, yss = np.meshgrid(xs, ys, copy=False)
+    fv = np.vectorize(lambda x0, y0: box(x0, y0, x0-quadrat_width, y0+quadrat_width))
+    grid_cells = fv(xss.flatten("F"), yss.flatten("F"))
+    temp = gpd.GeoDataFrame(geometry=grid_cells, crs=crs)
     if poly is None:
         return temp
     else:
@@ -187,12 +182,16 @@ def grid_gdf(data: gpd.GeoDataFrame, poly: Polygon = None, quadrat_width: float=
         temp.drop('index', axis=1, inplace=True)
         return temp
 
+def grid_gdf(data: gpd.GeoDataFrame, poly: Polygon = None, quadrat_width: float=0.002) -> gpd.GeoDataFrame:
+    bounds = data.total_bounds if poly == None else poly.bounds
+    return _grid_gdf_cached(data.crs.to_string(), bounds, poly, quadrat_width)
+
 def normalize_gdf(data: gpd.GeoDataFrame, bounds: Polygon = None, quadrat_width: float=0.005) -> gpd.GeoDataFrame:
     if bounds != None: 
         xmin, ymin, xmax, ymax = bounds.bounds
         data = data.cx[xmin:xmax, ymin:ymax]
     grid_df = grid_gdf(data, bounds, quadrat_width)
-    join_dataframe = gpd.sjoin(data, grid_df, op="intersects")
+    join_dataframe = gpd.sjoin(data, grid_df, predicate="intersects")
     
     values = np.zeros(len(grid_df))
     for index in join_dataframe['index_right'].unique():
@@ -237,7 +236,7 @@ def create_gpd(data: xr.DataArray, value_dim: str = 'value', poly: Polygon = Non
         crs="EPSG:4326")
     grid = grid_gdf(points, poly=poly, quadrat_width=quadrat_width)
     grid.drop('index', axis=1, inplace=True) # todo remove this
-    join_dataframe: gpd.GeoDataFrame = gpd.sjoin(grid, points, op="contains")
+    join_dataframe: gpd.GeoDataFrame = gpd.sjoin(grid, points, predicate="contains")
     values = np.zeros(len(grid))
     for index in join_dataframe['index_right'].unique():
         values[index] = points.iloc[index]['value']
@@ -256,7 +255,7 @@ def evaluate_gpd(reference: gpd.GeoDataFrame, other: gpd.GeoDataFrame,
     
     original_geometry = other['geometry']
     other['geometry'] = other.representative_point()
-    join_gpd = gpd.sjoin(reference, other, op="contains", lsuffix='reference', rsuffix='other')
+    join_gpd = gpd.sjoin(reference, other, predicate="contains", lsuffix='reference', rsuffix='other')
     other['geometry'] = original_geometry
     
     same_names = reference_value_column == other_value_column
