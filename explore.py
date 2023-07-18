@@ -125,15 +125,16 @@ class SatellitesExplore:
                 source=contextily.providers.CartoDB.PositronNoLabels)
     
     def show_satellites_quads_evaluated(self, ax: plt.Axes, with_color_bar: bool = True, 
-                                        cmap = default_cmap, evaluated_quads: bool = True):
+                                        cmap = default_cmap, evaluated_quads: bool = True,
+                                        linewidth=0.5):
         if len(self.dataframe) == 0: return
         points: gpd.GeoDataFrame = self.get_all_evaluated_quads()[self.get_all_evaluated_quads()['value'] > 0.0]
         if evaluated_quads:
             points.plot(ax=ax, edgecolor='k', alpha=0.5, 
-                        linewidth=0.5, column='value', cmap='hot', 
+                        linewidth=linewidth, column='value', cmap='hot', 
                         legend=with_color_bar)
         else:
-            points.plot(ax=ax, edgecolor='k', linewidth=0.5)
+            points.plot(ax=ax, edgecolor='k', linewidth=linewidth)
 
     def show_satellites_quads_areas(self, ax: plt.Axes, with_color_bar: bool = True, 
                                     with_areas: bool = True, cmap = default_cmap, 
