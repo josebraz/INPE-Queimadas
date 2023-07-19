@@ -1,6 +1,7 @@
 data/
 aux/
-aq_fa/
+aq_fa*/
+results/AQ-FA*
 aq_fa_*.zip
 data.*
 .ipynb_checkpoints
