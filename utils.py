@@ -85,8 +85,10 @@ def get_landsat_geometry(path: int, row: int) -> Polygon:
 #     return get_landsat_geometry.wrs2.query('PATH == @path & ROW == @row').iloc[0].geometry
 
 def sub_space_by_landsat(df: pd.DataFrame, path: int, row: int) -> pd.DataFrame:
-    temp = gpd.GeoDataFrame(geometry=gpd.points_from_xy(df.longitude, df.latitude), crs="EPSG:4326")
     geometry = get_landsat_geometry(path, row)
+    xmin, ymin, xmax, ymax = geometry.bounds
+    df = sub_space(df, ymin, ymax, xmin, xmax)
+    temp = gpd.GeoDataFrame(geometry=gpd.points_from_xy(df.longitude, df.latitude), crs="EPSG:4326")
     return df.loc[temp.intersects(geometry).values]
 
 from typing import Iterator
@@ -191,7 +193,7 @@ def normalize_gdf(data: gpd.GeoDataFrame, bounds: Polygon = None, quadrat_width:
         xmin, ymin, xmax, ymax = bounds.bounds
         data = data.cx[xmin:xmax, ymin:ymax]
     grid_df = grid_gdf(data, bounds, quadrat_width)
-    join_dataframe = gpd.sjoin(data, grid_df, predicate="intersects")
+    join_dataframe = gpd.sjoin(data, grid_df, op="intersects")
     
     values = np.zeros(len(grid_df))
     for index in join_dataframe['index_right'].unique():
@@ -236,7 +238,7 @@ def create_gpd(data: xr.DataArray, value_dim: str = 'value', poly: Polygon = Non
         crs="EPSG:4326")
     grid = grid_gdf(points, poly=poly, quadrat_width=quadrat_width).copy()
     grid.drop('index', axis=1, inplace=True) # todo remove this
-    join_dataframe: gpd.GeoDataFrame = gpd.sjoin(grid, points, predicate="contains")
+    join_dataframe: gpd.GeoDataFrame = gpd.sjoin(grid, points, op="contains")
     values = np.zeros(len(grid))
     for index in join_dataframe['index_right'].unique():
         values[index] = points.iloc[index]['value']
@@ -255,7 +257,7 @@ def evaluate_gpd(reference: gpd.GeoDataFrame, other: gpd.GeoDataFrame,
     
     original_geometry = other['geometry']
     other['geometry'] = other.representative_point()
-    join_gpd = gpd.sjoin(reference, other, predicate="contains", lsuffix='reference', rsuffix='other')
+    join_gpd = gpd.sjoin(reference, other, op="contains", lsuffix='reference', rsuffix='other')
     other['geometry'] = original_geometry
     
     same_names = reference_value_column == other_value_column
@@ -296,16 +298,16 @@ def evaluate_gpd(reference: gpd.GeoDataFrame, other: gpd.GeoDataFrame,
              'DC': DC, 'TPR': TPR, 'TNR': TNR, 'PPV': PPV, 
              'NPV': NPV, 'CSI': CSI }
 
-def get_burned_area_km2(gdf: gpd.GeoDataFrame) -> float:
+def get_burned_area_km2(gdf: gpd.GeoDataFrame, column: str = 'value') -> float:
     geod = Geod(ellps="WGS84")
-    positive_normalized = gdf[gdf['value'] > 0]
+    positive_normalized = gdf[gdf[column] > 0]
     def perimeter(geo):
         try:
             return abs(geod.geometry_area_perimeter(geo)[0])
         except:
             return 0.0
     area = positive_normalized['geometry'].map(perimeter)
-    return (area * positive_normalized['value']).sum() / 1000000
+    return (area * positive_normalized[column]).sum() / 1000000
 
 def get_year_date_pairs(year: int) -> list[tuple[str, str]]:
     date_range = pd.date_range(f'{year}-01-01', periods=12, freq='M').insert(0, f'{year}-01-01')

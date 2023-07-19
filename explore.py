@@ -150,25 +150,25 @@ class SatellitesExplore:
             points['burned_area'] = points['area'] * points['burned_factor']
         return points
 
-    def recalcule_burned_area(self, burned_area_calc: BurnedAreaCalc):
+    def recalcule_burned_area(self, burned_area_calc: BurnedAreaCalc) -> pd.Series:
         self.burned_area_calc = burned_area_calc
         points: gpd.GeoDataFrame = self.get_all_evaluated_quads()
         return SatellitesExplore.recalcule_burned_area_static(burned_area_calc, points, self.geod)
 
     @staticmethod
     def recalcule_burned_area_static(burned_area_calc: BurnedAreaCalc, points: gpd.GeoDataFrame, 
-                                     geod: Geod = Geod(ellps="WGS84")):
+                                     geod: Geod = Geod(ellps="WGS84")) -> pd.Series:
         if 'area' not in points.columns:
             points['area'] = points['geometry'].map(lambda geo: abs(geod.geometry_area_perimeter(geo)[0]))
         values = points['value'].values
         points['burned_factor'] = points['value'].map(lambda value: burned_area_calc(value, values))
         points['burned_area'] = points['area'] * points['burned_factor']
-        return points
+        return points['burned_area']
 
     def get_all_evaluated_quads(self) -> gpd.GeoDataFrame:
         if self.all_evaluated_quads is None:
             quads_df = grid_gdf(self.dataframe, poly=self.delimited_region, quadrat_width=self.quadrat_width)
-            join_dataframe = gpd.sjoin(self.dataframe, quads_df, predicate="intersects")
+            join_dataframe = gpd.sjoin(self.dataframe, quads_df, op="intersects")
 
             values = np.zeros(len(quads_df))
             for index in join_dataframe['index_right'].unique():
@@ -199,18 +199,26 @@ class SatellitesExplore:
 
         return (len(uniques_satellites) ** 2) + intersection_areas_per_poly - intersection_areas_per_poly * penality
 
-class BurnedAreaCalcWrapper:
+class BurnedAreaCalcPercentile:
 
-    def __init__(self, classifierBuilder, **kargs):
-        self.classifierBuilder = classifierBuilder
-        self.kargs = kargs
-        self.hist = None
+    def __init__(self, pmin: float=65, pmax: float=85, vmin: float=2.5, vmax: float=15, expoent=1):
+        self.pmin = pmin
+        self.pmax = pmax
+        self.vmin = vmin
+        self.vmax = vmax
+        self.expoent = expoent
+        self.value_range = None
+        self.min_range = None
+        self.max_range = None
 
-    def invoke(self, value: float, values: np.ndarray) -> float:
-        if self.hist is None:
-            self.hist = self.classifierBuilder(values, **self.kargs)
-            self.min_range = self.hist.bins[int(len(self.hist.bins)/2) - 1]
-            self.max_range = self.hist.bins[int(len(self.hist.bins)/2)]
-            print(self.min_range, self.max_range)
+    def __call__(self, value: float, values: np.ndarray) -> float:
+        if self.value_range is None:
+            non_zero_values = values[values > 0]
+            mean = (self.vmin + self.vmax) / 2.0
+            self.min_range = min(mean, max(self.vmin, np.percentile(non_zero_values, self.pmin)))
+            self.max_range = max(mean, min(self.vmax, np.percentile(non_zero_values, self.pmax)))
             self.value_range = (self.max_range - self.min_range)
-        return min(1, max(0, (value - self.min_range) / self.value_range))
+        return min(1, max(0, ((value - self.min_range) / self.value_range))**self.expoent)
+    
+    def __str__(self) -> str:
+        return f'''min_range: {self.min_range} max_range: {self.max_range}'''

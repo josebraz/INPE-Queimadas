@@ -230,10 +230,12 @@ def compare_values(values1: np.array, values2: np.array, n: int = 10,
     ax.grid(False)
     ax.grid(which='minor', color='w', linestyle='-', linewidth=1)
 
-def plot_burned_gdf(ax: plt.Axes, gdf: gpd.GeoDataFrame, simple: bool = False, legend=True):
+def plot_burned_gdf(ax: plt.Axes, gdf: gpd.GeoDataFrame, simple: bool = False, legend=True, log_norm: bool = False):
     positive_normalized = gdf[gdf['value'] > 0]
     if simple:
         positive_normalized.plot(ax=ax, linewidth=0.0)
     else:
-        positive_normalized.plot(column='value', ax=ax, cmap='Reds', linewidth=0.0, legend=legend)
+        vmin, vmax =positive_normalized['value'].min(), positive_normalized['value'].max()
+        norm = colors.LogNorm(vmin=vmin, vmax=vmax) if log_norm else None
+        positive_normalized.plot(column='value', ax=ax, cmap='Reds', linewidth=0.0, legend=legend, norm=norm)
     ax.legend(title = "{:.2f}Km²".format(get_burned_area_km2(gdf)), loc='lower left')
