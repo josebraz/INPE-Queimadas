@@ -322,7 +322,7 @@ def to_pretty_table_latex(dt: pd.DataFrame, columns: list[str], sort: list[str])
             return datetime.strptime(item.split(' ')[0], '%Y-%m-%d').strftime('%d/%m/%Y')
         elif column in ['reference_area_km2', 'model_area_km2']:
             return "${:.1f}Km^2$".format(item)
-        elif column in ["B", "DC", "CSI"]:
+        elif column in ["B", "CSI"]:
             return "{:.2f}".format(item)
         elif isinstance(item, float):
             return "{:.2f}\\%".format(int(item * 10000) / 100)
