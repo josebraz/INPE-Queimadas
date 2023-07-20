@@ -168,7 +168,7 @@ def compute_grid(data: pd.DataFrame, min_lat: float = None, max_lat: float = Non
     return cvs.points(data, x="longitude", y="latitude")
 
 @lru_cache(maxsize=300)
-def _grid_gdf_cached(crs: str, bounds: np.ndarray, poly: Polygon, quadrat_width: float) -> gpd.GeoDataFrame:
+def _grid_gdf_cached(crs: str, bounds: tuple, poly: Polygon, quadrat_width: float) -> gpd.GeoDataFrame:
     step = 1/quadrat_width
     xmin, ymin, xmax, ymax = [int(x * step) / step for x in bounds]
     xs = np.arange(xmin, xmax+quadrat_width, quadrat_width)
@@ -186,7 +186,7 @@ def _grid_gdf_cached(crs: str, bounds: np.ndarray, poly: Polygon, quadrat_width:
 
 def grid_gdf(data: gpd.GeoDataFrame, poly: Polygon = None, quadrat_width: float=0.002) -> gpd.GeoDataFrame:
     bounds = data.total_bounds if poly == None else poly.bounds
-    return _grid_gdf_cached(data.crs.to_string(), bounds, poly, quadrat_width)
+    return _grid_gdf_cached(data.crs.to_string(), tuple(bounds), poly, quadrat_width)
 
 def normalize_gdf(data: gpd.GeoDataFrame, bounds: Polygon = None, quadrat_width: float=0.005) -> gpd.GeoDataFrame:
     if bounds != None: 

@@ -1,7 +1,6 @@
 data/
 aux/
 aq_fa*/
-results/AQ-FA*
 aq_fa_*.zip
 data.*
 .ipynb_checkpoints
@@ -15,7 +14,7 @@ data.*
 *.blg
 *.lot
 .DS_Store
-data_parsed.h5
 .history/
 __pycache__/
 dask-worker-space/
+.cache/*

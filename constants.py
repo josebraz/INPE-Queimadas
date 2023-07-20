@@ -3,13 +3,14 @@ import os
 
 directory = os.getcwd()
 burn_folder = os.path.join(directory, "data")
+cache_folder = os.path.join(directory, ".cache")
 image_folder = os.path.join(directory, "images")
 aux_folder = os.path.join(directory, "aux")
 uf_folder = os.path.join(aux_folder, "ibge/BR_UF_2021")
 municipios_folder = os.path.join(aux_folder, "ibge/BR_Municipios_2021")
 biomas_folder = os.path.join(aux_folder, "ibge/Biomas_250mil")
 
-data_parsed_file = os.path.join(directory, 'data_parsed.h5')
+data_parsed_file = os.path.join(cache_folder, 'data_parsed.h5')
 
 months_list = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 
                'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
