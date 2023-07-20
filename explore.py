@@ -134,20 +134,20 @@ class SatellitesExplore:
         if with_areas:
             ax.legend(title = "{:.2f}Km²".format(area_km2), loc='lower left')
         points: gpd.GeoDataFrame = self.get_all_evaluated_quads()[self.get_all_evaluated_quads()['value'] > 0.0]
-        points.plot(column='burned_factor', cmap=cmap, legend=with_color_bar,
+        points.plot(column='burned_fac', cmap=cmap, legend=with_color_bar,
             ax=ax, edgecolor='k', linewidth=linewidth)
     
     def get_total_area_m_2(self) -> float:
         points: gpd.GeoDataFrame = self.get_burned_areas()
-        return points['burned_area'].sum()
+        return points['burned_are'].sum()
     
     def get_burned_areas(self) -> gpd.GeoDataFrame:
         points: gpd.GeoDataFrame = self.get_all_evaluated_quads()
-        if 'burned_area' not in points.columns:
+        if 'burned_are' not in points.columns:
             values = points['value'].values
-            points['burned_factor'] = points['value'].map(lambda value: self.burned_area_calc(value, values))
+            points['burned_fac'] = points['value'].map(lambda value: self.burned_area_calc(value, values))
             points['area'] = points['geometry'].map(lambda geo: abs(self.geod.geometry_area_perimeter(geo)[0]))
-            points['burned_area'] = points['area'] * points['burned_factor']
+            points['burned_are'] = points['area'] * points['burned_fac']
         return points
 
     def recalcule_burned_area(self, burned_area_calc: BurnedAreaCalc) -> pd.Series:
@@ -161,9 +161,9 @@ class SatellitesExplore:
         if 'area' not in points.columns:
             points['area'] = points['geometry'].map(lambda geo: abs(geod.geometry_area_perimeter(geo)[0]))
         values = points['value'].values
-        points['burned_factor'] = points['value'].map(lambda value: burned_area_calc(value, values))
-        points['burned_area'] = points['area'] * points['burned_factor']
-        return points['burned_area']
+        points['burned_fac'] = points['value'].map(lambda value: burned_area_calc(value, values))
+        points['burned_are'] = points['area'] * points['burned_fac']
+        return points['burned_are']
 
     def get_all_evaluated_quads(self) -> gpd.GeoDataFrame:
         if self.all_evaluated_quads is None:
