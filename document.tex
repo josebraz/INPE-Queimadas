@@ -656,7 +656,7 @@ Finalmente, com os quadrantes avaliados, é possível estimar a área queimada p
 
 Nesse sentido, o papel do pesquisador é definir uma função (\texttt{eval(v)}) que receba o valor do quadrante, calculado na etapa anterior, e retorne um número real entre zero e um. Essa função também pode receber como parâmetro a lista de todos os valores de avaliação dos quadrantes, que podem ser usados para normalizar o cálculo ou realizar uma análise estatística. Por exemplo, o pesquisador pode definir uma função que indique que o quadrante só deve ser considerado totalmente queimado se o valor do quadrante for maior que o percentil 85, ou seja, maior que pelo menos 85\% dos valores.
 
-Para facilitar o trabalho do pesquisador, a implementação pode fornecer funções embutidas comuns que definem a função \texttt{eval(v)}. Na Figura \ref{fig:eval_func_built_in}, são apresentadas algumas possibilidades de definições para essa função. A função mais simples é chamada de \texttt{limiar}, que estabelece que toda a área do quadrante deve ser considerada queimada se a avaliação for maior que um determinado valor e nenhuma área deve ser considerada queimada se não alcançar esse valor. Outra função simples é a \texttt{linear}, que faz o valor da área queimada crescer de forma linear dentro de um valor máximo e mínimo. A última função é a \texttt{exponencial}, semelhante à \texttt{linear}, mas com uma exponenciação que faz o valor crescer mais lentamente no início e de forma mais acentuada no final do intervalo.
+Para facilitar o trabalho do pesquisador, a implementação pode fornecer funções embutidas comuns que definem a função \texttt{eval(v)}. Na Figura \ref{fig:eval_func_built_in}, são apresentadas algumas possibilidades de definições para essa função. A função mais simples é chamada de \texttt{limiar(threshold)}, que estabelece que toda a área do quadrante deve ser considerada queimada se a avaliação for maior ou igual a \texttt{threshold} e nenhuma área deve ser considerada queimada se não alcançar esse valor. Outra função simples é a \texttt{linear(vmin, vmax)}, que faz o valor da área queimada crescer de forma linear dentro dos valores \texttt{vmin} e \texttt{vmax}. A última função é a \texttt{exponencial(vmin, vmax, exponent)}, semelhante à \texttt{linear}, mas elevando o resultado a \texttt{exponent}, o que faz o valor crescer mais lentamente no início e de forma mais acentuada no final do intervalo.
 
 \begin{figure}[H]
     \caption{Funções embutidas para cálculo de área.}
@@ -678,7 +678,7 @@ A Figura \ref{fig:aplicacao_funcoes_built_in} ilustra claramente como diferentes
     \label{fig:aplicacao_funcoes_built_in}
 \end{figure}
 
-Também são possíveis funções mais complexas que utilizam análises estatísticas da distribuição, como a função \texttt{percentil}. Esta função define um percentil mínimo (\texttt{pmin}) e um percentil máximo (\texttt{pmax}) como os limiares mínimos e máximos para considerar o quadrante como parcialmente queimado. Valores abaixo do limiar mínimo são considerados não queimados, enquanto valores acima do limiar máximo são considerados totalmente queimados. Para evitar limites discrepantes, também são utilizados limiares fixos \texttt{pmin}, \texttt{pmax} e a média desses limiares, chamada de \texttt{pmean} (\texttt{(pmin + pmax) / 2}), como limites. Os limites do limiar mínimo estão entre \texttt{pmin} e \texttt{pmean}, enquanto os limites do limiar máximo estão entre \texttt{pmean} e \texttt{pmax}. Desta forma, a função ajusta seus limiares de acordo com o conjunto de dados, se comportando adequadamente para diferentes tipos de distribuição.
+Também são possíveis funções mais complexas que utilizam análises estatísticas da distribuição, como a função \texttt{percentil(pmin, pmax, vmin, vmax)}. Esta função define um percentil mínimo (\texttt{pmin}) e um percentil máximo (\texttt{pmax}) como os limiares mínimos e máximos para considerar o quadrante como parcialmente queimado, assim como na função \texttt{linear}. Valores abaixo do limiar mínimo são considerados não queimados, enquanto valores acima do limiar máximo são considerados totalmente queimados. Para evitar limiares discrepantes, também são utilizados limites fixos \texttt{vmin}, \texttt{vmax} e a média desses limiares, chamada de \texttt{vmean}  ($(pmin + pmax) / 2$). O valor do limiar mínimo é restrigido ao intervalo \texttt{vmin} e \texttt{vmean}, enquanto o limiar máximo deve ficar entre \texttt{vmean} e \texttt{vmax}. Desta forma, a função ajusta seus limiares de acordo com o conjunto de dados, se comportando de forma adaqueada para diferentes tipos de distribuição e ainda mantém uma margem de segurança para evitar classificar áreas utilizando valores discrepantes.
 
 \chapter{Implementação do método}
 \label{chp:implementacao_metodo}
@@ -826,9 +826,9 @@ O Coefiente de Dice (DC), também conhecido como Índice de Sørensen–Dice, é
 
 \section{Validação do AQ-FA}
 
-Nesta seção, é apresentado como o AQ-FA foi validado em relação ao estado da arte. Para isso, utilizamos o produto AQ30m como referência e comparamos, lado a lado, o AQ-FA, o produto MDC64A1 e o produto AQ1Km. Os dados do produto MDC64A1 foram obtidos a partir do site AppEEARS (\url{https://appeears.earthdatacloud.nasa.gov/}). Os dados do AQ30m podem ser visualizados e baixados de forma simples pelo site do Programa Queimadas (\url{https://queimadas.dgi.inpe.br/queimadas/aq30m}). Para obter os dados do AQ1Km foi necessário fazer uma solicitação para o INPE por e-mail, a resposta foi informando o servidor FTP para download dos produtos em formato Shapefile.
+Nesta Seção, é apresentado como o AQ-FA foi validado em relação ao estado da arte. Para isso, utilizamos o produto AQ30m como referência e comparamos, lado a lado, o AQ-FA e o produto AQ1Km. Os dados do AQ30m podem ser visualizados e baixados de forma simples pelo site do Programa Queimadas (\url{https://queimadas.dgi.inpe.br/queimadas/aq30m}). Para obter os dados do AQ1Km foi necessário fazer uma solicitação para o INPE por e-mail, a resposta foi informando o servidor FTP para download dos produtos em formato Shapefile.
 
-Os produtos têm resoluções diferentes, 30 m, 500 m e 1 km respectivamente para AQ30m, MDC64A1 e AQ1km. Com isso, é necessário fazer uma transformação de forma que todos os produtos utilizados na avaliação estejam na mesma resolução. Há diferentes formas de fazer isso, em \citet{BOSCHETTI2004280} é apresentado um método que minimiza os erros de comissão e omissão do processo de transformar dados de área queimadas de resolução maiores em resoluções menores. 
+Os produtos têm resoluções diferentes, 30 m e 1 km respectivamente para AQ30m e AQ1km. Com isso, é necessário fazer uma transformação de forma que todos os produtos utilizados na avaliação estejam na mesma resolução. Há diferentes formas de fazer isso, em \citet{BOSCHETTI2004280} é apresentado um método que minimiza os erros de comissão e omissão do processo de transformar dados de área queimadas de resolução maiores em resoluções menores. 
 
 Esse trabalho classificou os quadrantes de forma binária, em queimado e não queimado, o que altera o resultado do total de área queimada. Nesse sentido, a Figura \ref{fig:diferenca_resoluções} mostra a diferença do total da área queimada entre a versão original, de resolução 30m, e três variações de limiares em uma resolução maior. Os valores de cada quadrante foram obtivos fazendo uma intercção entre os limites do quadrante e o polígono original, depois disso é filtrado apenas os quadrantes que apresentaram um valor acima do limiar testado. Ou seja, todos os quadrantes maiores que 0, 0.5 ou igual a 1 são apresentados, respectivamente, na segunda, terceira e quarta imagem.
 
@@ -852,14 +852,14 @@ Uma outra forma de transformar uma resolução maior para uma menor é manter o 
     \label{fig:resolução_continua}
 \end{figure}
 
-Além do obstáculo das resoluções diferentes entre os produtos, um outro problema é a escolha da porção territorial a ser avaliada. Para simplificar e possibilitar a comparação entre diversos trabalhos mencionados (como em \citet{libonati2015algorithm}), foi escolhido usar as áreas delimitadas pelo WRS-2, descritas na Figura \ref{fig:orbitas_ponto_landsat}. O produto AQ30m também é distribuído seguindo o mesmo sistema, mas com uma diferença que demanda atenção. No sistema WRS-2, as órbitas-ponto podem ter interseção com outras órbitas-ponto vizinhas. Caso isso fosse mantido no produto AQ30m, poderia haver contagens repetidas de uma mesma área queimada nas extremidades da área delimitada pela órbita-ponto. Para solucionar esse problema, foi usado uma versão modificada da grade WRS-2, obtida a partir de \url{http://www.dgi.inpe.br/documentacao/grades}, que é um mosaico sem sobreposição.
+Além do obstáculo das resoluções diferentes entre os produtos, um outro problema é a escolha da porção territorial a ser avaliada. Para simplificar e possibilitar a comparação entre diversos trabalhos mencionados (como em \citet{libonati2015algorithm}), foi escolhido usar as áreas delimitadas pelo WRS-2, descritas na Figura \ref{fig:orbitas_ponto_landsat}. O produto AQ30m também é distribuído seguindo o mesmo sistema, mas com uma diferença que demanda atenção. No sistema WRS-2, as órbitas-ponto podem ter interseção com outras órbitas-ponto vizinhas. Caso isso fosse mantido no produto AQ30m, poderia haver contagens repetidas de uma mesma área queimada nas extremidades da área delimitada pela órbita-ponto. Para solucionar esse problema, foi usado uma versão modificada da grade WRS-2 sem sobreposição, obtida a partir do site do DGI (\url{http://www.dgi.inpe.br/documentacao/grades}).
 
-Antes de começar a avaliação, é necessário definir os parâmetros passados ao AQ-FA. Para a validação do método e todo o restante do trabalho utilizamos parâmetros fixos definidos da seguinte forma: a constante \texttt{min\_area} vale $0.1$; a constante \texttt{threshold\_satellite} teve valor $2$ atribuído; e a constante \texttt{quadrant\_width} recebeu o valor de $0.005$. Essa combinação de parâmetros teve o intuito de gerar resultados com menos erros de comissão, penalizando quadrantes com dados de apenas dois satélites diferentes, o que pode indicar menos intensidade de fogo. A resolução dos resultados ficou em torno de 300 m.
+Antes de começar a avaliação, é necessário definir os parâmetros passados ao AQ-FA. Para a validação do método e todo o restante do trabalho utilizamos parâmetros fixos definidos da seguinte forma: a constante \texttt{min\_area} vale $0.1$; a constante \texttt{threshold\_satellite} teve valor $2$ atribuído; e a constante \texttt{quadrant\_width} recebeu o valor de $0.005$. Essa combinação de parâmetros teve o intuito de gerar resultados com menos erros de comissão, penalizando quadrantes com dados de apenas dois satélites diferentes, o que pode indicar menos intensidade de fogo. A resolução do resultado final ficou em torno de 300 m, q	ue é uma resolução comparável aos outros produtos e ainda assim não torna o cálculo muito custoso.
 
-Vários testes foram feitos para encontrar uma função área queimada (\texttt{eval(v)}) que ao mesmo tempo reduzisse os erros de omissão e de comissão em diferentes regiões e períodos de tempo. Os esperimentos indicaram que uma função com valores fixos, sem levar em conta a distribuição estatística dos dados, não produz resultados aceitáveis. A Figura \ref{fig:comparacao_evals} .......
+Vários testes foram feitos para encontrar uma função área queimada (\texttt{eval(v)}) que ao mesmo tempo reduzisse os erros de omissão e de comissão em diferentes regiões e períodos de tempo. Os experimentos indicaram que uma função com valores fixos, sem levar em conta a distribuição estatística dos dados, produz resultados piores. A Figura \ref{fig:comparacao_evals} apresenta os gráficos \textit{Box Plot} de 5 métricas estatísticas e a diferença de área queimada para quatro funções área queimada: linear, exponencial quadrática, exponencial cúbica e percentil (Seção \ref{sec:calculo_area_queimada}). Os dados foram gerados a partir da avaliação dessas funções no conjunto de orbitas-ponto e intervalo de tempo apresentados na Tabela \ref{table:regioes_validação}.
 
 \begin{figure}[H]
-    \caption{}
+    \caption{Box Plot representando seis distribuições: Acurácia Geral (OA), Diferença de área queimada, Erros de comissão (CE), Erros de Omissão (OE), Viés (B) e Coefiente de Dice (DC). Cada distribuição foi gerada com as funções área queimada: linear(2.5, 15), exponencial(2.5, 15, 2), exponencial(2.5, 15, 3) e percentil(65, 85, 2.5, 15)}
     \begin{center}
         \includegraphics[width=30em]{comparacao_evals}
     \end{center}
@@ -867,21 +867,38 @@ Vários testes foram feitos para encontrar uma função área queimada (\texttt{
     \label{fig:comparacao_evals}
 \end{figure}
 
-A função \texttt{eval(v)} escolhida utiliza a análise estatística com percentis (Seção \ref{sec:calculo_area_queimada}). Os valores de \texttt{pmin}, \texttt{pmax}, \texttt{vmin} e \texttt{vmax} foram definidos respectivamente como 65\%, 85\%, 2.5 e 15. Logo \texttt{vmean} é equivalente a 8,75.
+De forma mais detalhada, as quatro funções apresentadas têm os limiares inferiores \texttt{vmin} e superiores \texttt{vmax} iguais, equivalentes a 2.5 e 15, respectivamente. Esses valores foram obtidos a partir de experimentos comparando várias combinações. A função \texttt{percentil} teve também os parâmetros \texttt{pmax}, \texttt{vmin} assinalados como 65\% e 85\%, também obtidos a patir de testes. 
 
 
-A Figura \ref{fig:validacao_221_67} apresenta a aplicação do AQ-FA (direita) na órbita-ponto 221/67 comparando com o AQ30m (esquerda), entre o período de 3 de junho de 2021 a 19 de junho de 2021. É possível perceber que as duas imagens não são muito diferentes nas grandes cicatrizes (porções marcadas pelo fogo). A área queimada total no AQ-FA é cerca que 10 Km maior, provavelmente pela imprecisão na detecção das bordas das cicatrizes. As áreas mais brancas na imagem da esquerda indicam que houve focos ativos naquela região, mas não foram suficientemente intensos ou diversos para indicar uma queima total do quadrante.
+A função \texttt{percentil} apresentou os melhores resultados nas diferentes métricas e por isso é a função escolhida para todo o restante do trabalho. A função, comparada com as outras, apresentou alta Acurácia Geral (OA), baixos Erros de Omissão (OE), alto Coefiente de Dice (DC), Viés (B) próximo a 1 e baixa diferença entre o total de área queimada. Os Erros de Comissão (CE) foram relativamente maiores, assim como na função linear, provavelmente devido a baixa resolução dos satélites provocando erros nas extremidades das cicatrizes de uma área queimada. 
+
+falar como foi a execução .....
+
+começar a validação de fato ......
 
 \begin{figure}[H]
-    \caption{Aplicação do AQ-FA na órbita-ponto 221/67 no período 3 de julho a 19 de julho de 2021. A esquerda é o produto AQ30m (referência) e a direita é o AQ-FA. Quanto mais vermelho escuro, maior o percentual de área queimada.}
+    \caption{Aplicação do AQ-FA na órbita-ponto 221/70 no período de 27 de agosto a 10 de setembro de 2017. A esquerda é o produto AQ30m (referência) e a direita é o AQ-FA. Quanto mais vermelho escuro, maior o percentual de área queimada.}
     \begin{center}
-        \includegraphics[width=30em]{validacao_221_67}
+        \includegraphics[width=30em]{validacao_AQ30m_221_70}
     \end{center}
     \legend{Fonte: O Autor}
     \label{fig:validacao_221_67}
 \end{figure}
 
-Os resultados estatísticos dessa e de outras aplicações do método, também comparado com o produto AQ30m, são apresentadas na Tabela \ref{table:regioes_validação}. O método é aplicado para as órbitas-ponto: 221/067, 222/067 e 220/065 para diferentes períodos de tempo. A data de início e fim, valores estatísticos de OA, CSI, CE, OE, B e DC e a área queimada do AQ30m e do AQ-FA também estão na tabela que é ordenada pelo DC. 
+
+A Figura \ref{fig:validacao_221_67} apresenta a aplicação do AQ-FA (direita) na órbita-ponto 221/67 comparando com o AQ30m (esquerda), entre o período de 3 de junho de 2021 a 19 de junho de 2021. É possível perceber que as duas imagens não são muito diferentes nas grandes cicatrizes (porções marcadas pelo fogo). A área queimada total no AQ-FA é cerca que 50 Km menor, provavelmente pela imprecisão na detecção das bordas das cicatrizes. As áreas mais brancas na imagem da direita indicam que houve focos ativos naquela região, mas não foram suficientemente intensos ou diversos para indicar uma queima total do quadrante.
+
+\begin{figure}[H]
+    \caption{Aplicação do AQ-FA na órbita-ponto 221/67 no período de 3 de julho a 19 de julho de 2021. A esquerda é o produto AQ30m (referência) e a direita é o AQ-FA. Quanto mais vermelho escuro, maior o percentual de área queimada.}
+    \begin{center}
+        \includegraphics[width=30em]{validacao_AQ30m_221_67}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:validacao_221_67}
+\end{figure}
+
+
+Os resultados estatísticos dessas e de outras aplicações do método, também comparado com o produto AQ30m, são apresentadas na Tabela \ref{table:regioes_validação}. O método é aplicado para as órbitas-ponto: 226/071, 225/069, 224/069, 222/074, 222/067, 221/074, 221/073, 221/070, 221/067, 220/074 e 220/065 para diferentes períodos de tempo. A data de início e fim, valores estatísticos de OA, CSI, CE, OE, B e DC e a área queimada do AQ30m e do AQ-FA também estão na tabela que é ordenada pelo DC. 
 
 Pela Tabela é possível notar que a área queimada do AQ30m e do AQ-FA são parecidas na maioria dos casos, variando cerca de 20\% para baixo ou pra cima.
 
@@ -897,107 +914,65 @@ Pela Tabela é possível notar que a área queimada do AQ30m e do AQ-FA são par
  \noalign{\smallskip} % space
                                         & \textbf{Fim}    & \textbf{CSI} & \textbf{OE} & \textbf{DC} & \textbf{Área AQ-FA} \\
 \midrule
-\multirow{2}{*}{221/070} & 25/08/2017 & 98.31\% & 35.42\% & 1.20 & $697.9Km^2$ \\
-                         & 10/09/2017 & 0.54 & 22.42\% & 0.70 & $838.3Km^2$ \\
+\multirow{2}{*}{221/070} & 25/08/2017 & 98.43\% & 30.76\% & 1.03 & $697.9Km^2$ \\
+                         & 10/09/2017 & 0.54 & 28.38\% & 70.40\% & $721.8Km^2$ \\
 \hline
-\multirow{2}{*}{221/070} & 31/08/2019 & 97.62\% & 38.70\% & 1.22 & $882.2Km^2$ \\
-                         & 16/09/2019 & 0.51 & 25.35\% & 0.67 & $1072.5Km^2$ \\
+\multirow{2}{*}{221/070} & 31/08/2019 & 97.87\% & 31.83\% & 0.97 & $882.2Km^2$ \\
+                         & 16/09/2019 & 0.51 & 33.72\% & 67.20\% & $856.4Km^2$ \\
 \hline
-\multirow{2}{*}{224/069} & 25/08/2021 & 97.23\% & 30.01\% & 0.92 & $1181.5Km^2$ \\
-                         & 10/09/2021 & 0.51 & 35.46\% & 0.67 & $1090.0Km^2$ \\
+\multirow{2}{*}{224/069} & 25/08/2021 & 97.29\% & 25.08\% & 0.77 & $1181.5Km^2$ \\
+                         & 10/09/2021 & 0.48 & 42.53\% & 65.03\% & $906.8Km^2$ \\
 \hline
-\multirow{2}{*}{221/067} & 31/08/2019 & 97.26\% & 33.71\% & 0.79 & $1006.1Km^2$ \\
-                         & 16/09/2019 & 0.41 & 47.54\% & 0.59 & $796.2Km^2$ \\
+\multirow{2}{*}{225/069} & 24/08/2018 & 99.52\% & 54.26\% & 1.76 & $111.1Km^2$ \\
+                         & 09/09/2018 & 0.41 & 19.44\% & 58.34\% & $195.4Km^2$ \\
 \hline
-\multirow{2}{*}{220/074} & 11/09/2020 & 96.80\% & 55.59\% & 1.70 & $699.0Km^2$ \\
-                         & 27/09/2020 & 0.39 & 24.70\% & 0.56 & $1183.1Km^2$ \\
+\multirow{2}{*}{220/074} & 11/09/2020 & 97.19\% & 51.52\% & 1.48 & $699.0Km^2$ \\
+                         & 27/09/2020 & 0.41 & 28.13\% & 57.89\% & $1034.4Km^2$ \\
 \hline
-\multirow{2}{*}{225/069} & 24/08/2018 & 99.44\% & 58.97\% & 2.01 & $111.1Km^2$ \\
-                         & 09/09/2018 & 0.38 & 17.70\% & 0.55 & $222.6Km^2$ \\
+\multirow{2}{*}{221/067} & 31/08/2019 & 97.35\% & 28.45\% & 0.66 & $1006.1Km^2$ \\
+                         & 16/09/2019 & 0.40 & 52.93\% & 56.77\% & $661.8Km^2$ \\
 \hline
-\multirow{2}{*}{226/071} & 19/09/2019 & 99.05\% & 52.22\% & 1.11 & $240.2Km^2$ \\
-                         & 05/10/2019 & 0.34 & 46.78\% & 0.50 & $267.5Km^2$ \\
+\multirow{2}{*}{221/067} & 04/08/2021 & 98.58\% & 37.94\% & 0.73 & $469.0Km^2$ \\
+                         & 20/08/2021 & 0.36 & 54.51\% & 52.49\% & $343.8Km^2$ \\
 \hline
-\multirow{2}{*}{221/067} & 04/08/2021 & 98.54\% & 38.69\% & 0.69 & $469.0Km^2$ \\
-                         & 20/08/2021 & 0.33 & 57.97\% & 0.50 & $321.5Km^2$ \\
+\multirow{2}{*}{226/071} & 19/09/2019 & 99.13\% & 47.63\% & 1.00 & $240.2Km^2$ \\
+                         & 05/10/2019 & 0.35 & 47.71\% & 52.32\% & $239.9Km^2$ \\
 \hline
-\multirow{2}{*}{222/067} & 07/09/2019 & 97.32\% & 60.56\% & 1.63 & $542.4Km^2$ \\
-                         & 23/09/2019 & 0.32 & 35.60\% & 0.49 & $883.8Km^2$ \\
+\multirow{2}{*}{222/067} & 07/09/2019 & 97.73\% & 55.26\% & 1.34 & $542.4Km^2$ \\
+                         & 23/09/2019 & 0.34 & 40.21\% & 51.17\% & $723.3Km^2$ \\
 \hline
-\multirow{2}{*}{221/070} & 02/10/2019 & 97.53\% & 51.11\% & 0.95 & $649.6Km^2$ \\
-                         & 18/10/2019 & 0.31 & 53.75\% & 0.48 & $613.6Km^2$ \\
+\multirow{2}{*}{221/070} & 02/10/2019 & 97.69\% & 47.43\% & 0.89 & $649.6Km^2$ \\
+                         & 18/10/2019 & 0.33 & 53.27\% & 49.47\% & $576.6Km^2$ \\
 \hline
-\multirow{2}{*}{220/065} & 13/08/2021 & 95.04\% & 51.75\% & 0.94 & $1317.3Km^2$ \\
-                         & 29/08/2021 & 0.31 & 54.49\% & 0.47 & $1243.4Km^2$ \\
+\multirow{2}{*}{220/065} & 13/08/2021 & 95.31\% & 48.73\% & 0.90 & $1317.3Km^2$ \\
+                         & 29/08/2021 & 0.32 & 54.11\% & 48.42\% & $1180.0Km^2$ \\
 \hline
-\multirow{2}{*}{220/074} & 30/07/2016 & 98.54\% & 61.07\% & 1.32 & $292.9Km^2$ \\
-                         & 15/08/2016 & 0.28 & 48.45\% & 0.44 & $388.3Km^2$ \\
+\multirow{2}{*}{221/067} & 19/07/2021 & 99.00\% & 50.03\% & 0.88 & $271.8Km^2$ \\
+                         & 04/08/2021 & 0.31 & 55.92\% & 46.83\% & $239.8Km^2$ \\
 \hline
-\multirow{2}{*}{226/071} & 28/08/2017 & 97.79\% & 66.48\% & 1.79 & $369.1Km^2$ \\
-                         & 13/09/2017 & 0.27 & 39.89\% & 0.43 & $661.3Km^2$ \\
+\multirow{2}{*}{226/071} & 28/08/2017 & 98.06\% & 62.70\% & 1.55 & $369.1Km^2$ \\
+                         & 13/09/2017 & 0.29 & 42.19\% & 45.34\% & $571.5Km^2$ \\
 \hline
-\multirow{2}{*}{221/067} & 19/07/2021 & 99.00\% & 50.21\% & 0.74 & $271.8Km^2$ \\
-                         & 04/08/2021 & 0.27 & 63.19\% & 0.42 & $201.0Km^2$ \\
+\multirow{2}{*}{220/065} & 03/09/2017 & 96.61\% & 58.22\% & 1.15 & $783.1Km^2$ \\
+                         & 19/09/2017 & 0.29 & 52.02\% & 44.66\% & $899.4Km^2$ \\
 \hline
-\multirow{2}{*}{221/073} & 02/09/2020 & 99.16\% & 65.34\% & 1.45 & $151.5Km^2$ \\
-                         & 18/09/2020 & 0.26 & 49.82\% & 0.41 & $219.2Km^2$ \\
+\multirow{2}{*}{221/067} & 03/07/2021 & 99.04\% & 50.53\% & 0.82 & $257.6Km^2$ \\
+                         & 19/07/2021 & 0.29 & 59.56\% & 44.49\% & $210.6Km^2$ \\
 \hline
-\multirow{2}{*}{221/073} & 05/09/2021 & 97.20\% & 69.39\% & 2.00 & $412.3Km^2$ \\
-                         & 21/09/2021 & 0.26 & 38.72\% & 0.41 & $824.6Km^2$ \\
+\multirow{2}{*}{220/074} & 30/07/2016 & 98.26\% & 65.53\% & 1.73 & $292.9Km^2$ \\
+                         & 15/08/2016 & 0.28 & 40.44\% & 43.66\% & $506.5Km^2$ \\
 \hline
-\multirow{2}{*}{220/065} & 03/09/2017 & 96.66\% & 59.28\% & 0.92 & $783.1Km^2$ \\
-                         & 19/09/2017 & 0.24 & 62.41\% & 0.39 & $722.9Km^2$ \\
+\multirow{2}{*}{221/073} & 05/09/2021 & 97.56\% & 66.15\% & 1.69 & $412.3Km^2$ \\
+                         & 21/09/2021 & 0.27 & 42.82\% & 42.52\% & $695.6Km^2$ \\
 \hline
-\multirow{2}{*}{222/074} & 25/09/2020 & 98.21\% & 73.11\% & 2.51 & $214.6Km^2$ \\
-                         & 11/10/2020 & 0.24 & 32.45\% & 0.38 & $539.1Km^2$ \\
+\multirow{2}{*}{221/073} & 02/09/2020 & 98.95\% & 69.52\% & 2.09 & $151.5Km^2$ \\
+                         & 18/09/2020 & 0.26 & 36.31\% & 41.22\% & $316.5Km^2$ \\
 \hline
-\multirow{2}{*}{224/069} & 02/09/2018 & 97.19\% & 42.58\% & 0.50 & $815.3Km^2$ \\
-                         & 18/09/2018 & 0.24 & 71.42\% & 0.38 & $406.1Km^2$ \\
+\multirow{2}{*}{222/074} & 25/09/2020 & 98.38\% & 70.62\% & 2.29 & $214.6Km^2$ \\
+                         & 11/10/2020 & 0.26 & 32.67\% & 40.90\% & $491.8Km^2$ \\
 \hline
-\multirow{2}{*}{225/069} & 06/09/2017 & 97.88\% & 75.92\% & 3.23 & $213.3Km^2$ \\
-                         & 22/09/2017 & 0.23 & 22.22\% & 0.37 & $689.2Km^2$ \\
-\hline
-\multirow{2}{*}{221/067} & 08/07/2017 & 98.79\% & 46.27\% & 0.46 & $339.1Km^2$ \\
-                         & 24/07/2017 & 0.20 & 75.29\% & 0.34 & $155.8Km^2$ \\
-\hline
-\multirow{2}{*}{220/065} & 25/09/2019 & 98.02\% & 68.42\% & 1.07 & $389.1Km^2$ \\
-                         & 11/10/2019 & 0.19 & 66.35\% & 0.33 & $414.9Km^2$ \\
-\hline
-\multirow{2}{*}{221/067} & 03/07/2021 & 99.03\% & 52.12\% & 0.51 & $257.6Km^2$ \\
-                         & 19/07/2021 & 0.19 & 75.54\% & 0.32 & $131.6Km^2$ \\
-\hline
-\multirow{2}{*}{222/067} & 29/08/2016 & 96.45\% & 48.76\% & 0.45 & $978.0Km^2$ \\
-                         & 14/09/2016 & 0.19 & 76.94\% & 0.32 & $439.6Km^2$ \\
-\hline
-\multirow{2}{*}{221/070} & 04/10/2014 & 96.25\% & 66.82\% & 0.88 & $775.6Km^2$ \\
-                         & 20/10/2014 & 0.18 & 70.87\% & 0.31 & $680.9Km^2$ \\
-\hline
-\multirow{2}{*}{224/069} & 15/09/2017 & 93.41\% & 84.57\% & 3.98 & $473.1Km^2$ \\
-                         & 01/10/2017 & 0.14 & 38.56\% & 0.25 & $1885.8Km^2$ \\
-\hline
-\multirow{2}{*}{221/073} & 10/09/2017 & 99.39\% & 81.42\% & 1.81 & $73.9Km^2$ \\
-                         & 26/09/2017 & 0.14 & 66.39\% & 0.24 & $133.6Km^2$ \\
-\hline
-\multirow{2}{*}{221/067} & 17/06/2021 & 97.98\% & 45.56\% & 0.27 & $561.5Km^2$ \\
-                         & 03/07/2021 & 0.13 & 85.53\% & 0.23 & $149.1Km^2$ \\
-\hline
-\multirow{2}{*}{220/074} & 06/09/2018 & 99.27\% & 75.24\% & 0.85 & $131.4Km^2$ \\
-                         & 22/09/2018 & 0.13 & 78.85\% & 0.23 & $112.0Km^2$ \\
-\hline
-\multirow{2}{*}{221/067} & 12/06/2019 & 98.86\% & 60.82\% & 0.38 & $284.8Km^2$ \\
-                         & 28/06/2019 & 0.12 & 84.98\% & 0.22 & $109.1Km^2$ \\
-\hline
-\multirow{2}{*}{225/069} & 02/08/2016 & 99.02\% & 88.65\% & 3.24 & $75.0Km^2$ \\
-                         & 18/08/2016 & 0.09 & 63.21\% & 0.17 & $243.0Km^2$ \\
-\hline
-\multirow{2}{*}{225/069} & 20/07/2017 & 99.53\% & 93.08\% & 3.08 & $34.0Km^2$ \\
-                         & 05/08/2017 & 0.06 & 78.72\% & 0.10 & $104.5Km^2$ \\
-\hline
-\multirow{2}{*}{217/069} & 03/10/2018 & 99.62\% & 96.46\% & 12.64 & $7.9Km^2$ \\
-                         & 19/10/2018 & 0.03 & 55.33\% & 0.07 & $100.1Km^2$ \\
-\hline
-\multirow{2}{*}{220/065} & 09/05/2021 & 99.36\% & 93.47\% & 0.63 & $112.9Km^2$ \\
-                         & 25/05/2021 & 0.03 & 95.91\% & 0.05 & $70.8Km^2$ \\
+\multirow{2}{*}{222/067} & 29/08/2016 & 96.53\% & 47.31\% & 0.63 & $978.0Km^2$ \\
+                         & 14/09/2016 & 0.26 & 66.59\% & 40.88\% & $619.5Km^2$ \\
 \bottomrule
 \end{tabular}
 \legend{Fonte: O Autor}

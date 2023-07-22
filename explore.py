@@ -26,17 +26,41 @@ def linear_burned_area_calc(min_range: float, max_range: float) -> BurnedAreaCal
     value_range = (max_range - min_range)
     return lambda value, values: min(1, max(0, (value - min_range) / value_range))
 
-def polinomial_burned_area_calc(min_range: float, max_range: float, expoent: int) -> BurnedAreaCalc:
+def polinomial_burned_area_calc(min_range: float, max_range: float, exponent: int) -> BurnedAreaCalc:
     value_range = (max_range - min_range)
-    return lambda value, values: min(1, max(0, ((value - min_range) / value_range))**expoent)
+    return lambda value, values: min(1, max(0, ((value - min_range) / value_range))**exponent)
 
 def get_default_cmap():
     colors_lst = [(1, 0, 0, c) for c in np.linspace(0, 1, 100)]
     return colors.LinearSegmentedColormap.from_list('mycmap', colors_lst)
 
+class BurnedAreaCalcPercentile:
+
+    def __init__(self, pmin: float=65, pmax: float=85, vmin: float=2.5, vmax: float=15, exponent=1):
+        self.pmin = pmin
+        self.pmax = pmax
+        self.vmin = vmin
+        self.vmax = vmax
+        self.exponent = exponent
+        self.value_range = None
+        self.min_range = None
+        self.max_range = None
+
+    def __call__(self, value: float, values: np.ndarray) -> float:
+        if self.value_range is None:
+            non_zero_values = values[values > 0]
+            mean = (self.vmin + self.vmax) / 2.0
+            self.min_range = min(mean, max(self.vmin, np.percentile(non_zero_values, self.pmin)))
+            self.max_range = max(mean, min(self.vmax, np.percentile(non_zero_values, self.pmax)))
+            self.value_range = (self.max_range - self.min_range)
+        return min(1, max(0, ((value - self.min_range) / self.value_range))**self.exponent)
+    
+    def __str__(self) -> str:
+        return f'''min_range: {self.min_range} max_range: {self.max_range}'''
+
 class SatellitesExplore:
 
-    default_burned_area_calc = threshold_burned_area_calc()
+    default_burned_area_calc = BurnedAreaCalcPercentile()
     default_cmap = get_default_cmap()
     default_min_area_percentage = 0.2
     default_threshold_satellite = 3
@@ -198,27 +222,3 @@ class SatellitesExplore:
         penality = 1 - min(1, len(uniques_satellites) / self.threshold_satellite)
 
         return (len(uniques_satellites) ** 2) + intersection_areas_per_poly - intersection_areas_per_poly * penality
-
-class BurnedAreaCalcPercentile:
-
-    def __init__(self, pmin: float=65, pmax: float=85, vmin: float=2.5, vmax: float=15, expoent=1):
-        self.pmin = pmin
-        self.pmax = pmax
-        self.vmin = vmin
-        self.vmax = vmax
-        self.expoent = expoent
-        self.value_range = None
-        self.min_range = None
-        self.max_range = None
-
-    def __call__(self, value: float, values: np.ndarray) -> float:
-        if self.value_range is None:
-            non_zero_values = values[values > 0]
-            mean = (self.vmin + self.vmax) / 2.0
-            self.min_range = min(mean, max(self.vmin, np.percentile(non_zero_values, self.pmin)))
-            self.max_range = max(mean, min(self.vmax, np.percentile(non_zero_values, self.pmax)))
-            self.value_range = (self.max_range - self.min_range)
-        return min(1, max(0, ((value - self.min_range) / self.value_range))**self.expoent)
-    
-    def __str__(self) -> str:
-        return f'''min_range: {self.min_range} max_range: {self.max_range}'''

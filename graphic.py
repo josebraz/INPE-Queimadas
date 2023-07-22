@@ -231,13 +231,15 @@ def compare_values(values1: np.array, values2: np.array, n: int = 10,
     ax.grid(which='minor', color='w', linestyle='-', linewidth=1)
 
 def plot_burned_gdf(ax: plt.Axes, gdf: gpd.GeoDataFrame, 
-                    simple: bool = False, legend=True, log_norm: bool = False, column: str = 'value'):
+                    simple: bool = False, legend: bool=True, 
+                    color_bar: bool = True,
+                    log_norm: bool = False, column: str = 'value'):
     positive_normalized = gdf[gdf[column] > 0]
     if simple:
         positive_normalized.plot(ax=ax, linewidth=0.0)
     else:
-        vmin, vmax =positive_normalized[column].min(), positive_normalized[column].max()
+        vmin, vmax = positive_normalized[column].min(), positive_normalized[column].max()
         norm = colors.LogNorm(vmin=vmin, vmax=vmax) if log_norm else None
-        positive_normalized.plot(column=column, ax=ax, cmap='Reds', linewidth=0.0, legend=legend, norm=norm)
+        positive_normalized.plot(column=column, ax=ax, cmap='Reds', linewidth=0.0, legend=color_bar, norm=norm)
     if legend:
         ax.legend(title = "{:.2f}Km²".format(get_burned_area_km2(gdf)), loc='lower left')

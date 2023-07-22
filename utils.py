@@ -6,6 +6,8 @@ import dask.dataframe as dd
 import rasterio
 import xarray as xr
 import datashader
+import shapely
+import dask_geopandas
 
 import os
 from datetime import timezone, datetime, timedelta
@@ -167,40 +169,59 @@ def compute_grid(data: pd.DataFrame, min_lat: float = None, max_lat: float = Non
     )
     return cvs.points(data, x="longitude", y="latitude")
 
-@lru_cache(maxsize=300)
-def _grid_gdf_cached(crs: str, bounds: tuple, poly: Polygon, quadrat_width: float) -> gpd.GeoDataFrame:
+_grid_cache: tuple[tuple, gpd.GeoDataFrame] = None
+
+def grid_gdf(data: gpd.GeoDataFrame, poly: Polygon = None, quadrat_width: float=0.002) -> gpd.GeoDataFrame:
+    global _grid_cache
+    bounds = data.total_bounds if poly == None else poly.bounds
     step = 1/quadrat_width
     xmin, ymin, xmax, ymax = [int(x * step) / step for x in bounds]
-    xs = np.arange(xmin, xmax+quadrat_width, quadrat_width)
-    ys = np.arange(ymin, ymax+quadrat_width, quadrat_width)
-    xss, yss = np.meshgrid(xs, ys, copy=False)
-    fv = np.vectorize(lambda x0, y0: box(x0, y0, x0-quadrat_width, y0+quadrat_width))
-    grid_cells = fv(xss.flatten("F"), yss.flatten("F"))
-    temp = gpd.GeoDataFrame(geometry=grid_cells, crs=crs)
-    if poly is None:
+    key = (xmin, ymin, xmax, ymax, quadrat_width)
+    cache = _grid_cache
+    temp = None if cache is None or cache[0] != key or poly == None else cache[1]
+    from_cache = temp is not None
+    if temp is None:
+        xs = np.arange(xmin, xmax+quadrat_width, quadrat_width)
+        ys = np.arange(ymin, ymax+quadrat_width, quadrat_width)
+        xss, yss = np.meshgrid(xs, ys, copy=False)
+        fv = np.vectorize(lambda x0, y0: box(x0, y0, x0-quadrat_width, y0+quadrat_width))
+        grid_cells = fv(xss.flatten("F"), yss.flatten("F"))
+        temp = gpd.GeoDataFrame(geometry=grid_cells, crs=data.crs)
+        if poly != None:
+            temp = temp[temp.intersects(poly).values].reset_index()
+            temp.drop('index', axis=1, inplace=True)
+        _grid_cache = (key, temp)
+    if poly is None or from_cache:
         return temp
     else:
         temp = temp[temp.intersects(poly).values].reset_index()
         temp.drop('index', axis=1, inplace=True)
         return temp
 
-def grid_gdf(data: gpd.GeoDataFrame, poly: Polygon = None, quadrat_width: float=0.002) -> gpd.GeoDataFrame:
-    bounds = data.total_bounds if poly == None else poly.bounds
-    return _grid_gdf_cached(data.crs.to_string(), tuple(bounds), poly, quadrat_width)
-
-def normalize_gdf(data: gpd.GeoDataFrame, bounds: Polygon = None, quadrat_width: float=0.005) -> gpd.GeoDataFrame:
+def normalize_gdf(data: gpd.GeoDataFrame, bounds: Polygon = None, 
+                  quadrat_width: float=0.005, column: str = None) -> gpd.GeoDataFrame:
     if bounds != None: 
         xmin, ymin, xmax, ymax = bounds.bounds
         data = data.cx[xmin:xmax, ymin:ymax]
     grid_df = grid_gdf(data, bounds, quadrat_width)
-    join_dataframe = gpd.sjoin(data, grid_df, op="intersects")
-    
+    if column != None: # optimize
+        data = data[data[column] > 0]
+
+    dask_gdf = dask_geopandas.GeoDataFrame = dask_geopandas.from_geopandas(data, npartitions=16)
+    join_dataframe = dask_gdf.sjoin(grid_df, predicate="intersects").compute()
+
     values = np.zeros(len(grid_df))
     for index in join_dataframe['index_right'].unique():
-        polygon = grid_df.iloc[index].geometry
-        matches = join_dataframe[join_dataframe['index_right'] == index]
-        intersection_areas = np.array([polygon.intersection(x.buffer(0)).area for x in matches.geometry])
-        values[index] = intersection_areas.sum() / polygon.area if len(intersection_areas) > 0 else 0
+        polygon: Polygon = grid_df.iloc[index].geometry
+        matches: gpd.GeoDataFrame = join_dataframe[join_dataframe['index_right'] == index]
+        intersection_polys = matches.intersection(polygon)
+        if len(intersection_polys) == 0:
+            intersection_area = 0
+        elif column != None:
+            intersection_area = (intersection_polys.area * matches[column]).sum()
+        else:
+            intersection_area = shapely.union_all(intersection_polys).area
+        values[index] = intersection_area / polygon.area
     return gpd.GeoDataFrame({ 'value': values }, geometry=grid_df.geometry, crs=data.crs)
 
 def read_gdf_from_tiff(data_file: str, name: str = 'value') -> gpd.GeoDataFrame:
@@ -222,12 +243,17 @@ def read_gdf_from_tiff(data_file: str, name: str = 'value') -> gpd.GeoDataFrame:
 
 flat_map = lambda f, xs: [y for ys in xs for y in f(ys)]
 
-def create_dataarray(data: gpd.GeoDataFrame, value_column: str = 'value') -> xr.DataArray:
+def create_dataarray(data: gpd.GeoDataFrame, value_column: str = 'value', sparse: bool = True) -> xr.DataArray:
+    data.loc[data['geometry'].duplicated(), value_column] = 1
+    data = data.drop_duplicates(subset = 'geometry')
     temp = data[data[value_column] > 0.0]
     points = temp.representative_point()
     idx = pd.MultiIndex.from_arrays(arrays=[points.y, points.x], names=["y", "x"])
     s = pd.Series(temp[value_column].values, index=idx)
-    return xr.DataArray.from_series(s, sparse=True)
+    array = xr.DataArray.from_series(s, sparse=sparse)
+    if not sparse:
+        array = array.fillna(0.0)
+    return array
 
 def create_gpd(data: xr.DataArray, value_dim: str = 'value', poly: Polygon = None, quadrat_width: float = 0.005) -> gpd.GeoDataFrame:
     frame = data.to_dataframe(name=value_dim)
@@ -337,3 +363,60 @@ def to_pretty_table_latex(dt: pd.DataFrame, columns: list[str], sort: list[str])
         return " & ".join(top) + " \\\\\n" + " " * 24 + " & ".join(bottom) + " \\\\\n\\hline"
     
     return dt.sort_values(sort, ascending=False).loc[:, columns].apply(lambda row: print_row(row.values), axis=1)
+
+def read_file_normalized(gdf_normal: gpd.GeoDataFrame, file: str, 
+                         region: Polygon=None, quadrat_width: float=0.005,
+                         column: str = None) -> gpd.GeoDataFrame:
+    norm_name = os.path.join(cache_folder, 'norm', f"""{quadrat_width}{'_' + column if column != None else ''}_{os.path.basename(os.path.splitext(file)[0])}""")
+    os.makedirs(os.path.dirname(norm_name), exist_ok=True)
+    if os.path.exists(norm_name):
+        gdf_normalized = gpd.read_file(norm_name, engine="pyogrio" if region == None else "fiona", mask=region)
+    else:
+        gdf_normalized = normalize_gdf(gdf_normal, region, quadrat_width, column=column)
+        gdf_normalized.to_file(norm_name, engine="pyogrio")
+    return gdf_normalized
+
+def read_file_normalized_cached(path, row, file, quadrat_width) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame]:
+    region = get_landsat_geometry(path, row)
+    gdf_normal = gpd.read_file(file, engine="pyogrio" if region == None else "fiona", mask=region)
+    gdf_normalized = read_file_normalized(gdf_normal, region, file, quadrat_width)
+    return (gdf_normal, gdf_normalized)
+
+def get_infos_from_aq30m(file: str, hour: str = "14:00:00-03:00") -> tuple[int, int, str, str]:
+    path, row, end_date = os.path.basename(file).split('_')[2:5]
+    path, row, end_date = int(path), int(row), datetime.strptime(end_date, '%Y%m%d')
+    start = (end_date - timedelta(days=16)).strftime('%Y-%m-%d') + f' {hour}'
+    end = end_date.strftime('%Y-%m-%d') + f' {hour}'
+    return path, row, start, end
+
+import calendar
+
+def get_infos_from_aq1km(file: str) -> tuple[str, str]:
+    year, month, day = os.path.basename(file).split('_')[0:3]
+    year, month, day = int(year), int(month), int(day)
+    start_date = datetime.strptime(f'{year}{month}{day}', '%Y%m%d')
+    last_day = calendar.monthrange(year, month)[1]
+    end = (start_date + timedelta(days=last_day-1)).strftime('%Y-%m-%d') + ' 23:59:59-03:00'
+    start = start_date.strftime('%Y-%m-%d') + ' 00:00:00-03:00'
+    print(f"{file} {start} {end}")
+    return start, end
+
+import glob
+
+def read_geopandas(files_regex: str, region: Polygon=None) -> gpd.GeoDataFrame:
+    cache_file = os.path.join(cache_folder, 'join', os.path.basename(os.path.splitext(files_regex)[0]))
+    os.makedirs(os.path.dirname(cache_file), exist_ok=True)
+    if os.path.exists(cache_file):
+        cached = gpd.read_file(cache_file, engine="pyogrio" if region == None else "fiona", mask=region)
+    else:
+        files = glob.glob(files_regex)
+        gdfs = [gpd.read_file(file, engine="pyogrio" if region == None else "fiona", mask=region) 
+                for file in files if os.path.isfile(file) or len(os.listdir(file)) > 0]
+        if len(gdfs) == 0:
+            raise ValueError("Read list empty")
+        cached = gpd.GeoDataFrame(pd.concat(gdfs, ignore_index=True), crs=gdfs[0].crs)
+        cached.to_file(cache_file, engine="pyogrio")
+    return cached
+
+def get_quadrat_width(distance: distance.Distance) -> float:
+    return distance.destination((0,0), bearing=0).latitude
