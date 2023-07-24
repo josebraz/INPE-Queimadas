@@ -93,6 +93,12 @@ def sub_space_by_landsat(df: pd.DataFrame, path: int, row: int) -> pd.DataFrame:
     temp = gpd.GeoDataFrame(geometry=gpd.points_from_xy(df.longitude, df.latitude), crs="EPSG:4326")
     return df.loc[temp.intersects(geometry).values]
 
+def sub_space_by_landsat_geo(df: gpd.GeoDataFrame, path: int, row: int) -> gpd.GeoDataFrame:
+    geometry = get_landsat_geometry(path, row)
+    xmin, ymin, xmax, ymax = geometry.bounds
+    df = df.cx[xmin:xmax, ymin:ymax]
+    return df.loc[df.intersects(geometry).values]
+
 from typing import Iterator
 
 def split_by_range_index(range: pd.DatetimeIndex) -> Iterator[tuple[pd.Timestamp, pd.Timestamp]]:
@@ -203,6 +209,7 @@ def normalize_gdf(data: gpd.GeoDataFrame, bounds: Polygon = None,
     if bounds != None: 
         xmin, ymin, xmax, ymax = bounds.bounds
         data = data.cx[xmin:xmax, ymin:ymax]
+    if len(data) == 0: return data
     grid_df = grid_gdf(data, bounds, quadrat_width)
     if column != None: # optimize
         data = data[data[column] > 0]
@@ -214,6 +221,7 @@ def normalize_gdf(data: gpd.GeoDataFrame, bounds: Polygon = None,
     for index in join_dataframe['index_right'].unique():
         polygon: Polygon = grid_df.iloc[index].geometry
         matches: gpd.GeoDataFrame = join_dataframe[join_dataframe['index_right'] == index]
+        matches['geometry'] = matches['geometry'].buffer(0)
         intersection_polys = matches.intersection(polygon)
         if len(intersection_polys) == 0:
             intersection_area = 0
@@ -244,6 +252,7 @@ def read_gdf_from_tiff(data_file: str, name: str = 'value') -> gpd.GeoDataFrame:
 flat_map = lambda f, xs: [y for ys in xs for y in f(ys)]
 
 def create_dataarray(data: gpd.GeoDataFrame, value_column: str = 'value', sparse: bool = True) -> xr.DataArray:
+    if len(data) == 0: return xr.DataArray()
     data.loc[data['geometry'].duplicated(), value_column] = 1
     data = data.drop_duplicates(subset = 'geometry')
     temp = data[data[value_column] > 0.0]
