@@ -11,6 +11,8 @@
 #+END_SRC
 
 * Revisões
+** Capa
+- Colocar o nome completo do orientador
 ** Geral
 - Todas as figuras e tabelas, melhorar local onde o latex as coloca
   - \begin{figure} => \begin{figure}[!htb]
@@ -123,6 +125,26 @@
 *** Tabela 2.6
 - Colocar uma coluna extra que indica a citação
   - Valor das células desta coluna é a citação em si
+** 2023-07-26 Capítulo 2, Seção 2.5
+- Remover "O primeiro trabalho analisado é o" (cruft)
+  - Inicia o parágrafo por Júnior et al....
+  - Acertar a conjugação do verbo em seguida
+- São usadas quatro dados => São usados quatro dados (gênero)
+- modelo: Quan- => modelo: quan-
+  - numerar as quatro com (i), (ii), (iii), (iv).
+- Remover "O segundo trabalho analisado é o" (cruft)
+  - Fazer os mesmos acertos listados acima
+- foi usado dados => foram usados dados
+- dicutido na Seção => discutido na Seção
+- "e, consequentemente, neste presente trabalho," => não ficou claro
+  porque "consequentemente". Podes remover o consequentemente e fazer
+  uma referência em parênteses ao futuro do teu texto estilo "(mais
+  detalhes na Seção X.X)".
+- Conclusão desta seção adequada. Poderia ter uma chamada para o
+  próximo capítulo, algo no estilo: "No próximo capítulo nós veremos
+  detalhes do método." mas mais elaborado.
+
+
 * Reuniões
 ** 2023-07-06 O que falta fazer?
 1. Capítulo 1 de introdução
