@@ -143,7 +143,62 @@
 - Conclusão desta seção adequada. Poderia ter uma chamada para o
   próximo capítulo, algo no estilo: "No próximo capítulo nós veremos
   detalhes do método." mas mais elaborado.
-
+** 2023-07-26 Capítulo 3
+*** 3.0 e 3.1
+- "sil, por meio" => remover a vírgula
+- Um exemplo seria compara as => comparar
+*** Figura 3.1
+- Poderia no caption adicionar informações sobre as imagens
+  inferiores, período e local (como fizeste no texto). Não tem
+  problema ficar repetido.
+*** 3.2 Mapeamento dos focos para áreas
+- dectado => detectado
+- fatores: Diferença => diferença
+- "Os satélites que orbitam a Terra em órbitas polares, possuem" =>
+  remover a vírgula
+- em um sentido ... no outro sentido
+  - especificar o sentido (horário, anti-horário)
+- O primeiro par de imagens => O primeiro par de imagens da esquerda
+  para a direita
+- A partir desse ponto até o final do documento => Neste documento
+- ganham a área do sensor => explicar que eles ganham a área do sensor
+  pois é assim que tu decidiste fazer no teu método
+*** 3.3 Separação e avaliação de quadrantes
+- figura 3.3, => Figura 3.3,
+- avaliação de serão => avaliação que serão
+- Sendo q o quadrante (polígono) => aqui usa-se q para quadrante, mas
+  depois area(p) para área do polígono. Não seria area(q) do quadrante
+  tendo em vista que quadrante e polígono são a mesma coisa. Talvez
+  remover a palavra polígono não?
+- para não ser penalizado => não fica claro essa questão de
+  penalização nesta altura do texto. Como resolver? Especificar mais
+  talvez o que seria tal penalização, ou remeter o leitor para o que
+  ver a seguir.
+- é dada por: => remover o início de parágrafo que vem a seguir.
+- distaque => destaque
+*** 3.4 Cálculo da área queimada
+- Não vi necessidade de definir o termo eval(v). Veja que v não foi
+  definido.
+(sem ter lido o que vem a seguir)
+- Depois da Figura 3.5 fiquei com o sentimento da falta de uma decisão
+  de qual daquelas funções de avaliação seria a escolhida. O texto
+  menciona que a exponencial seria melhor, mas isso depende de uma
+  avaliação. Não se menciona qual é a escolhida.
+*** 4 IMPLEMENTAÇÃO DO MÉTODO
+- descorre sobre => apresenta a
+- descorre-se => detalha-se
+  - Veja que é importante usar o mesmo "estilo" ao longo do
+    texto. Ainda que eu tenha lido em etapas, não me recordo do
+    emprego do impessoal até o presente momento.
+*** 4.1 Coleta dos dados
+- os dados para do INPE, => os dados do INPE,
+- permanessa => permanecesse
+*** Pré-processamento dos dados
+- ocupando 2 Gb em mémoria. => ocupando aproximadamente 2 Gb em mémoria.
+- de criar clusters locais => de instanciar um cluster computacional
+  lógico sobre um cluster físico local ou remoto
+*** 4.2 Implementação do método
+- 
 
 * Reuniões
 ** 2023-07-06 O que falta fazer?
