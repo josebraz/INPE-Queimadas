@@ -198,8 +198,19 @@
 - de criar clusters locais => de instanciar um cluster computacional
   lógico sobre um cluster físico local ou remoto
 *** 4.2 Implementação do método
-- 
-
+- que implementa esse os cálculos necessário => que implementa os cálculos necessário
+- a Junção Espacial é utilizado => a Junção Espacial é utilizada
+- foi basicamente aplicar => consistiu em aplicar
+- Terminar o capítulo com um parágrafo (colocar o comando \bigskip
+  antes) onde se faz a ponto com o capítulo seguinte.
+*** 5 RESULTADOS E DISCUSSÃO
+*** 5.1 Metodologia da avaliação
+- definidas em 5.1 => definidas na Equação 5.1
+- ser classificados com não queimados => ser classificados como não
+  queimados
+- Coefiente de Dice => talvez colocar uma referência bibliográfica
+  para um livro ou artigo
+*** TODO 5.2 Validação do AQ-FA
 * Reuniões
 ** 2023-07-06 O que falta fazer?
 1. Capítulo 1 de introdução
