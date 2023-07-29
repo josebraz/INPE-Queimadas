@@ -349,7 +349,10 @@ def get_year_date_pairs(year: int) -> list[tuple[str, str]]:
     return [((start + timedelta(days=0 if i == 0 else 1)).strftime('%Y-%m-%d'), end.strftime('%Y-%m-%d')) 
               for i, (start, end) in enumerate(split_by_range_index(date_range))]
 
+line = 0
 def to_pretty_table_latex(dt: pd.DataFrame, columns: list[str], sort: list[str]) -> pd.Series:
+    global line
+    line = 0
     def print_item(column: str, item: any):
         if column == 'orbita_ponto':
             return "\\multirow{2}{*}{" + item + "}"
@@ -365,12 +368,13 @@ def to_pretty_table_latex(dt: pd.DataFrame, columns: list[str], sort: list[str])
             return str(item)
 
     def print_row(row):
+        global line
         values = [print_item(columns[i], item) for i, item in enumerate(row)]
         values.insert(1, "")
         top = values[0::2]
         bottom = values[1::2]
-        return " & ".join(top) + " \\\\\n" + " " * 24 + " & ".join(bottom) + " \\\\\n\\hline"
-    
+        line += 1
+        return "\\multirow{2}{*}{" + str(line) + "} & " + " & ".join(top) + " \\\\\n" + " " * 24 + " & " + " & ".join(bottom) + " \\\\\n\\hline"
     return dt.sort_values(sort, ascending=False).loc[:, columns].apply(lambda row: print_row(row.values), axis=1)
 
 def read_file_normalized(gdf_normal: gpd.GeoDataFrame, file: str, 
