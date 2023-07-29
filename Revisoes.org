@@ -126,21 +126,21 @@
 - Colocar uma coluna extra que indica a citação
   - Valor das células desta coluna é a citação em si
 ** 2023-07-26 Capítulo 2, Seção 2.5
-- Remover "O primeiro trabalho analisado é o" (cruft)
+- [x] Remover "O primeiro trabalho analisado é o" (cruft)
   - Inicia o parágrafo por Júnior et al....
   - Acertar a conjugação do verbo em seguida
-- São usadas quatro dados => São usados quatro dados (gênero)
-- modelo: Quan- => modelo: quan-
+- [x] São usadas quatro dados => São usados quatro dados (gênero)
+- [x] modelo: Quan- => modelo: quan-
   - numerar as quatro com (i), (ii), (iii), (iv).
-- Remover "O segundo trabalho analisado é o" (cruft)
+- [x] Remover "O segundo trabalho analisado é o" (cruft)
   - Fazer os mesmos acertos listados acima
-- foi usado dados => foram usados dados
-- dicutido na Seção => discutido na Seção
-- "e, consequentemente, neste presente trabalho," => não ficou claro
+- [x] foi usado dados => foram usados dados
+- [x] dicutido na Seção => discutido na Seção
+- [x] "e, consequentemente, neste presente trabalho," => não ficou claro
   porque "consequentemente". Podes remover o consequentemente e fazer
   uma referência em parênteses ao futuro do teu texto estilo "(mais
   detalhes na Seção X.X)".
-- Conclusão desta seção adequada. Poderia ter uma chamada para o
+- [x] Conclusão desta seção adequada. Poderia ter uma chamada para o
   próximo capítulo, algo no estilo: "No próximo capítulo nós veremos
   detalhes do método." mas mais elaborado.
 ** 2023-07-26 Capítulo 3
@@ -185,32 +185,34 @@
   menciona que a exponencial seria melhor, mas isso depende de uma
   avaliação. Não se menciona qual é a escolhida.
 *** 4 IMPLEMENTAÇÃO DO MÉTODO
-- descorre sobre => apresenta a
-- descorre-se => detalha-se
+- [x] descorre sobre => apresenta a
+- [x] descorre-se => detalha-se
   - Veja que é importante usar o mesmo "estilo" ao longo do
     texto. Ainda que eu tenha lido em etapas, não me recordo do
     emprego do impessoal até o presente momento.
 *** 4.1 Coleta dos dados
-- os dados para do INPE, => os dados do INPE,
-- permanessa => permanecesse
+- [x] os dados para do INPE, => os dados do INPE,
+- [x] permanessa => permanecesse
 *** Pré-processamento dos dados
-- ocupando 2 Gb em mémoria. => ocupando aproximadamente 2 Gb em mémoria.
-- de criar clusters locais => de instanciar um cluster computacional
+- [x] ocupando 2 Gb em mémoria. => ocupando aproximadamente 2 Gb em mémoria.
+- [x] de criar clusters locais => de instanciar um cluster computacional
   lógico sobre um cluster físico local ou remoto
 *** 4.2 Implementação do método
-- que implementa esse os cálculos necessário => que implementa os cálculos necessário
-- a Junção Espacial é utilizado => a Junção Espacial é utilizada
-- foi basicamente aplicar => consistiu em aplicar
+- [x] que implementa esse os cálculos necessário => que implementa os cálculos necessário
+- [x] a Junção Espacial é utilizado => a Junção Espacial é utilizada
+- [x] foi basicamente aplicar => consistiu em aplicar
 - Terminar o capítulo com um parágrafo (colocar o comando \bigskip
   antes) onde se faz a ponto com o capítulo seguinte.
 *** 5 RESULTADOS E DISCUSSÃO
 *** 5.1 Metodologia da avaliação
-- definidas em 5.1 => definidas na Equação 5.1
-- ser classificados com não queimados => ser classificados como não
+- [x] definidas em 5.1 => definidas na Equação 5.1
+- [x] ser classificados com não queimados => ser classificados como não
   queimados
-- Coefiente de Dice => talvez colocar uma referência bibliográfica
+- [x] Coefiente de Dice => talvez colocar uma referência bibliográfica
   para um livro ou artigo
 *** TODO 5.2 Validação do AQ-FA
+
+
 * Reuniões
 ** 2023-07-06 O que falta fazer?
 1. Capítulo 1 de introdução
