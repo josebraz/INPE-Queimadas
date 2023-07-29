@@ -389,10 +389,10 @@ def read_file_normalized(gdf_normal: gpd.GeoDataFrame, file: str,
         gdf_normalized.to_file(norm_name, engine="pyogrio")
     return gdf_normalized
 
-def read_file_normalized_cached(path, row, file, quadrat_width) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame]:
+def read_file_normalized_cached(path: int, row: int, file: str, quadrat_width: float) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame]:
     region = get_landsat_geometry(path, row)
     gdf_normal = gpd.read_file(file, engine="pyogrio" if region == None else "fiona", mask=region)
-    gdf_normalized = read_file_normalized(gdf_normal, region, file, quadrat_width)
+    gdf_normalized = read_file_normalized(gdf_normal, file, region, quadrat_width)
     return (gdf_normal, gdf_normalized)
 
 def get_infos_from_aq30m(file: str, hour: str = "14:00:00-03:00") -> tuple[int, int, str, str]:
