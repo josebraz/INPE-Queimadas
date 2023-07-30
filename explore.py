@@ -127,16 +127,14 @@ class SatellitesExplore:
         if len(self.dataframe) == 0: return
         ax.scatter(self.data['longitude'], self.data['latitude'], c=self.data_color, s=markersize)
         if with_base_map:
-            contextily.add_basemap(ax, crs=self.dataframe.crs,
-                source=contextily.providers.CartoDB.PositronNoLabels)
+            contextily.add_basemap(ax, crs=self.dataframe.crs)
 
     def show_satellites_areas(self, ax: plt.Axes, with_base_map: bool = False):
         if len(self.dataframe) == 0: return
         self.dataframe.plot(ax=ax, color=self.data_color, categorical=True, alpha=0.2,
             legend=True, edgecolor=self.data_color, linewidth=1)
         if with_base_map:
-            contextily.add_basemap(ax, crs=self.dataframe.crs,
-                source=contextily.providers.CartoDB.PositronNoLabels)
+            contextily.add_basemap(ax, crs=self.dataframe.crs)
     
     def show_satellites_quads_evaluated(self, ax: plt.Axes, with_color_bar: bool = True, 
                                         cmap = default_cmap, evaluated_quads: bool = True,
