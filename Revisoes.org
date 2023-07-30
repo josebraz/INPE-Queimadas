@@ -145,37 +145,37 @@
   detalhes do método." mas mais elaborado.
 ** 2023-07-26 Capítulo 3
 *** 3.0 e 3.1
-- "sil, por meio" => remover a vírgula
-- Um exemplo seria compara as => comparar
+- [x] "sil, por meio" => remover a vírgula
+- [x] Um exemplo seria compara as => comparar
 *** Figura 3.1
-- Poderia no caption adicionar informações sobre as imagens
+- [x] Poderia no caption adicionar informações sobre as imagens
   inferiores, período e local (como fizeste no texto). Não tem
   problema ficar repetido.
 *** 3.2 Mapeamento dos focos para áreas
-- dectado => detectado
-- fatores: Diferença => diferença
-- "Os satélites que orbitam a Terra em órbitas polares, possuem" =>
+- [x] dectado => detectado
+- [x] fatores: Diferença => diferença
+- [x] "Os satélites que orbitam a Terra em órbitas polares, possuem" =>
   remover a vírgula
-- em um sentido ... no outro sentido
-  - especificar o sentido (horário, anti-horário)
+- [x] em um sentido ... no outro sentido
+  [x] - especificar o sentido (horário, anti-horário)
 - O primeiro par de imagens => O primeiro par de imagens da esquerda
   para a direita
-- A partir desse ponto até o final do documento => Neste documento
-- ganham a área do sensor => explicar que eles ganham a área do sensor
+- [x] A partir desse ponto até o final do documento => Neste documento
+- [x] ganham a área do sensor => explicar que eles ganham a área do sensor
   pois é assim que tu decidiste fazer no teu método
 *** 3.3 Separação e avaliação de quadrantes
-- figura 3.3, => Figura 3.3,
-- avaliação de serão => avaliação que serão
+- [x] figura 3.3, => Figura 3.3,
+- [x] avaliação de serão => avaliação que serão
 - Sendo q o quadrante (polígono) => aqui usa-se q para quadrante, mas
   depois area(p) para área do polígono. Não seria area(q) do quadrante
   tendo em vista que quadrante e polígono são a mesma coisa. Talvez
   remover a palavra polígono não?
-- para não ser penalizado => não fica claro essa questão de
+- [x] para não ser penalizado => não fica claro essa questão de
   penalização nesta altura do texto. Como resolver? Especificar mais
   talvez o que seria tal penalização, ou remeter o leitor para o que
   ver a seguir.
 - é dada por: => remover o início de parágrafo que vem a seguir.
-- distaque => destaque
+- [x] distaque => destaque
 *** 3.4 Cálculo da área queimada
 - Não vi necessidade de definir o termo eval(v). Veja que v não foi
   definido.
