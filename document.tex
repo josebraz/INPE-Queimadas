@@ -835,16 +835,13 @@ O Coeficiente de Dice (DC), também conhecido como Índice de Sørensen–Dice, 
   DC = \frac{2 * TP}{2 * TP + FP + FN}
 \end{equation}
 
-\section{Validação do AQ-FA}
-\label{sec:validacao_aq_fa}
+\subsection*{Avaliar produtos com resoluções diferentes}
 
-Nesta Seção, é apresentado como o AQ-FA foi validado em relação ao estado da arte. Para isso, utilizamos o produto AQ30m como referência e comparamos, lado a lado, o AQ-FA e o produto AQ1Km. Os dados do AQ30m podem ser visualizados e baixados de forma simples pelo site do Programa Queimadas (\url{https://queimadas.dgi.inpe.br/queimadas/aq30m}). Para obter os dados do AQ1Km foi necessário fazer uma solicitação para o INPE por e-mail, a resposta foi informando o servidor FTP para download dos produtos em formato Shapefile.
+Para ser possível aplicar a Tabela de Contingência, é necessário que os dados avaliados tinham a mesma resolução e que seus pixels estejam alinhados. Vários produtos citados neste documento tem resoluções únicas, nomeadamente AQ30m, AQ1km, MCD64A1 e FireCCI51, que tem 30 m, 1 km, 500 m e 250 m, respectivamente. Há diferentes formas de fazer isso, em \citet{BOSCHETTI2004280} é apresentado um método que minimiza os erros de comissão e omissão do processo de transformar dados de área queimadas de resolução maiores em resoluções menores. 
 
-Os produtos têm resoluções diferentes, 30 m e 1 km respectivamente para AQ30m e AQ1km. Com isso, é necessário fazer uma transformação de forma que todos os produtos utilizados na avaliação estejam na mesma resolução. Há diferentes formas de fazer isso, em \citet{BOSCHETTI2004280} é apresentado um método que minimiza os erros de comissão e omissão do processo de transformar dados de área queimadas de resolução maiores em resoluções menores. 
+Esse trabalho classificou os quadrantes de forma binária, em ``Queimado'' e ``Não queimado'', o que altera o resultado do total de área queimada. Nesse sentido, a Figura \ref{fig:diferenca_resoluções} mostra a diferença do total da área queimada entre a versão original, de resolução 30m, e três variações de limiares em uma resolução maior. Os valores de cada quadrante foram obtivos fazendo uma interseção entre os limites do quadrante e o polígono original, depois disso é filtrado apenas os quadrantes que apresentaram um valor acima do limiar testado. Ou seja, todos os quadrantes maiores que 0, 0.5 ou igual a 1 são apresentados, respectivamente, na segunda, terceira e quarta imagem.
 
-Esse trabalho classificou os quadrantes de forma binária, em queimado e não queimado, o que altera o resultado do total de área queimada. Nesse sentido, a Figura \ref{fig:diferenca_resoluções} mostra a diferença do total da área queimada entre a versão original, de resolução 30m, e três variações de limiares em uma resolução maior. Os valores de cada quadrante foram obtivos fazendo uma intercção entre os limites do quadrante e o polígono original, depois disso é filtrado apenas os quadrantes que apresentaram um valor acima do limiar testado. Ou seja, todos os quadrantes maiores que 0, 0.5 ou igual a 1 são apresentados, respectivamente, na segunda, terceira e quarta imagem.
-
-\begin{figure}[H]
+\begin{figure}
     \caption{Redução da resolução do produto AQ30m (a esquerda) para uma resolução de aproximadamente 330m usando diferentes limiares. A segunda imagem contém todos os quadrantes com valores maiores que 0. A terceira imagem mostra quadrantes que tem pelo menos metade de sua área coberta. A última imagem mostra apenas quadrantes totalmente cobertos pelo polígono original.}
     \begin{center}
         \includegraphics[width=35em]{diferenca_resoluções}
@@ -855,7 +852,7 @@ Esse trabalho classificou os quadrantes de forma binária, em queimado e não qu
 
 Uma outra forma de transformar uma resolução maior para uma menor é manter o valor contínuo resultante da interseção das extremidades do quadrante com o polígono original. Com isso, o problema dos erros de comissão e omissão da abordagem anterior não estão presentes nessa abordagem, como mostrado na imagem \ref{fig:resolução_continua}. A área queimada praticamente não foi alterada entre as duas imagens. A diferença foi cerca de 40m a menos em relação a imagem original, que pode ser devido ao método usado para cálculo de área espacial a partir do polígo ou problemas de arredondamento de ponto flutuante.
 
-\begin{figure}[H]
+\begin{figure}
     \caption{Redução da resolução do produto AQ30m (a esquerda) para uma resolução de aproximadamente 330m sem perda significativa de área queimada. Cada quadrante na imagem da direita representa a porcentagem do quadrante que está classificado como queimado.}
     \begin{center}
         \includegraphics[width=25em]{resolução_continua}
@@ -864,7 +861,23 @@ Uma outra forma de transformar uma resolução maior para uma menor é manter o 
     \label{fig:resolução_continua}
 \end{figure}
 
-Além do obstáculo das resoluções diferentes entre os produtos, um outro problema é a escolha da porção territorial a ser avaliada. Para simplificar e possibilitar a comparação entre diversos trabalhos mencionados (como em \citet{libonati2015algorithm}), foi escolhido usar as áreas delimitadas pelo WRS-2, descritas na Figura \ref{fig:orbitas_ponto_landsat}. O produto AQ30m também é distribuído seguindo o mesmo sistema, mas com uma diferença que demanda atenção. No sistema WRS-2, as órbitas-ponto podem ter interseção com outras órbitas-ponto vizinhas. Caso isso fosse mantido no produto AQ30m, poderia haver contagens repetidas de uma mesma área queimada nas extremidades da área delimitada pela órbita-ponto. Para solucionar esse problema, foi usado uma versão modificada da grade WRS-2 sem sobreposição, obtida a partir do site do DGI (\url{http://www.dgi.inpe.br/documentacao/grades}).
+\section{Validação do AQ-FA}
+\label{sec:validacao_aq_fa}
+
+Nesta Seção, é apresentado como o AQ-FA foi validado em relação ao estado da arte. Para isso, utilizou-se o produto AQ30m como referência devido a sua alta resolução e baixa taxa de erros prevista, que está abaixo de 10\% \citep{melchiori2014landsat}. Além disso, é um produto desenvolvido especialmente para o Brasil e seus dados são avaliados por especialistas do INPE. Os dados do AQ30m usados foram obtidos pelo site do Programa Queimadas (\url{https://queimadas.dgi.inpe.br/queimadas/aq30m}). Cada arquivo é marcado com o nome do satélite, a data da passam e a órbita-ponto da região coberta.
+
+No processo de validação com o AQ30m, não é utilizado o primeiro produto processado após uma sequência de imagens não processadas. Essa abordagem foi adotada para evitar que o AQ30m incluísse áreas que foram queimadas há mais de 16 dias, que é o intervalo de revisita do satélite, mas não foram computadas nas imagens anteriores. Isso garante que o método AQ-FA seja avaliado de forma justa, pois evita discrepâncias entre os resultados do AQ30m e os dados de focos ativos usados no método para o intervalo de tempo estabelecido, que poderiam prejudicar sua performance.
+
+% Por exemplo, para a órbita-ponto ........
+
+Para garantir uma correta comparação entre o AQ-FA e o produto de referência AQ30m, é essencial filtrar adequadamente os dados de focos ativos para o período de tempo correspondente. Para o satélite Landsat-8, principal satélite usado no produto, a passagem na linha do equador é aproximadamente às 10 horas da manhã no horário local e repete a cobertura da região a cada 16 dias. Portanto, os dados de focos ativos precisam ser filtrados para cobrir esses 16 dias anteriores à passagem do satélite e limitados ao horário das 10 horas da manhã. Por exemplo, se o satélite passou dia 26 de agosto para uma determinada região, o intervalo de tempo dos focos ativos dever ser entre 10 de agosto até 26 de agosto, ambos às 10 horas da manhã.
+
+Mesmo o AQ-FA possibilitando a parametrização da resolução do resultado final, seria inviável e improdutivo calcular o produto utilizando a resolução de 30m do AQ30m devido a complexidade computacional. Foi decidido transformar a resolução do AQ30m para algo em torno de 330m, utilizando a abordagem contínua apresentada na seção anterior. Como mostrado anteriormente, isso não altera significativamente a área queimada e possibilita que o resultado seja computado dezenas de vezes mais rápido.
+
+Além do obstáculo das resoluções diferentes entre os produtos, um outro problema é a escolha da porção territorial a ser avaliada. Para simplificar e possibilitar a comparação entre diversos trabalhos mencionados (como em \citet{libonati2015algorithm}), foi escolhido usar as áreas delimitadas pelo WRS-2, descritas na Figura \ref{fig:orbitas_ponto_landsat}. O produto AQ30m também é distribuído seguindo o mesmo sistema, mas com uma diferença que demanda atenção. No sistema WRS-2, as órbitas-ponto podem ter interseção com outras órbitas-ponto vizinhas. Caso isso fosse mantido no produto AQ30m, poderia haver contagens repetidas de uma mesma área queimada nas extremidades da área delimitada pela órbita-ponto. Para solucionar esse problema, foi usado uma versão modificada da grade WRS-2 sem sobreposição, obtida a partir do site do DGI (\url{http://www.dgi.inpe.br/documentacao/grades}) que é a mesma usada no AQ30m.
+
+
+\subsection*{Escolha dos parâmetros do AQ-FA}
 
 Antes de começar a avaliação, é necessário definir os parâmetros passados ao AQ-FA. Para a validação do método e todo o restante do trabalho utilizamos parâmetros fixos definidos da seguinte forma: a constante \texttt{min\_area} vale $0.1$; a constante \texttt{threshold\_satellite} teve valor $2$ atribuído; e a constante \texttt{quadrant\_width} recebeu o valor de $0.005$. Essa combinação de parâmetros teve o intuito de gerar resultados com menos erros de comissão, penalizando quadrantes com dados de apenas dois satélites diferentes, o que pode indicar menos intensidade de fogo. A resolução do resultado final ficou em torno de 300 m, q	ue é uma resolução comparável aos outros produtos e ainda assim não torna o cálculo muito custoso.
 
@@ -883,17 +896,13 @@ De forma mais detalhada, as quatro funções apresentadas têm os limiares infer
 
 A função \texttt{percentil} apresentou os melhores resultados nas diferentes métricas e por isso é a função escolhida para todo o restante do trabalho. A função, comparada com as outras, apresentou alta Acurácia Geral (OA), baixos Erros de Omissão (OE), alto Coeficiente de Dice (DC), Viés (B) próximo a 1 e baixa diferença entre o total de área queimada. Os Erros de Comissão (CE) foram relativamente maiores, assim como na função linear, provavelmente devido a baixa resolução dos satélites provocando erros nas extremidades das cicatrizes de uma área queimada. 
 
-Com todos os parâmetros definidos, e validação foi realizada comparando o resultado do AQ30m, sendo a referência, com o AQ-FA para algumas órbitas-ponto que estão disponíveis para download público no site do DGI. No processo de validação, não é utilizado o primeiro produto processado após uma sequência de imagens não processadas pelo AQ30m. Essa abordagem foi adotada para evitar que o AQ30m incluísse áreas que foram queimadas há mais de 16 dias, que é o intervalo de revisita do satélite. Sem essa restrição, focos ativos que geraram áreas queimadas a mais tempo não estariam incluídos no intervalo tempo, mas as áreas queimadas estariam nos resultados do AQ30m, o que iria prejudicar o desempenho do método testado.
-
-Por exemplo, para a órbita-ponto ........
-
+\subsection*{Análise da validação}
 
 A Tabela \ref{table:regioes_validação} apresenta os resultados obitidos comparando o AQ30m e o AQ-FA. A comparação é feita para as órbitas-ponto: 226/071, 225/069, 224/069, 222/074, 222/067, 221/074, 221/073, 221/070, 221/067, 220/074 e 220/065 para diferentes períodos de tempo. A data de início e fim do intervalo de tempo, os valores estatísticos de OA, CSI, CE, OE, B e DC e a área queimada do AQ30m e do AQ-FA também estão na tabela que é ordenada pelo DC. 
 
 \begin{table}[htbp]
 \centering
 \caption{Regiões e período de tempo da validação.}
-
 \begin{tabular}{ccccccl}
 \toprule
  \multirow{2}{*}{\textbf{N}} & \multirow{2}{*}{\textbf{Órbita-ponto}} & \textbf{Início} & \textbf{OA}  & \textbf{CE} & \textbf{B} & \textbf{Área AQ30m} \\
@@ -968,10 +977,10 @@ A Tabela \ref{table:regioes_validação} apresenta os resultados obitidos compar
 
 Pela Tabela é possível notar que a área queimada do AQ30m e do AQ-FA são parecidas, variando cerca de 20\% para baixo ou pra cima na maioria dos casos. A acurácia geral (OA) tem mediana de 98\%, mas apresenta alguns valores discrepantes nas regiões com mais áreas queimadas, como o caso da linha 11 e 20. O DC de maneira geral teve bons resultados, ressaltando que a comparação foi com um produto de alta resolução, variando de 70\% a 40\% com mediana de cerca de 50\%. Os menores DC, como esperado, foram nos testes em que o Viés ficou longe de 1, como nas linhas 16 até 20.
 
-A Figura \ref{fig:regressao_aq30m} apresenta a porcentagem queimada de quadrantes classificados pelo AQ-FA, no eixo y, e o AQ30m, no eixo x. Os valores apresentados são os mesmos usados para a construção da Tabela \ref{table:regioes_validação}, porém redistribuídos para uma resolução de aproximadamente 10 Km por 10 Km. Foi aplicado uma regressão linear nos dados que apresentou R-quadrado igual a 0.7, considerado um resultado aceitável. 
+A Figura \ref{fig:regressao_aq30m} apresenta a porcentagem queimada de quadrantes classificados pelo AQ-FA, no eixo y, e o AQ30m, no eixo x. Os resultados usados para gerar a imagem são os mesmos usados para a construção da Tabela \ref{table:regioes_validação}, porém redistribuídos para uma resolução de aproximadamente 10 Km por 10 Km. Foi aplicado uma regressão linear nos dados que apresentou R-quadrado igual a 0.7, ou seja, 70\% dos dados do AQ30m pode ser bem explicados pelo AQ-FA com essa resolução. Portanto, os modelos tem boa concordância mas também podem haver algumas discrepâncias, como observado na parte superior do gráfico.
 
 \begin{figure}
-    \caption{.}
+    \caption{Comparação entre a porcentagem queimada indicada pelo modelo AQ-FA (eixo y) e o AQ30m (eixo x) para quadrantes de tamanho 10 km $\times$ 10 km.}
     \begin{center}
         \includegraphics[width=25em]{regressao_aq30m}
     \end{center}
@@ -979,13 +988,13 @@ A Figura \ref{fig:regressao_aq30m} apresenta a porcentagem queimada de quadrante
     \label{fig:regressao_aq30m}
 \end{figure}
 
-\subsection*{Análise de alguns casos}
+% \subsection*{Análise de alguns casos específicos}
 
-A seguir, é apresentado uma análise mais detalhada para alguns testes a fim de entender melhor os resultados em diferentes casos. É apresentado algumas figuras comparando os dois produtos aplicados a regiões de interesse. Utiliza-se mapas provenientes do OpenStreetMap, para ressaltar as características geográficas, como elevações e regiões aquáticas, bem como nomes de cidades e regiões delimitadas. As figuras apresentam um quadrilátero que delimita a região analisada, fora dessa região deliminata pode haver dados de incêndio mas não são mostrados.
+A seguir, é apresentado uma análise mais detalhada para alguns testes a fim de entender melhor os resultados em diferentes casos. É apresentado algumas figuras comparando os dois produtos aplicados a regiões de interesse. Utiliza-se mapas provenientes do OpenStreetMap, para ressaltar as características geográficas, como elevações e regiões aquáticas, bem como nomes de cidades e regiões delimitadas. As figuras apresentam um quadrilátero que delimita a óbita-ponto analisada, fora dessa região deliminata não são mostrados dados de focos para não atrapalhar a análise.
 
-O primeiro caso que chama mais atenção é o que apresentou melhor precisão entre todos os testes, localizado na linha 1 da Tabela \ref{table:regioes_validação}. A Figura \ref{fig:validacao_221_70} ilustra a aplicação método, a direita, comparado com a referência, a esquerda, para a órbita-ponto 221/70 em um contexto de altos focos de queima. É possível notar pelo menos três grandes aglomerados de regiões queimadas nas duas imagens. Para o produto AQ30m essas regiões não aparecem completamente queimadas no seu interior, como acontece no AQ-FA. Isso pode ser explicado pela alta resolução do produto de referência e ocasiona um aumento dos erros de comissão do AQ-FA, que ficaram em torno de 30\%. 
+O primeiro caso que chama mais atenção é o que apresentou melhor precisão entre todos os testes, localizado na linha 1 da Tabela \ref{table:regioes_validação}. A Figura \ref{fig:validacao_221_70} ilustra a aplicação método, a direita, comparado com a referência, a esquerda, para a órbita-ponto 221/70 em um contexto de altos focos de queima. É possível notar pelo menos três grandes aglomerados de regiões queimadas nas duas imagens. Para o produto AQ30m essas regiões não aparecem completamente queimadas no seu interior, como acontece no AQ-FA. Isso pode ser explicado pela alta resolução do produto de referência e ocasiona um aumento dos erros de comissão do AQ-FA, que ficaram em torno de 30\% para esse caso. 
 
-\begin{figure}
+\begin{figure}[H]
     \caption{Aplicação do AQ-FA na órbita-ponto 221/70 no período de 27 de agosto a 10 de setembro de 2017. A esquerda é o produto AQ30m (referência) e a direita é o AQ-FA. Quanto mais vermelho escuro, maior o percentual de área queimada.}
     \begin{center}
         \includegraphics[width=30em]{validacao_AQ30m_221_70}
@@ -994,17 +1003,28 @@ O primeiro caso que chama mais atenção é o que apresentou melhor precisão en
     \label{fig:validacao_221_70}
 \end{figure}
 
-Regiões de queima menores ou com mais detalhes não foram bem detectadas pelo método testado, como nos casos 13º90\textquotesingle S 48º00\textquotesingle O e 14º70\textquotesingle S 48º20\textquotesingle O. Para esses dois casos, muitos focos ativos foram detectados, observados pelas áreas em branco próximas a essas regiões, mas não foram suficientemente fortes para indicar uma área de queima maior. Outras queimas menores também não foram bem detectadas na parte direita da região. Isso fez com que a os erros de omissão ficassem em torno de 28\%.
+Regiões de queima menores ou com mais detalhes não foram bem detectadas pelo método testado, como nas regiões próximas as coordenadas 13º90\textquotesingle S 48º00\textquotesingle O e 14º70\textquotesingle S 48º20\textquotesingle O. Para esses dois casos, muitos focos ativos foram detectados, observados pelas áreas em branco próximas a essas regiões, mas não foram suficientemente fortes para indicar uma área de queima maior. Outras queimas menores também não foram bem detectadas na parte direita da região. Isso fez com que a os erros de omissão ficassem em torno de 28\%.
 
-Outro caso interessante é o da órbita-ponto 221/67, entre o período de 3 de junho de 2021 a 19 de junho de 2021 indicado na linha 15 da Tabela \ref{table:regioes_validação}. Na Figura \ref{fig:validacao_221_67} é possível perceber que as duas imagens não são muito diferentes nas grandes cicatrizes (porções marcadas pelo fogo). A área queimada total no AQ-FA é cerca que 50 Km menor, provavelmente pela imprecisão na detecção das bordas das cicatrizes. As áreas mais brancas na imagem da direita indicam que houve focos ativos naquela região, mas não foram suficientemente intensos ou diversos para indicar uma queima total do quadrante.
+Outro caso interessante é o da órbita-ponto 221/67, entre o período de 3 de junho de 2021 a 19 de junho de 2021, indicado na linha 15 da Tabela \ref{table:regioes_validação}. Na Figura \ref{fig:validacao_221_67}, é possível perceber que as duas imagens não são muito diferentes nas grandes cicatrizes, mesmo nesse caso em que a área queimada não é tão grande em comparação com outros casos. A área queimada total no AQ-FA é cerca de 50 km menor, provavelmente devido à imprecisão na detecção das bordas das cicatrizes. Além disso, muitas regiões pequenas que foram classificadas como queimadas pelo AQ30m passaram despercebidas ou não foram suficientemente intensas ou diversas para indicar uma queima total do quadrante para o método testado.
 
-\begin{figure}
-    \caption{Aplicação do AQ-FA na órbita-ponto 221/67 no período de 3 de julho a 19 de julho de 2021. A esquerda é o produto AQ30m (referência) e a direita é o AQ-FA. Quanto mais vermelho escuro, maior o percentual de área queimada.}
+\begin{figure}[H]
+    \caption{Aplicação do AQ-FA na órbita-ponto 221/67 no período de 3 de julho a 19 de julho de 2021. A esquerda é o produto AQ30m (referência) e a direita é o AQ-FA.}
     \begin{center}
         \includegraphics[width=30em]{validacao_AQ30m_221_67}
-    \end{center}s
+    \end{center}
     \legend{Fonte: O Autor}
     \label{fig:validacao_221_67}
+\end{figure}
+
+A Figura \ref{fig:validacao_220_74} apresenta principalmente duas manchas de área queimada no AQ-FA e apenas uma grande mancha no AQ30m na órbita-ponto 220/74, que fica no sudoeste de Minas Gerais, entre 31 de julho a 15 de agosto de 2016.
+
+\begin{figure}[H]
+    \caption{Aplicação do AQ-FA na órbita-ponto 221/74 no período de 31 de julho a 15 de agosto de 2016. A esquerda é o produto AQ30m (referência) e a direita é o AQ-FA.}
+    \begin{center}
+        \includegraphics[width=30em]{validacao_AQ30m_220_74}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:validacao_220_74}
 \end{figure}
 
 
