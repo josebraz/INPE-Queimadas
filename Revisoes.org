@@ -225,11 +225,10 @@
      - Validação da técnica demonstrou que funciona tão bem quanto a dos trabalhos relacionados
      - A área queimada aumentou ou diminuiu?
    - Estrutura do documento
-2. Seção 2.5 de trabalhos relacionados
+2. [X] Seção 2.5 de trabalhos relacionados
 3. [X] Capítulo 3 do método
    - Necessidade de uma releitura do José
-   - Implementação do blur
-4. Capítulo 4 do implementação do método
+4. [X] Capítulo 4 do implementação do método
 5. Capítulo 5 de resultados
    - Todo o código está implementado
 6. Capítulo de conclusão
