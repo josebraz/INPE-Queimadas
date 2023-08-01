@@ -184,7 +184,7 @@
   de qual daquelas funções de avaliação seria a escolhida. O texto
   menciona que a exponencial seria melhor, mas isso depende de uma
   avaliação. Não se menciona qual é a escolhida.
-*** 4 IMPLEMENTAÇÃO DO MÉTODO
+** 4 IMPLEMENTAÇÃO DO MÉTODO
 - [x] descorre sobre => apresenta a
 - [x] descorre-se => detalha-se
   - Veja que é importante usar o mesmo "estilo" ao longo do
@@ -203,7 +203,7 @@
 - [x] foi basicamente aplicar => consistiu em aplicar
 - Terminar o capítulo com um parágrafo (colocar o comando \bigskip
   antes) onde se faz a ponto com o capítulo seguinte.
-*** 5 RESULTADOS E DISCUSSÃO
+** 5 RESULTADOS E DISCUSSÃO
 *** 5.1 Metodologia da avaliação
 - [x] definidas em 5.1 => definidas na Equação 5.1
 - [x] ser classificados com não queimados => ser classificados como não
@@ -211,7 +211,6 @@
 - [x] Coefiente de Dice => talvez colocar uma referência bibliográfica
   para um livro ou artigo
 *** TODO 5.2 Validação do AQ-FA
-
 
 * Reuniões
 ** 2023-07-06 O que falta fazer?
