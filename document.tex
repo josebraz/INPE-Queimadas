@@ -1033,11 +1033,11 @@ O processo de validação deixou claro que a técnica proposta é capaz de detec
 
 \section{Resultados apresentados}
 
+Como parte dos objetivos deste trabalho e após a validação apresentada, foi feita a aplicação da método em todo o território nacional, partindo do ano de 2010 até o ano de 2022. Os resultados foram comparados com o AQ1km para o periodo avaliado, por ser o produto oficial do INPE para dados de área queimada de todo o Brasil.
 
-O método em sí é geral para qualquer entrada de focos de satélites, e retorna no final polígonos representando áreas geográficas associadas a um valor que indica a área queimada dentro desse polígono. Variando a entrada do método e o agrupamento dos resultados preliminares, pode-se obter diferentes resultados finais. \par
+A máquina utilizada para a computação do AQ-FA foi um computador desktop com processador Intel Core i5-9600KF Hexa-Core 3.7GHz, 32GB de memória RAM DDR4 3200MHz e um SSD NVMe de 1TB. O sistema operacional utilizado foi o Pop!\_OS, uma distribuição Linux com kernel na versão 5.16. Foram dedicados 5 processadores físicos para todo o processamento dos dados. O processamento desse período levou cerca de 30 horas no total.
 
-falar como foi a execução .....
-
+Os dados de focos ativos do INPE foram divididos por meses e pelas órbitas-ponto que compreendem o território nacional. Cada órbita-ponto foi processada completamente dentro de um ano. Processar os 12 meses dentro de uma mesma órbita-ponto representou uma otimização na performance, porque foi possível manter em memória a grade correspondente sem precisar recomputar para cada mês. Esse processo foi repetido para cada ano.
 
 
 
