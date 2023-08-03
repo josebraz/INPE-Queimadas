@@ -12,12 +12,12 @@
 
 * Revisões
 ** Capa
-- Colocar o nome completo do orientador
+- [X] Colocar o nome completo do orientador
 ** Geral
-- Todas as figuras e tabelas, melhorar local onde o latex as coloca
+- [X] Todas as figuras e tabelas, melhorar local onde o latex as coloca
   - \begin{figure} => \begin{figure}[!htb]
   - \begin{table} => \begin{table}[!htb]
-- Todas as aspas devem ser em modo Latex
+- [X] Todas as aspas devem ser em modo Latex
   - "semente" => ``semente''
   - Ou configurar corretamente o Latex para que isso seja automático
 ** 2023-07-06 Capítulo 2 CONCEITOS BÁSICOS E TRABALHOS RELACIONADOS
@@ -211,8 +211,8 @@
 - [x] Coefiente de Dice => talvez colocar uma referência bibliográfica
   para um livro ou artigo
 *** Avaliar produtos com resoluções diferentes
-- Trocar o título "Avaliar" -> Avaliações
-- Isso é ilustrado => Essa abordagem
+- [X] Trocar o título "Avaliar" -> Avaliações
+- [X] Isso é ilustrado => Essa abordagem
 *** Figuras 5.1 e 5.2
 - se possível, colocar fundo branco para melhor diferenciar as
   tonalidades das cores
@@ -220,8 +220,8 @@
   aumentar para ficar pelo menos 50% do tamanho da fonte do texto do
   caption.
 *** 5.2 Validação do AQ-FA
-- seja computado dezenas de vezes mais rápido. => seja calculado mais rapidamente.
-- que é a mesma usada no AQ30m. => sendo esta a mesma usada no AQ30m.
+- [X] seja computado dezenas de vezes mais rápido. => seja calculado mais rapidamente.
+- [X] que é a mesma usada no AQ30m. => sendo esta a mesma usada no AQ30m.
 *** Escolha dos parâmetros do AQ-FA
 - No primeiro parágrafo, se apresentam os valores de parametragem, com
   o objetivo de "gerar resultados com menos erros de comissão
@@ -234,7 +234,7 @@
     valores foram obtidos a partir de experimentos comparando várias
     combinações." no que diz respeito ao que configura cada função de
     área queimada.
-- de 5 métricas estatísticas => quais são as 5 métricas?
+- [X] de 5 métricas estatísticas => quais são as 5 métricas?
   - Dizer explicitamente quais são os nomes e que estas encontram-se
     no eixo Y.
   - No caption se escreve "seis"
@@ -248,7 +248,7 @@
   quê? É normal?
 - Fundo branco.
 *** Continuação
-- obtidos a patir de testes. => obtidos a _partir_ de testes.
+- [X] obtidos a patir de testes. => obtidos a _partir_ de testes.
 - "A função percentil apresentou os melhores resultados nas diferentes métricas"
   - Não ficou claro olhando para a Figura 5.3 e o texto do porquê percentil é o melhor.
   - Os argumentos apresentados no último parágrafo poderiam ser usados
@@ -256,26 +256,26 @@
     concretamente a escolha do percentil a melhor?
 *** Análise da validação
 - obitidos => obtidos
-- A comparação é feita para as órbitas-ponto => existe alguma
+- [X] A comparação é feita para as órbitas-ponto => existe alguma
   justificativa para a escolha destas órbitas-ponto em específico? Se
   sim, seria legal colocar ali.
-- "que apresentou R-quadrado igual a 0.72, ou seja, 72% dos dados do
+- [X] "que apresentou R-quadrado igual a 0.72, ou seja, 72% dos dados do
   AQ30m pode ser bem explicados pelo AQ-FA com essa resolução."
-  - Tenho dúvidas sobre essa interpretação "72%", veja
+  - [X] Tenho dúvidas sobre essa interpretação "72%", veja
     https://en.wikipedia.org/wiki/Coefficient_of_determination
   - R2 tem a ver com a variância...
-- deliminata => delimitada
-- a aplicação método, a direita => a aplicação do método AQ-FA, à direita,
-  - a esquerda => à esquerda
-- 13º90'S 48º00'O => no gráfico usa-se W ao invés de O
-  - Talvez usar a mesma terminologia em inglês se for difícil
+- [X] deliminata => delimitada
+- [X] a aplicação método, a direita => a aplicação do método AQ-FA, à direita,
+  - [X] a esquerda => à esquerda
+- [X] 13º90'S 48º00'O => no gráfico usa-se W ao invés de O
+  - [X] Talvez usar a mesma terminologia em inglês se for difícil
     atualizar a imagem.
-- nas grandes cicatrizes => o que seria uma cicatriz?
+- [X] nas grandes cicatrizes => o que seria uma cicatriz?
   - dá para entender, mas como é uma terminologia ligeiramente
     diferente, seria legal explicar (aparece antes se procurares pela
     palavra).
-- , acima de 3 km => km^2 ?
-- O tamanho do quadrante escolhido também impacta na precisão do modelo,
+- [X] , acima de 3 km => km^2 ?
+- [X] O tamanho do quadrante escolhido também impacta na precisão do modelo,
   mas dificulta o processamento do resultado. => relembrar qual foi o
   tamanho do quadrante.
 *** TODO 5.3
