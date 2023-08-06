@@ -671,7 +671,7 @@ Para facilitar o trabalho do pesquisador, a implementação pode fornecer funç�
     \label{fig:eval_func_built_in}
 \end{figure}
 
-A Figura \ref{fig:aplicacao_funcoes_built_in} ilustra claramente como diferentes funções e parâmetros podem afetar significativamente os resultados na determinação da área queimada. Cada gráfico mostra a área queimada total calculada usando a função de área queimada indicada no título. Observa-se que a função \texttt{limiar} identifica mais áreas como queimadas, pois trata de forma igual os quadrantes com diferentes níveis de intensidade. No entanto, as funções exponenciais parecem mais próximas da realidade, já que consideram apenas uma porcentagem da área dos quadrantes próximos aos agrupamentos de alta intensidade como queimados.
+A Figura \ref{fig:aplicacao_funcoes_built_in} ilustra claramente como diferentes funções e parâmetros podem afetar significativamente os resultados na determinação da área queimada. Cada gráfico mostra a área queimada total calculada usando a função de área queimada indicada no título. Observa-se que a função \texttt{limiar} identifica mais áreas como queimadas, pois trata de forma igual os quadrantes com diferentes níveis de intensidade. No entanto, as funções exponenciais e linear parecem mais próximas da realidade, já que consideram apenas uma porcentagem da área dos quadrantes próximos aos agrupamentos de alta intensidade como queimados.
 
 \begin{figure}[!htb]
     \caption{Exemplo da aplicação das funções embutidas.}
@@ -878,10 +878,12 @@ Além do obstáculo das resoluções diferentes entre os produtos, um outro prob
 
 Antes de começar a avaliação, é necessário definir os parâmetros passados ao AQ-FA. Para a validação do método e todo o restante do trabalho utilizamos parâmetros fixos definidos da seguinte forma: a constante \texttt{min\_area} vale $0.1$; a constante \texttt{threshold\_satellite} teve valor $2$ atribuído; e a constante \texttt{quadrant\_width} recebeu o valor de $0.005$. Essa combinação de parâmetros teve o intuito de gerar resultados com menos erros de comissão, penalizando quadrantes com dados de apenas dois satélites diferentes, o que pode indicar menos intensidade de fogo. A resolução do resultado final ficou em torno de 300 m, que é uma resolução comparável aos outros produtos e ainda assim não torna o cálculo muito custoso.
 
-Vários testes foram realizados para encontrar uma função de avaliação da área queimada (\texttt{eval(v, vs)}) que reduzisse simultaneamente os erros de omissão e comissão em diferentes regiões e períodos de tempo. Os experimentos indicaram que uma função com valores fixos, sem levar em conta a distribuição estatística dos dados, produz resultados piores. A Figura \ref{fig:comparacao_evals} apresenta os gráficos \textit{Box Plot} das métricas: Acurácia Geral (OA); Diferença de área queimada; Erros de comissão (CE); Erros de Omissão (OE); Viés (B); e Coeficiente de Dice (DC), para quatro funções de avaliação da área queimada: linear, exponencial quadrática, exponencial cúbica e percentil (conforme descritas na Seção \ref{sec:calculo_area_queimada}). Os dados foram gerados a partir da avaliação dessas funções no conjunto de órbitas-ponto e intervalo de tempo apresentados na Tabela \ref{table:regioes_validação}.
+Vários testes foram realizados para encontrar uma função de avaliação da área queimada (\texttt{eval(v, vs)}) que reduzisse simultaneamente os erros de omissão e comissão em diferentes regiões e períodos de tempo. Além disso, o resultado final da área queimada também não deve ser muito diferente da referência para que essa métrica seja relativamente confiável. A comparação utilizou o AQ30m como referência para as órbitas-ponto e intervalo de tempo apresentados na Tabela \ref{table:regioes_validação}. 
+
+A Figura \ref{fig:comparacao_evals} apresenta os dados da comparação em formato de \textit{Box Plot} para as métricas: Acurácia Geral (OA); Coeficiente de Dice (DC); Erros de comissão (CE); Erros de Omissão (OE); Viés (B); e Diferença de área queimada (referência - modelo). Aplicado para quatro funções de avaliação da área queimada: linear, exponencial quadrática, exponencial cúbica e percentil (conforme descritas na Seção \ref{sec:calculo_area_queimada}). De forma mais detalhada, as quatro funções apresentadas têm os limiares inferiores \texttt{vmin} e superiores \texttt{vmax} iguais, equivalentes a 2.5 e 15, respectivamente. Esses valores foram obtidos a partir de experimentos comparando várias combinações. A função \texttt{percentil} teve também os parâmetros \texttt{pmax}, \texttt{pmin} assinalados como 65\% e 85\%, também obtidos a partir de testes. 
 
 \begin{figure}[!htb]
-    \caption{Box Plot representando seis distribuições: Acurácia Geral (OA), Diferença de área queimada, Erros de comissão (CE), Erros de Omissão (OE), Viés (B) e Coeficiente de Dice (DC). Cada distribuição foi gerada com as funções área queimada: linear(2.5, 15), exponencial(2.5, 15, 2), exponencial(2.5, 15, 3) e percentil(65, 85, 2.5, 15)}
+    \caption{Box Plot representando seis distribuições, no eixo y: Acurácia Geral (OA), Coeficiente de Dice (DC), Erros de comissão (CE), Erros de Omissão (OE), Viés (B) e Diferença de área queimada. Cada distribuição foi gerada com as funções área queimada, no eixo x: linear(2.5, 15), exponencial(2.5, 15, 2), exponencial(2.5, 15, 3) e percentil(65, 85, 2.5, 15).}
     \begin{center}
         \includegraphics[width=30em]{comparacao_evals}
     \end{center}
@@ -889,13 +891,15 @@ Vários testes foram realizados para encontrar uma função de avaliação da á
     \label{fig:comparacao_evals}
 \end{figure}
 
-De forma mais detalhada, as quatro funções apresentadas têm os limiares inferiores \texttt{vmin} e superiores \texttt{vmax} iguais, equivalentes a 2.5 e 15, respectivamente. Esses valores foram obtidos a partir de experimentos comparando várias combinações. A função \texttt{percentil} teve também os parâmetros \texttt{pmax}, \texttt{vmin} assinalados como 65\% e 85\%, também obtidos a partir de testes. 
+A Figura \ref{fig:comparacao_evals} mostra que as diferentes funções área queimada apresentam dados relativamente parecidos, mas é possível tirar algumas conclusões importantes. As funções exponenciais (\texttt{exp 2} e \texttt{exp 3}) apresentaram mais erros de omissão, o que impactou no gráfico de diferença de área queimada e viés, indicando menos áreas queimadas em relação a referência. Além disso, essas funções apresentam os menores DC o que indicam uma menor precisão absoluta. Por esses motivos, as funções exponenciais não foram escolhidas.
 
-A função \texttt{percentil} apresentou os melhores resultados nas diferentes métricas e por isso é a função escolhida para todo o restante do trabalho. A função, comparada com as outras, apresentou alta Acurácia Geral (OA), baixos Erros de Omissão (OE), alto Coeficiente de Dice (DC), Viés (B) próximo a 1 e baixa diferença entre o total de área queimada. Os Erros de Comissão (CE) foram relativamente maiores, assim como na função linear, provavelmente devido a baixa resolução dos satélites provocando erros nas extremidades de uma área queimada. 
+As funções \texttt{linear} e \texttt{percentil} apresentaram os melhores resultados, com alta Acurácia Geral (OA), baixos Erros de Omissão (OE) e alto Coeficiente de Dice (DC). Lembrando que a fórmula da função \texttt{percentil} se parece com a função \texttt{linear}, mas com limiares decididos a partir de uma análise estatística dos valores. Comparando essas duas funções, a \texttt{linear} apresenta mais diferença de área queimada, tanto para mais quanto para menos. Isso se reflete no viés que, ficou entre 2.5 a 0.5 e indica que o erro pode ser de até o dobro da área queimada em relação a referência.
+
+A função \texttt{percentil} de forma geral apresentou os melhores resultados nas diferentes métricas e por isso é a função escolhida para todo o restante do trabalho. Principalmente devido aos menores erros nos cálculos de área queimada, representados pelo viés próximo de 1 e diferença de área queimada próximos a 0. Os Erros de Comissão (CE) foram relativamente maiores, assim como na função \texttt{linear}, provavelmente devido a baixa resolução dos satélites provocando erros nas extremidades de uma área queimada. Por esses motivos, \texttt{percentil} foi a função escolhida para todo trabalho, tanto na validação quanto nos resultados.
 
 \subsection*{Análise da validação}
 
-A Tabela \ref{table:regioes_validação} apresenta os resultados da comparação entre o AQ30m e o AQ-FA para várias órbitas-ponto, nomeadamente: 226/071, 225/069, 224/069, 222/074, 222/067, 221/074, 221/073, 221/070, 221/067, 220/074 e 220/065, abrangendo diferentes períodos de tempo. Essas regiões foram selecionadas aleatoriamente dentre as disponíveis no site do DGI para o produto AQ30m. O intervalo de tempo considerado para cada órbita-ponto é especificado na tabela, juntamente com os valores estatísticos de OA, CSI, CE, OE, B e DC, bem como a área queimada estimada pelo AQ30m e pelo AQ-FA. A tabela é ordenada pelo valor do coeficiente de Dice (DC).
+A Tabela \ref{table:regioes_validação} apresenta os resultados da comparação entre o AQ30m e o AQ-FA para várias órbitas-ponto, nomeadamente: 226/071, 225/069, 224/069, 222/074, 222/067, 221/074, 221/073, 221/070, 221/067, 220/074 e 220/065, abrangendo diferentes períodos de tempo. Essas regiões foram selecionadas manualmente tentando abranger a maior parte do território nacional e diferentes períodos de tempo dentre os disponíveis no site do DGI para o produto AQ30m. O intervalo de tempo considerado para cada órbita-ponto é especificado na tabela, juntamente com os valores estatísticos de OA, CSI, CE, OE, B e DC, bem como a área queimada estimada pelo AQ30m e pelo AQ-FA. A tabela é ordenada pelo valor do Coeficiente de Dice (DC).
 
 \begin{table}[!htb]
 \centering
@@ -1030,12 +1034,34 @@ O processo de validação deixou claro que a técnica proposta é capaz de detec
 
 \section{Resultados apresentados}
 
-Como parte dos objetivos deste trabalho e após a validação apresentada, foi feita a aplicação da método em todo o território nacional, partindo do ano de 2010 até o ano de 2022. Os resultados foram comparados com o AQ1km para o periodo avaliado, por ser o produto oficial do INPE para dados de área queimada de todo o Brasil.
+Como parte dos objetivos deste estudo e após a validação mencionada anteriormente, o método foi aplicado em todo o território nacional, abrangendo o período de 2008 a 2022. Os resultados obtidos foram comparados com o produto AQ1km, que é a referência oficial do INPE para dados de área queimada em todo o Brasil.
 
-A máquina utilizada para a computação do AQ-FA foi um computador desktop com processador Intel Core i5-9600KF Hexa-Core 3.7GHz, 32GB de memória RAM DDR4 3200MHz e um SSD NVMe de 1TB. O sistema operacional utilizado foi o Pop!\_OS, uma distribuição Linux com kernel na versão 5.16. Foram dedicados 5 processadores físicos para todo o processamento dos dados. O processamento desse período levou cerca de 30 horas no total.
+A execução do AQ-FA foi realizada em uma máquina desktop equipada com um processador Intel Core i5-9600KF Hexa-Core de 3.7GHz, 32GB de memória RAM DDR4 3200MHz e um SSD NVMe de 1TB. O sistema operacional utilizado foi o Pop!\_OS, uma distribuição Linux com o kernel na versão 5.16. Durante o processamento, foram alocados 5 núcleos do processador. O processamento para esse período demorou aproximadamente 45 horas no total.
 
-Os dados de focos ativos do INPE foram divididos por meses e pelas órbitas-ponto que compreendem o território nacional. Cada órbita-ponto foi processada completamente dentro de um ano. Processar os 12 meses dentro de uma mesma órbita-ponto representou uma otimização na performance, porque foi possível manter em memória a grade correspondente sem precisar recomputar para cada mês. Esse processo foi repetido para cada ano.
+Os dados de focos ativos fornecidos pelo INPE foram segmentados por mês e pelas órbitas-ponto que abrangem todo o território nacional. Cada órbita-ponto foi processada na íntegra dentro de um único ano. Essa abordagem otimizou o desempenho, pois permitiu manter em memória a grade correspondente à órbita-ponto sem a necessidade de recalculá-la para cada mês. Esse processamento foi repetido para todos os anos analisados.
 
+A Figura \ref{fig:results_monthly} apresenta uma comparação mensal da área queimada obtida pelo AQ-FA, em laranja, e o AQ1km, em azul, ao longo do período de 2008 a 2022, abrangendo todo o território nacional. Em diversos anos, nomeadamente 2008, 2009, 2010, 2011, 2013, 2014, 2016 e 2018, os resultados de área queimada foram bastante próximos. Porém, alguns anos, como 2012, 2017, 2020, 2021 e 2022, apresentaram um diferença significativa. Além disso, como esperado, o caráter sazonal dos focos ativos se manteve para a área queimada nos dois produtos.
+
+\begin{figure}[!htb]
+    \caption{Comparação entre o total de área queimada calculada pelo AQ-FA e o pelo AQ1km mensalmente para os anos de 2008 até 2022 para o Brasil}
+    \begin{center}
+        \includegraphics[width=35em]{compare_aq1km-aqfa-month}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:results_monthly}
+\end{figure}
+
+
+O AQ-FA mostrou que, durante o período analisado, o ano de 2010 teve uma área queimada ainda maior do que a indicada pelo AQ1km, embora a diferença entre os dois tenha sido menor nesse caso. Os anos 2012, 2017 e 2020 também se destacaram por terem muitas áreas queimadas contabilizadas, mas com uma diferença mais notável entre os resultados do AQ-FA e do AQ1km. Entre 2018 e 2020, houve um aumento progressivo da área queimada, e esse patamar elevado se manteve em 2021 e 2022. Contudo, para esses dois últimos anos, o AQ1km apontou uma redução na área queimada, o que não foi corroborado pelo AQ-FA. Em 2022, a maior discrepância entre os dois produtos foi registrada, com o AQ-FA indicando quase o dobro da área queimada em relação ao AQ1km.
+
+\begin{figure}[!htb]
+    \caption{kno}
+    \begin{center}
+        \includegraphics[width=35em]{diff_year_compare_aqfa-aq1km_path-row}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:results_teritorio_por_ano}
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
