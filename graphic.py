@@ -28,7 +28,7 @@ import matplotlib.colors as colors
 import matplotlib.dates as mdates
 import matplotlib.patches as patches
 from matplotlib.patches import Rectangle
-import seaborn as sns; sns.set()
+import seaborn as sns; sns.set(rc={'axes.facecolor':'white'})
 
 from utils import *
 from satelites import *
