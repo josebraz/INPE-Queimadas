@@ -1034,16 +1034,16 @@ O processo de validação deixou claro que a técnica proposta é capaz de detec
 
 \section{Resultados apresentados}
 
-Como parte dos objetivos deste estudo e após a validação mencionada anteriormente, o método foi aplicado em todo o território nacional, abrangendo o período de 2008 a 2022. Os resultados obtidos foram comparados com o produto AQ1km, que é a referência oficial do INPE para dados de área queimada em todo o Brasil.
+Como parte dos objetivos deste estudo e após a validação mencionada anteriormente, o método foi aplicado a todo o território nacional, abrangendo o período de 2008 a 2022. Os resultados obtidos foram comparados com o produto AQ1km, que é a referência oficial do INPE para dados de área queimada em todo o Brasil. O intuito é identificar regiões e períodos de tempo que divergem dos dados já conhecidos, a fim de incentivar novas pesquisas sobre esse tema.
 
-A execução do AQ-FA foi realizada em uma máquina desktop equipada com um processador Intel Core i5-9600KF Hexa-Core de 3.7GHz, 32GB de memória RAM DDR4 3200MHz e um SSD NVMe de 1TB. O sistema operacional utilizado foi o Pop!\_OS, uma distribuição Linux com o kernel na versão 5.16. Durante o processamento, foram alocados 5 núcleos do processador. O processamento para esse período demorou aproximadamente 45 horas no total.
+A execução do AQ-FA foi realizada em uma máquina desktop equipada com um processador Intel Core i5-9600KF Hexa-Core de 3.7GHz, 32GB de memória RAM DDR4 3200MHz e um SSD NVMe de 1TB. O sistema operacional utilizado foi o Pop!\_OS, uma distribuição Linux com o kernel na versão 5.16. Durante o processamento, foram dedicados 5 núcleos do processador exclusivamente para essa tarefa. O tempo total de processamento para esse período demorou aproximadamente 45 horas no total.
 
-Os dados de focos ativos fornecidos pelo INPE foram segmentados por mês e pelas órbitas-ponto que abrangem todo o território nacional. Cada órbita-ponto foi processada na íntegra dentro de um único ano. Essa abordagem otimizou o desempenho, pois permitiu manter em memória a grade correspondente à órbita-ponto sem a necessidade de recalculá-la para cada mês. Esse processamento foi repetido para todos os anos analisados.
+Os dados de focos ativos fornecidos pelo INPE foram segmentados por mês e pelas órbitas-ponto que abrangem todo o território nacional. Cada órbita-ponto foi processada na íntegra dentro de um único ano. Essa abordagem otimizou o desempenho, pois permitiu manter em memória a grade correspondente à órbita-ponto sem a necessidade de recalculá-la para cada mês. Esse procedimento foi repetido para todos os anos analisados.
 
-A Figura \ref{fig:results_monthly} apresenta uma comparação mensal da área queimada obtida pelo AQ-FA, em laranja, e o AQ1km, em azul, ao longo do período de 2008 a 2022, abrangendo todo o território nacional. Em diversos anos, nomeadamente 2008, 2009, 2010, 2011, 2013, 2014, 2016 e 2018, os resultados de área queimada foram bastante próximos. Porém, alguns anos, como 2012, 2017, 2020, 2021 e 2022, apresentaram um diferença significativa. Além disso, como esperado, o caráter sazonal dos focos ativos se manteve para a área queimada nos dois produtos.
+A Figura \ref{fig:results_monthly} apresenta uma comparação mensal da área queimada obtida pelo AQ-FA, em laranja, e o AQ1km, em azul, ao longo do período de 2008 a 2022, abrangendo todo o território nacional. Em diversos anos, nomeadamente 2008, 2009, 2011, 2013, 2014, 2016 e 2018, os resultados de área queimada foram bastante próximos. Porém, alguns anos, como 2012, 2017, 2020, 2021 e 2022, apresentaram uma diferença significativa. Além disso, como esperado, o caráter sazonal dos focos ativos se manteve para a área queimada nos dois produtos. O AQ-FA indicou uma quantidade igual ou maior de áreas queimadas em todos os anos, com exceção de 2010.
 
 \begin{figure}[!htb]
-    \caption{Comparação entre o total de área queimada calculada pelo AQ-FA e o pelo AQ1km mensalmente para os anos de 2008 até 2022 para o Brasil}
+    \caption{Comparação mensal do total de área queimada, representado no eixo y, a partir dos resultados do AQ-FA e do AQ1km ao longo dos anos de 2008 a 2022, apresentado no eixo x, abrangendo o território brasileiro.}
     \begin{center}
         \includegraphics[width=35em]{compare_aq1km-aqfa-month}
     \end{center}
@@ -1051,22 +1051,34 @@ A Figura \ref{fig:results_monthly} apresenta uma comparação mensal da área qu
     \label{fig:results_monthly}
 \end{figure}
 
+O AQ-FA mostrou que, durante o período analisado, o ano de 2010 teve uma área queimada menor do que a indicada pelo AQ1km, embora a diferença entre os dois tenha sido pequena nesse caso. Os anos 2012, 2017 e 2020 também se destacaram por terem muitas áreas queimadas contabilizadas, mas com uma diferença mais notável entre os resultados do AQ-FA e do AQ1km. Entre 2018 e 2020, houve um aumento progressivo da área queimada, e esse patamar elevado se manteve em 2021 e 2022. Contudo, para esses dois últimos anos, o AQ1km apontou uma redução na área queimada, o que não foi corroborado pelo AQ-FA. Em 2022, a maior discrepância entre os dois produtos foi registrada, com o AQ-FA indicando quase o dobro da área queimada em relação ao AQ1km.
 
-O AQ-FA mostrou que, durante o período analisado, o ano de 2010 teve uma área queimada ainda maior do que a indicada pelo AQ1km, embora a diferença entre os dois tenha sido menor nesse caso. Os anos 2012, 2017 e 2020 também se destacaram por terem muitas áreas queimadas contabilizadas, mas com uma diferença mais notável entre os resultados do AQ-FA e do AQ1km. Entre 2018 e 2020, houve um aumento progressivo da área queimada, e esse patamar elevado se manteve em 2021 e 2022. Contudo, para esses dois últimos anos, o AQ1km apontou uma redução na área queimada, o que não foi corroborado pelo AQ-FA. Em 2022, a maior discrepância entre os dois produtos foi registrada, com o AQ-FA indicando quase o dobro da área queimada em relação ao AQ1km.
+Durante o período analisado, os dados do AQ1km demonstram uma tendência de estabilização, com uma leve diminuição. Por outro lado, os resultados do AQ-FA apontam para um aumento na área queimada. O motivo dessa diferença provavelmente é devido a discrepância entre os últimos anos e também os anos de 2012 e 2017. 
+Essa diferença entre os dois modelos deve ser interpretada como um alerta para os órgãos públicos relacionados à defesa ambiental, uma vez que sugere a possibilidade de um aumento real na extensão das áreas queimadas no Brasil nesse período.
+
+A análise quantitativa revelou que o AQ-FA, em geral, indica uma área queimada maior do que o AQ1km. No entanto, ainda não foi discutida a localização geográfica dessas diferenças. A Figura \ref{fig:results_teritorio_por_ano} ilustra a variação da área queimada por órbita-ponto em todo o território nacional para os anos de 2008 a 2022. A escala de cores não é linear: tons de azul, que compreendem valores entre 0 e -30 mil km$^2$, indicam uma redução na área queimada em relação ao valor do AQ1km. Já tons de vermelho indicam um aumento e representam valores entre 0 e 6 mil km$ˆ2$. Quanto mais próximo do branco, menor é a diferença, o que sugere concordância entre os dois modelos.
 
 \begin{figure}[!htb]
-    \caption{kno}
+    \caption{Variação da Área Queimada por Órbita-Ponto de 2008 a 2022. A escala de cores está em km$^2$, com tons de azul indicando uma diminuição da área queimada em relação ao AQ1km e tons de vermelho indicando um aumento.}
     \begin{center}
-        \includegraphics[width=35em]{diff_year_compare_aqfa-aq1km_path-row}
+        \includegraphics[width=32em]{diff_year_compare_aqfa-aq1km_path-row}
     \end{center}
     \legend{Fonte: O Autor}
     \label{fig:results_teritorio_por_ano}
 \end{figure}
 
+É notável que, ao longo dos anos, o leste do bioma Amazônico e o norte do Cerrado se destacam consistentemente como aquelas com maior número de áreas queimadas em comparação com as indicações do AQ1km. Com o decorrer dos anos, essa tendência permanece no leste da Amazônia e se expande em direção ao sul e sudoeste desse bioma. O ano de 2022, em particular, apresentou a maior concentração de regiões com mais áreas queimadas, corroborando a discrepância mencionada anteriormente e com uma predominância de ocorrências na Amazônia. 
+
+Em relação ao Cerrado, o AQ-FA apontou, na maioria dos anos, para uma menor extensão de áreas queimadas em comparação com os valores já conhecidos. Entretanto, essa discrepância diminuiu gradualmente, a ponto de, a partir de 2020, a divergência entre os resultados dos dois modelos praticamente desaparecer. O ano de 2010, apesar de ter registrado uma alta atividade de focos ativos, não se traduziu em uma ampliação significativa da área queimada pelo modelo proposto. Nesse período, é possível observar várias órbitas-ponto desse bioma apresentando menos áreas queimadas em relação a referência.
+
+Os biomas Pampa, Mata Atlântica e Caatinga quase não tiveram diferença na área queimada, o que pode ser esplicado pela baixa atividade do fogo nesses biomas, já apresentada anteriormente na Figura \ref{fig:brasil_focos}. O Pantanal se mantevem constante, exceto nos anos de 2020 e 2021. Nesses anos, que compreendem um longo período de seca nessa região, o AQ-FA não identificou tantas áreas queimadas como o valor conhecido.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Considerações Finais}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
