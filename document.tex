@@ -1078,7 +1078,36 @@ Os biomas Pampa, Mata Atlântica e Caatinga quase não tiveram diferença na ár
 
 \chapter{Considerações Finais}
 
+O AQ-FA foi validado contra os resultados do AQ30m em 20 regiões e períodos de tempo diferentes, atingindo uma acurácia geral alta e pouca diferença de área queimada entre os dois modelos. Ao comparar o método proposto com o AQ1km, em escala nacional e 15 anos de dados recentes, o resultado foi que o AQ-FA de maneira geral classifica mais regiões como queimadas. Pelo modelo, os últimos anos são caracterizados por um aumento na área queimada, principalmente na região da Amazônia.
 
+% contribuições
+
+A implementação do método, bem como os resultados obtidos e os dados utilizados para tal estão acessíveis de forma aberta para o público pelo link \url{https://github.com/josebraz/INPE-Queimadas}. O código que gerou todas as imagens de autoria própria também está disponível, possibilitando a reprodutibilidade e novas validações. O autor espera que com esse arcabouso técnico aberto, mais pessoas se interessem pelo tema e publiquem novas ferramentas que ajudem na preservação ambiental do Brasil e do mundo. 
+
+contribuições \\
+..... código aberto da implementação \\
+..... uma atenção a região amazônica \\
+..... facilidade do uso dos dados de focos ativos (abriu uma porta) \\
+
+% limitações
+
+
+
+limitaçoes \\
+..... os parametros nao foram ótimos \\
+..... a limitações de uso apenas dos focos ativos do INPE \\
+..... não foi aplicado ao ano de 2023 por não estar completo \\
+
+% novos estudos
+
+Ainda há muito a desenvolver nesta área de pesquisa, em complemento a este trabalho. Por exemplo, uma vez que os parâmetros escolhidos para o AQ-FA não são ótimos, um trabalho futuro poderia focar em encontrar uma combinação que aumentasse a precisão do método, utilizando um arcabouço matemático mais sofisticado. É possível reorganizar as equações descritas na Seção \ref{sec:separacao_e_avaliacao} para aplicá-las em um sistema de otimização combinatória. Seria necessário fixar uma função área queimada (conforme Seção \ref{sec:calculo_area_queimada}) para orientar a minimização dos erros em relação a uma referência. As variáveis desse sistema seriam os parâmetros do modelo, com exceção do \texttt{quadrant_width}, que define a resolução desejada, estando sujeitas às restrições definidas pelo método proposto.
+
+
+
+novos estudos \\
+..... um método para achar a escolha de parâmetros ótima \\
+..... comparar com outros produtos, mais trabalhos de avaliação \\
+..... Dados acessíveis de forma interativa na web \\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
