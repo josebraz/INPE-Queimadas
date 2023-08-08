@@ -278,7 +278,14 @@
 - [X] O tamanho do quadrante escolhido também impacta na precisão do modelo,
   mas dificulta o processamento do resultado. => relembrar qual foi o
   tamanho do quadrante.
-*** TODO 5.3
+*** 5.3 Resultados
+- aplicado a todo o território nacional => aplicado em todo o território nacional
+- kmˆ2 => km^2
+- esplicado => explicado
+- já apresentada anteriormente na Figura 5.3. => a figura 5.3 não é um mapa
+
+
+
 
 * Reuniões
 ** 2023-07-06 O que falta fazer?
