@@ -1034,7 +1034,7 @@ O processo de validação deixou claro que a técnica proposta é capaz de detec
 
 \section{Resultados apresentados}
 
-Como parte dos objetivos deste estudo e após a validação mencionada anteriormente, o método foi aplicado a todo o território nacional, abrangendo o período de 2008 a 2022. Os resultados obtidos foram comparados com o produto AQ1km, que é a referência oficial do INPE para dados de área queimada em todo o Brasil. O intuito é identificar regiões e períodos de tempo que divergem dos dados já conhecidos, a fim de incentivar novas pesquisas sobre esse tema.
+Como parte dos objetivos deste estudo e após a validação mencionada anteriormente, o método foi aplicado em todo o território nacional, abrangendo o período de 2008 a 2022. Os resultados obtidos foram comparados com o produto AQ1km, que é a referência oficial do INPE para dados de área queimada em todo o Brasil. O intuito é identificar regiões e períodos de tempo que divergem dos dados já conhecidos, a fim de incentivar novas pesquisas sobre esse tema.
 
 A execução do AQ-FA foi realizada em uma máquina desktop equipada com um processador Intel Core i5-9600KF Hexa-Core de 3.7GHz, 32GB de memória RAM DDR4 3200MHz e um SSD NVMe de 1TB. O sistema operacional utilizado foi o Pop!\_OS, uma distribuição Linux com o kernel na versão 5.16. Durante o processamento, foram dedicados 5 núcleos do processador exclusivamente para essa tarefa. O tempo total de processamento para esse período demorou aproximadamente 45 horas no total.
 
@@ -1056,7 +1056,7 @@ O AQ-FA mostrou que, durante o período analisado, o ano de 2010 teve uma área 
 Durante o período analisado, os dados do AQ1km demonstram uma tendência de estabilização, com uma leve diminuição. Por outro lado, os resultados do AQ-FA apontam para um aumento na área queimada. O motivo dessa diferença provavelmente é devido a discrepância entre os últimos anos e também os anos de 2012 e 2017. 
 Essa diferença entre os dois modelos deve ser interpretada como um alerta para os órgãos públicos relacionados à defesa ambiental, uma vez que sugere a possibilidade de um aumento real na extensão das áreas queimadas no Brasil nesse período.
 
-A análise quantitativa revelou que o AQ-FA, em geral, indica uma área queimada maior do que o AQ1km. No entanto, ainda não foi discutida a localização geográfica dessas diferenças. A Figura \ref{fig:results_teritorio_por_ano} ilustra a variação da área queimada por órbita-ponto em todo o território nacional para os anos de 2008 a 2022. A escala de cores não é linear: tons de azul, que compreendem valores entre 0 e -30 mil km$^2$, indicam uma redução na área queimada em relação ao valor do AQ1km. Já tons de vermelho indicam um aumento e representam valores entre 0 e 6 mil km$ˆ2$. Quanto mais próximo do branco, menor é a diferença, o que sugere concordância entre os dois modelos.
+A análise quantitativa revelou que o AQ-FA, em geral, indica uma área queimada maior do que o AQ1km. No entanto, ainda não foi discutida a localização geográfica dessas diferenças. A Figura \ref{fig:results_teritorio_por_ano} ilustra a variação da área queimada por órbita-ponto em todo o território nacional para os anos de 2008 a 2022. A escala de cores não é linear: tons de azul, que compreendem valores entre 0 e -30 mil km$^2$, indicam uma redução na área queimada em relação ao valor do AQ1km. Já tons de vermelho indicam um aumento e representam valores entre 0 e 6 mil km$^2$. Quanto mais próximo do branco, menor é a diferença, o que sugere concordância entre os dois modelos.
 
 \begin{figure}[!htb]
     \caption{Variação da Área Queimada por Órbita-Ponto de 2008 a 2022. A escala de cores está em km$^2$, com tons de azul indicando uma diminuição da área queimada em relação ao AQ1km e tons de vermelho indicando um aumento.}
@@ -1071,43 +1071,42 @@ A análise quantitativa revelou que o AQ-FA, em geral, indica uma área queimada
 
 Em relação ao Cerrado, o AQ-FA apontou, na maioria dos anos, para uma menor extensão de áreas queimadas em comparação com os valores já conhecidos. Entretanto, essa discrepância diminuiu gradualmente, a ponto de, a partir de 2020, a divergência entre os resultados dos dois modelos praticamente desaparecer. O ano de 2010, apesar de ter registrado uma alta atividade de focos ativos, não se traduziu em uma ampliação significativa da área queimada pelo modelo proposto. Nesse período, é possível observar várias órbitas-ponto desse bioma apresentando menos áreas queimadas em relação a referência.
 
-Os biomas Pampa, Mata Atlântica e Caatinga quase não tiveram diferença na área queimada, o que pode ser esplicado pela baixa atividade do fogo nesses biomas, já apresentada anteriormente na Figura \ref{fig:brasil_focos}. O Pantanal se mantevem constante, exceto nos anos de 2020 e 2021. Nesses anos, que compreendem um longo período de seca nessa região, o AQ-FA não identificou tantas áreas queimadas como o valor conhecido.
+Os biomas Pampa, Mata Atlântica e Caatinga quase não tiveram diferença na área queimada, o que pode ser explicado pela baixa atividade do fogo nesses biomas, já apresentada anteriormente na Figura \ref{fig:brasil_focos}. O Pantanal se manteve constante, exceto nos anos de 2020 e 2021. Nesses anos, que compreendem um longo período de seca nessa região, o AQ-FA não identificou tantas áreas queimadas como o valor conhecido.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Considerações Finais}
 
-O AQ-FA foi validado contra os resultados do AQ30m em 20 regiões e períodos de tempo diferentes, atingindo uma acurácia geral alta e pouca diferença de área queimada entre os dois modelos. Ao comparar o método proposto com o AQ1km, em escala nacional e 15 anos de dados recentes, o resultado foi que o AQ-FA de maneira geral classifica mais regiões como queimadas. Pelo modelo, os últimos anos são caracterizados por um aumento na área queimada, principalmente na região da Amazônia.
+% resumo resultados
+
+O AQ-FA foi validado contra os resultados do AQ30m em 20 regiões e períodos de tempo diferentes, atingindo uma acurácia geral alta e pouca diferença de área queimada entre os dois modelos. Ao comparar o método proposto com o AQ1km, em escala nacional e 15 anos de dados recentes, os resultados indicam que o AQ-FA, de maneira geral, classifica mais regiões como queimadas. Pelo modelo, os últimos anos são caracterizados por um aumento na área queimada, principalmente na região da Amazônia.
+
+A o bioma da Amazônia chama a atenção nos resultados obtidos. Em todos os anos analisados há o indicativo de que a área queimada é maior, e a cada ano vem aumentanto ainda mais. .....
 
 % contribuições
 
-A implementação do método, bem como os resultados obtidos e os dados utilizados para tal estão acessíveis de forma aberta para o público pelo link \url{https://github.com/josebraz/INPE-Queimadas}. O código que gerou todas as imagens de autoria própria também está disponível, possibilitando a reprodutibilidade e novas validações. O autor espera que com esse arcabouso técnico aberto, mais pessoas se interessem pelo tema e publiquem novas ferramentas que ajudem na preservação ambiental do Brasil e do mundo. 
+O método implementado, seus resultados e os dados empregados estão acessíveis ao público através do link \url{https://github.com/josebraz/INPE-Queimadas}. O código responsável pela geração de todas as imagens, desenvolvido pelo autor, também está disponível. Isso facilita a reprodutibilidade dos resultados e possibilita novas validações. A disponibilização desse arcabouço técnico abre oportunidades para que um público mais amplo se envolva no tema, incentivando o desenvolvimento e aprimoramento de ferramentas que contribuam para a preservação ambiental, tanto no Brasil como no mundo.
 
-contribuições \\
-..... código aberto da implementação \\
-..... uma atenção a região amazônica \\
-..... facilidade do uso dos dados de focos ativos (abriu uma porta) \\
+O autor espera que esses resultados incentivem futuras pesquisas na área, especialmente na região Amazônica, que foi a área que mais apresentou aumento na área queimada de acordo com o método proposto. Contudo, é importante ressaltar que este estudo não permite afirmar que a região tenha níveis de queimada mais elevados do que os já reconhecidos. No entanto, o estudo deve, no mínimo, servir como um alerta de atenção para essa região de extrema importância para a fauna e flora do planeta.
 
 % limitações
+O método proposto se beneficia quanto mais satélites são utilizados. Nesta forma, é interessante obter dados de focos ativos provenientes de outros satélites, mesmo que por outras bases de dados que não o INPE. Muitos satélites foram lançados nos últimos 20 anos, que aumentaram as detecções de focos ativos. Muitos outros estão planejados para os próximos anos, com sensores ainda mais potentes. Quanto mais diverso são os satélite, sensores e tipos de órbitas, mas potente em detectar áreas queimadas o método se torna. Nesse sentido, é necessário continuar o desenvolvimento do método para agregar essas novas fontes de dados, uma vez que isso não é um processo automatizado.
 
+Por outros lado, o AQ-FA está sujeito a erros nos diversos algoritmos empregados para detecção de focos ativos, o que pode afetar a confiabilidade dos resultados.  O método não incorpora medidas para mitigar dados discrepantes ou tendenciosos de focos ativos. Além disso, não utiliza outros tipos de dados, como os dados de reflectância empregados em algoritmos de área queimada mais tradicionais. Sem isso, o método precisa inferir uma área queimada com base na intensidade do foco ativo e não a partir da área já queimada.
 
-
-limitaçoes \\
-..... os parametros nao foram ótimos \\
-..... a limitações de uso apenas dos focos ativos do INPE \\
-..... não foi aplicado ao ano de 2023 por não estar completo \\
+Outro desafio associado à utilização desse método é a seleção dos parâmetros. Neste estudo, os parâmetros foram escolhidos através de uma abordagem manual e análise estatística. No entanto, é bastante provável que esses parâmetros não sejam ótimos. Dada a ampla gama de combinações possíveis de parâmetros e funções de área queimada, uma análise completa se torna complexa sem a aplicação de técnicas automáticas. Além disso, determinar uma amostra representativa das órbitas-ponto e períodos de tempo que melhor representam o conjunto total é uma tarefa desafiadora que também pode ser aprimorada.
 
 % novos estudos
 
-Ainda há muito a desenvolver nesta área de pesquisa, em complemento a este trabalho. Por exemplo, uma vez que os parâmetros escolhidos para o AQ-FA não são ótimos, um trabalho futuro poderia focar em encontrar uma combinação que aumentasse a precisão do método, utilizando um arcabouço matemático mais sofisticado. É possível reorganizar as equações descritas na Seção \ref{sec:separacao_e_avaliacao} para aplicá-las em um sistema de otimização combinatória. Seria necessário fixar uma função área queimada (conforme Seção \ref{sec:calculo_area_queimada}) para orientar a minimização dos erros em relação a uma referência. As variáveis desse sistema seriam os parâmetros do modelo, com exceção do \texttt{quadrant_width}, que define a resolução desejada, estando sujeitas às restrições definidas pelo método proposto.
+Ainda há muito a desenvolver nesta área de pesquisa, em complemento a este trabalho. Por exemplo, uma vez que os parâmetros escolhidos para o AQ-FA não são ótimos, um trabalho futuro poderia focar em encontrar uma combinação que aumentasse a precisão do método, utilizando um arcabouço matemático mais sofisticado. É possível reorganizar as equações descritas na Seção \ref{sec:separacao_e_avaliacao} para aplicá-las em um sistema de otimização combinatória. Seria necessário fixar uma função área queimada (conforme Seção \ref{sec:calculo_area_queimada}) para orientar a minimização dos erros em relação a uma referência. As variáveis desse sistema seriam os parâmetros do modelo, com exceção do \texttt{quadrant\_width}, que define a resolução desejada, estando sujeitas às restrições definidas pelo método proposto.
 
+Outra importante contribuição para o tema seria a disponibilização dos resultados do AQ-FA por meio de um site interativo. Isso simplificaria o acesso a esses dados, possibilitando que pessoas sem conhecimentos em programação pudessem explorá-los facilmente. Essa abordagem é relevante, visto que ambientalistas e geógrafos, que talvez não possuam esse conhecimento, poderiam beneficiar-se consideravelmente desses dados. Um exemplo dessa ideia é o site do Programa Queimadas, que demonstra ser uma ferramenta eficaz para promover o avanço científico e empoderar a sociedade com informações confiáveis e abertas. 
 
+Como outros produtos de satélites, trabalhos de validação sempre estão sendo desenvolvidos. Nesse sentido, é importantes que novos pesquisadores também produzam trabalhos que se dediquem a validar e a medir a precisão do AQ-FA ou de alguma outra variação de produtos para cálculo de área queimda. Ao fazer isso, todos o produtos envolvidos são beneficiados, uma vez que aumenta o nível de confiabilidade dos modelos, expõe limitações técnicas, identifica melhorias e possibilita ajustes finos nos parâmetros.
 
-novos estudos \\
-..... um método para achar a escolha de parâmetros ótima \\
-..... comparar com outros produtos, mais trabalhos de avaliação \\
-..... Dados acessíveis de forma interativa na web \\
+Para o Brasil, esses últimos anos foram marcados por um governo que negou a ciência e enfraqueceu a pesquisa e tecnologia do país. O governo tentou controlar a divulgação de resultados de queimadas, retirando a responsabilidade do INPE e transferindo-a para o Instituto Nacional de Meteorologia (INMET), subordinado ao Ministério da Agricultura. Tornaram-se frequentes as notícias de violações ambientais na Amazônia, como as minerações ilegais que prejudicam a sobrevivência da população indígena ribeirinha; e no cerrado, com a queima ilegal da vegetação para a prática de grilagem. Este estudo, portanto, representa um ato político em prol da ciência no país, da livre divulgação de informações científicas e da preservação ambiental.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

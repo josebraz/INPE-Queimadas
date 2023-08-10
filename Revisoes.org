@@ -214,33 +214,33 @@
 - [X] Trocar o título "Avaliar" -> Avaliações
 - [X] Isso é ilustrado => Essa abordagem
 *** Figuras 5.1 e 5.2
-- se possível, colocar fundo branco para melhor diferenciar as
+- [X] se possível, colocar fundo branco para melhor diferenciar as
   tonalidades das cores
-- A fonte do texto nas imagens está demasiada pequena, difícil de ler,
+- [X] A fonte do texto nas imagens está demasiada pequena, difícil de ler,
   aumentar para ficar pelo menos 50% do tamanho da fonte do texto do
   caption.
 *** 5.2 Validação do AQ-FA
 - [X] seja computado dezenas de vezes mais rápido. => seja calculado mais rapidamente.
 - [X] que é a mesma usada no AQ30m. => sendo esta a mesma usada no AQ30m.
 *** Escolha dos parâmetros do AQ-FA
-- No primeiro parágrafo, se apresentam os valores de parametragem, com
+- [X] No primeiro parágrafo, se apresentam os valores de parametragem, com
   o objetivo de "gerar resultados com menos erros de comissão
   ...". Penso que seria importante aqui ressaltar que tais parâmetros
   foram definidos de maneira experimental (empírica) - a menos que
   tenha definido um método mais robusto para isso (que talvez
   merecesse descrição sucinta aqui).
-  - Percebi em seguida que chegas a de fato descrever o método
+  - [X] Percebi em seguida que chegas a de fato descrever o método
     experimental que usaste para definir tais parametragens "Esses
     valores foram obtidos a partir de experimentos comparando várias
     combinações." no que diz respeito ao que configura cada função de
     área queimada.
 - [X] de 5 métricas estatísticas => quais são as 5 métricas?
-  - Dizer explicitamente quais são os nomes e que estas encontram-se
+  - [X] Dizer explicitamente quais são os nomes e que estas encontram-se
     no eixo Y.
   - No caption se escreve "seis"
 - orbitas-ponto => órbitas-ponto
 *** Figura 5.3
-- Não ficou claro para mim o que significam os box plots. Entendo o
+- [X] Não ficou claro para mim o que significam os box plots. Entendo o
   que eles representam, mas não entendi como eles são calculados. Por
   exemplo, para "linear" e OA, qual a conclusão? Percebo que pouco
   importa o eixo X (faltou o label do eixo x na Fig 4.3), há sempre
@@ -249,9 +249,9 @@
 - Fundo branco.
 *** Continuação
 - [X] obtidos a patir de testes. => obtidos a _partir_ de testes.
-- "A função percentil apresentou os melhores resultados nas diferentes métricas"
-  - Não ficou claro olhando para a Figura 5.3 e o texto do porquê percentil é o melhor.
-  - Os argumentos apresentados no último parágrafo poderiam ser usados
+- [X] "A função percentil apresentou os melhores resultados nas diferentes métricas"
+  - [X] Não ficou claro olhando para a Figura 5.3 e o texto do porquê percentil é o melhor.
+  - [X] Os argumentos apresentados no último parágrafo poderiam ser usados
     para outras funções de área queimada também, não? O que fez
     concretamente a escolha do percentil a melhor?
 *** Análise da validação
@@ -279,9 +279,9 @@
   mas dificulta o processamento do resultado. => relembrar qual foi o
   tamanho do quadrante.
 *** 5.3 Resultados
-- aplicado a todo o território nacional => aplicado em todo o território nacional
-- kmˆ2 => km^2
-- esplicado => explicado
+- [X] aplicado a todo o território nacional => aplicado em todo o território nacional
+- [X] kmˆ2 => km^2
+- [X] esplicado => explicado
 - já apresentada anteriormente na Figura 5.3. => a figura 5.3 não é um mapa
 
 
