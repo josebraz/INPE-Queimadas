@@ -158,18 +158,23 @@
   remover a vírgula
 - [x] em um sentido ... no outro sentido
   [x] - especificar o sentido (horário, anti-horário)
-- O primeiro par de imagens => O primeiro par de imagens da esquerda
+- [X] O primeiro par de imagens => O primeiro par de imagens da esquerda
   para a direita
 - [x] A partir desse ponto até o final do documento => Neste documento
 - [x] ganham a área do sensor => explicar que eles ganham a área do sensor
   pois é assim que tu decidiste fazer no teu método
-*** 3.3 Separação e avaliação de quadrantes
+*** TODO 3.3 Separação e avaliação de quadrantes
 - [x] figura 3.3, => Figura 3.3,
 - [x] avaliação de serão => avaliação que serão
-- Sendo q o quadrante (polígono) => aqui usa-se q para quadrante, mas
-  depois area(p) para área do polígono. Não seria area(q) do quadrante
-  tendo em vista que quadrante e polígono são a mesma coisa. Talvez
-  remover a palavra polígono não?
+- [ ] Definir no primeiro parágrafo da Sec 3.3 o que é um polígono
+  usando a Figura 3.3 de maneira que esse nome seja depois usado nas
+  equações com tranquilidade.
+  - Ao invés de polígono, usar o termo _medição_
+- [/] Sendo q o quadrante (polígono) => aqui usa-se q para quadrante,
+  mas depois area(p) para área do polígono. Não seria area(q) do
+  quadrante tendo em vista que quadrante e polígono são a mesma
+  coisa.
+- [/] Talvez remover a palavra polígono não?
 - [x] para não ser penalizado => não fica claro essa questão de
   penalização nesta altura do texto. Como resolver? Especificar mais
   talvez o que seria tal penalização, ou remeter o leitor para o que
@@ -177,10 +182,10 @@
 - é dada por: => remover o início de parágrafo que vem a seguir.
 - [x] distaque => destaque
 *** 3.4 Cálculo da área queimada
-- Não vi necessidade de definir o termo eval(v). Veja que v não foi
+- [/] Não vi necessidade de definir o termo eval(v). Veja que v não foi
   definido.
 (sem ter lido o que vem a seguir)
-- Depois da Figura 3.5 fiquei com o sentimento da falta de uma decisão
+- [X] Depois da Figura 3.5 fiquei com o sentimento da falta de uma decisão
   de qual daquelas funções de avaliação seria a escolhida. O texto
   menciona que a exponencial seria melhor, mas isso depende de uma
   avaliação. Não se menciona qual é a escolhida.
@@ -238,7 +243,7 @@
   - [X] Dizer explicitamente quais são os nomes e que estas encontram-se
     no eixo Y.
   - No caption se escreve "seis"
-- orbitas-ponto => órbitas-ponto
+- [X] orbitas-ponto => órbitas-ponto
 *** Figura 5.3
 - [X] Não ficou claro para mim o que significam os box plots. Entendo o
   que eles representam, mas não entendi como eles são calculados. Por
@@ -246,7 +251,7 @@
   importa o eixo X (faltou o label do eixo x na Fig 4.3), há sempre
   uma intersecção do IQR entre os diferentes valores do eixo X. Por
   quê? É normal?
-- Fundo branco.
+- [X] Fundo branco.
 *** Continuação
 - [X] obtidos a patir de testes. => obtidos a _partir_ de testes.
 - [X] "A função percentil apresentou os melhores resultados nas diferentes métricas"
@@ -254,8 +259,9 @@
   - [X] Os argumentos apresentados no último parágrafo poderiam ser usados
     para outras funções de área queimada também, não? O que fez
     concretamente a escolha do percentil a melhor?
-*** Análise da validação
-- obitidos => obtidos
+*** TODO 5.3 Análise da validação
+- [ ] 10km^2 => 100km^2 no texto
+- [X] obitidos => obtidos
 - [X] A comparação é feita para as órbitas-ponto => existe alguma
   justificativa para a escolha destas órbitas-ponto em específico? Se
   sim, seria legal colocar ali.
@@ -282,10 +288,8 @@
 - [X] aplicado a todo o território nacional => aplicado em todo o território nacional
 - [X] kmˆ2 => km^2
 - [X] esplicado => explicado
-- já apresentada anteriormente na Figura 5.3. => a figura 5.3 não é um mapa
-
-
-
+- [X] já apresentada anteriormente na Figura 5.3. => a figura 5.3 não é um mapa
+  
 ** 2023-08-10 Capítulo 6 CONCLUSÃO
 - Logo no início, antes do primeiro parágrafo, penso ser importante
   relembrar muito brevemente a motivação, o objetivo e a contribuição
