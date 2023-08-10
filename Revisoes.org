@@ -286,6 +286,26 @@
 
 
 
+** 2023-08-10 Capítulo 6 CONCLUSÃO
+- Logo no início, antes do primeiro parágrafo, penso ser importante
+  relembrar muito brevemente a motivação, o objetivo e a contribuição
+  do trabalho. Depois podes continuar com o primeiro parágrafo atual,
+  que já reporta sobre validação/resultados.
+- Antes de mencionar AQ30m, AQ1km, relembrar que o AQ30m é bem preciso
+  mas não tem em todo lugar, e que o AQ1km é a referência principal
+  abrangendo o país inteiro.
+- O segundo parágrafo atual "A o bioma da Amazônia..." parece estar
+  incompleto pois há ..... e além disso, consiste em poucas palavras
+  comparativamente aos outros parágrafos escritos. Talvez algo que
+  devesse ser removido?
+- Talvez pudéssemos permitir que a banca, antes da defesa, pudesse ter
+  olhos sobre o GIT, atualmente ele é privado conforme havíamos
+  combinado. Talvez possamos selecionar uma banca (refinando os nomes)
+  que tenha conta no github.
+- não sejam ótimos => não sejam os melhores (para evitar o problema do
+  conceito de "ótimo" em computação)
+- Gostei do último parágrafo.
+  - Eu colocaria "representa um ato político" => "representa também um ato político"
 
 * Reuniões
 ** 2023-07-06 O que falta fazer?
