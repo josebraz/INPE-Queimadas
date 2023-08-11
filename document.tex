@@ -223,7 +223,7 @@ Além do DBQueimadas, o INPE também disponibiliza para visualização e downloa
  \texttt{Municipio} & \texttt{string} & Nome do município, de acordo com os dados 
                      do IBGE 2000 \\
  \texttt{Estado} & \texttt{string} & Nome do estado \\
- \texttt{Pais} & \texttt{string} & Nome do país \\  
+ \texttt{País} & \texttt{string} & Nome do país \\  
  \texttt{Bioma} & \texttt{string} & Nome do bioma brasileiro, de acordo com 
                      dados do IBGE 2004 (para outros países o campo fica vazio) \\
  \texttt{Precipitação} & \texttt{double} & Valor a precipitação do dia até 
@@ -580,7 +580,7 @@ O cálculo exato da área coberta pelo foco deve levar em conta, além da resolu
 
 No segundo fator, a inclinação dos satélites determinam como é a rotação da área coberta. Os satélites que orbitam a Terra em órbitas polares possuem uma determinada inclinação que lhes permitem cobrir diferentes áreas de todo o planeta durante sua tragetória (Figura \ref{fig:orbita2022-08-10}). Quando o satélite está se movendo em uma trajetória ascendente, ou seja, do sul para o norte, a área coberta pelo sensor deve ser rotacionada no sentido horário. Por outro lado, se a trajetória for descendente, do norte para o sul, a rotação deve ser no sentido anti-horário.
 
-A Figura \ref{fig:comparacao_pontos_e_areas} apresenta dados coletados pelo satélite  Suomi NPP no dia dois de setembro de 2022. O primeiro par de imagens da esquerda para a direita corresponde à órbita ascendente do satélite, enquanto o segundo par de imagens corresponde à órbita descendente. Observa-se que, na primeira e terceira imagens, os pontos dos focos de queimada estão alinhados, mas ligeiramente rotacionados em alguns graus, coincidindo com a inclinação do satélite. Na segunda e quarta imagens, os pontos são convertidos em áreas a partir da aplicação desta etapa do método. Eles passam a representar a cobertura territorial do foco e encaixam perfeitamente entre seus vizinhos. Neste documento, a área coberta pelo foco será chamada de medição.
+A Figura \ref{fig:comparacao_pontos_e_areas} apresenta dados coletados pelo satélite Suomi NPP no dia dois de setembro de 2022. O primeiro par de imagens da esquerda para a direita corresponde à órbita ascendente do satélite, enquanto o segundo par de imagens corresponde à órbita descendente. Observa-se que, na primeira e terceira imagens, os pontos dos focos de queimada estão alinhados, mas ligeiramente rotacionados em alguns graus, coincidindo com a inclinação do satélite. Na segunda e quarta imagens, os pontos são convertidos em áreas a partir da aplicação desta etapa do método. Eles passam a representar a cobertura territorial do foco e encaixam perfeitamente entre seus vizinhos. Neste documento, a área coberta pelo foco será chamada de medição.
 
 \begin{figure}[!htb]
     \caption{Comparação entre pontos e áreas dos focos detectados pelo satélite Suomi NPP.}
@@ -609,7 +609,7 @@ O tamanho do quadrante é uma entrada dessa etapa, chamada de \texttt{quadrant\_
 
 Com a distribuição dos quadrantes definida, é necessário atribuir a cada um deles um valor que represente a intensidade de focos dentro do quadrante. A avaliação dos quadrantes deve penalizar quadrantes que apresentam poucas medições de diferentes satélites. Essa abordagem justifica-se pelo fato de que ajuda a reduzir os ruídos nas medições e a identificar queimadas mais intensas. Além disso, diferentes satélites realizam medições em horários distintos (ver Figura \ref{fig:tempo_medidas_satelites}), o que indica uma queimada mais prolongada. Em ambos os casos, queimadas mais intensas e duradouras sinalizam um maior potencial de o fogo ter atingido todo o quadrante.
 
-Sendo $q$ o quadrante a ser avaliado; $M$ um conjunto de todas as medições (área coberta pelo foco); a operação $area(p)$ retorna a área de um polígono $p$ qualquer; a operação $unique\_satelite(Q)$ retorna todos os satélites diferentes do conjunto $Q$; a constante \texttt{min\_area} é a área mínima de uma medição; a constante \texttt{threshold\_satellite} é o número mínimo de satélites para não ser penalizado. A definição formal da avaliação é dada por: \par
+Sendo $q$ o quadrante a ser avaliado; $M$ um conjunto de todas as medições (área coberta pelo foco); a operação $area(p)$ retorna a área de um polígono $p$ qualquer (que pode ser um quadrante ou uma medição); a operação $unique\_satelite(Q)$ retorna todos os satélites diferentes do conjunto $Q$; a constante \texttt{min\_area} é a área mínima de uma medição; a constante \texttt{threshold\_satellite} é o número mínimo de satélites para não ser penalizado. A definição formal da avaliação é dada por: \par
 
 Para cada quadrante ($q$), é realizado o cálculo da interseção com cada medição ($m$), resultando em um conjunto de polígonos ($Qm$) contidos em $q$:
 
@@ -658,7 +658,7 @@ Essa etapa é considerada concluída quando todos os quadrantes estão avaliados
 
 Finalmente, com os quadrantes avaliados, é possível estimar a área queimada para cada quadrante. É importante que o método de cálculo seja flexível, permitindo que o pesquisador teste diferentes métodos. Uma forma de fazer isso é atribuir um número que represente a porcentagem de área queimada dentro do quadrante e, em seguida, multiplicá-lo pela área total do quadrante para obter a área queimada dentro do quadrante. Após calcular a área queimada de cada quadrante, é necessário somar todos esses valores para obter a área total queimada.
 
-Nesse sentido, o papel do pesquisador é definir uma função (\texttt{eval(v, vs)}) que receba o valor do quadrante (\texttt{v}), calculado na etapa anterior, e retorne um número real entre zero e um. Essa função também pode receber como parâmetro a lista de todos os valores de avaliação dos quadrantes (\texttt{vs}), que podem ser usados para normalizar o cálculo ou realizar uma análise estatística. Por exemplo, o pesquisador pode definir uma função que indique que o quadrante só deve ser considerado totalmente queimado se o valor do quadrante for maior que o percentil 85, ou seja, maior que pelo menos 85\% dos valores.
+Nesse sentido, o papel do pesquisador é definir uma função \texttt{eval(v, vs)} que receba o valor do quadrante \texttt{v}, calculado na etapa anterior, e retorne um número real entre zero e um. Essa função também pode receber como parâmetro a lista de todos os valores de avaliação dos quadrantes \texttt{vs}, que podem ser usados para normalizar o cálculo ou realizar uma análise estatística. Por exemplo, o pesquisador pode definir uma função que indique que o quadrante só deve ser considerado totalmente queimado se o valor do quadrante for maior que o percentil 85, ou seja, maior que pelo menos 85\% dos valores.
 
 Para facilitar o trabalho do pesquisador, a implementação pode fornecer funções embutidas comuns que definem a função \texttt{eval(v, vs)}. Na Figura \ref{fig:eval_func_built_in}, são apresentadas algumas possibilidades de definições para essa função. A função mais simples é chamada de \texttt{limiar(threshold)}, que estabelece que toda a área do quadrante deve ser considerada queimada se a avaliação for maior ou igual a \texttt{threshold} e nenhuma área deve ser considerada queimada se não alcançar esse valor. Outra função simples é a \texttt{linear(vmin, vmax)}, que faz o valor da área queimada crescer de forma linear dentro dos valores \texttt{vmin} e \texttt{vmax}. A última função é a \texttt{exponencial(vmin, vmax, exponent)}, semelhante à \texttt{linear}, mas elevando o resultado a \texttt{exponent}, o que faz o valor crescer mais lentamente no início e de forma mais acentuada no final do intervalo.
 
@@ -684,7 +684,7 @@ A Figura \ref{fig:aplicacao_funcoes_built_in} ilustra claramente como diferentes
 
 Também são possíveis funções mais complexas que utilizam análises estatísticas da distribuição, como a função \texttt{percentil(pmin, pmax, vmin, vmax)}. Essa função define um percentil mínimo (\texttt{pmin}) e um percentil máximo (\texttt{pmax}) como os limiares mínimos e máximos para considerar o quadrante como parcialmente queimado, assim como na função \texttt{linear}. Valores abaixo do limiar mínimo são considerados não queimados, enquanto valores acima do limiar máximo são considerados totalmente queimados. Para evitar limiares discrepantes, também são utilizados limites fixos \texttt{vmin}, \texttt{vmax} e a média desses limiares, chamada de \texttt{vmean} ($(pmin + pmax) / 2$). O valor do limiar mínimo é restrigido ao intervalo \texttt{vmin} e \texttt{vmean}, enquanto o limiar máximo deve ficar entre \texttt{vmean} e \texttt{vmax}. 
 
-Desta forma, a função ajusta seus limiares de acordo com o conjunto de dados, se comportando de forma adaqueada para diferentes tipos de distribuição e ainda mantém uma margem de segurança para evitar classificar áreas utilizando valores discrepantes. Funções que utilizam análises estatísticas da distribuição produzem resultados melhores ques as com limiares fixos. Uma avaliação mais detalhada sobre a aplicação dessas funções é apresentada na Seção \ref{sec:validacao_aq_fa}.
+Desta forma, a função ajusta seus limiares de acordo com o conjunto de dados, se comportando de forma adaqueada para diferentes tipos de distribuição e ainda mantém uma margem de segurança para evitar classificar áreas utilizando valores discrepantes. Funções que utilizam análises estatísticas da distribuição produzem resultados melhores que as com limiares fixos. Uma avaliação mais detalhada sobre a escolha dessas funções é apresentada na Seção \ref{sec:validacao_aq_fa}.
 
 \chapter{Implementação do método}
 \label{chp:implementacao_metodo}
@@ -755,7 +755,8 @@ O código foi estruturado basicamente com duas classes. A classe principal é ch
 
 \bigskip
 
-Terminar o capítulo com um parágrafo onde se faz a ponto com o capítulo seguinte
+Após a apresentação da implementação do método, é possível utilizar o código para a validação e resultados no próximo capítulo. No processo de validação também foram desenvolvidos alguns pequenos programas para geração das imagens e análises estatísticas em um Jupyter Notebook separado, que também está disponível no repositório. 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1078,11 +1079,13 @@ Os biomas Pampa, Mata Atlântica e Caatinga quase não tiveram diferença na ár
 
 \chapter{Considerações Finais}
 
+% retomada da motivação, objetivos e contribuição.
+
 % resumo resultados
 
-O AQ-FA foi validado contra os resultados do AQ30m em 20 regiões e períodos de tempo diferentes, atingindo uma acurácia geral alta e pouca diferença de área queimada entre os dois modelos. Ao comparar o método proposto com o AQ1km, em escala nacional e 15 anos de dados recentes, os resultados indicam que o AQ-FA, de maneira geral, classifica mais regiões como queimadas. Pelo modelo, os últimos anos são caracterizados por um aumento na área queimada, principalmente na região da Amazônia.
+O AQ-FA foi validado contra os resultados do AQ30m, um produto de alta precisão mantido pelo INPE que abrange algumas regiões do país, em 20 regiões e períodos de tempo diferentes, atingindo uma acurácia geral alta e pouca diferença de área queimada entre os dois modelos. Ao comparar o método proposto com o AQ1km, também um produto do INPE mas com menor precisão, em escala nacional e 15 anos de dados recentes, os resultados indicam que o AQ-FA, de maneira geral, classifica mais regiões como queimadas. Pelo modelo, os últimos anos são caracterizados por um aumento na área queimada, principalmente na região da Amazônia.
 
-A o bioma da Amazônia chama a atenção nos resultados obtidos. Em todos os anos analisados há o indicativo de que a área queimada é maior, e a cada ano vem aumentanto ainda mais. .....
+% A o bioma da Amazônia chama a atenção nos resultados obtidos. Em todos os anos analisados há o indicativo de que a área queimada é maior, e a cada ano vem aumentanto ainda mais. .....
 
 % contribuições
 
@@ -1091,11 +1094,12 @@ O método implementado, seus resultados e os dados empregados estão acessíveis
 O autor espera que esses resultados incentivem futuras pesquisas na área, especialmente na região Amazônica, que foi a área que mais apresentou aumento na área queimada de acordo com o método proposto. Contudo, é importante ressaltar que este estudo não permite afirmar que a região tenha níveis de queimada mais elevados do que os já reconhecidos. No entanto, o estudo deve, no mínimo, servir como um alerta de atenção para essa região de extrema importância para a fauna e flora do planeta.
 
 % limitações
+
 O método proposto se beneficia quanto mais satélites são utilizados. Nesta forma, é interessante obter dados de focos ativos provenientes de outros satélites, mesmo que por outras bases de dados que não o INPE. Muitos satélites foram lançados nos últimos 20 anos, que aumentaram as detecções de focos ativos. Muitos outros estão planejados para os próximos anos, com sensores ainda mais potentes. Quanto mais diverso são os satélite, sensores e tipos de órbitas, mas potente em detectar áreas queimadas o método se torna. Nesse sentido, é necessário continuar o desenvolvimento do método para agregar essas novas fontes de dados, uma vez que isso não é um processo automatizado.
 
 Por outros lado, o AQ-FA está sujeito a erros nos diversos algoritmos empregados para detecção de focos ativos, o que pode afetar a confiabilidade dos resultados.  O método não incorpora medidas para mitigar dados discrepantes ou tendenciosos de focos ativos. Além disso, não utiliza outros tipos de dados, como os dados de reflectância empregados em algoritmos de área queimada mais tradicionais. Sem isso, o método precisa inferir uma área queimada com base na intensidade do foco ativo e não a partir da área já queimada.
 
-Outro desafio associado à utilização desse método é a seleção dos parâmetros. Neste estudo, os parâmetros foram escolhidos através de uma abordagem manual e análise estatística. No entanto, é bastante provável que esses parâmetros não sejam ótimos. Dada a ampla gama de combinações possíveis de parâmetros e funções de área queimada, uma análise completa se torna complexa sem a aplicação de técnicas automáticas. Além disso, determinar uma amostra representativa das órbitas-ponto e períodos de tempo que melhor representam o conjunto total é uma tarefa desafiadora que também pode ser aprimorada.
+Outro desafio associado à utilização desse método é a seleção dos parâmetros. Neste estudo, os parâmetros foram escolhidos através de uma abordagem manual e análise estatística. No entanto, é bastante provável que esses parâmetros não sejam os melhores. Dada a ampla gama de combinações possíveis de parâmetros e funções de área queimada, uma análise completa se torna complexa sem a aplicação de técnicas automáticas. Além disso, determinar uma amostra representativa das órbitas-ponto e períodos de tempo que melhor representam o conjunto total é uma tarefa desafiadora que também pode ser aprimorada.
 
 % novos estudos
 
@@ -1105,7 +1109,9 @@ Outra importante contribuição para o tema seria a disponibilização dos resul
 
 Como outros produtos de satélites, trabalhos de validação sempre estão sendo desenvolvidos. Nesse sentido, é importantes que novos pesquisadores também produzam trabalhos que se dediquem a validar e a medir a precisão do AQ-FA ou de alguma outra variação de produtos para cálculo de área queimda. Ao fazer isso, todos o produtos envolvidos são beneficiados, uma vez que aumenta o nível de confiabilidade dos modelos, expõe limitações técnicas, identifica melhorias e possibilita ajustes finos nos parâmetros.
 
-Para o Brasil, esses últimos anos foram marcados por um governo que negou a ciência e enfraqueceu a pesquisa e tecnologia do país. O governo tentou controlar a divulgação de resultados de queimadas, retirando a responsabilidade do INPE e transferindo-a para o Instituto Nacional de Meteorologia (INMET), subordinado ao Ministério da Agricultura. Tornaram-se frequentes as notícias de violações ambientais na Amazônia, como as minerações ilegais que prejudicam a sobrevivência da população indígena ribeirinha; e no cerrado, com a queima ilegal da vegetação para a prática de grilagem. Este estudo, portanto, representa um ato político em prol da ciência no país, da livre divulgação de informações científicas e da preservação ambiental.
+% ultimas palavras
+
+Para o Brasil, esses últimos anos foram marcados por um governo que negou a ciência e enfraqueceu a pesquisa e tecnologia do país. O governo tentou controlar a divulgação de resultados de queimadas, retirando a responsabilidade do INPE e transferindo-a para o Instituto Nacional de Meteorologia (INMET), subordinado ao Ministério da Agricultura. Tornaram-se frequentes as notícias de violações ambientais na Amazônia, como as minerações ilegais que prejudicam a sobrevivência da população indígena ribeirinha; e no cerrado, com a queima ilegal da vegetação para a prática de grilagem. Este estudo, portanto, representa também um ato político em prol da ciência no país, da livre divulgação de informações científicas e da preservação ambiental.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

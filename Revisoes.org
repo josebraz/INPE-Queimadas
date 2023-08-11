@@ -295,20 +295,20 @@
   relembrar muito brevemente a motivação, o objetivo e a contribuição
   do trabalho. Depois podes continuar com o primeiro parágrafo atual,
   que já reporta sobre validação/resultados.
-- Antes de mencionar AQ30m, AQ1km, relembrar que o AQ30m é bem preciso
+- [X] Antes de mencionar AQ30m, AQ1km, relembrar que o AQ30m é bem preciso
   mas não tem em todo lugar, e que o AQ1km é a referência principal
   abrangendo o país inteiro.
-- O segundo parágrafo atual "A o bioma da Amazônia..." parece estar
+- [X] O segundo parágrafo atual "A o bioma da Amazônia..." parece estar
   incompleto pois há ..... e além disso, consiste em poucas palavras
   comparativamente aos outros parágrafos escritos. Talvez algo que
   devesse ser removido?
-- Talvez pudéssemos permitir que a banca, antes da defesa, pudesse ter
+- [X] Talvez pudéssemos permitir que a banca, antes da defesa, pudesse ter
   olhos sobre o GIT, atualmente ele é privado conforme havíamos
   combinado. Talvez possamos selecionar uma banca (refinando os nomes)
   que tenha conta no github.
-- não sejam ótimos => não sejam os melhores (para evitar o problema do
+- [X] não sejam ótimos => não sejam os melhores (para evitar o problema do
   conceito de "ótimo" em computação)
-- Gostei do último parágrafo.
+- [X] Gostei do último parágrafo.
   - Eu colocaria "representa um ato político" => "representa também um ato político"
 
 * Reuniões
@@ -351,6 +351,9 @@ Introdução: - vai afunilando
 * Questões norteadoras/hipóteses
 * Objetivos
 * Relevância/justificativa/legado
+* colocar o link do git na intro
+* ultimo paragrafo é a estrutura do texto
+
 
 
 Conclusão sem dividir em tópicos, fazer nessa ordem:
