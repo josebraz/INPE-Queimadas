@@ -60,7 +60,6 @@ class BurnedAreaCalcPercentile:
 
 class SatellitesExplore:
 
-    default_burned_area_calc = BurnedAreaCalcPercentile()
     default_cmap = get_default_cmap()
     default_min_area_percentage = 0.2
     default_threshold_satellite = 3
@@ -71,7 +70,7 @@ class SatellitesExplore:
                  quadrat_width: float = 0.005, 
                  min_area_percentage: float = default_min_area_percentage,
                  threshold_satellite: float = default_threshold_satellite,
-                 burned_area_calc: BurnedAreaCalc = default_burned_area_calc):
+                 burned_area_calc: BurnedAreaCalc = None):
         self.data = data
         self.delimited_region = delimited_region
         self.satellites_data = SatellitesMeasureGeometry(data)
@@ -79,7 +78,7 @@ class SatellitesExplore:
         self.dataframe = self.satellites_data.get_satelites_measures_area()
         self.data_color = self.dataframe['simp_satelite'].map(satellites_colors)
         self.quadrat_width = quadrat_width
-        self.burned_area_calc = burned_area_calc
+        self.burned_area_calc = burned_area_calc or BurnedAreaCalcPercentile()
         self.min_area_percentage = min_area_percentage
         self.threshold_satellite = threshold_satellite
 

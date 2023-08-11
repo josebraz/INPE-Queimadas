@@ -264,15 +264,17 @@ def create_dataarray(data: gpd.GeoDataFrame, value_column: str = 'value', sparse
         array = array.fillna(0.0)
     return array
 
-def create_gpd(data: xr.DataArray, value_dim: str = 'value', poly: Polygon = None, quadrat_width: float = 0.005) -> gpd.GeoDataFrame:
-    frame = data.to_dataframe(name=value_dim)
-    frame = frame[frame['value'] > 0]
+def create_gpd(data: xr.DataArray, value_dim: str = 'value', 
+               poly: Polygon = None, quadrat_width: float = 0.005,
+               filter_no_zero: bool = True) -> gpd.GeoDataFrame:
+    frame = data.to_dataframe(name=value_dim).reset_index()
+    if filter_no_zero:
+        frame = frame[frame['value'] > 0]
     points = gpd.GeoDataFrame(
         { 'value' : frame['value'] }, 
         geometry=gpd.points_from_xy(x=frame['x'], y=frame['y']),
         crs="EPSG:4326")
     grid = grid_gdf(points, poly=poly, quadrat_width=quadrat_width).copy()
-    grid.drop('index', axis=1, inplace=True) # todo remove this
     join_dataframe: gpd.GeoDataFrame = gpd.sjoin(grid, points, op="contains")
     values = np.zeros(len(grid))
     for index in join_dataframe['index_right'].unique():
