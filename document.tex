@@ -47,19 +47,21 @@
 % palavras-chave
 % iniciar todas com letras maiúsculas
 %
-\keyword{Formatação eletrônica de documentos}
-\keyword{\LaTeX}
-\keyword{ABNT}
-\keyword{UFRGS}
+\keyword{Área queimada}
+\keyword{Análise de dados}
+\keyword{Fogo}
+\keyword{INPE}
+\keyword{Ciência aberta}
 
 %
 % palavras-chave na lingua estrangeira
 % iniciar todas com letras maiúsculas
 %
-\translatedkeyword{Electronic document preparation}
-\translatedkeyword{\LaTeX}
-\translatedkeyword{ABNT}
-\translatedkeyword{UFRGS}
+\translatedkeyword{Burned area}
+\translatedkeyword{Data analysis}
+\translatedkeyword{Fire}
+\translatedkeyword{INPE}
+\translatedkeyword{Open science}
 
 %
 % inicio do documento
@@ -132,11 +134,7 @@ Agradeço ao \LaTeX\ por não ter vírus de macro\ldots
 
 % resumo na língua do documento
 \begin{abstract}
-Este documento é um exemplo de como formatar documentos para o
-Instituto de Informática da UFRGS usando as classes \LaTeX\
-disponibilizadas pelo UTUG\@. Ao mesmo tempo, pode servir de consulta
-para comandos mais genéricos. \emph{O texto do resumo não deve
-conter mais do que 500 palavras.}
+Este trabalho apresenta uma metodologia capaz de estimar a área queimada a partir de focos ativos oriundos do Programa Queimadas do INPE. A metodologica consiste em transformar focos, que são pontos no espaço, em áreas de cobertura do foco, de acordo com a resolução do satélite que o detectou. O espaço é divido em quadrantes e cada quadrante é avaliado de acordo com equações que utilizam as áreas de cobertura dos focos. Por último, cada avaliação de quadrante passa por uma função de normalização, resultando na porcentagem de área queimada estimada para o quadrante. O processo apresentado recebe o nome de AQ-FA, sigla para Área Queimada por Focos Ativos. O método é parametrizável, permitindo alterar a resolução dos resultados, que neste estudo é definida como 300m. A avaliação é contra o produto AQ30m (INPE) para 20 órbitas-ponto e diferentes períodos de tempo, apresentando altos níveis de acurácia. Os resultados são obtidos a partir da aplicação do método de forma mensal para todo o território nacional, entre os anos de 2008 até 2022. Ao comparar os resultados com o AQ1km (INPE), há um indicativo de aumento na área queimada no Brasil, contrariando o conhecimento prévio. Além disso, o bioma amazônico aparece sendo o mais impactado negativamente pela diferença entre os resultados. Toda a implementação e validação é desenvolvida utilizando a linguagem Python e Jupyter Notebook, para fins de reprodutibilidade, e todo o código está disponível de forma aberta.
 \end{abstract}
 
 % resumo na outra língua
@@ -153,40 +151,52 @@ the abstract should not contain more than 500~words.}
 
 \chapter{Introdução}
 
+% contextualização
+
 O fogo é uma tecnologia que está presente há milênios no território que hoje é o Brasil, desde queimadas controladas pelo povo indígena Kayapó no cerrado para plantio ou caça, até incêndios iniciados por combustão espontânea em períodos de seca no sul da Amazônia. O uso do fogo pelos indígenas era controlado, levando em conta o clima atual e a vegetação a ser queimada, e restrito apenas a um período do ano, com o intuito de reduzir pragas e ajudar nas plantações \citep{leonel_2000}.
 
 Hoje as queimadas que mais chamam atenção estão diretamente ligadas ao processo de desmatamento e manejo de áreas agrícolas para o cultivo da monocultura de soja. O fogo também é a prática mais barata e rápida para limpar áreas inteiras para a pecuária bovina. Commodites agrícolas e carne bovina movem a economia do Brasil, que é o maior exportador desses produtos, e aumentam a pressão para o desmatamento de novas áreas na Amazônia \citep{fuchs_2020}.
 
-O Brasil ocupa a quarta posição no ranking de nações que mais emitem gases de efeito estufa por habitantes, segundo dados da United Nations Environment Programme (UNEP) de 2022. De acordo com o estudo, o valor absoluto se manteve estável desde 2010, e atingiu seu pico por volta dos anos de 2003 a 2004. Assim como a Indonésia, o que melhor explica a alta posição do Brasil neste ranking são as queimadas e o desmatamento da vegetação nativa. Olhando para os municípios do país, dos dez que mais poluem, oito deles estão localizados no bioma da amazônia e não possuem atividades industriais que justificariam esse valor.
+O Brasil ocupa a quarta posição no ranking de nações que mais emitem gases de efeito estufa por habitantes, segundo dados da United Nations Environment Programme \citet{unep2022}. De acordo com o estudo, o valor absoluto se manteve estável desde 2010, e atingiu seu pico por volta dos anos de 2003 a 2004. Assim como a Indonésia, que fica logo atrás do Brasil nesse ranking, o que melhor explica a alta posição do Brasil são as queimadas e o desmatamento da vegetação nativa. Olhando para os municípios do país, dos dez que mais poluem, oito deles estão localizados no bioma da amazônia.
 
-\begin{figure}[!htb]
-    \caption{Emissões de gases do efeito estufa per capta de 1990 até 2020 (tCO2e/capita).}
-    \begin{center}
-        \includegraphics[width=35em]{emissoes_gee_per_capta}
-    \end{center}
-    \legend{Fonte: Emissions Gap Report 2022: The Closing Window}
-    \label{fig:emissoes_gee_per_capta}
-\end{figure}
+Nesse sentido, o Instituto Nacional de Pesquisas Espaciais (INPE) mantém o Programa Queimadas, que é uma conjunto de ferramentas que envolvem o monitoramento em tempo real dos focos ativos de queimadas. Esse monitoramento se dá a partir de procesamento de imagens de satélites, capazes de identificar a partir de metodologias estabelecidas, região que tem alta probabilidade de estarem queimando.  Os focos ativos de queimada dão uma ideia de do que está acontecendo no presente momento, mas não são uma métrica ideal para estimar o impacto ambiental do fogo na vegetação.
 
-Este trabalho se dedica a estudar e apresentar de forma concisa os dados de focos de queimadas disponibilizados pelo Instituto Nacional de Pesquisas Espaciais (INPE). O principal objetivo é tornar fácil o entendimento desses dados gerados a partir de imagens de satélites, sem a necessidade de um conhecimento prévio das técnicas de ciência de dados e sensoriamento remoto. O escopo de tempo das análises é limitado ao início de 1998, ano que iniciou a base aberta de queimadas, até o final de 2022. 
+% Como é hoje o calculo de área queimadas ("produtos" área queimada)
 
-Os dados analisados neste trabalho foram obtidos a partir do DBQueimadas, Banco de Dados de Queimadas \url{www.inpe.br/queimadas/bdqueimadas}, que é um sistema desenvolvido pelo INPE e acessível de forma aberta por meio da web. Conta com mais de 300 milhões de pontos coletados desde o ano de 1998, provenientes de vários satélites \citep{setzer2019banco}. Ao disponibilizar os dados das queimadas o instituto possibilita que a sociedade retribua com pesquisas e fomenta novas abordagens ao problema das queimadas no Brasil, como é o caso deste trabalho.
+Para dar uma visão do impacto real, existem métodos para calcular a área efetivamente queimada a partir do processamento de imagens de satélites, chamados de ``produtos''. O processamento mais tradicional envolve a análise de índices de vegetação que tentam identificar regiões de vegetação queimada \citep{pereira1999}. Novas versões desses produtos utilizam uma abordagem híbrida, integrando também os focos ativos para identificar regiões de atividade do fogo e com isso apresentam no geral menores taxas de erros \citep{BOSCHETTI2019111490}.
 
-... apontaram que a detecção de áreas queimadas pode se beneficiar da fusão de observações de incêndios ativos de vários sensores \citep{giglio2010assessing}.
+Além de produtos de área queimadas de aplicação globais, como o MCD64A1 \citep{GIGLIO201872} e FireCCI51 \citep{Lizundia2020}, O INPE mantém dois produtos, nomeadamente AQ30m \citep{melchiori2014landsat} e AQ1km \citep{libonati2015algorithm}, para o cálculo da área queimada, especialmente dedicadas aos biomas do Brasil. Enquanto o AQ30m é um produto de alta resolução (30m) e taxas de erros pequenas, o AQ1km tem precisão de 1km e erros próximos a 30\% em relação ao AQ30m \cite{PerguntasFrequentesINPE}. Ambos produtos de completam, uma vez que o primeiro penas é calculado para alguns regiões do brasil por imagens a cada 16 dias. O segundo gera dados mensais de todo o Brasil a partir de imagens diárias.  
 
-Focos ativos apresentam maior contraste com a vegetação e por isso podem ser detectados com maior precisão \citep{GIGLIO2016}, mas devido ao intervalo entre as passagens dos satélites, detectam apenas uma fração das queimadas totais \citep{HANTSON2013, giglio2009active}. .......
+% problematização e objetivos
 
-tem muita variação entre os produtos de queimadas .... \citep{Boschetti2004}
+O tema do cálculo de área queimada ainda está muito ativo atualmente devido a complexidade e importância do assunto. Muitas metodologias foram criadas e aprimoradas utilizando dados de sensoriamento remoto. Vários trabalhos de validação, quando se compara o produto com uma referância com baixos níveis de erro, foram desenvolvidos \citep{BOSCHETTI2016465, BOSCHETTI2019111490}. Estudos apontam também que há muita variação entre os resultados dos produtos globais envolvendo as queimadas \citep{Boschetti2004, Humber2019}. 
 
-\citep{Humber2019} 
+Este trabalho se dedica a desenvolver uma metodologia para o cálculo de área queimada, aplicada a todo o território nacional, entre os anos de 2008 a 2022, a fim de identificar possíveis discrepâncias entre os modelos já existentes. Uma das principais questões  
+
+% justificativa, legado, relevancia (falar da ciencia aberta)
+
+% solução proposta (referencias)
+
+A metodologica consite em fazer uma análise dos dados de focos ativos de queimadas, separar o território em pequenos quadrantes e avalia-los utilizando algumas regras que priorizem a diversidade de satélites e a quatidade de focos dentro do quadrante. Após isso, os valores normalizados em um intervalo de 0 a 1, representando quanto por cento da área do quadrante é classificada com queimada. O produto final, muito inspirado nos produtos do INPE, recebeu o nome de AQ-FA (Área Queimada a partir de Focos Ativos).
+
+% Os dados analisados neste trabalho foram obtidos a partir do DBQueimadas, Banco de Dados de Queimadas \url{www.inpe.br/queimadas/bdqueimadas}, que é uma ferramenta que faz para do Programa Queimadas desenvolvido pelo INPE e acessível de forma aberta por meio da web. O sistema conta com mais de 300 milhões de pontos, provenientes de vários satélites \citep{setzer2019banco}. Apesar de ter dados desde 1998, para esse trabalho o escopo de tempo dos resultados é limitado ao início de 2008 até o final de 2022.
+
+% vantagens e desvantagens
 
 
-Durante o decorrer do documento são apresentadas diversas figuras, a maioria de construção do próprio autor, a fim de instigar a intuição do leitor para o tópico que está sendo abordado. De início, é abordado questões mais teóricas envolvendo caracteríscas dos satélites, suas produções de imagens e como são usadas para detectar um foco ativo de queimada. Após isso, .... \par
+Estudos apontam que a detecção de áreas queimadas pode se beneficiar da fusão de observações de incêndios ativos de vários sensores \citep{giglio2010assessing}. Além disso, focos ativos apresentam maior contraste com a vegetação e por isso podem ser detectados com maior precisão \citep{GIGLIO2016}. Satélites polares normalmente tem maior precisão que os satélites geoestacionários, mas devido ao intervalo entre as passagens dos satélites, detectam apenas uma fração das queimadas totais \citep{HANTSON2013, giglio2009active}. Por isso, agregar dados de vários satélites, incluindo satélites geoestacionários, tende a mitigar esse problema.
+
+
+% estrutura do documento e final da intro
+
+O Capítulo \ref{chp:conceitos_basicos} apresenta uma revisão sobre os conceitos básicos envolvendo os dados de focos ativos, os satélites e seus sensores. Apresenta também metodologias consolidadas para a detecção de focos ativos e o cálculo de área queimada a partir de imagens de satélites, bem como alguns trabalhos inovadores no tema. O Capítulo \ref{chp:metodologia} explica a metodologia proposta para o cálculo de área queimada e o Capítulo \ref{chp:implementacao_metodo} entra nos detalhes da implementação propriamente dita e de como foi a coleta dos dados utilizados. O Capítulo \ref{chp:resultados_discussão} apresenta a validação do AQ-FA e a análise dos resultados obtidos aplicando em todo território nacional. O Capítulo \ref{chp:conclusa} conclui o documento, propondo alguns trabalhos futuros.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Conceitos básicos e trabalhos relacionados}
+\label{chp:conceitos_basicos}
 
 Neste Capítulo, serão apresentados conceitos importantes para a compreensão de todo trabalho e dos resultados obtidos com o novo método proposto. Na primeira Seção, são formalizadas definições relacionadas às queimadas e à forma como são monitoradas no Brasil. Na Seção seguinte, é realizada uma sumarização dos principais satélites e sensores utilizados pelo INPE e suas características. Após isso, apresentamos uma análise dos dados dos focos ativos do INPE para demonstrar uma visão geral das principais tendências e gráficos. Em seguida, é abordado como as imagens geradas pelos satélites são utilizadas para a detecção de focos ativos e cálculo da área queimada. Por fim, apresentamos alguns trabalhos relacionados com o cálculo de área queimada em contraste com o presente trabalho. \par
 
@@ -296,7 +306,7 @@ A Tabela \ref{table:satelites} contém um resumo dos satélites utilizados pelo 
 
 Atualmente, os satélites que estão em pleno funcionamento são: NOAA-20, NOAA-19, NOAA-18, GOES-16, Suomi NPP, AQUA, TERRA, MSG-03, METOP-B e METOP-C. Os demais satélites, como NOAA-17, NOAA-16, NOAA-15, TRMM, NOAA-14, NOAA-12, GOES-13, MSG-02, GOES-12, GOES-10 e GOES-08, deixaram de operar em diferentes momentos devido a problemas técnicos ou ao fim de sua vida útil.
 
-Os satélites TERRA e AQUA, ambos com o sensor Moderate Resolution Imaging Spectroradiometer (MODIS), foram lançados em 1999 e 2002 respectivamente. São americanos e foram desenvolvidos em parceria com o Japão, Canada e Brasil. O sensor MODIS possui 36 canais e resolução espectral que varia de 250 m a 1 km em diferentes espectros do infravermelo e luz visível. É especialmente capaz de detectar mudanças no uso e cobertura da terra bem como queimadas e atividades vulcânicas.
+Os satélites TERRA e AQUA, ambos com o sensor Moderate Resolution Imaging Spectroradiometer (MODIS), foram lançados em 1999 e 2002 respectivamente. São de origem norte americana e foram desenvolvidos em parceria com o Japão, Canada e Brasil. O sensor MODIS possui 36 canais e resolução espectral que varia de 250 m a 1 km em diferentes espectros do infravermelo e luz visível. É especialmente capaz de detectar mudanças no uso e cobertura da terra bem como queimadas e atividades vulcânicas \citep{latorre2003}.
 
 Os satélites da série National Oceanic and Atmospheric Administration (NOAA) são operados pela agência americana de mesmo nome. Embora tenha havido vários satélites NOAA ao longo do tempo, atualmente estão em operação o NOAA-20, NOAA-19 e NOAA-18. Esses satélites desempenham um papel fundamental no fornecimento de dados para a previsão do tempo e o monitoramento da vegetação. 
 
@@ -542,6 +552,7 @@ No próximo capítulo é apresentado a metodologia empregada para estimar a áre
 
 
 \chapter{Metodologia}
+\label{chp:metodologia}
 
 Neste capítulo, é apresentado o desenvolvimento do método utilizado para calcular as áreas queimadas a partir de focos ativos. Inicia-se com uma visão geral do método e, em seguida, são abordadas detalhadamente cada etapa do processo. Questões práticas e de implementação não são discutidas neste capítulo, sendo tratadas no Capítulo \ref{chp:implementacao_metodo}. Por fim, a aplicação do método bem como os resultados obtidos são abordados no Capítulo \ref{chp:resultados_discussão}.
 
@@ -594,7 +605,7 @@ A Figura \ref{fig:comparacao_pontos_e_areas} apresenta dados coletados pelo sat�
 \section{Separação e avaliação de quadrantes}
 \label{sec:separacao_e_avaliacao}
 
-A separação entre quadrantes é a forma de discretizar os dados do espaço, que são contínuos. Os quadrantes abstraem os detalhes das medições dos diferentes satélites, com diferentes áreas e orientações. Como resultado, ilustrado na Figura \ref{fig:satellite_quads_split}, temos um conjunto de quadrantes que formam uma grade regular. Pro fim, esses quadrantes são avaliados individualmente usando operações que serão descritas a seguir. 
+A separação entre quadrantes, neste trabalho definido como um polígono quadrado e não rotacionado, é a forma de discretizar os dados do espaço, que são contínuos. Os quadrantes abstraem os detalhes das medições dos diferentes satélites, com diferentes áreas e orientações. Como resultado, ilustrado na Figura \ref{fig:satellite_quads_split}, temos um conjunto de quadrantes, todos do mesmo tamanho, que formam uma grade regular. Por fim, esses quadrantes são avaliados individualmente usando operações que serão descritas a seguir. 
 
 O tamanho do quadrante é uma entrada dessa etapa, chamada de \texttt{quadrant\_width}, e pode ser definida pelo pesquisador. Esse parâmetro é expresso em graus e significa quantos graus de longitude e latitude o quadrante vai ocupar. Normalmente o valor deve ser pequeno, a fim de não reduzir muito a resolução da solução, sendo recomendado em torno de 0,004 a 0,005 graus. Esse valor coincide com o tamanho da maior resolução de sensor presente nos dados, que é o VIIRS de 375m.
 
@@ -979,10 +990,10 @@ A Tabela \ref{table:regioes_validação} apresenta os resultados da comparação
 
 Pela Tabela é possível notar que a área queimada do AQ30m e do AQ-FA são parecidas, variando cerca de 20\% para baixo ou pra cima na maioria dos casos. A acurácia geral (OA) tem mediana de 98\%, mas apresenta alguns valores discrepantes nas regiões com mais áreas queimadas, como o caso da linha 11 e 19. O DC de maneira geral teve bons resultados, ressaltando que a comparação foi com um produto de alta resolução, variando de 70\% a 40\% com mediana de cerca de 50\%. Os menores DC, como esperado, foram nos testes em que o Viés ficou longe de 1, como nas linhas 17 até 20.
 
-A Figura \ref{fig:regressao_aq30m} apresenta a porcentagem queimada de quadrantes classificados pelo AQ-FA, no eixo y, e o AQ30m, no eixo x. Os resultados usados para gerar a imagem são os mesmos usados para a construção da Tabela \ref{table:regioes_validação}, porém redistribuídos para uma resolução de aproximadamente 10 Km$^2$. Foi aplicado uma regressão linear nos dados que apresentou $R^2$ igual a 0.72, ou seja, boa parte dos dados do AQ30m pode ser bem explicados pelo AQ-FA com essa resolução. Portanto, os modelos tem boa concordância mas também podem haver algumas discrepâncias, como observado na parte superior do gráfico.
+A Figura \ref{fig:regressao_aq30m} apresenta a porcentagem queimada de quadrantes classificados pelo AQ-FA, no eixo y, e o AQ30m, no eixo x. Os resultados usados para gerar a imagem são os mesmos usados para a construção da Tabela \ref{table:regioes_validação}, porém redistribuídos para uma resolução de aproximadamente 250 Km$^2$. Foi aplicado uma regressão linear nos dados que apresentou $R^2$ igual a 0.77. Esse resultado, no geral, não é muito bom pois indica alta variação entre os dois modelos. Nesse contexto, lenvando em conta que os dois produtos têm resoluções e metodologias bem diferentes, é um resultado aceitável. 
 
 \begin{figure}[!htb]
-    \caption{Comparação entre a porcentagem queimada indicada pelo modelo AQ-FA (eixo y) e o AQ30m (eixo x) para quadrantes de tamanho 10 km $\times$ 10 km.}
+    \caption{Comparação entre a porcentagem queimada indicada pelo modelo AQ-FA (eixo y) e o AQ30m (eixo x) para quadrantes de tamanho 15 km $\times$ 15 km.}
     \begin{center}
         \includegraphics[width=25em]{regressao_aq30m}
     \end{center}
@@ -1078,6 +1089,7 @@ Os biomas Pampa, Mata Atlântica e Caatinga quase não tiveram diferença na ár
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Considerações Finais}
+\label{chp:conclusa}
 
 % retomada da motivação, objetivos e contribuição.
 

@@ -166,7 +166,7 @@
 *** TODO 3.3 Separação e avaliação de quadrantes
 - [x] figura 3.3, => Figura 3.3,
 - [x] avaliação de serão => avaliação que serão
-- [ ] Definir no primeiro parágrafo da Sec 3.3 o que é um polígono
+- [x] Definir no primeiro parágrafo da Sec 3.3 o que é um polígono
   usando a Figura 3.3 de maneira que esse nome seja depois usado nas
   equações com tranquilidade.
   - Ao invés de polígono, usar o termo _medição_
@@ -260,7 +260,7 @@
     para outras funções de área queimada também, não? O que fez
     concretamente a escolha do percentil a melhor?
 *** TODO 5.3 Análise da validação
-- [ ] 10km^2 => 100km^2 no texto
+- [X] 10km^2 => 100km^2 no texto
 - [X] obitidos => obtidos
 - [X] A comparação é feita para as órbitas-ponto => existe alguma
   justificativa para a escolha destas órbitas-ponto em específico? Se
@@ -342,6 +342,16 @@ Próximas reuniões:
 
 
 
+
+- Descrever melhor o contexto
+   - A problemática (identicar a área queimada)
+   - Como os outros detectam área queimada ("produtos" área queimada)
+   - A solução proposta e validada
+     - Vantagens e desvantagens da tua abordagem
+   - Descrever o principal resultado
+     - Validação da técnica demonstrou que funciona tão bem quanto a dos trabalhos relacionados
+     - A área queimada aumentou ou diminuiu?
+   - Estrutura do documento
 
 
 
