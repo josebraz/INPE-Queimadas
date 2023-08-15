@@ -311,6 +311,50 @@
 - [X] Gostei do último parágrafo.
   - Eu colocaria "representa um ato político" => "representa também um ato político"
 
+** 2023-08-15 RESUMO
+- [ ] metodologica => metodologia
+- [ ] Todo os dados => Todos os dados
+- [ ] O resumo está bem, mas carece de uma ou duas frases para
+  identificar o contexto e o problema que se quer resolver. Isso deve
+  aparecer antes de "Este trabalho apresenta..." onde já se aborda o
+  que foi feito diretamente (mas sem saber bem o porquê, daí o
+  comentário).
+** 2023-08-15 Abstract
+- [ ] Usar algum serviço de tradução automática e revisar profundamente
+- Sugestão
+
+#+begin_quote
+This work presents a methodology capable of estimating the burned area
+from active fires from INPE's Queimadas Program. The methodology
+consists of transforming fire outbreaks, which are points in space,
+into fire coverage areas, according to the resolution of the satellite
+that detected it. The space is divided into quadrants and each
+quadrant is evaluated according to equations that use the coverage
+areas of the fire outbreaks. Finally, each quadrant evaluation goes
+through a normalization function, resulting in the estimated
+percentage of burned area for the quadrant. The process presented is
+called AQ-FA, which stands in Portuguese for Área Queimada por Focos
+Ativos. The method is configurable, allowing to change the resolution
+of the results, which in this study is fixed as 300m. The evaluation
+uses the AQ30m product (INPE) as a reference, applied in 20
+point-orbits and different time periods, presenting high levels of
+accuracy. The results are obtained from the monthly application of the
+method for the entire Brazilian territory, between 2008 and 2022. When
+comparing the results with the AQ1km (INPE), there is an indication of
+an increase in the burned area in Brazil, contrary to prior
+knowledge. The difference against the reference products is more
+evident in the Amazon biome, which has more burned areas when viewed
+through our method. All implementation and validation is developed
+using the Python language and Jupyter Notebook, for reproducibility
+purposes. All data and code are openly available.
+#+end_quote
+
+** 2023-08-15 Capítulo 1  INTRODUÇÃO
+
+
+
+
+
 * Reuniões
 ** 2023-07-06 O que falta fazer?
 1. Capítulo 1 de introdução
