@@ -350,11 +350,21 @@ purposes. All data and code are openly available.
 #+end_quote
 
 ** 2023-08-15 Capítulo 1  INTRODUÇÃO
-
-
-
-
-
+- [ ] United Nations Environment Programme => colocar em itálico
+- [ ] entre os modelos já existentes => comparando-se com produtos já existentes
+- [ ] Outra questão abordada é identificar quais biomas e regiões são
+  mais impactadas pelo fogo. => escrito assim, dá uma ideia de que
+  isso é um adendo. Refrasear a frase anterior para incluir este
+  questionamento em nível de importância igual ao item anterior "se a
+  área queimada anualmente está em tendência de queda ou alta".
+- [ ] representando quanto por cento => representando a porcentagem
+- [ ] que faz para do => que faz parte do
+- [ ] é limitado ao início de 2008 até o final de 2022 => dizer o
+  porquê (limitação técnica?, etc)
+- [ ] (Jupter Notebooks) => (Jupyter Notebooks)
+- [ ] Assim com os dados do => Assim como os dados do
+- [ ] Este documento estrutura os capítulos da seguinte forma: => Este
+  documento estrutura os capítulos da seguinte forma.
 * Reuniões
 ** 2023-07-06 O que falta fazer?
 1. Capítulo 1 de introdução
