@@ -375,7 +375,7 @@ purposes. All data and code are openly available.
   do método" => ficou estranho. Minha sugestão seria alterar o nome da
   seção para algo diferente, envolvendo por exemplo as palavras
   "workflow", "reprodutível"
-- [ ] Sobre a implementação, finalmente, acabou não se falando do
+- [/] Sobre a implementação, finalmente, acabou não se falando do
   esforço de paralelização no capítulo de implementação. Isso foi uma
   decisão pensada de deixar fora desse capítulo tais detalhes (que
   talvez sejam importantes)?
