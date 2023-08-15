@@ -365,6 +365,24 @@ purposes. All data and code are openly available.
 - [x] Assim com os dados do => Assim como os dados do
 - [x] Este documento estrutura os capítulos da seguinte forma: => Este
   documento estrutura os capítulos da seguinte forma.
+** 2023-08-15 Geral
+- [ ] "com menos de 0,002 graus quadrados" => é o único lugar do texto
+  que se fala em graus quadrados, talvez empregar o número explicitado
+  no resumo - "300m" - que indica a resolução, evitando portanto
+  explicitar aqui a área da observação.
+- [ ] "2 Gb em mémoria" => 2GBytes em memória
+- [ ] O nome do capítulo 4 e da seção 4.2 é o mesmo "4.2 Implementação
+  do método" => ficou estranho. Minha sugestão seria alterar o nome da
+  seção para algo diferente, envolvendo por exemplo as palavras
+  "workflow", "reprodutível"
+- [ ] Sobre a implementação, finalmente, acabou não se falando do
+  esforço de paralelização no capítulo de implementação. Isso foi uma
+  decisão pensada de deixar fora desse capítulo tais detalhes (que
+  talvez sejam importantes)?
+  - Menciona-se uma solução paralela na Pg48 no parágrafo que
+    inicia-se com "Para otimizar o processamento e a leitura dos
+    dados". Isso indica uma mescla entre método e implementação que
+    poderia ser evitado. Talvez mover para a Sec 4.2.
 * Reuniões
 ** 2023-07-06 O que falta fazer?
 1. Capítulo 1 de introdução
