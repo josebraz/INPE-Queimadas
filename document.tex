@@ -583,6 +583,40 @@ A Figura \ref{fig:metodologica_workflow} também ilustra a aplicação completa 
 
 O método é flexível e altamente configurável, podendo assim gerar resultados bem diferentes dependendo de suas entradas, ainda que para o mesmo conjunto de dados de focos. O pesquisador pode testar combinações de entradas e avaliar os resultados usando algum comparador (\textit{benchmark}). Um exemplo seria comparar as saídas do método com os resultado obtidos pelo produto AQ1km (abordado na Seção \ref{sec:deteccao_focos_section}).
 
+\section{Coleta e pré-processamento dos dados}
+
+Uma parte fundamental do processo foi coletar os dados do site DBQueimadas, que é a fonte primária usada para cálculo das áreas queimadas. Para exportar os dados usando o navegador, é necessário preencher um formulário com os campos de data inicial, data final e um endereço de e-mail, com intervalo de tempo máximo sendo um ano para cada pedido. Também é possível aplicar filtros ainda mais específicos, como continente, país, estado, município, satélite, bioma e unidades de conservação/terras indígenas. Após clicar em ``Exportar'', uma mensagem contendo um link de download é enviada para o e-mail informado, e o arquivo disponibilizado é um CSV compactado em formato zip.
+
+Embora o site tenha boa usabilidade, seria impraticável baixar todos os dados do Brasil manualmente sem sobrecarregar os servidores no INPE. Por isso, foi necessário entender como a solicitação dos dados é processada pelo site e, assim, automatizar o download. Foi identificado que o site faz uma requisição GET para a API do DBQueimadas, localizada em \url{https://queimadas.dgi.inpe.br/queimadas/exportacaobdq/exportar}, passando os parâmetros codificados em JSON na URL, incluindo os filtros, e-mail e formato de arquivo desejado.
+
+Para automatizar o processo, foi desenvolvido um \textit{script} em Python que solicita os dados de cada 30 dias, totalizando 300 requisições desde 1998 até 2022. Para não sobrecarregar os servidores do INPE, foi adicionado uma espera de um minuto entre as requisições. Além disso, foi implementado um sistema de registro de requisições em arquivo, que armazenou o estado de cada requisição, evitando duplicadas e possibilitando a retentativa das requisições que falharam por algum motivo. O programa foi considerado concluído apenas quando todas as requisições contidas no registro estavam marcadas como concluídas.
+
+Para concluir o processo, ainda era necessário fazer o download dos arquivos por meio do link enviado por e-mail. Para isso, foi utilizado o \textit{Google Scripts}, uma ferramenta que possibilita escrever programas simples, utilizando uma linguagem semelhante a JavaScript, com integração aos serviços do Google (como o Gmail). O \textit{script} era executado com um intervalo de dois minutos, varrendo todos os e-mails novos provenientes do DBQueimadas. Com ele, foi possível extrair o link de cada mensagem e, finalmente, salvar o arquivo de forma automatizada. 
+
+Os dois \textit{scripts} trabalharam de forma concomitantemente, funcionando como uma espécie de produtor e consumidor distribuído. Enquanto um requisitava os dados do INPE, o outro vasculhava os e-mails e salvava o arquivo em uma pasta específica. Quando o primeiro \textit{script} identificava (por meio do nome do arquivo) que a resposta já estava salva, marcava a requisição como concluída no registro de requisições. Caso uma requisição permanecesse por mais de 30 minutos no estado pendente, o \textit{script} faz uma nova requisição aos servidores do INPE.
+
+Todo o processo de investigação e recuperação dos dados levou cerca de uma semana. Todos os arquivos baixados ocupam pouco mais de 4 Gb de armazenamento em disco e, juntos, somam exatamente 43.782.758 linhas. Ao final, eles foram recompactados em um único arquivo zip (450 megabytes) que está disponível para download em \url{https://bit.ly/3IgHIXH}, independentemente dos servidores do INPE.
+
+Também foi utilizado os dados públicos territoriais do Brasil provenientes do Instituto Brasileiro de Geografia e Estatística (IBGE) para gerar gráficos delimitados em municípios, unidades federativas e biomas. O processo de aquisição desses arquivos se deu diretamente no site do IBGE. Todos os arquivos baixados estão no formato \textit{Shapefile}, que é o formato responsável por armazenar dados vetoriais geográficos.
+
+\subsection*{Pré-processamento dos dados}
+
+Após a coleta de dados, os dados foram carregados no Python e algumas otimizações nas estruturas foram realizadas. Os 300 arquivos das queimadas foram lidos pelo \textit{Pandas} e concatenados em um único \textit{DataFrame} (estrutura semelhante a uma tabela). Foi necessário converter o fuso horário das datas, que estavam no formato UTC, para o fuso horário de Brasília, a fim de facilitar a compreensão dos gráficos para os usuários brasileiros. Além disso, as colunas de texto, como município, estado, país e satélite, foram convertidas em categorias, que são uma forma de enumeração disponível no \textit{Pandas}. Essa conversão ajudou a reduzir o consumo de memória, uma vez que muitos valores repetidos ocorriam nessas colunas, ocupando aproximadamente 2 Gb em mémoria.
+
+Para otimizar o processamento e a leitura dos dados, também foi utilizada a biblioteca \textit{Dask} especializada no processamento paralelo e distribuído. Essa biblioteca oferece a capacidade de instanciar um cluster computacional lógico sobre um cluster físico local ou remoto, permitindo o envio de tarefas completas para serem processadas pelo cluster. Além disso, o \textit{Dask} possibilita a leitura dos arquivos de forma paralela, o que resulta em uma redução significativa no tempo de carregamento dos dados. Após o carregamento completo do \textit{DataFrame} a partir dos arquivos CSV originais durante a primeira execução, foi criado um arquivo no formato \textit{H5} que contém os mesmos dados, mas com uma estrutura otimizada para permitir uma leitura mais rápida. Nas execuções subsequentes do programa, ao invés de carregar novamente os arquivos CSV, o programa faz a leitura desse único arquivo \textit{H5}, resultando em um carregamento ainda mais rápido dos dados.
+
+Durante o pré-processamento dos dados, foram identificadas regras de nomenclatura especiais para alguns satélites. No caso dos satélites AQUA (AQUA\_M-T e AQUA\_M-M) e TERRA (TERRA\_M-T e TERRA\_M-M), a última letra indica o período do dia em que ocorreu a passagem do satélite, sendo ``M'' para Manhã e ``T'' para Tarde. Outros satélites, como Suomi NPP, NOAA-19, NOAA-18, NOAA-16, NOAA-15 e NOAA-12, podem apresentar a última letra do nome como ``D'' para Diurno. Com base nessa compreensão das regras de nomenclatura, foi possível criar uma nova coluna que fornece o nome simplificado dos satélites, facilitando algumas análises. Além disso, os satélites com sensor ATRS (ERS-1 e ERS-2) e o satélite TRMM foram removidos dos dados a fim de simplificar a implementação, asssim como no produto AQ1KM \citep{libonati2015algorithm}. Em comparação com a coluna original dos satélites, que tinha 32 valores possíveis, a nova coluna contém apenas 20 valores possíveis. Para cada satélite, foi escolhida uma cor única, conforme apresentado na Figura \ref{fig:cores_satelites}, que é utilizada em todos os gráficos apresentados neste documento. 
+
+\begin{figure}[!htb]
+    \caption{Cores escolhidas para cada satélite.}
+    \begin{center}
+        \includegraphics[width=35em]{cores_satelites}
+    \end{center}
+    \legend{Fonte: O Autor}
+    \label{fig:cores_satelites}
+\end{figure}
+
+
 \section{Mapeamento dos focos para áreas}
 \label{sec:focos_para_areas}
 
@@ -703,38 +737,6 @@ Desta forma, a função ajusta seus limiares de acordo com o conjunto de dados, 
 
 Após a formalização do método de forma abstrata no Capítulo anterior, este Capítulo apresenta a implementação de fato do método. Primeiro é apresentado como os dados do DBQueimadas foram coletados da base de forma automatizada. Em seguida, detalha-se sobre a implementação do método.
 
-\section{Coleta dos dados}
-
-Uma parte fundamental do processo foi coletar os dados do site DBQueimadas, que é a fonte primária usada para cálculo das áreas queimadas. Para exportar os dados usando o navegador, é necessário preencher um formulário com os campos de data inicial, data final e um endereço de e-mail, com intervalo de tempo máximo sendo um ano para cada pedido. Também é possível aplicar filtros ainda mais específicos, como continente, país, estado, município, satélite, bioma e unidades de conservação/terras indígenas. Após clicar em ``Exportar'', uma mensagem contendo um link de download é enviada para o e-mail informado, e o arquivo disponibilizado é um CSV compactado em formato zip.
-
-Embora o site tenha boa usabilidade, seria impraticável baixar todos os dados do Brasil manualmente sem sobrecarregar os servidores no INPE. Por isso, foi necessário entender como a solicitação dos dados é processada pelo site e, assim, automatizar o download. Foi identificado que o site faz uma requisição GET para a API do DBQueimadas, localizada em \url{https://queimadas.dgi.inpe.br/queimadas/exportacaobdq/exportar}, passando os parâmetros codificados em JSON na URL, incluindo os filtros, e-mail e formato de arquivo desejado.
-
-Para automatizar o processo, foi desenvolvido um \textit{script} em Python que solicita os dados de cada 30 dias, totalizando 300 requisições desde 1998 até 2022. Para não sobrecarregar os servidores do INPE, foi adicionado uma espera de um minuto entre as requisições. Além disso, foi implementado um sistema de registro de requisições em arquivo, que armazenou o estado de cada requisição, evitando duplicadas e possibilitando a retentativa das requisições que falharam por algum motivo. O programa foi considerado concluído apenas quando todas as requisições contidas no registro estavam marcadas como concluídas.
-
-Para concluir o processo, ainda era necessário fazer o download dos arquivos por meio do link enviado por e-mail. Para isso, foi utilizado o \textit{Google Scripts}, uma ferramenta que possibilita escrever programas simples, utilizando uma linguagem semelhante a JavaScript, com integração aos serviços do Google (como o Gmail). O \textit{script} era executado com um intervalo de dois minutos, varrendo todos os e-mails novos provenientes do DBQueimadas. Com ele, foi possível extrair o link de cada mensagem e, finalmente, salvar o arquivo de forma automatizada. 
-
-Os dois \textit{scripts} trabalharam de forma concomitantemente, funcionando como uma espécie de produtor e consumidor distribuído. Enquanto um requisitava os dados do INPE, o outro vasculhava os e-mails e salvava o arquivo em uma pasta específica. Quando o primeiro \textit{script} identificava (por meio do nome do arquivo) que a resposta já estava salva, marcava a requisição como concluída no registro de requisições. Caso uma requisição permanecesse por mais de 30 minutos no estado pendente, o \textit{script} faz uma nova requisição aos servidores do INPE.
-
-Todo o processo de investigação e recuperação dos dados levou cerca de uma semana. Todos os arquivos baixados ocupam pouco mais de 4 Gb de armazenamento em disco e, juntos, somam exatamente 43.782.758 linhas. Ao final, eles foram recompactados em um único arquivo zip (450 megabytes) que está disponível para download em \url{https://bit.ly/3IgHIXH}, independentemente dos servidores do INPE.
-
-Também foi utilizado os dados públicos territoriais do Brasil provenientes do Instituto Brasileiro de Geografia e Estatística (IBGE) para gerar gráficos delimitados em municípios, unidades federativas e biomas. O processo de aquisição desses arquivos se deu diretamente no site do IBGE. Todos os arquivos baixados estão no formato \textit{Shapefile}, que é o formato responsável por armazenar dados vetoriais geográficos.
-
-\subsection*{Pré-processamento dos dados}
-
-Após a coleta de dados, os dados foram carregados no Python e algumas otimizações nas estruturas foram realizadas. Os 300 arquivos das queimadas foram lidos pelo \textit{Pandas} e concatenados em um único \textit{DataFrame} (estrutura semelhante a uma tabela). Foi necessário converter o fuso horário das datas, que estavam no formato UTC, para o fuso horário de Brasília, a fim de facilitar a compreensão dos gráficos para os usuários brasileiros. Além disso, as colunas de texto, como município, estado, país e satélite, foram convertidas em categorias, que são uma forma de enumeração disponível no \textit{Pandas}. Essa conversão ajudou a reduzir o consumo de memória, uma vez que muitos valores repetidos ocorriam nessas colunas, ocupando aproximadamente 2 Gb em mémoria.
-
-Para otimizar o processamento e a leitura dos dados, também foi utilizada a biblioteca \textit{Dask} especializada no processamento paralelo e distribuído. Essa biblioteca oferece a capacidade de instanciar um cluster computacional lógico sobre um cluster físico local ou remoto, permitindo o envio de tarefas completas para serem processadas pelo cluster. Além disso, o \textit{Dask} possibilita a leitura dos arquivos de forma paralela, o que resulta em uma redução significativa no tempo de carregamento dos dados. Após o carregamento completo do \textit{DataFrame} a partir dos arquivos CSV originais durante a primeira execução, foi criado um arquivo no formato \textit{H5} que contém os mesmos dados, mas com uma estrutura otimizada para permitir uma leitura mais rápida. Nas execuções subsequentes do programa, ao invés de carregar novamente os arquivos CSV, o programa faz a leitura desse único arquivo \textit{H5}, resultando em um carregamento ainda mais rápido dos dados.
-
-Durante o pré-processamento dos dados, foram identificadas regras de nomenclatura especiais para alguns satélites. No caso dos satélites AQUA (AQUA\_M-T e AQUA\_M-M) e TERRA (TERRA\_M-T e TERRA\_M-M), a última letra indica o período do dia em que ocorreu a passagem do satélite, sendo ``M'' para Manhã e ``T'' para Tarde. Outros satélites, como Suomi NPP, NOAA-19, NOAA-18, NOAA-16, NOAA-15 e NOAA-12, podem apresentar a última letra do nome como ``D'' para Diurno. Com base nessa compreensão das regras de nomenclatura, foi possível criar uma nova coluna que fornece o nome simplificado dos satélites, facilitando algumas análises. Além disso, os satélites com sensor ATRS (ERS-1 e ERS-2) e o satélite TRMM foram removidos dos dados a fim de simplificar a implementação, asssim como no produto AQ1KM \citep{libonati2015algorithm}. Em comparação com a coluna original dos satélites, que tinha 32 valores possíveis, a nova coluna contém apenas 20 valores possíveis. Para cada satélite, foi escolhida uma cor única, conforme apresentado na Figura \ref{fig:cores_satelites}, que é utilizada em todos os gráficos apresentados neste documento. 
-
-\begin{figure}[!htb]
-    \caption{Cores escolhidas para cada satélite.}
-    \begin{center}
-        \includegraphics[width=35em]{cores_satelites}
-    \end{center}
-    \legend{Fonte: O Autor}
-    \label{fig:cores_satelites}
-\end{figure}
 
 \section{Implementação do método}
 
