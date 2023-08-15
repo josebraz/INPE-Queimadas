@@ -732,14 +732,12 @@ Também são possíveis funções mais complexas que utilizam análises estatís
 
 Desta forma, a função ajusta seus limiares de acordo com o conjunto de dados, se comportando de forma adaqueada para diferentes tipos de distribuição e ainda mantém uma margem de segurança para evitar classificar áreas utilizando valores discrepantes. Funções que utilizam análises estatísticas da distribuição produzem resultados melhores que as com limiares fixos. Uma avaliação mais detalhada sobre a escolha dessas funções é apresentada na Seção \ref{sec:validacao_aq_fa}.
 
-\chapter{Implementação do método}
-\label{chp:implementacao_metodo}
-
-Após a formalização do método de forma abstrata no Capítulo anterior, este Capítulo apresenta a implementação de fato do método. Primeiro é apresentado como os dados do DBQueimadas foram coletados da base de forma automatizada. Em seguida, detalha-se sobre a implementação do método.
-
-
 \section{Implementação do método}
+\label{sec:implementacao_metodo}
 
+Após a formalização do método de forma abstrata, apresenta-se a
+implementação de fato do método.
+%
 Para toda a implementação e análise dos dados, foram utilizadas diversas ferramentas do ecossistema Python para \textit{Data Science}, tais como \textit{NumPy}, \textit{Pandas} e \textit{Matplotlib}. Além disso, foram empregadas bibliotecas específicas para análise de dados geográficos, como \textit{GeoPandas}, \textit{Pysal}, \textit{Xarray} e \textit{Shapely}. Para garantir a reprodutibilidade das execuções e a organização do código, foi adotado o Jupyter Notebook. Todos o código da implementação do método, da elaboração do documento e demais artefatos gerados durante o projeto podem ser encontrados em \url{https://github.com/josebraz/INPE-Queimadas}, disponibilizados sob a licença MIT.
 
 A biblioteca \textit{GeoPandas}, amplamente utilizada na implementação, é uma extensão da biblioteca \textit{Pandas} que adiciona uma coluna especial chamada ``geometry'' no \textit{DataFrame} do \textit{Pandas}, chamado de \textit{GeoDataFrame}. Essa coluna permite armazenar as coordenadas e o formato geográfico dos dados em um sistema de coordenadas pré-definido. Além disso, o \textit{GeoPandas} tem integração com a biblioteca \textit{Shapely}, que é usada para realizar cálculos e operações em estruturas geométricas espaciais. Com o uso dessas bibliotecas, é possível executar operações avançadas baseadas na teoria dos conjuntos em elementos geométricos, como união, interseção, diferença, entre outras, além de calcular a área de qualquer polígono que represente uma área no espaço.
