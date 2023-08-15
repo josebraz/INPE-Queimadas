@@ -320,7 +320,7 @@
   que foi feito diretamente (mas sem saber bem o porquê, daí o
   comentário).
 ** 2023-08-15 Abstract
-- [ ] Usar algum serviço de tradução automática e revisar profundamente
+- [X] Usar algum serviço de tradução automática e revisar profundamente
 - Sugestão
 
 #+begin_quote
@@ -366,12 +366,12 @@ purposes. All data and code are openly available.
 - [x] Este documento estrutura os capítulos da seguinte forma: => Este
   documento estrutura os capítulos da seguinte forma.
 ** 2023-08-15 Geral
-- [ ] "com menos de 0,002 graus quadrados" => é o único lugar do texto
+- [x] "com menos de 0,002 graus quadrados" => é o único lugar do texto
   que se fala em graus quadrados, talvez empregar o número explicitado
   no resumo - "300m" - que indica a resolução, evitando portanto
   explicitar aqui a área da observação.
-- [ ] "2 Gb em mémoria" => 2GBytes em memória
-- [ ] O nome do capítulo 4 e da seção 4.2 é o mesmo "4.2 Implementação
+- [x] "2 Gb em mémoria" => 2GBytes em memória
+- [x] O nome do capítulo 4 e da seção 4.2 é o mesmo "4.2 Implementação
   do método" => ficou estranho. Minha sugestão seria alterar o nome da
   seção para algo diferente, envolvendo por exemplo as palavras
   "workflow", "reprodutível"
