@@ -10,6 +10,26 @@
 (setq org-use-property-inheritance t)
 #+END_SRC
 
+* Artigos
+** 2023-08-26 JU
+
+JU abre chamada para artigos a partir de TCCs de graduação
+
+Mais uma vez, o Jornal da Universidade recebe indicações de TCCs que
+possam render artigos interessantes para nossas edições.
+
+Assim, solicitamos a docentes orientadores e avaliadores de bancas que
+nos contatem pelo e-mail jornal@ufrgs.br indicando trabalhos que
+julguem ser interessantes para divulgação nesse formato.
+
+Serão recebidas sugestões até o dia 15 de setembro e devem conter a
+temática do trabalho, nome do autor ou autora e contatos (e-mail e/ou
+telefone) e nome do orientador ou orientadora.
+
+Os estudantes deverão entregar o artigo até o dia 30 de setembro. Os
+textos têm em torno de duas páginas e mais detalhes serão enviados aos
+autores selecionados.
+
 * Revisões
 ** Capa
 - [X] Colocar o nome completo do orientador
