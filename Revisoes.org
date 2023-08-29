@@ -403,6 +403,23 @@ purposes. All data and code are openly available.
     inicia-se com "Para otimizar o processamento e a leitura dos
     dados". Isso indica uma mescla entre método e implementação que
     poderia ser evitado. Talvez mover para a Sec 4.2.
+** 2023-08-28 Prévia
+*** Geral
+- Se possível, colocar os números nos slides (e o total)
+  - 1/20, 2/20, ...
+*** Slide "Contexto"
+- Mencionar que a foto fica à esquerda (e não à direita)
+*** Slide "Problematização"
+- AQ30km e AQ1km, mecionar que AQ significa "Área Queimada"
+  - E o número significa a resolução
+*** Slide "Produtos área queimada do INPE"
+*** Slide "Etapa 2: Mapeamento dos focos para áreas"
+- Horário versus anti-horário -> confirmar com ascendente, descendente
+*** Slide "Validação - Metodologia (1)"
+- Mencionar que são 6 quilômetros _quadrados_
+*** Slide "Validação - Resultados"
+- Minuto ~19.
+- Erro de omissão de 80% mas no slide consta 41,8%.
 * Reuniões
 ** 2023-07-06 O que falta fazer?
 1. Capítulo 1 de introdução
