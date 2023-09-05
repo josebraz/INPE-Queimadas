@@ -420,13 +420,15 @@ purposes. All data and code are openly available.
 *** Slide "Validação - Resultados"
 - Minuto ~19.
 - Erro de omissão de 80% mas no slide consta 41,8%.
+
+
 ** 2023-09-04 Anotações da Defesa
 *** Anderson
 
-- [ ] P. 11: fogo é uma "tecnologia" -> termo interessante, mas acho
+- [x] P. 11: fogo é uma "tecnologia" -> termo interessante, mas acho
   que elemento fica melhor
 
-- [ ] p. 12: fiquei confuso sobre a questão do projeto queimadas dar
+- [x] p. 12: fiquei confuso sobre a questão do projeto queimadas dar
   informações "em tempo real" vs a geração de dados mensais a partir
   de imagens diárias.
 
@@ -437,10 +439,10 @@ purposes. All data and code are openly available.
   há pontos a serem resolvidos. Veja o material de uma palestra sobre
   open science em 09/10/2019 na Série de Seminários do INF, link:
   https://www.inf.ufrgs.br/site/serie-de-seminarios-do-inf/seminarios-2019/
-  - [ ] Citar a apresentação do Prof. Arnaud Legrand
+  - [x] Citar a apresentação do Prof. Arnaud Legrand
     https://www.inf.ufrgs.br/site/wp-content/uploads/2019/08/talk_19_10_08_Brazil.pdf
   
-- [ ] parametrização: hyperopt pra otimização automatizada de
+- [x] parametrização: hyperopt pra otimização automatizada de
   hiperparametros. Adicionar uma citação a hyperopt dizendo que é uma
   possibilidade para procurar a melhor configuração de parâmetros.
 
@@ -451,9 +453,9 @@ purposes. All data and code are openly available.
     - Melhoraria a atratividade do trabalho
   - Na introdução, vende um pouco melhor o trabalho
     - "Não ficou claro a diferença do que tu estás propondo para o que já existe"    
-  - Adicionar as figuras da apresentação no texto
+  - [x] Adicionar as figuras da apresentação no texto
 
-- [ ] A Eq 3.1 não dá a ideia de intersecção
+- [x] A Eq 3.1 não dá a ideia de intersecção
   - Melhorar a precisão da equação
   - Sugestão abaixo
 
@@ -463,7 +465,7 @@ Sobre o que eu mencionei da Eq. 3.1, acredito que a seguinte notação seria mai
 Qm = \{ m \cap q \;|\; m \in M \; \text{and}\; m \cap q \neq \emptyset \}
    #+end_example
 
-- [ ] Typo na Eq 3.6 "ai" => "ia"
+- [x] Typo na Eq 3.6 "ai" => "ia"
 
 * Reuniões
 ** 2023-07-06 O que falta fazer?

@@ -155,23 +155,35 @@ Brazil is the fourth largest emitter of greenhouse gases per inhabitant accordin
 
 % contextualização
 
-O fogo é uma tecnologia que está presente há milênios no território que hoje é o Brasil, desde queimadas controladas pelo povo indígena Kayapó no cerrado para plantio ou caça, até incêndios iniciados por combustão espontânea em períodos de seca no sul da Amazônia. O uso do fogo pelos indígenas era controlado, levando em conta o clima atual e a vegetação a ser queimada, e restrito apenas a um período do ano, com o intuito de reduzir pragas e ajudar nas plantações \citep{leonel2000}.
+O fogo é um elemento que está presente há milênios no território que hoje é o Brasil, desde queimadas controladas pelo povo indígena Kayapó no cerrado para plantio ou caça, até incêndios iniciados por combustão espontânea em períodos de seca no sul da Amazônia. O uso do fogo pelos indígenas era controlado, levando em conta o clima atual e a vegetação a ser queimada, e restrito apenas a um período do ano, com o intuito de reduzir pragas e ajudar nas plantações \citep{leonel2000}.
 
 Hoje as queimadas que mais chamam atenção estão diretamente ligadas ao processo de desmatamento e manejo de áreas agrícolas para o cultivo da monocultura de soja. O fogo também é a prática mais barata e rápida para limpar áreas inteiras para a pecuária bovina. Commodites agrícolas e carne bovina movem a economia do Brasil, que é o maior exportador desses produtos, e aumentam a pressão para o desmatamento de novas áreas na Amazônia \citep{fuchs2020}.
 
 O Brasil ocupa a quarta posição no ranking de nações que mais emitem gases de efeito estufa por habitantes, segundo dados da \textit{United Nations Environment Programme} \citet{unep2022}. De acordo com o estudo, o valor absoluto se manteve estável desde 2010, e atingiu seu pico entre os anos de 2003 e 2004. O que melhor explica a alta posição do Brasil são as queimadas e o desmatamento da vegetação nativa. Entre os dez municípios que mais poluem no Brasil, oito deles estão localizados no bioma da Amazônia.
 
-Nesse sentido, o Instituto Nacional de Pesquisas Espaciais (INPE) mantém o Programa Queimadas, que é um conjunto de ferramentas que envolve a detecção em tempo real dos focos ativos de queimadas. Esse monitoramento se dá a partir de processamento de imagens de satélites, utilizando metodologias estabelecidas capazes de identificar regiões com alta probabilidade de estarem queimando. Os focos ativos de queimada dão uma ideia do que está acontecendo no presente momento, mas não são uma métrica ideal para estimar o impacto ambiental do fogo na vegetação.
+Nesse sentido, o Instituto Nacional de Pesquisas Espaciais (INPE) mantém o Programa Queimadas, que é um conjunto de ferramentas que envolve a detecção em tempo real dos focos ativos de queimadas. Esse monitoramento se dá a partir de processamento de imagens de satélites, utilizando metodologias estabelecidas capazes de identificar regiões com alta probabilidade de estarem queimando. A Figura \ref{fig:contexto_queimadas_e_focos} ilustra uma comparação entre uma imagem capturada pelo satélite TERRA, que foi corrigida em termos de cores, e os focos ativos detectados na mesma região e período de tempo pelo INPE. Os focos são representados por pontos coloridos de acordo com o satélite que possibilitou a detecção do foco. Na imagem à direita, é possível identificar pelo menos dois agrupamentos de queimadas, que também são destacados, por vários satélites, na imagem à esquerda.
+
+\begin{figure}[!htb]
+    \caption{Comparação entre uma imagem do satélite TERRA (a direita) e os focos ativos (a esquerda), ambas no dia 8 de março de 2020 na região do Pantanal.}
+    \begin{center}
+        \includegraphics[width=35em]{contexto_queimadas_e_focos}
+    \end{center}
+    \legend{Fonte: O Autor, agregando imagem publicada pela NASA e dados de focos ativos do INPE}
+    \label{fig:contexto_queimadas_e_focos}
+\end{figure}
 
 % Como é hoje o calculo de área queimadas ("produtos" área queimada)
 
-Para dar uma visão do impacto real, existem métodos para calcular a área efetivamente queimada a partir do processamento de imagens de satélites, chamados de ``produtos''. O processamento mais tradicional envolve a análise de índices de vegetação que tentam identificar regiões de vegetação queimada \citep{pereira1999}. Novas versões desses produtos utilizam uma abordagem híbrida, integrando também os focos ativos para identificar regiões de atividade do fogo e com isso apresentam no geral menores taxas de erros \citep{BOSCHETTI2019111490}.
+Os focos ativos de queimada dão uma ideia do que está acontecendo no presente momento, mas não são uma métrica ideal para estimar o impacto ambiental do fogo na vegetação. Para dar uma visão do impacto real, existem métodos para calcular a área efetivamente queimada a partir do processamento de imagens de satélites, chamados de ``produtos''. O processamento mais tradicional envolve a análise de índices de vegetação que tentam identificar regiões de vegetação queimada \citep{pereira1999}. Novas versões desses produtos utilizam uma abordagem híbrida, integrando também os focos ativos para identificar regiões de atividade do fogo e com isso apresentam no geral menores taxas de erros \citep{BOSCHETTI2019111490}.
 
-Além da existência de produtos de áreas queimadas de aplicação global, como o MCD64A1 \citep{GIGLIO201872} e FireCCI51 \citep{Lizundia2020}, o INPE mantém dois produtos, nomeadamente AQ30m \citep{melchiori2014landsat} e AQ1km \citep{libonati2015algorithm}, para o cálculo da área queimada, especialmente dedicadas aos biomas do Brasil. Enquanto o AQ30m é um produto de alta resolução (30m) e taxas de erros pequenas, o AQ1km tem precisão de 1km e erros próximos a 30\% em relação ao AQ30m \cite{PerguntasFrequentesINPE}. Ambos produtos se completam, uma vez que o primeiro é calculado apenas para algumas regiões do Brasil por imagens a cada 16 dias. O segundo gera dados mensais de todo o país a partir de imagens diárias.  
+Além da existência de produtos de áreas queimadas de aplicação global, como o MCD64A1 \citep{GIGLIO201872} e FireCCI51 \citep{Lizundia2020}, o INPE mantém dois produtos, nomeadamente AQ30m \citep{melchiori2014landsat} e AQ1km \citep{libonati2015algorithm}, para o cálculo da área queimada, especialmente dedicadas aos biomas do Brasil. Enquanto o AQ30m é um produto de alta resolução (30m) e taxas de erros pequenas, o AQ1km tem precisão de 1km e erros próximos a 30\% em relação ao AQ30m \cite{PerguntasFrequentesINPE}. Ambos produtos se completam, uma vez que o primeiro é calculado apenas para algumas regiões do Brasil por imagens a cada 16 dias. O segundo gera dados mensais sobre áreas queimadas de todo o país a partir de imagens de satélites diárias diárias.
+
+% motivação
+
 
 % problematização
 O tema do cálculo de área queimada ainda está muito ativo atualmente devido à complexidade e importância do assunto. Muitas metodologias foram criadas e aprimoradas utilizando dados de sensoriamento remoto. Para validá-las, vários 
-trabalhos foram desenvolvidos através da comparação do produto com uma referência com baixos níveis de erro \citep{BOSCHETTI2016465, BOSCHETTI2019111490}. Nesse sentido, vários trabalhos demonstram que há muita variação entre os resultados dos produtos globais envolvendo as queimadas \citep{Boschetti2004, Humber2019}. 
+trabalhos foram desenvolvidos através da comparação do produto com uma referência com baixos níveis de erro \citep{BOSCHETTI2016465, BOSCHETTI2019111490}. Nesse sentido, vários trabalhos demonstram que há muita variação entre os resultados dos produtos globais envolvendo as queimadas \citep{Boschetti2004, Humber2019}. Com isso, não há um método definitivo e livre de erros para cálculo da área queimada.
 
 % objetivos
 Este trabalho tem como objetivo principal desenvolver uma metodologia para o cálculo de área queimada aplicada a todo o território nacional, utilizando focos ativos de incêndio. Adicionalmente, este estudo visa avaliar e analisar os resultados desse método a fim de identificar possíveis discrepâncias comparando-se com produtos já existentes. Nesse contexto, pretende-se também responder se a área queimada anualmente está em tendência de queda ou alta e identificar quais biomas e regiões são mais impactadas pelo fogo.
@@ -188,7 +200,7 @@ Os dados analisados neste trabalho foram obtidos a partir do DBQueimadas, Banco 
 
 % legado, relevancia (falar da ciencia aberta)
 
-O trabalho pretende estimular mais estudos na área, deixando um arcabouço técnico e metodológico capaz de facilitar a análise desse tipo de dados. O desenvolvimento de todo o trabalho segue os princípios da reprodutibilidade dos resultados, por meio de cadernos de anotação (Jupyter Notebooks). Assim como os dados do Programa Queimadas, todos os dados e códigos desenvolvidos neste trabalho podem ser acessados de forma pública a partir do repositório Git hospedado em \url{https://github.com/josebraz/INPE-Queimadas}, seguindo os princípios da ciência aberta. 
+O trabalho pretende estimular mais estudos na área, deixando um arcabouço técnico e metodológico capaz de facilitar a análise desse tipo de dados. O desenvolvimento de todo o trabalho segue os princípios da reprodutibilidade dos resultados, por meio de cadernos de anotação (Jupyter Notebooks). Assim como os dados do Programa Queimadas, todos os dados e códigos desenvolvidos neste trabalho podem ser acessados de forma pública a partir do repositório Git hospedado em \url{https://github.com/josebraz/INPE-Queimadas}, seguindo os princípios da ciência aberta e reprodutível \citep{RRLegrand}. 
 
 % estrutura do documento e final da intro
 
@@ -663,7 +675,7 @@ Sendo $q$ o quadrante a ser avaliado; $M$ um conjunto de todas as medições (á
 Para cada quadrante ($q$), é realizado o cálculo da interseção com cada medição ($m$), resultando em um conjunto de polígonos ($Qm$) contidos em $q$:
 
 \begin{equation} \label{eqn:def_qm}
-Qm = \{ m \in M \mid m \cap q \}
+Qm = \{ m \cap q \;|\; m \in M \; \text{and}\; m \cap q \neq \emptyset \}
 \end{equation}
 
 Em seguida, é realizada uma filtragem no conjunto $Qm$, removendo todos os polígonos que não possuem uma determinada área mínima, resultando em $Qm'$:
@@ -693,7 +705,7 @@ c = 1 - min\left(1, \frac{|Us|}{threshold\_satellite}\right)
 Finalmente, a avaliação final do quadrante, denominada $aq$, é obtida pela expressão:
 
 \begin{equation} \label{eqn:def_aq}
-aq = |Us|^2 + ia - ai \cdot c
+aq = |Us|^2 + ia - ia \cdot c
 \end{equation}
 
 A fórmula final \ref{eqn:def_aq} atribui um peso quadrático à quantidade de satélites diferentes presente no quadrante $q$. Isso garante que, à medida que a diversidade de satélites aumenta dentro do quadrante, o valor de $aq$ aumente de forma exponencial e se destaque dos demais quadrantes com menos diversidade. O resultado é somado com $ai$, que representa quantas vezes a área das medições somadas cabem no quadrante $q$. Esse termo impede que medições com pouca interseção dentro do quadrante tenham uma influência desproporcional no resultado final.
@@ -1111,7 +1123,7 @@ O autor espera que esses resultados incentivem futuras pesquisas na área, espec
 
 % limitações
 
-O método proposto se beneficia quanto mais satélites são utilizados. Nesta forma, é interessante obter dados de focos ativos provenientes de outros satélites, mesmo que por outras bases de dados que não o INPE. Muitos satélites foram lançados nos últimos 20 anos, que aumentaram as detecções de focos ativos. Muitos outros estão planejados para os próximos anos, com sensores ainda mais potentes. Quanto mais diverso são os satélite, sensores e tipos de órbitas, mas potente em detectar áreas queimadas o método se torna. Nesse sentido, é necessário continuar o desenvolvimento do método para agregar essas novas fontes de dados, uma vez que isso não é um processo automatizado.
+O método proposto se beneficia quanto mais satélites são utilizados, principalmente na questão de ter múltiplas fontes de dados. Nesta forma, é interessante obter dados de focos ativos provenientes de outros satélites, mesmo que por outras bases de dados que não o INPE. Muitos satélites foram lançados nos últimos 20 anos, que aumentaram as detecções de focos ativos. Muitos outros estão planejados para os próximos anos, com sensores ainda mais potentes. Quanto mais diverso são os satélite, sensores e tipos de órbitas, mas potente em detectar áreas queimadas o método se torna. Nesse sentido, é necessário continuar o desenvolvimento do método para agregar essas novas fontes de dados, uma vez que isso não é um processo automatizado.
 
 Por outros lado, o AQ-FA está sujeito a erros nos diversos algoritmos empregados para detecção de focos ativos, o que pode afetar a confiabilidade dos resultados.  O método não incorpora medidas para mitigar dados discrepantes ou tendenciosos de focos ativos. Além disso, não utiliza outros tipos de dados, como os dados de reflectância empregados em algoritmos de área queimada mais tradicionais. Sem isso, o método precisa inferir uma área queimada com base na intensidade do foco ativo e não propriamente a partir da área já queimada. 
 
@@ -1119,7 +1131,9 @@ Outro desafio associado à utilização desse método é a seleção dos parâme
 
 % novos estudos
 
-Ainda há muito a desenvolver nesta área de pesquisa, em complemento a este trabalho. Por exemplo, uma vez que os parâmetros escolhidos para o AQ-FA não são ótimos, um trabalho futuro poderia focar em encontrar uma combinação que aumentasse a precisão do método, utilizando um arcabouço matemático mais sofisticado. É possível reorganizar as equações descritas na Seção \ref{sec:separacao_e_avaliacao} para aplicá-las em um sistema de otimização combinatória. Seria necessário fixar uma função área queimada (conforme Seção \ref{sec:calculo_area_queimada}) para orientar a minimização dos erros em relação a uma referência. As variáveis desse sistema seriam os parâmetros do modelo, com exceção do \texttt{quadrant\_width}, que define a resolução desejada, estando sujeitas às restrições definidas pelo método proposto.
+Ainda há muito a desenvolver nesta área de pesquisa, em complemento a este trabalho. Por exemplo, uma vez que os parâmetros escolhidos para o AQ-FA não são ótimos, um trabalho futuro poderia focar em encontrar uma combinação que aumentasse a precisão do método, utilizando um arcabouço matemático mais sofisticado. Nesse sentido, existe a biblioteca Python Hyperopt que lança mão de heurísticas aplicadas a equações que podem variar entre um limite estabelecido. Com isso é possível testar de forma automatizada várias combinações de parâmetros, mas sem garantia de serem ótimos.
+
+Outra possibilidade para uma melhor escolha de parâmentros, mas pode dar um pouco mais de trabalho, é reorganizar as equações descritas na Seção \ref{sec:separacao_e_avaliacao} para aplicá-las em um sistema de otimização combinatória. Seria necessário fixar uma função área queimada (conforme Seção \ref{sec:calculo_area_queimada}) para orientar a minimização dos erros em relação a uma referência. As variáveis desse sistema seriam os parâmetros do modelo, com exceção do \texttt{quadrant\_width}, que define a resolução desejada, estando sujeitas às restrições definidas pelo método proposto.
 
 Outra importante contribuição para o tema seria a disponibilização dos resultados do AQ-FA por meio de um site interativo. Isso simplificaria o acesso a esses dados, possibilitando que pessoas sem conhecimentos em programação pudessem explorá-los facilmente. Essa abordagem é relevante, visto que ambientalistas e geógrafos, que talvez não possuam esse conhecimento, poderiam beneficiar-se consideravelmente desses dados. Um exemplo dessa ideia é o site do Programa Queimadas, que demonstra ser uma ferramenta eficaz para promover o avanço científico e empoderar a sociedade com informações confiáveis e abertas. 
 
