@@ -11,7 +11,16 @@
 #+END_SRC
 
 * Artigos
+** 2023-09-05 Seleção Aluno Especial – Segundo Semestre
+https://www.inf.ufrgs.br/ppgc/noticia/selecao-aluno-especial-segundo-semestre/
+
+a) projeto de pesquisa
+b) carta de aceite do tutor
+
+13/09 a 21/09
+
 ** 2023-08-26 JU
+*** Chamada
 
 JU abre chamada para artigos a partir de TCCs de graduação
 
@@ -30,6 +39,36 @@ Os estudantes deverão entregar o artigo até o dia 30 de setembro. Os
 textos têm em torno de duas páginas e mais detalhes serão enviados aos
 autores selecionados.
 
+*** Indicação de Trabalho de TCC
+**** Autor
+José Henrique da Silva Braz
+Formando do Curso de Ciência da Computação
+Instituto de Informática
+UFRGS
+**** Orientador
+Lucas Mello Schnorr
+Professor Associado
+Instituto de Informática
+UFRGS
+**** Contexto
+Para o Brasil, esses últimos anos foram marcados por um governo que
+negou a ciência e enfraqueceu a pesquisa e tecnologia do país. O
+governo tentou controlar a divulgação de resultados de queimadas,
+retirando a responsabilidade do INPE e transferindo-a para o Instituto
+Nacional de Meteorologia (INMET), subordinado ao Ministério da
+Agricultura. Tornaram-se frequentes as notícias de violações
+ambientais na Amazônia, como as minerações ilegais que prejudicam a
+sobrevivência da população indígena ribeirinha; e no cerrado, com a
+queima ilegal da vegetação para a prática de grilagem.
+**** Temática do Trabalho
+A temática do trabalho consiste na estimativa da área queimada usando
+dados abertos sobre a detecção de focos de incêndio frequemente
+reportada na mídia geral.  Este estudo representa um ato político em
+prol da ciência no país, da livre divulgação de informações
+científicas e da preservação ambiental.
+**** Contato
+jhsbraz@inf.ufrgs.br, josehhbraz@gmail.com
+schnorr@inf.ufrgs.br
 * Revisões
 ** Capa
 - [X] Colocar o nome completo do orientador
@@ -420,7 +459,6 @@ purposes. All data and code are openly available.
 *** Slide "Validação - Resultados"
 - Minuto ~19.
 - Erro de omissão de 80% mas no slide consta 41,8%.
-
 
 ** 2023-09-04 Anotações da Defesa
 *** Anderson
