@@ -62,7 +62,7 @@ sobrevivência da população indígena ribeirinha; e no cerrado, com a
 queima ilegal da vegetação para a prática de grilagem.
 **** Temática do Trabalho
 A temática do trabalho consiste na estimativa da área queimada usando
-dados abertos sobre a detecção de focos de incêndio frequemente
+dados abertos sobre a detecção de focos de incêndio frequentemente
 reportada na mídia geral.  Este estudo representa um ato político em
 prol da ciência no país, da livre divulgação de informações
 científicas e da preservação ambiental.
