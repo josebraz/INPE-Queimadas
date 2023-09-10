@@ -92,6 +92,16 @@
 % agradecimentos
 \chapter*{Agradecimentos}
 
+Começo agradecendo às pessoas que participaram da minha criação como cidadão, até a conclusão deste trabalho. Minha mãe, Beatriz, sustentou sozinha nossa família para que eu e minha irmã, Pâmela, conseguíssemos estudar sem nos preocuparmos com o trabalho. Hoje eu entendo a importância e a dedicação necessárias. Obrigado, do fundo do meu coração.
+
+Agradeço também à Casa de Estudantes Universitários de Porto Alegre (CEUPA) — que abriga estudantes de baixa renda de outras cidades — e a todos os estudantes que lá moravam; vocês fizeram parte de vários dos melhores momentos da minha vida. Vou levar vocês para sempre comigo.
+
+Agradeço a Vitória, a mulher que escolhi para dividir minha vida. Ela me motivou a continuar a pesquisa, mesmo quando estava cansado após um dia de trabalho. Também permaneceu ao meu lado nos vários finais de semana dedicados à conclusão deste trabalho. Obrigado por me apoiar incondicionalmente.
+
+Não poderia deixar de agradecer ao meu professor orientador, Lucas, que teve muita paciência e disponibilidade nesses dois semestres de trabalho. Agradeço ao Instituto de Informática e aos demais professores que participaram da minha formação acadêmica, e em especial aos dois professores que integraram a minha banca, Eduardo Gastal e Anderson Tavares.
+
+Termino agradecendo à Universidade Federal do Rio Grande do Sul, que se dedica a oferecer à sociedade ensino público e de qualidade. Desejo que o ensino superior seja cada vez mais democratizado e acessível a todos que queiram ter suas realidades transformadas pela educação, como foi o meu caso.
+
 
 % sumario
 \tableofcontents
@@ -164,7 +174,7 @@ O Brasil ocupa a quarta posição no ranking de nações que mais emitem gases d
 Nesse sentido, o Instituto Nacional de Pesquisas Espaciais (INPE) mantém o Programa Queimadas, que é um conjunto de ferramentas que envolve a detecção em tempo real dos focos ativos de queimadas. Esse monitoramento se dá a partir de processamento de imagens de satélites, utilizando metodologias estabelecidas capazes de identificar regiões com alta probabilidade de estarem queimando. A Figura \ref{fig:contexto_queimadas_e_focos} ilustra uma comparação entre uma imagem capturada pelo satélite TERRA, que foi corrigida em termos de cores, e os focos ativos detectados na mesma região e período de tempo pelo INPE. Os focos são representados por pontos coloridos de acordo com o satélite que possibilitou a detecção do foco. Na imagem à direita, é possível identificar pelo menos dois agrupamentos de queimadas, que também são destacados, por vários satélites, na imagem à esquerda.
 
 \begin{figure}[!htb]
-    \caption{Comparação entre uma imagem do satélite TERRA (a direita) e os focos ativos (a esquerda), ambas no dia 8 de março de 2020 na região do Pantanal.}
+    \caption{Comparação entre uma imagem do satélite TERRA (à direita) e os focos ativos (à esquerda), ambas no dia 8 de março de 2020, na região do Pantanal.}
     \begin{center}
         \includegraphics[width=35em]{contexto_queimadas_e_focos}
     \end{center}
@@ -176,10 +186,10 @@ Nesse sentido, o Instituto Nacional de Pesquisas Espaciais (INPE) mantém o Prog
 
 Os focos ativos de queimada dão uma ideia do que está acontecendo no presente momento, mas não são uma métrica ideal para estimar o impacto ambiental do fogo na vegetação. Para dar uma visão do impacto real, existem métodos para calcular a área efetivamente queimada a partir do processamento de imagens de satélites, chamados de ``produtos''. O processamento mais tradicional envolve a análise de índices de vegetação que tentam identificar regiões de vegetação queimada \citep{pereira1999}. Novas versões desses produtos utilizam uma abordagem híbrida, integrando também os focos ativos para identificar regiões de atividade do fogo e com isso apresentam no geral menores taxas de erros \citep{BOSCHETTI2019111490}.
 
-Além da existência de produtos de áreas queimadas de aplicação global, como o MCD64A1 \citep{GIGLIO201872} e FireCCI51 \citep{Lizundia2020}, o INPE mantém dois produtos, nomeadamente AQ30m \citep{melchiori2014landsat} e AQ1km \citep{libonati2015algorithm}, para o cálculo da área queimada, especialmente dedicadas aos biomas do Brasil. Enquanto o AQ30m é um produto de alta resolução (30m) e taxas de erros pequenas, o AQ1km tem precisão de 1km e erros próximos a 30\% em relação ao AQ30m \cite{PerguntasFrequentesINPE}. Ambos produtos se completam, uma vez que o primeiro é calculado apenas para algumas regiões do Brasil por imagens a cada 16 dias. O segundo gera dados mensais sobre áreas queimadas de todo o país a partir de imagens de satélites diárias diárias.
+Além da existência de produtos de áreas queimadas de aplicação global, como o MCD64A1 \citep{GIGLIO201872} e FireCCI51 \citep{Lizundia2020}, o INPE mantém dois produtos, nomeadamente AQ30m \citep{melchiori2014landsat} e AQ1km \citep{libonati2015algorithm}, para o cálculo da área queimada, especialmente dedicadas aos biomas do Brasil. Enquanto o AQ30m é um produto de alta resolução (30m) e taxas de erros pequenas, o AQ1km tem precisão de 1km e erros próximos a 30\% em relação ao AQ30m \cite{PerguntasFrequentesINPE}. Ambos produtos se completam, uma vez que o primeiro é calculado apenas para algumas regiões do Brasil por imagens a cada 16 dias. O segundo gera dados mensais sobre áreas queimadas de todo o país a partir de imagens de satélites diárias.
 
 % motivação
-
+É importante destacar que não existe nenhum produto, entre os vários produtos globais e regionais conhecidos, que seja definitivo e livre de erros. Os produtos mantidos pelo INPE também possuem limitações. No caso do AQ30m, é necessária a intervenção de especialistas para a validação e divulgação dos resultados, o que torna o processo mais demorado e limitado. No caso do AQ1km, a resolução é relativamente menor em comparação com outros produtos que utilizam o mesmo sensor. Ambos dependem de dados de um conjunto pequeno de satélites que usam o mesmo sensor, definindo assim a resolução final do produto. Além disso, caso algum satélite pare de funcionar, isso pode causar a indisponibilidade do produto devido à falta dos dados necessários.
 
 % problematização
 O tema do cálculo de área queimada ainda está muito ativo atualmente devido à complexidade e importância do assunto. Muitas metodologias foram criadas e aprimoradas utilizando dados de sensoriamento remoto. Para validá-las, vários 
@@ -1133,7 +1143,7 @@ Outro desafio associado à utilização desse método é a seleção dos parâme
 
 Ainda há muito a desenvolver nesta área de pesquisa, em complemento a este trabalho. Por exemplo, uma vez que os parâmetros escolhidos para o AQ-FA não são ótimos, um trabalho futuro poderia focar em encontrar uma combinação que aumentasse a precisão do método, utilizando um arcabouço matemático mais sofisticado. Nesse sentido, existe a biblioteca Python Hyperopt que lança mão de heurísticas aplicadas a equações que podem variar entre um limite estabelecido. Com isso é possível testar de forma automatizada várias combinações de parâmetros, mas sem garantia de serem ótimos.
 
-Outra possibilidade para uma melhor escolha de parâmentros, mas pode dar um pouco mais de trabalho, é reorganizar as equações descritas na Seção \ref{sec:separacao_e_avaliacao} para aplicá-las em um sistema de otimização combinatória. Seria necessário fixar uma função área queimada (conforme Seção \ref{sec:calculo_area_queimada}) para orientar a minimização dos erros em relação a uma referência. As variáveis desse sistema seriam os parâmetros do modelo, com exceção do \texttt{quadrant\_width}, que define a resolução desejada, estando sujeitas às restrições definidas pelo método proposto.
+Outra possibilidade para uma melhor escolha de parâmetros, mas pode dar um pouco mais de trabalho, é reorganizar as equações descritas na Seção \ref{sec:separacao_e_avaliacao} para aplicá-las em um sistema de otimização combinatória. Seria necessário fixar uma função área queimada (conforme Seção \ref{sec:calculo_area_queimada}) para orientar a minimização dos erros em relação a uma referência. As variáveis desse sistema seriam os parâmetros do modelo, com exceção do \texttt{quadrant\_width}, que define a resolução desejada, estando sujeitas às restrições definidas pelo método proposto.
 
 Outra importante contribuição para o tema seria a disponibilização dos resultados do AQ-FA por meio de um site interativo. Isso simplificaria o acesso a esses dados, possibilitando que pessoas sem conhecimentos em programação pudessem explorá-los facilmente. Essa abordagem é relevante, visto que ambientalistas e geógrafos, que talvez não possuam esse conhecimento, poderiam beneficiar-se consideravelmente desses dados. Um exemplo dessa ideia é o site do Programa Queimadas, que demonstra ser uma ferramenta eficaz para promover o avanço científico e empoderar a sociedade com informações confiáveis e abertas. 
 
