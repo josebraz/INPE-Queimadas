@@ -40,10 +40,11 @@ def read_burn_df() -> pd.DataFrame:
         }
         # Create the DataFrame from csv
         df = dd.read_csv(
-            os.path.join(burn_folder, "*.csv"), parse_dates=["datahora"], dtype=column_types
+            os.path.join(burn_folder, "*.csv"), dtype=column_types
         )
         # Optimize data and setup types
-        df['diasemchuva'] = df['diasemchuva'].fillna(invalid_value).astype("int16")
+        df['datahora'] = dd.to_datetime(df['datahora'])
+        df['diasemchuva'] = df['diasemchuva'].fillna(invalid_value).astype("float32").astype("int16")
         df['riscofogo'] = df['riscofogo'].mask(df['riscofogo'] == invalid_value, 0)
         df['riscofogo'] = df['riscofogo'].fillna(0).astype("bool")
         df['satelite'] = df['satelite'].str.upper().astype("category")
