@@ -84,6 +84,13 @@ def show_satelites_points(data: pd.DataFrame, ax: plt.Axes, markersize: float = 
         )
     # ax.legend(markerscale=3)
 
+def show_satelites_areas(data: pd.DataFrame, ax: plt.Axes):
+    dataframe = SatellitesMeasureGeometry(data).get_satelites_measures_area()
+    if len(dataframe) == 0: return
+    data_color = dataframe['simp_satelite'].map(satellites_colors)
+    dataframe.plot(ax=ax, color=data_color, categorical=True, alpha=0.2,
+        legend=True, edgecolor=data_color, linewidth=1)
+
 def bar_limited(serie: pd.Series, ax: plt.Axes=plt.axes(), min_percent=0.02, title: str='', xlabel: str='', ylabel: str=''):
     pie_temp = serie.loc[lambda x : x > 0]
     total = pie_temp.sum()

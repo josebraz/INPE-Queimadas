@@ -84,7 +84,7 @@ def get_landsat_geometry(path: int, row: int) -> Polygon:
 # def get_landsat_geometry(path: int, row: int) -> Polygon:
 #     if not hasattr(get_landsat_geometry, "wrs2"):
 #         # reference: https://www.usgs.gov/landsat-missions/landsat-shapefiles-and-kml-files
-#         get_landsat_geometry.wrs2: gpd.GeoDataFrame = gpd.read_file('aux/WRS2_descending_0')
+#         get_landsat_geometry.wrs2: gpd.GeoDataFrame = gpd.read_file('../WRS2/WRS2_descending.shp')
 #     return get_landsat_geometry.wrs2.query('PATH == @path & ROW == @row').iloc[0].geometry
 
 def sub_space_by_landsat(df: pd.DataFrame, path: int, row: int) -> pd.DataFrame:
@@ -276,7 +276,7 @@ def create_gpd(data: xr.DataArray, value_dim: str = 'value',
         geometry=gpd.points_from_xy(x=frame['x'], y=frame['y']),
         crs="EPSG:4326")
     grid = grid_gdf(points, poly=poly, quadrat_width=quadrat_width).copy()
-    join_dataframe: gpd.GeoDataFrame = gpd.sjoin(grid, points, op="contains")
+    join_dataframe: gpd.GeoDataFrame = gpd.sjoin(grid, points, predicate="contains")
     values = np.zeros(len(grid))
     for index in join_dataframe['index_right'].unique():
         values[index] = points.iloc[index]['value']
@@ -295,7 +295,7 @@ def evaluate_gpd(reference: gpd.GeoDataFrame, other: gpd.GeoDataFrame,
     
     original_geometry = other['geometry']
     other['geometry'] = other.representative_point()
-    join_gpd = gpd.sjoin(reference, other, op="contains", lsuffix='reference', rsuffix='other')
+    join_gpd = gpd.sjoin(reference, other, predicate="contains", lsuffix='reference', rsuffix='other')
     other['geometry'] = original_geometry
     
     same_names = reference_value_column == other_value_column
